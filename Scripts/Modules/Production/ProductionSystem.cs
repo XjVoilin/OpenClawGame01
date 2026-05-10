@@ -6,11 +6,12 @@ using System.Collections.Generic;
 namespace IsleWorks.Systems
 {
     /// <summary>
-    /// 加工系统，负责机器的加工逻辑。
+    /// 加工系统，负责机器的加工逻辑，包括动态加载配方机制。
     /// </summary>
     public class ProductionSystem : GameSystemBase, IUpdatableSystem
     {
         private List<MachineInstance> _machines;
+        [Inject] private RecipeConfigLoader _recipeLoader; // 引入配方加载器
 
         public ProductionSystem()
         {
@@ -38,6 +39,10 @@ namespace IsleWorks.Systems
                     // 继续加工计时
                     machine.ProcessTimer -= deltaTime;
                     if (machine.ProcessTimer <= 0)
+                    {
+                        // 动态读取输出配置
+                        var outputConfig = _recipeLoader.GetRecipe(machine.CurrentRecipe.Id);
+                        machine.OutputSlot = outputConfig.Output;
                     {
                         machine.OutputSlot = machine.CurrentRecipe.Output;
                         machine.IsProcessing = false;
