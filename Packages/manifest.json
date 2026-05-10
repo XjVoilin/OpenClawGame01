@@ -1,8 +1,9 @@
 {
-  "dependencies": {
+  "dependencies": {   
+    "com.code-philosophy.luban": "https://gitee.com/focus-creative-games/luban_unity.git",
     "com.july.arch": "https://github.com/XjVoilin/JulyArch.git#v1.0.21",
     "com.july.core": "https://github.com/XjVoilin/JulyCore.git#v1.0.68",
-    "com.july.toolkit": "https://github.com/XjVoilin/JulyToolkit.git#v1.0.7",
+    "com.july.toolkit": "https://github.com/XjVoilin/JulyToolkit.git#v1.0.7", 
     "com.unity.2d.animation": "9.2.0",
     "com.unity.2d.pixel-perfect": "5.1.0",
     "com.unity.2d.sprite": "1.0.0",

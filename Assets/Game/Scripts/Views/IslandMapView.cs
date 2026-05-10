@@ -11,7 +11,7 @@ namespace IsleWorks.Views
     /// </summary>
     public class IslandMapView : GameView
     {
-        public override IGameContext GetArchitecture() => IsleWorksGame.Context;
+        public override IGameContext GetArchitecture() => AppArch.Context;
 
         [SerializeField] private GameObject tilePrefab;
         [SerializeField] private Transform mapContainer;
