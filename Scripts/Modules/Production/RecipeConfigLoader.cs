@@ -24,7 +24,20 @@ namespace IsleWorks.Configs
             };
 
             Debug.Log("Recipe configs loaded.");
-        }
+
+            // 校验配置完整性
+            foreach (var recipe in _recipeConfigs.Values)
+            {
+                if (recipe.Inputs == null || recipe.Inputs.Length == 0)
+                {
+                    Debug.LogError($"Invalid recipe: Missing inputs for Recipe ID {recipe.Id}");
+                }
+
+                if (recipe.Output == 0)
+                {
+                    Debug.LogError($"Invalid recipe: Missing output for Recipe ID {recipe.Id}");
+                }
+            }        }
 
         /// <summary>
         /// 获取配方配置。

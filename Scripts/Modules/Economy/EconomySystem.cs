@@ -18,23 +18,33 @@ namespace IsleWorks.Systems
         {
             int totalRevenue = 0;
 
+            int totalCost = 0;
             foreach (var product in products)
             {
                 var config = ResourceConfigLoader.GetConfig((int)product);
                 if (config != null)
+                {
                     totalRevenue += config.SellPrice;
+                    totalCost += CalculateProductionCost(product);
+                }
             }
 
             // 更新玩家金币和累计产值
             _inventoryStore.UpdateGold(totalRevenue);
             _inventoryStore.UpdateTotalProductionValue(totalRevenue);
 
-            Debug.Log($"Sold products at port for {totalRevenue} gold.");
-        }
+            int profit = totalRevenue - totalCost;
+            Debug.Log($"Sold products at port for {totalRevenue} gold. Production cost: {totalCost}, Profit: {profit}");        }
 
         /// <summary>
         /// 获取产品售价。
         /// </summary>
+        private int CalculateProductionCost(ResourceType product)
+        {
+            // TODO: 根据产品的输入资源计算生产成本
+            return 10; // 示例逻辑
+        }
+
         private int GetSellPrice(ResourceType product)
         {
             // TODO: 查询资源表获取售价
