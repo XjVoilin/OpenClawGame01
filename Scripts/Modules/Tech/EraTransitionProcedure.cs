@@ -27,8 +27,8 @@ namespace IsleWorks.Procedures
         {
             // 显示过渡画面
             ShowTransitionOverlay();
+            ParticleFeedbackManager.PlayEraTransitionEffect(_viewRoot);
             await Task.Delay(2000, token); // 假定动画持续 2 秒
-
             // 执行实际的时代切换逻辑
             Debug.Log($"Era transitioned to {_newEra}");
 
