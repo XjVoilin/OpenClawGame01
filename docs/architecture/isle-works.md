@@ -29,54 +29,66 @@
 
 ### 项目目录
 
+按功能模块组织，每个模块下按角色类型分子目录（与 GooseMarket 一致）。
+
 ```
 Assets/IsleWorks/
 ├── Scripts/
-│   ├── Context/
+│   ├── Context/                        # 全局上下文
 │   │   └── IsleWorksContext.cs
-│   ├── Stores/
-│   │   ├── GridStore.cs
-│   │   ├── InventoryStore.cs
-│   │   └── TechStore.cs
-│   ├── Systems/
-│   │   ├── ConveyorSimSystem.cs
-│   │   ├── ProductionSystem.cs
-│   │   ├── BuildSystem.cs
-│   │   ├── EconomySystem.cs
-│   │   └── TechSystem.cs
-│   ├── Mutations/
-│   │   ├── PlaceBuildingMutation.cs
-│   │   ├── RemoveBuildingMutation.cs
-│   │   ├── SellProductMutation.cs
-│   │   ├── UnlockTileMutation.cs
-│   │   └── AdvanceEraMutation.cs
-│   ├── Procedures/
-│   │   ├── EraTransitionProcedure.cs
-│   │   └── IslandRevealProcedure.cs
-│   ├── Views/
-│   │   ├── GridView.cs
-│   │   ├── HudView.cs
-│   │   ├── BuildPanelView.cs
-│   │   └── IslandMapView.cs
-│   ├── Events/
-│   │   ├── GridEvents.cs
-│   │   ├── EconomyEvents.cs
-│   │   └── TechEvents.cs
-│   ├── Data/
-│   │   ├── GridData.cs
-│   │   ├── InventoryData.cs
-│   │   ├── TechData.cs
-│   │   ├── TileType.cs
-│   │   ├── MachineType.cs
+│   ├── Shared/                         # 跨模块共享
 │   │   ├── ResourceType.cs
-│   │   └── Recipe.cs
-│   └── Simulation/
-│       ├── ConveyorSegment.cs
-│       ├── MachineInstance.cs
-│       ├── ItemSlot.cs
-│       └── SimConstants.cs
+│   │   ├── TileType.cs
+│   │   ├── Direction.cs
+│   │   └── SimConstants.cs
+│   └── Modules/
+│       ├── Grid/                       # 网格与建造
+│       │   ├── GridStore.cs
+│       │   ├── GridData.cs
+│       │   ├── IGridQueries.cs
+│       │   ├── GridEvents.cs
+│       │   ├── BuildSystem.cs
+│       │   ├── Mutations/
+│       │   │   ├── PlaceBuildingMutation.cs
+│       │   │   └── RemoveBuildingMutation.cs
+│       │   └── Simulation/
+│       │       ├── ConveyorSegment.cs
+│       │       ├── MachineInstance.cs
+│       │       └── ItemSlot.cs
+│       ├── Production/                 # 传送带与加工
+│       │   ├── ConveyorSimSystem.cs
+│       │   └── ProductionSystem.cs
+│       ├── Economy/                    # 经济与交易
+│       │   ├── InventoryStore.cs
+│       │   ├── InventoryData.cs
+│       │   ├── IInventoryQueries.cs
+│       │   ├── EconomySystem.cs
+│       │   ├── EconomyEvents.cs
+│       │   └── Mutations/
+│       │       └── SellProductMutation.cs
+│       ├── Island/                     # 岛屿扩展
+│       │   ├── IslandSystem.cs
+│       │   ├── Mutations/
+│       │   │   └── UnlockTileMutation.cs
+│       │   └── Procedures/
+│       │       └── IslandRevealProcedure.cs
+│       └── Tech/                       # 科技与时代
+│           ├── TechStore.cs
+│           ├── TechData.cs
+│           ├── ITechQueries.cs
+│           ├── TechSystem.cs
+│           ├── TechEvents.cs
+│           ├── Mutations/
+│           │   └── AdvanceEraMutation.cs
+│           └── Procedures/
+│               └── EraTransitionProcedure.cs
+├── Views/                              # View 层（MonoBehaviour）
+│   ├── GridView.cs
+│   ├── HudView.cs
+│   ├── BuildPanelView.cs
+│   └── IslandMapView.cs
 ├── Res/
-│   ├── Configs/          # Luban 生成的 JSON
+│   ├── Configs/                        # Luban 生成的 JSON
 │   ├── Prefabs/
 │   └── Textures/
 ├── Art/
@@ -84,6 +96,12 @@ Assets/IsleWorks/
 └── Scenes/
     └── IsleWorks.unity
 ```
+
+**组织原则**：
+- `Modules/{功能}/` 下放该功能的 Store、System、Events、Data、Mutations、Procedures
+- 文件少的模块（如 Mutation 只有 1 个）不必建子目录，直接放模块根
+- `Views/` 单独放顶层，因为 View 是 MonoBehaviour，跟场景/prefab 绑定，跨模块引用常见
+- `Shared/` 放被多个模块共用的枚举、常量、工具类
 
 ---
 

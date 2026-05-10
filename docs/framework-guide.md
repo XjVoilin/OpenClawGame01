@@ -294,14 +294,28 @@ this.RunProcedure(proc, ct)         // 运行 Procedure
 
 ## 七、项目结构约定（OpenClawGame01）
 
+按功能模块组织（与 GooseMarket 一致）：
+
 ```
 Scripts/
-├── Stores/          # 所有 Store
-├── Systems/         # 所有 System
-├── Mutations/       # 所有 Mutation
-├── Procedures/      # 所有 Procedure
-├── Views/           # 所有 View（MonoBehaviour）
-├── Events/          # 事件定义
-├── Data/            # 纯数据类（Store 的 TData）
-└── Context/         # GameContext 子类 + 注册逻辑
+├── Context/                 # 全局上下文
+├── Shared/                  # 跨模块共享的枚举、常量、工具
+└── Modules/
+    ├── Grid/                # 网格与建造
+    │   ├── GridStore.cs
+    │   ├── GridData.cs
+    │   ├── IGridQueries.cs
+    │   ├── GridEvents.cs
+    │   ├── BuildSystem.cs
+    │   └── Mutations/
+    ├── Economy/             # 经济与交易
+    │   ├── InventoryStore.cs
+    │   ├── EconomySystem.cs
+    │   └── Mutations/
+    └── Tech/                # 科技与时代
+        ├── TechStore.cs
+        ├── TechSystem.cs
+        └── Mutations/
 ```
+
+原则：每个模块下放该模块的 Store/System/Events/Mutations/Procedures，View 单独放顶层。
