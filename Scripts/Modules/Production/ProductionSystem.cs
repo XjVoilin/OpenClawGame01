@@ -71,7 +71,17 @@ namespace IsleWorks.Systems
             var recipe = machine.CurrentRecipe;
             for (int i = 0; i < recipe.Inputs.Length; i++)
             {
-                if (machine.InputSlots[i] != recipe.Inputs[i]) return false;
+                int inputCount = 0;
+                foreach (var slot in machine.InputSlots)
+                {
+                    if (slot == recipe.Inputs[i])
+                    {
+                        inputCount++;
+                        if (inputCount >= recipe.InputQuantities[i]) break;
+                    }
+                }
+
+                if (inputCount < recipe.InputQuantities[i]) return false;
             }
             return true;
         }
@@ -81,9 +91,18 @@ namespace IsleWorks.Systems
         /// </summary>
         private void ConsumeInput(MachineInstance machine)
         {
-            for (int i = 0; i < machine.InputSlots.Length; i++)
+            var recipe = machine.CurrentRecipe;
+            for (int i = 0; i < recipe.Inputs.Length; i++)
             {
-                machine.InputSlots[i] = ResourceType.None;
+                int requiredQuantity = recipe.InputQuantities[i];
+                for (int j = 0; j < machine.InputSlots.Length && requiredQuantity > 0; j++)
+                {
+                    if (machine.InputSlots[j] == recipe.Inputs[i])
+                    {
+                        machine.InputSlots[j] = ResourceType.None;
+                        requiredQuantity--;
+                    }
+                }
             }
         }
     }
