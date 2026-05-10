@@ -20,7 +20,9 @@ namespace IsleWorks.Systems
 
             foreach (var product in products)
             {
-                totalRevenue += GetSellPrice(product);
+                var config = ResourceConfigLoader.GetConfig((int)product);
+                if (config != null)
+                    totalRevenue += config.SellPrice;
             }
 
             // 更新玩家金币和累计产值
