@@ -25,13 +25,23 @@ namespace IsleWorks.Systems
 
             if (productionValue >= requiredValue)
             {
-                AdvanceEra();
+                RunEraTransitionProcedure();
             }
         }
 
         /// <summary>
         /// 推进时代并解锁科技。
         /// </summary>
+        private async void RunEraTransitionProcedure()
+        {
+            // 执行过渡动画
+            var procedure = new EraTransitionProcedure(_techStore.CurrentEra + 1, GameObject.Find("UIRoot").transform);
+            await procedure.ExecuteAsync(default);
+
+            // 时代切换逻辑
+            AdvanceEra();
+        }
+
         private void AdvanceEra()
         {
             _techStore.AdvanceEra();
