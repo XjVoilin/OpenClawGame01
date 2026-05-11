@@ -77,12 +77,12 @@ namespace IsleWorks.Tech
 
             this.Mutate<TechStore>(store =>
             {
-                for (int i = 0; i < milestone.UnlockMachines.Length; i++)
+                for (int i = 0; i < milestone.UnlockMachines.Count; i++)
                 {
                     store.UnlockMachine(milestone.UnlockMachines[i]);
                     GF.Log($"Unlocked machine: {milestone.UnlockMachines[i]}");
                 }
-                for (int i = 0; i < milestone.UnlockRecipes.Length; i++)
+                for (int i = 0; i < milestone.UnlockRecipes.Count; i++)
                 {
                     store.UnlockRecipe(milestone.UnlockRecipes[i]);
                     GF.Log($"Unlocked recipe: {milestone.UnlockRecipes[i]}");

@@ -1,0 +1,100 @@
+{
+    "FileVersion": "2.3.1",
+    "EnableAddressable": true,
+    "LocationToLower": false,
+    "IncludeAssetGUID": false,
+    "OutputNameStyle": 0,
+    "BuildBundleType": 1,
+    "BuildPipeline": "EditorSimulateBuildPipeline",
+    "PackageName": "DefaultPackage",
+    "PackageVersion": "Simulate",
+    "PackageNote": "5/11/2026 11:28:55 PM",
+    "AssetList": [
+        {
+            "Address": "tblanguage",
+            "AssetPath": "Assets/Game/Res/Configs/tblanguage.json",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 0,
+            "DependBundleIDs": []
+        },
+        {
+            "Address": "tbmachine",
+            "AssetPath": "Assets/Game/Res/Configs/tbmachine.json",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 0,
+            "DependBundleIDs": []
+        },
+        {
+            "Address": "tbmilestone",
+            "AssetPath": "Assets/Game/Res/Configs/tbmilestone.json",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 0,
+            "DependBundleIDs": []
+        },
+        {
+            "Address": "tbrecipe",
+            "AssetPath": "Assets/Game/Res/Configs/tbrecipe.json",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 0,
+            "DependBundleIDs": []
+        },
+        {
+            "Address": "tbresource",
+            "AssetPath": "Assets/Game/Res/Configs/tbresource.json",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 0,
+            "DependBundleIDs": []
+        },
+        {
+            "Address": "tbtileprice",
+            "AssetPath": "Assets/Game/Res/Configs/tbtileprice.json",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 0,
+            "DependBundleIDs": []
+        },
+        {
+            "Address": "tbuiwindow",
+            "AssetPath": "Assets/Game/Res/Configs/tbuiwindow.json",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 0,
+            "DependBundleIDs": []
+        },
+        {
+            "Address": "Launch",
+            "AssetPath": "Assets/Game/Scenes/Launch.unity",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 1,
+            "DependBundleIDs": []
+        }
+    ],
+    "BundleList": [
+        {
+            "BundleName": "assets_game_res_configs.bundle",
+            "UnityCRC": 0,
+            "FileHash": "11eb23e5737d0b435e758ccce99b326e",
+            "FileCRC": "00000000",
+            "FileSize": 3896,
+            "Encrypted": false,
+            "Tags": [],
+            "DependBundleIDs": []
+        },
+        {
+            "BundleName": "assets_game_scenes.bundle",
+            "UnityCRC": 0,
+            "FileHash": "6911aa1f8fa0bdee23175df60b8055b6",
+            "FileCRC": "00000000",
+            "FileSize": 4896,
+            "Encrypted": false,
+            "Tags": [],
+            "DependBundleIDs": []
+        }
+    ]
+}

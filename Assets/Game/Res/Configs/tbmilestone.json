@@ -3,21 +3,26 @@
     "id": 1,
     "requiredValue": 500,
     "unlockEra": 1,
-    "unlockMachines": [5],
-    "unlockRecipes": [4, 5]
+    "unlockMachines": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "unlockRecipes": [
+      4,
+      5
+    ]
   },
   {
     "id": 2,
     "requiredValue": 2000,
     "unlockEra": 2,
-    "unlockMachines": [6, 7],
-    "unlockRecipes": [6]
-  },
-  {
-    "id": 3,
-    "requiredValue": 8000,
-    "unlockEra": 3,
-    "unlockMachines": [8],
-    "unlockRecipes": [7]
+    "unlockMachines": [
+      8
+    ],
+    "unlockRecipes": [
+      6
+    ]
   }
 ]

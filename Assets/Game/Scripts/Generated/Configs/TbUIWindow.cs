@@ -13,6 +13,9 @@ using SimpleJSON;
 
 namespace cfg
 {
+/// <summary>
+/// UI窗口配置表
+/// </summary>
 public partial class TbUIWindow
 {
     private readonly System.Collections.Generic.Dictionary<int, UIWindow> _dataMap;

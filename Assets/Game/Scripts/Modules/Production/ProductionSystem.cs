@@ -112,7 +112,7 @@ namespace IsleWorks.Production
 
         private bool IsInputReady(MachineInstance machine, Recipe recipe)
         {
-            for (int r = 0; r < recipe.Inputs.Length; r++)
+            for (int r = 0; r < recipe.Inputs.Count; r++)
             {
                 int needed = recipe.InputQuantities[r];
                 int found = 0;
@@ -132,7 +132,7 @@ namespace IsleWorks.Production
 
         private void ConsumeInput(MachineInstance machine, Recipe recipe)
         {
-            for (int r = 0; r < recipe.Inputs.Length; r++)
+            for (int r = 0; r < recipe.Inputs.Count; r++)
             {
                 int remaining = recipe.InputQuantities[r];
                 var required = (ResourceType)recipe.Inputs[r];

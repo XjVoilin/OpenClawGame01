@@ -17,8 +17,8 @@ public sealed partial class Language : Luban.BeanBase
 {
     public Language(JSONNode _buf) 
     {
-        { if(!_buf["Key"].IsString) { throw new SerializationException(); }  Key = _buf["Key"]; }
-        { if(!_buf["CN"].IsString) { throw new SerializationException(); }  CN = _buf["CN"]; }
+        { if(!_buf["key"].IsString) { throw new SerializationException(); }  Key = _buf["key"]; }
+        { if(!_buf["cn"].IsString) { throw new SerializationException(); }  Cn = _buf["cn"]; }
     }
 
     public static Language DeserializeLanguage(JSONNode _buf)
@@ -27,13 +27,13 @@ public sealed partial class Language : Luban.BeanBase
     }
 
     /// <summary>
-    /// 多语言的key
+    /// 键名
     /// </summary>
     public readonly string Key;
     /// <summary>
     /// 中文
     /// </summary>
-    public readonly string CN;
+    public readonly string Cn;
    
     public const int __ID__ = -1548945544;
     public override int GetTypeId() => __ID__;
@@ -45,8 +45,8 @@ public sealed partial class Language : Luban.BeanBase
     public override string ToString()
     {
         return "{ "
-        + "Key:" + Key + ","
-        + "CN:" + CN + ","
+        + "key:" + Key + ","
+        + "cn:" + Cn + ","
         + "}";
     }
 }

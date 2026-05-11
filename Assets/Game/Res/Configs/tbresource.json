@@ -2,67 +2,67 @@
   {
     "id": 101,
     "name": "Wood",
-    "sellPrice": 10,
+    "sellPrice": 5,
     "depth": 0
   },
   {
     "id": 102,
     "name": "Ore",
-    "sellPrice": 15,
+    "sellPrice": 5,
     "depth": 0
   },
   {
     "id": 103,
     "name": "Coal",
-    "sellPrice": 12,
-    "depth": 0
+    "sellPrice": 8,
+    "depth": 1
   },
   {
     "id": 104,
     "name": "Water",
-    "sellPrice": 5,
+    "sellPrice": 3,
     "depth": 0
   },
   {
     "id": 105,
     "name": "Oil",
-    "sellPrice": 20,
-    "depth": 0
+    "sellPrice": 10,
+    "depth": 1
   },
   {
     "id": 201,
     "name": "Plank",
-    "sellPrice": 25,
-    "depth": 1
+    "sellPrice": 15,
+    "depth": 0
   },
   {
     "id": 202,
     "name": "Ingot",
-    "sellPrice": 30,
-    "depth": 1
+    "sellPrice": 20,
+    "depth": 0
   },
   {
     "id": 203,
     "name": "Plastic",
-    "sellPrice": 35,
-    "depth": 1
+    "sellPrice": 25,
+    "depth": 0
   },
   {
     "id": 301,
     "name": "Tool",
     "sellPrice": 60,
-    "depth": 2
+    "depth": 0
   },
   {
     "id": 302,
     "name": "CircuitBoard",
     "sellPrice": 80,
-    "depth": 2
+    "depth": 0
   },
   {
     "id": 401,
     "name": "Automaton",
     "sellPrice": 200,
-    "depth": 3
+    "depth": 0
   }
 ]

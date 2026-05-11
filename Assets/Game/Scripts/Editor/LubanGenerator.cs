@@ -17,7 +17,6 @@ namespace IsleWorks.Editor
         private const string DataTablesRoot = "Tools/Luban/DataTables";
         private const string DefinesDir = "Defines";
         private const string DatasDir = "Datas";
-        private const string CommonModule = "Common";
 
         private Vector2 _scrollPos;
 
@@ -158,7 +157,7 @@ namespace IsleWorks.Editor
             const string jsonOut = "Assets/Game/Res/Configs";
             const string codeOut = "Assets/Game/Scripts/Generated/Configs";
             const string topModule = "cfg";
-            var dataDir = $"{DatasDir}/{CommonModule}";
+            var dataDir = $"{DatasDir}";
 
             var schemaFiles = BuildSchemaFiles();
             if (schemaFiles == null) return false;
@@ -244,7 +243,7 @@ namespace IsleWorks.Editor
 
         private static List<string> BuildSchemaFiles()
         {
-            var basePath = Path.Combine(ProjectRoot, DataTablesRoot, DatasDir, CommonModule);
+            var basePath = Path.Combine(ProjectRoot, DataTablesRoot, DatasDir);
 
             var tablesFile = Path.Combine(basePath, "__tables__.xlsx");
             if (!File.Exists(tablesFile))
@@ -253,15 +252,15 @@ namespace IsleWorks.Editor
                 return null;
             }
 
-            var files = new List<string> { DefinesDir, $"{DatasDir}/{CommonModule}/__tables__.xlsx" };
+            var files = new List<string> { DefinesDir, $"{DatasDir}/__tables__.xlsx" };
 
             var beansFile = Path.Combine(basePath, "__beans__.xlsx");
             if (File.Exists(beansFile))
-                files.Add($"{DatasDir}/{CommonModule}/__beans__.xlsx");
+                files.Add($"{DatasDir}/__beans__.xlsx");
 
             var enumsFile = Path.Combine(basePath, "__enums__.xlsx");
             if (File.Exists(enumsFile))
-                files.Add($"{DatasDir}/{CommonModule}/__enums__.xlsx");
+                files.Add($"{DatasDir}/__enums__.xlsx");
 
             return files;
         }

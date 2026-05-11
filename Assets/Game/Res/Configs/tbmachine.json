@@ -5,7 +5,7 @@
     "sizeX": 1,
     "sizeY": 1,
     "recipeId": 0,
-    "cost": 100,
+    "cost": 50,
     "refundRatio": 0.5,
     "requiredEra": 0,
     "inputSlotSize": 0
@@ -13,13 +13,13 @@
   {
     "id": 2,
     "name": "Smelter",
-    "sizeX": 1,
-    "sizeY": 1,
-    "recipeId": 3,
-    "cost": 200,
+    "sizeX": 2,
+    "sizeY": 2,
+    "recipeId": 1,
+    "cost": 100,
     "refundRatio": 0.5,
     "requiredEra": 0,
-    "inputSlotSize": 2
+    "inputSlotSize": 1
   },
   {
     "id": 3,
@@ -35,19 +35,19 @@
   {
     "id": 4,
     "name": "Port",
-    "sizeX": 1,
-    "sizeY": 1,
+    "sizeX": 2,
+    "sizeY": 2,
     "recipeId": 0,
     "cost": 0,
     "refundRatio": 0,
     "requiredEra": 0,
-    "inputSlotSize": 0
+    "inputSlotSize": 4
   },
   {
     "id": 5,
     "name": "ComboMachine",
-    "sizeX": 1,
-    "sizeY": 1,
+    "sizeX": 2,
+    "sizeY": 2,
     "recipeId": 4,
     "cost": 300,
     "refundRatio": 0.5,
@@ -57,12 +57,12 @@
   {
     "id": 6,
     "name": "Generator",
-    "sizeX": 2,
-    "sizeY": 2,
+    "sizeX": 1,
+    "sizeY": 1,
     "recipeId": 0,
-    "cost": 500,
+    "cost": 200,
     "refundRatio": 0.5,
-    "requiredEra": 2,
+    "requiredEra": 1,
     "inputSlotSize": 0
   },
   {
@@ -73,7 +73,7 @@
     "recipeId": 0,
     "cost": 20,
     "refundRatio": 0.5,
-    "requiredEra": 2,
+    "requiredEra": 1,
     "inputSlotSize": 0
   },
   {
@@ -84,7 +84,7 @@
     "recipeId": 0,
     "cost": 150,
     "refundRatio": 0.5,
-    "requiredEra": 3,
-    "inputSlotSize": 0
+    "requiredEra": 2,
+    "inputSlotSize": 1
   }
 ]

@@ -30,7 +30,7 @@ namespace IsleWorks
         /// </summary>
         private static readonly Dictionary<string, Func<Language, string>> ColumnMap = new()
         {
-            ["CN"] = e => e.CN,
+            ["CN"] = e => e.Cn,
             // ["EN"] = e => e.EN,
         };
 

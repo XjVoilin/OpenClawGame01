@@ -1,12 +1,22 @@
 [
-  { "index": 1, "price": 500 },
-  { "index": 2, "price": 600 },
-  { "index": 3, "price": 720 },
-  { "index": 4, "price": 864 },
-  { "index": 5, "price": 1037 },
-  { "index": 6, "price": 1244 },
-  { "index": 7, "price": 1493 },
-  { "index": 8, "price": 1792 },
-  { "index": 9, "price": 2150 },
-  { "index": 10, "price": 2580 }
+  {
+    "index": 1,
+    "price": 100
+  },
+  {
+    "index": 2,
+    "price": 200
+  },
+  {
+    "index": 3,
+    "price": 400
+  },
+  {
+    "index": 4,
+    "price": 800
+  },
+  {
+    "index": 5,
+    "price": 1600
+  }
 ]

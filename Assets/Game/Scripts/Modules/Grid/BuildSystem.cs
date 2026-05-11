@@ -17,7 +17,9 @@ namespace IsleWorks.Grid
             var inventory = this.Query<IInventoryQueries>();
 
             var machineConfig = CfgTable.Machine.GetOrDefault(machineTypeId);
-            var size = machineConfig?.Size ?? Vector2Int.one;
+            var size = machineConfig != null
+                ? new Vector2Int(machineConfig.SizeX, machineConfig.SizeY)
+                : Vector2Int.one;
             int cost = machineConfig?.Cost ?? 0;
 
             if (!grid.CanPlace(position, size))
