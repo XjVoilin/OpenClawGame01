@@ -84,7 +84,6 @@ namespace IsleWorks
         public async UniTask OnGameLaunch()
         {
             ConfigureUI();
-            LoadConfigs();
             CreateViews();
             SetupCamera();
 
@@ -95,15 +94,6 @@ namespace IsleWorks
         private static void ConfigureUI()
         {
             GF.UI.SetWindowConfig(new LubanUIWindowConfigProvider());
-        }
-
-        private static void LoadConfigs()
-        {
-            MachineConfigLoader.LoadConfigs();
-            RecipeConfigLoader.LoadConfigs();
-            ResourceConfigLoader.LoadConfigs();
-            MilestoneConfigLoader.LoadConfigs();
-            GF.Log("All configs loaded.");
         }
 
         private static void CreateViews()

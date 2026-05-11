@@ -16,10 +16,10 @@ namespace IsleWorks.Economy
 
             for (int i = 0; i < products.Length; i++)
             {
-                var config = ResourceConfigLoader.GetConfig((int)products[i]);
-                if (config != null)
+                var res = CfgTable.Resource.GetOrDefault((int)products[i]);
+                if (res != null)
                 {
-                    totalRevenue += config.SellPrice;
+                    totalRevenue += res.SellPrice;
                 }
             }
 
@@ -34,7 +34,6 @@ namespace IsleWorks.Economy
 
             GF.Log($"Sold {products.Length} products at port for {totalRevenue} gold. Total value: {inv.TotalProductionValue}");
 
-            // Check milestone after selling
             this.GetSystem<TechSystem>().CheckMilestone();
         }
     }

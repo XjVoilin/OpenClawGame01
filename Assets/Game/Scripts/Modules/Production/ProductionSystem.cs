@@ -1,3 +1,4 @@
+using cfg;
 using IsleWorks.Grid;
 using JulyArch;
 
@@ -53,9 +54,9 @@ namespace IsleWorks.Production
                 return;
             }
 
-            // Other machines: check recipe inputs
-            int recipeId = MachineConfigLoader.GetRecipeId(machine.MachineTypeId);
-            var recipe = RecipeConfigLoader.GetRecipe(recipeId);
+            var machineCfg = CfgTable.Machine.GetOrDefault(machine.MachineTypeId);
+            if (machineCfg == null) return;
+            var recipe = CfgTable.Recipe.GetOrDefault(machineCfg.RecipeId);
             if (recipe == null) return;
 
             if (IsInputReady(machine, recipe))
@@ -76,11 +77,11 @@ namespace IsleWorks.Production
             }
             else
             {
-                int recipeId = MachineConfigLoader.GetRecipeId(machine.MachineTypeId);
-                var recipe = RecipeConfigLoader.GetRecipe(recipeId);
+                var machineCfg = CfgTable.Machine.GetOrDefault(machine.MachineTypeId);
+                var recipe = machineCfg != null ? CfgTable.Recipe.GetOrDefault(machineCfg.RecipeId) : null;
                 if (recipe != null)
                 {
-                    machine.OutputSlot = recipe.Output;
+                    machine.OutputSlot = (ResourceType)recipe.Output;
                 }
             }
 
@@ -109,15 +110,16 @@ namespace IsleWorks.Production
             }
         }
 
-        private bool IsInputReady(MachineInstance machine, RecipeConfig recipe)
+        private bool IsInputReady(MachineInstance machine, Recipe recipe)
         {
             for (int r = 0; r < recipe.Inputs.Length; r++)
             {
                 int needed = recipe.InputQuantities[r];
                 int found = 0;
+                var required = (ResourceType)recipe.Inputs[r];
                 for (int s = 0; s < machine.InputSlots.Length; s++)
                 {
-                    if (machine.InputSlots[s] == recipe.Inputs[r])
+                    if (machine.InputSlots[s] == required)
                     {
                         found++;
                         if (found >= needed) break;
@@ -128,14 +130,15 @@ namespace IsleWorks.Production
             return true;
         }
 
-        private void ConsumeInput(MachineInstance machine, RecipeConfig recipe)
+        private void ConsumeInput(MachineInstance machine, Recipe recipe)
         {
             for (int r = 0; r < recipe.Inputs.Length; r++)
             {
                 int remaining = recipe.InputQuantities[r];
+                var required = (ResourceType)recipe.Inputs[r];
                 for (int s = 0; s < machine.InputSlots.Length && remaining > 0; s++)
                 {
-                    if (machine.InputSlots[s] == recipe.Inputs[r])
+                    if (machine.InputSlots[s] == required)
                     {
                         machine.InputSlots[s] = ResourceType.None;
                         remaining--;

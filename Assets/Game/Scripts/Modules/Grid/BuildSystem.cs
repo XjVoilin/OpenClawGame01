@@ -16,8 +16,9 @@ namespace IsleWorks.Grid
             var grid = this.Query<IGridQueries>();
             var inventory = this.Query<IInventoryQueries>();
 
-            var size = MachineConfigLoader.GetSize(machineTypeId);
-            int cost = MachineConfigLoader.GetCost(machineTypeId);
+            var machineConfig = CfgTable.Machine.GetOrDefault(machineTypeId);
+            var size = machineConfig?.Size ?? Vector2Int.one;
+            int cost = machineConfig?.Cost ?? 0;
 
             if (!grid.CanPlace(position, size))
             {
@@ -31,7 +32,7 @@ namespace IsleWorks.Grid
                 return;
             }
 
-            int inputSlotSize = MachineConfigLoader.GetInputSlotSize(machineTypeId);
+            int inputSlotSize = machineConfig?.InputSlotSize ?? 0;
             int buildingId = 0;
 
             this.Mutate<GridStore>(store =>
@@ -56,7 +57,7 @@ namespace IsleWorks.Grid
             var grid = this.Query<IGridQueries>();
             var inventory = this.Query<IInventoryQueries>();
 
-            int cost = MachineConfigLoader.GetCost((int)MachineType.Conveyor);
+            int cost = CfgTable.Machine.GetOrDefault((int)MachineType.Conveyor)?.Cost ?? 0;
 
             if (!grid.CanPlace(position, Vector2Int.one))
             {
@@ -106,15 +107,14 @@ namespace IsleWorks.Grid
             if (machine != null)
             {
                 machineTypeId = machine.MachineTypeId;
-                int cost = MachineConfigLoader.GetCost(machineTypeId);
-                float ratio = MachineConfigLoader.GetRefundRatio(machineTypeId);
-                refund = Mathf.RoundToInt(cost * ratio);
+                var cfg = CfgTable.Machine.GetOrDefault(machineTypeId);
+                refund = Mathf.RoundToInt((cfg?.Cost ?? 0) * (cfg?.RefundRatio ?? 0.5f));
                 this.Mutate<GridStore>(store => store.RemoveMachine(buildingId));
             }
             else
             {
-                int convCost = MachineConfigLoader.GetCost((int)MachineType.Conveyor);
-                refund = Mathf.RoundToInt(convCost * MachineConfigLoader.GetRefundRatio((int)MachineType.Conveyor));
+                var convCfg = CfgTable.Machine.GetOrDefault((int)MachineType.Conveyor);
+                refund = Mathf.RoundToInt((convCfg?.Cost ?? 0) * (convCfg?.RefundRatio ?? 0.5f));
                 this.Mutate<GridStore>(store => store.RemoveConveyor(buildingId));
             }
 

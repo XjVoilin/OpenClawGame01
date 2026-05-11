@@ -1,0 +1,59 @@
+<module name="">
+    <bean name="Machine">
+        <var name="id" type="int"/>
+        <var name="name" type="string"/>
+        <var name="sizeX" type="int"/>
+        <var name="sizeY" type="int"/>
+        <var name="recipeId" type="int"/>
+        <var name="cost" type="int"/>
+        <var name="refundRatio" type="float"/>
+        <var name="requiredEra" type="int"/>
+        <var name="inputSlotSize" type="int"/>
+    </bean>
+
+    <bean name="Recipe">
+        <var name="id" type="int"/>
+        <var name="inputs" type="list,int"/>
+        <var name="inputQuantities" type="list,int"/>
+        <var name="output" type="int"/>
+        <var name="processTime" type="float"/>
+        <var name="requiredEra" type="int"/>
+    </bean>
+
+    <bean name="Resource">
+        <var name="id" type="int"/>
+        <var name="name" type="string"/>
+        <var name="sellPrice" type="int"/>
+        <var name="depth" type="int"/>
+    </bean>
+
+    <bean name="Milestone">
+        <var name="id" type="int"/>
+        <var name="requiredValue" type="int"/>
+        <var name="unlockEra" type="int"/>
+        <var name="unlockMachines" type="list,int"/>
+        <var name="unlockRecipes" type="list,int"/>
+    </bean>
+
+    <bean name="TilePrice">
+        <var name="index" type="int"/>
+        <var name="price" type="int"/>
+    </bean>
+
+    <bean name="UIWindow">
+        <var name="id" type="int"/>
+        <var name="desc" type="string"/>
+        <var name="windowName" type="string"/>
+        <var name="isNeedBlackMask" type="bool"/>
+        <var name="isClickBlankQuit" type="bool"/>
+        <var name="enterAnimType" type="int"/>
+        <var name="exitAnimType" type="int"/>
+        <var name="isIgnoreSafeArea" type="bool"/>
+        <var name="uiLayer" type="int"/>
+    </bean>
+
+    <bean name="Language">
+        <var name="key" type="string"/>
+        <var name="cn" type="string"/>
+    </bean>
+</module>

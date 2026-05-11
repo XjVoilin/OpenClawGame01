@@ -1,4 +1,5 @@
 using System.Threading;
+using cfg;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using JulyArch;
@@ -22,7 +23,8 @@ namespace IsleWorks.Tech
             var tech = this.Query<ITechQueries>();
 
             int nextEra = tech.CurrentEra + 1;
-            int requiredValue = MilestoneConfigLoader.GetRequiredValueForEra(nextEra);
+            var milestone = FindMilestoneForEra(nextEra);
+            int requiredValue = milestone?.RequiredValue ?? int.MaxValue;
 
             if (inventory.TotalProductionValue >= requiredValue)
             {
@@ -66,7 +68,7 @@ namespace IsleWorks.Tech
 
         private void UnlockEraFeatures(int era)
         {
-            var milestone = MilestoneConfigLoader.GetMilestoneForEra(era);
+            var milestone = FindMilestoneForEra(era);
             if (milestone == null)
             {
                 GF.LogError($"No milestone found for era {era}");
@@ -86,6 +88,17 @@ namespace IsleWorks.Tech
                     GF.Log($"Unlocked recipe: {milestone.UnlockRecipes[i]}");
                 }
             });
+        }
+
+        private static Milestone FindMilestoneForEra(int era)
+        {
+            var table = CfgTable.Milestone;
+            if (table == null) return null;
+            foreach (var m in table.DataList)
+            {
+                if (m.UnlockEra == era) return m;
+            }
+            return null;
         }
     }
 }

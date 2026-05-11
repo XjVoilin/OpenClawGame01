@@ -88,10 +88,10 @@ namespace IsleWorks.Views
                 int id = machineIds[i];
                 if (!tech.IsMachineUnlocked(id)) continue;
 
-                var config = MachineConfigLoader.GetConfig(id);
-                if (config == null) continue;
+                var machineConfig = CfgTable.Machine.GetOrDefault(id);
+                if (machineConfig == null) continue;
 
-                var name = config.Name;
+                var name = machineConfig.Name;
                 var color = PlaceholderVisuals.GetMachineColor(id);
                 AddButton(name, id, color);
             }
