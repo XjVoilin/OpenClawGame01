@@ -1,5 +1,7 @@
 using Cysharp.Threading.Tasks;
 using IsleWorks.Aot;
+using IsleWorks.Economy;
+using IsleWorks.Grid;
 using JulyArch;
 using JulyCore;
 using JulyCore.Provider.Config;
@@ -9,7 +11,6 @@ using JulyCore.Provider.Save;
 using JulyCore.Provider.UI;
 using JulyCore.Provider.Audio;
 using JulyCore.Provider.Pool;
-using JulyCore.Data.UI;
 #if JULYGF_DEBUG
 using JulyCore.Provider.GM;
 #endif
@@ -54,18 +55,20 @@ namespace IsleWorks
 #if JULYGF_DEBUG
         private static void RegisterGMCommands()
         {
-            // GF.GM.Register(typeof(YourGMClass));
+            
         }
 #endif
 
         private void RegisterStores(GameContext ctx)
         {
-            // ctx.RegisterStore(new YourStore());
+            ctx.RegisterStore(new GridStore());
+            ctx.RegisterStore(new InventoryStore());
         }
 
         private void RegisterSystems(GameContext ctx)
         {
-            // ctx.RegisterSystem(new YourSystem());
+            ctx.RegisterSystem(new BuildSystem());
+            ctx.RegisterSystem(new EconomySystem());
         }
 
         public async UniTask OnGameLaunch()
