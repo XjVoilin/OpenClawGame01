@@ -11,7 +11,7 @@ using JulyCore.Module.Save;
 using JulyCore.Module.Scene;
 using JulyCore.Module.UI;
 
-namespace GameTemplate.Aot
+namespace IsleWorks.Aot
 {
     public class RegisterModulesStep : ILaunchStep
     {

@@ -1,5 +1,5 @@
 using Cysharp.Threading.Tasks;
-using GameTemplate.Aot;
+using IsleWorks.Aot;
 using JulyArch;
 using JulyCore;
 using JulyCore.Provider.Config;
@@ -14,7 +14,7 @@ using JulyCore.Data.UI;
 using JulyCore.Provider.GM;
 #endif
 
-namespace GameTemplate
+namespace IsleWorks
 {
     /// <summary>
     /// 热更程序集注册入口。

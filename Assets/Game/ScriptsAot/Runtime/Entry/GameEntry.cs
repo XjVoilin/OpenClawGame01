@@ -3,7 +3,7 @@ using JulyCore.Core;
 using JulyCore.Core.Launch;
 using UnityEngine;
 
-namespace GameTemplate.Aot
+namespace IsleWorks.Aot
 {
     public class GameEntry : JulyGameEntry
     {

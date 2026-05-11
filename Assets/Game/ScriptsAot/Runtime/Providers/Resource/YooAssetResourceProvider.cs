@@ -13,7 +13,7 @@ using UnityEngine.SceneManagement;
 using YooAsset;
 using Object = UnityEngine.Object;
 
-namespace GameTemplate.Aot
+namespace IsleWorks.Aot
 {
     internal class YooAssetResourceProvider : ProviderBase, IResourceProvider
     {

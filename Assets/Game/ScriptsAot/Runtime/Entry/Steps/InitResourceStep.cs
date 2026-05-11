@@ -4,7 +4,7 @@ using JulyCore;
 using JulyCore.Core.Launch;
 using JulyCore.Provider.Resource;
 
-namespace GameTemplate.Aot
+namespace IsleWorks.Aot
 {
     public class InitResourceStep : ILaunchStep
     {

@@ -15,7 +15,7 @@ using JulyCore.Provider.Time;
 using JulyCore.Provider.GM;
 #endif
 
-namespace GameTemplate.Aot
+namespace IsleWorks.Aot
 {
     public class RegisterInfrastructureStep : ILaunchStep
     {

@@ -10,7 +10,7 @@ using JulyCore.Provider.Resource;
 using SimpleJSON;
 using UnityEngine;
 
-namespace GameTemplate
+namespace IsleWorks
 {
     public class LubanConfigProvider : ProviderBase, IConfigProvider
     {

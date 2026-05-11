@@ -2,7 +2,7 @@ using cfg;
 using JulyCore;
 using JulyCore.Data.UI;
 
-namespace GameTemplate
+namespace IsleWorks
 {
     public class LubanUIWindowConfigProvider : IUIWindowConfigProvider
     {

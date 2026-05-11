@@ -1,6 +1,6 @@
 using JulyArch;
 
-namespace GameTemplate
+namespace IsleWorks
 {
     public static class AppArch
     {

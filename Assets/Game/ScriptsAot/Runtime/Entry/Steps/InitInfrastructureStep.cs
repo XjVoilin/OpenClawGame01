@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using JulyCore.Core.Launch;
 
-namespace GameTemplate.Aot
+namespace IsleWorks.Aot
 {
     public class InitInfrastructureStep : ILaunchStep
     {
