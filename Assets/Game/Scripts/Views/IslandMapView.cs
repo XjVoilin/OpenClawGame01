@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using IsleWorks.Grid;
 using IsleWorks.Island;
 using JulyArch;
+using JulyCore;
 
 namespace IsleWorks.Views
 {
@@ -26,7 +27,7 @@ namespace IsleWorks.Views
                 }
             }
 
-            Debug.Log("Island map initialized.");
+            GF.Log("Island map initialized.");
         }
 
         private void CreateTile(int x, int y)

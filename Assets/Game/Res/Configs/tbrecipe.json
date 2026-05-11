@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "inputs": [],
+    "inputQuantities": [],
+    "output": 102,
+    "processTime": 2.0,
+    "requiredEra": 0
+  },
+  {
+    "id": 2,
+    "inputs": [101],
+    "inputQuantities": [1],
+    "output": 201,
+    "processTime": 3.0,
+    "requiredEra": 0
+  },
+  {
+    "id": 3,
+    "inputs": [102],
+    "inputQuantities": [1],
+    "output": 202,
+    "processTime": 4.0,
+    "requiredEra": 0
+  },
+  {
+    "id": 4,
+    "inputs": [202, 201],
+    "inputQuantities": [1, 1],
+    "output": 301,
+    "processTime": 5.0,
+    "requiredEra": 1
+  },
+  {
+    "id": 5,
+    "inputs": [105],
+    "inputQuantities": [1],
+    "output": 203,
+    "processTime": 3.5,
+    "requiredEra": 1
+  },
+  {
+    "id": 6,
+    "inputs": [203, 202],
+    "inputQuantities": [1, 1],
+    "output": 302,
+    "processTime": 6.0,
+    "requiredEra": 2
+  },
+  {
+    "id": 7,
+    "inputs": [302, 301],
+    "inputQuantities": [1, 1],
+    "output": 401,
+    "processTime": 8.0,
+    "requiredEra": 3
+  }
+]

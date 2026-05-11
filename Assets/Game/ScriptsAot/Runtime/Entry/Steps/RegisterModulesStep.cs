@@ -43,7 +43,7 @@ namespace IsleWorks.Aot
 
         private static IHotUpdateRegistrar FindRegistrar()
         {
-            const string typeFullName = "GameTemplate.HotUpdateRegistrar";
+            const string typeFullName = "IsleWorks.HotUpdateRegistrar";
             try
             {
                 var assembly = System.Reflection.Assembly.Load("Assembly-CSharp");

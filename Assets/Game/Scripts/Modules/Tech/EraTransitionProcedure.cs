@@ -2,6 +2,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using JulyArch;
+using JulyCore;
 
 namespace IsleWorks.Tech
 {
@@ -21,29 +22,13 @@ namespace IsleWorks.Tech
 
         public override async UniTask ExecuteAsync(CancellationToken ct)
         {
-            ShowTransitionOverlay();
-            ParticleFeedbackManager.PlayEraTransitionEffect(_viewRoot);
+            if (_viewRoot != null)
+            {
+                ParticleFeedbackManager.PlayEraTransitionEffect(_viewRoot);
+            }
+            GF.Log($"Era transition animation for era {_newEra}");
             await UniTask.Delay(2000, cancellationToken: ct);
-            Debug.Log($"Era transitioned to {_newEra}");
-            HideTransitionOverlay();
-        }
-
-        private void ShowTransitionOverlay()
-        {
-            var overlay = _viewRoot.Find("EraTransitionOverlay");
-            if (overlay)
-            {
-                overlay.gameObject.SetActive(true);
-            }
-        }
-
-        private void HideTransitionOverlay()
-        {
-            var overlay = _viewRoot.Find("EraTransitionOverlay");
-            if (overlay)
-            {
-                overlay.gameObject.SetActive(false);
-            }
+            GF.Log($"Era transitioned to {_newEra}");
         }
     }
 }

@@ -1,6 +1,5 @@
-using UnityEngine;
+using IsleWorks.Grid;
 using JulyArch;
-using System.Collections.Generic;
 
 namespace IsleWorks.Production
 {
@@ -9,78 +8,137 @@ namespace IsleWorks.Production
     /// </summary>
     public class ProductionSystem : GameSystemBase, IUpdatableSystem
     {
-        private List<MachineInstance> _machines;
-
-        public ProductionSystem()
-        {
-            _machines = new List<MachineInstance>();
-        }
-
-        public void RegisterMachine(MachineInstance machine)
-        {
-            _machines.Add(machine);
-            Debug.Log($"Machine {machine.Id} registered.");
-        }
-
         public void OnUpdate(float deltaTime)
         {
-            foreach (var machine in _machines)
+            var grid = this.Query<IGridQueries>();
+            var machines = grid.AllMachines;
+
+            for (int i = 0; i < machines.Count; i++)
             {
+                var machine = machines[i];
+
+                // Skip non-production machines
+                if (machine.MachineTypeId == (int)MachineType.Conveyor) continue;
+                if (machine.MachineTypeId == (int)MachineType.Port) continue;
+                if (machine.MachineTypeId == (int)MachineType.Generator) continue;
+                if (machine.MachineTypeId == (int)MachineType.Wire) continue;
+                if (machine.MachineTypeId == (int)MachineType.Sorter) continue;
+
                 if (machine.IsProcessing)
                 {
                     machine.ProcessTimer -= deltaTime;
                     if (machine.ProcessTimer <= 0)
                     {
-                        machine.OutputSlot = machine.CurrentRecipe.Output;
-                        machine.IsProcessing = false;
-                        Debug.Log($"Machine {machine.Id} completed processing {machine.OutputSlot}.");
+                        CompleteProcessing(machine, grid);
                     }
                 }
                 else if (machine.OutputSlot == ResourceType.None)
                 {
-                    if (IsInputReady(machine))
+                    TryStartProcessing(machine, grid);
+                }
+            }
+        }
+
+        private void TryStartProcessing(MachineInstance machine, IGridQueries grid)
+        {
+            // Miner: no input needed, just check if on resource node
+            if (machine.MachineTypeId == (int)MachineType.Miner)
+            {
+                var resourceNode = grid.GetResourceNode(machine.Position.x, machine.Position.y);
+                if (resourceNode != ResourceType.None)
+                {
+                    machine.ProcessTimer = 2.0f;
+                    machine.IsProcessing = true;
+                }
+                return;
+            }
+
+            // Other machines: check recipe inputs
+            int recipeId = MachineConfigLoader.GetRecipeId(machine.MachineTypeId);
+            var recipe = RecipeConfigLoader.GetRecipe(recipeId);
+            if (recipe == null) return;
+
+            if (IsInputReady(machine, recipe))
+            {
+                ConsumeInput(machine, recipe);
+                machine.ProcessTimer = recipe.ProcessTime;
+                machine.IsProcessing = true;
+            }
+        }
+
+        private void CompleteProcessing(MachineInstance machine, IGridQueries grid)
+        {
+            // Miner: output the resource node type
+            if (machine.MachineTypeId == (int)MachineType.Miner)
+            {
+                var resourceNode = grid.GetResourceNode(machine.Position.x, machine.Position.y);
+                machine.OutputSlot = resourceNode;
+            }
+            else
+            {
+                int recipeId = MachineConfigLoader.GetRecipeId(machine.MachineTypeId);
+                var recipe = RecipeConfigLoader.GetRecipe(recipeId);
+                if (recipe != null)
+                {
+                    machine.OutputSlot = recipe.Output;
+                }
+            }
+
+            machine.IsProcessing = false;
+
+            // Try to push output to downstream conveyor
+            PushOutputToConveyor(machine, grid);
+        }
+
+        private void PushOutputToConveyor(MachineInstance machine, IGridQueries grid)
+        {
+            if (machine.OutputSlot == ResourceType.None) return;
+
+            // Find a conveyor that has this machine as its upstream (PrevSegmentId)
+            for (int i = 0; i < grid.AllConveyors.Count; i++)
+            {
+                var conv = grid.AllConveyors[i];
+                if (conv.PrevSegmentId == machine.Id)
+                {
+                    if (conv.TryAcceptItem(machine.OutputSlot))
                     {
-                        ConsumeInput(machine);
-                        machine.ProcessTimer = machine.CurrentRecipe.ProcessTime;
-                        machine.IsProcessing = true;
-                        Debug.Log($"Machine {machine.Id} started processing {machine.CurrentRecipe.Output}.");
+                        machine.OutputSlot = ResourceType.None;
+                        return;
                     }
                 }
             }
         }
 
-        private bool IsInputReady(MachineInstance machine)
+        private bool IsInputReady(MachineInstance machine, RecipeConfig recipe)
         {
-            var recipe = machine.CurrentRecipe;
-            for (int i = 0; i < recipe.Inputs.Length; i++)
+            for (int r = 0; r < recipe.Inputs.Length; r++)
             {
-                int inputCount = 0;
-                foreach (var slot in machine.InputSlots)
+                int needed = recipe.InputQuantities[r];
+                int found = 0;
+                for (int s = 0; s < machine.InputSlots.Length; s++)
                 {
-                    if (slot == recipe.Inputs[i])
+                    if (machine.InputSlots[s] == recipe.Inputs[r])
                     {
-                        inputCount++;
-                        if (inputCount >= recipe.InputQuantities[i]) break;
+                        found++;
+                        if (found >= needed) break;
                     }
                 }
-
-                if (inputCount < recipe.InputQuantities[i]) return false;
+                if (found < needed) return false;
             }
             return true;
         }
 
-        private void ConsumeInput(MachineInstance machine)
+        private void ConsumeInput(MachineInstance machine, RecipeConfig recipe)
         {
-            var recipe = machine.CurrentRecipe;
-            for (int i = 0; i < recipe.Inputs.Length; i++)
+            for (int r = 0; r < recipe.Inputs.Length; r++)
             {
-                int requiredQuantity = recipe.InputQuantities[i];
-                for (int j = 0; j < machine.InputSlots.Length && requiredQuantity > 0; j++)
+                int remaining = recipe.InputQuantities[r];
+                for (int s = 0; s < machine.InputSlots.Length && remaining > 0; s++)
                 {
-                    if (machine.InputSlots[j] == recipe.Inputs[i])
+                    if (machine.InputSlots[s] == recipe.Inputs[r])
                     {
-                        machine.InputSlots[j] = ResourceType.None;
-                        requiredQuantity--;
+                        machine.InputSlots[s] = ResourceType.None;
+                        remaining--;
                     }
                 }
             }

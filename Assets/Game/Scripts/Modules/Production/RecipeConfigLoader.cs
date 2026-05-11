@@ -1,53 +1,45 @@
-using System.Collections.Generic;
-using UnityEngine;
+using cfg;
+using JulyCore;
+using JulyCore.Provider.Config;
 
 namespace IsleWorks.Production
 {
     /// <summary>
-    /// 配方配置加载器，加载并缓存加工配方数据。
+    /// 配方配置加载器，从 Luban 配表读取配方数据。
     /// </summary>
     public static class RecipeConfigLoader
     {
-        private static Dictionary<int, RecipeConfig> _recipeConfigs;
+        private static TbRecipe _table;
 
         public static void LoadConfigs()
         {
-            // TODO: 从 Luban 配表加载配方配置
-            _recipeConfigs = new Dictionary<int, RecipeConfig>
+            if (GF.TryResolve<IConfigProvider>(out var provider) && provider.TryGetTable(out TbRecipe table))
             {
-                { 1, new RecipeConfig(1, new[] { ResourceType.Wood }, new[] { 1 }, ResourceType.Plank, 5f) },
-                { 2, new RecipeConfig(2, new[] { ResourceType.Ore }, new[] { 1 }, ResourceType.Ingot, 5f) },
-                { 3, new RecipeConfig(3, new[] { ResourceType.Ingot, ResourceType.Coal }, new[] { 1, 1 }, ResourceType.Tool, 10f) }
-            };
-
-            Debug.Log("Recipe configs loaded.");
-
-            foreach (var recipe in _recipeConfigs.Values)
+                _table = table;
+                GF.Log($"Recipe configs loaded: {table.DataList.Count} recipes");
+            }
+            else
             {
-                if (recipe.Inputs == null || recipe.Inputs.Length == 0)
-                {
-                    Debug.LogError($"Invalid recipe: Missing inputs for Recipe ID {recipe.Id}");
-                }
-
-                if (recipe.Output == ResourceType.None)
-                {
-                    Debug.LogError($"Invalid recipe: Missing output for Recipe ID {recipe.Id}");
-                }
+                GF.LogError("Failed to load recipe config table");
             }
         }
 
         public static RecipeConfig GetRecipe(int recipeId)
         {
-            if (_recipeConfigs != null && _recipeConfigs.TryGetValue(recipeId, out var config))
-            {
-                return config;
-            }
+            var row = _table?.GetOrDefault(recipeId);
+            if (row == null) return null;
 
-            Debug.LogError($"Recipe config not found for ID: {recipeId}");
-            return null;
+            var inputs = new ResourceType[row.Inputs.Length];
+            for (int i = 0; i < row.Inputs.Length; i++)
+                inputs[i] = (ResourceType)row.Inputs[i];
+
+            return new RecipeConfig(row.Id, inputs, row.InputQuantities, (ResourceType)row.Output, row.ProcessTime);
         }
     }
 
+    /// <summary>
+    /// 单个配方配置。
+    /// </summary>
     public class RecipeConfig
     {
         public int Id { get; }

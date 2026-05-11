@@ -1,6 +1,6 @@
-using UnityEngine;
+using IsleWorks.Economy;
+using IsleWorks.Grid;
 using JulyArch;
-using System.Collections.Generic;
 
 namespace IsleWorks.Production
 {
@@ -9,63 +9,65 @@ namespace IsleWorks.Production
     /// </summary>
     public class ConveyorSimSystem : GameSystemBase, IUpdatableSystem
     {
-        private List<ConveyorSegment> _conveyorSegments;
         private float _moveTimer;
 
-        public ConveyorSimSystem()
-        {
-            _conveyorSegments = new List<ConveyorSegment>();
-            _moveTimer = 0f;
-        }
-
-        /// <summary>
-        /// 注册传送带。
-        /// </summary>
-        public void RegisterSegment(ConveyorSegment segment)
-        {
-            _conveyorSegments.Add(segment);
-            Debug.Log($"Conveyor segment {segment.Id} registered.");
-        }
-
-        /// <summary>
-        /// 每帧更新。
-        /// </summary>
         public void OnUpdate(float deltaTime)
         {
             _moveTimer += deltaTime;
             if (_moveTimer < SimConstants.ConveyorMoveInterval) return;
             _moveTimer -= SimConstants.ConveyorMoveInterval;
 
-            // 遍历传送带，反向处理
-            for (int i = _conveyorSegments.Count - 1; i >= 0; i--)
+            var grid = this.Query<IGridQueries>();
+            var conveyors = grid.AllConveyors;
+
+            // Reverse iteration to avoid double-pushing in the same tick
+            for (int i = conveyors.Count - 1; i >= 0; i--)
             {
-                var segment = _conveyorSegments[i];
+                var segment = conveyors[i];
                 if (segment.Count <= 0) continue;
 
-                // 尝试推进物品到下游
-                var item = segment.Slots[segment.HeadIndex];
-                var nextSegment = GetNextSegment(segment);
+                var item = segment.PeekHead();
+                if (item == ResourceType.None) continue;
 
-                if (nextSegment != null && nextSegment.TryAcceptItem(item))
+                bool transferred = false;
+
+                if (segment.NextSegmentId > 0)
                 {
-                    segment.RemoveItem();
-                    segment.IsBlocked = false;
+                    // Try conveyor target
+                    var nextConv = grid.GetConveyor(segment.NextSegmentId);
+                    if (nextConv != null)
+                    {
+                        if (nextConv.TryAcceptItem(item))
+                        {
+                            segment.RemoveItem();
+                            transferred = true;
+                        }
+                    }
+                    else
+                    {
+                        // Try machine target (including port)
+                        var nextMachine = grid.GetMachine(segment.NextSegmentId);
+                        if (nextMachine != null)
+                        {
+                            if (nextMachine.MachineTypeId == (int)MachineType.Port)
+                            {
+                                // Port: deposit item for selling
+                                this.Mutate<InventoryStore>(store => store.AddPortProduct(item));
+                                segment.RemoveItem();
+                                transferred = true;
+                            }
+                            else if (nextMachine.HasEmptyInputSlot())
+                            {
+                                nextMachine.AddToInput(item);
+                                segment.RemoveItem();
+                                transferred = true;
+                            }
+                        }
+                    }
                 }
-                else
-                {
-                    segment.IsBlocked = true; // 下游堵塞
-                }
+
+                segment.IsBlocked = !transferred;
             }
-        }
-
-        /// <summary>
-        /// 获取下游目标。
-        /// </summary>
-        private ConveyorSegment GetNextSegment(ConveyorSegment segment)
-        {
-            // 示例逻辑，根据 segment.NextSegmentId 获取下游
-            int nextId = segment.NextSegmentId;
-            return _conveyorSegments.Find(s => s.Id == nextId);
         }
     }
 }

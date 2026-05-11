@@ -2,6 +2,10 @@ using Cysharp.Threading.Tasks;
 using IsleWorks.Aot;
 using IsleWorks.Economy;
 using IsleWorks.Grid;
+using IsleWorks.Island;
+using IsleWorks.Production;
+using IsleWorks.Tech;
+using IsleWorks.Views;
 using JulyArch;
 using JulyCore;
 using JulyCore.Provider.Config;
@@ -11,6 +15,7 @@ using JulyCore.Provider.Save;
 using JulyCore.Provider.UI;
 using JulyCore.Provider.Audio;
 using JulyCore.Provider.Pool;
+using UnityEngine;
 #if JULYGF_DEBUG
 using JulyCore.Provider.GM;
 #endif
@@ -55,7 +60,7 @@ namespace IsleWorks
 #if JULYGF_DEBUG
         private static void RegisterGMCommands()
         {
-            
+
         }
 #endif
 
@@ -63,25 +68,71 @@ namespace IsleWorks
         {
             ctx.RegisterStore(new GridStore());
             ctx.RegisterStore(new InventoryStore());
+            ctx.RegisterStore(new TechStore());
         }
 
         private void RegisterSystems(GameContext ctx)
         {
             ctx.RegisterSystem(new BuildSystem());
             ctx.RegisterSystem(new EconomySystem());
+            ctx.RegisterSystem(new IslandSystem());
+            ctx.RegisterSystem(new ProductionSystem());
+            ctx.RegisterSystem(new ConveyorSimSystem());
+            ctx.RegisterSystem(new TechSystem());
         }
 
         public async UniTask OnGameLaunch()
         {
             ConfigureUI();
+            LoadConfigs();
+            CreateViews();
+            SetupCamera();
 
-            // TODO: 在此添加游戏启动后的初始化逻辑
+            GF.Log("Game launched successfully.");
             await UniTask.CompletedTask;
         }
 
         private static void ConfigureUI()
         {
             GF.UI.SetWindowConfig(new LubanUIWindowConfigProvider());
+        }
+
+        private static void LoadConfigs()
+        {
+            MachineConfigLoader.LoadConfigs();
+            RecipeConfigLoader.LoadConfigs();
+            ResourceConfigLoader.LoadConfigs();
+            MilestoneConfigLoader.LoadConfigs();
+            GF.Log("All configs loaded.");
+        }
+
+        private static void CreateViews()
+        {
+            // GridView
+            var gridObj = new GameObject("GridView");
+            var gridView = gridObj.AddComponent<GridView>();
+            gridView.Initialize();
+
+            // HudView
+            var hudObj = new GameObject("HudView");
+            var hudView = hudObj.AddComponent<HudView>();
+            hudView.Initialize();
+
+            // BuildPanelView
+            var panelObj = new GameObject("BuildPanelView");
+            var panelView = panelObj.AddComponent<BuildPanelView>();
+            panelView.Initialize(gridView);
+        }
+
+        private static void SetupCamera()
+        {
+            var cam = Camera.main;
+            if (cam == null) return;
+
+            cam.orthographic = true;
+            cam.transform.position = new Vector3(3.5f, 3.5f, -10f);
+            cam.orthographicSize = 5.5f;
+            cam.backgroundColor = new Color(0.15f, 0.15f, 0.2f);
         }
     }
 }

@@ -2,66 +2,90 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using JulyArch;
+using JulyCore;
 using IsleWorks.Economy;
 
 namespace IsleWorks.Tech
 {
     /// <summary>
-    /// 科技系统，负责时代推进与科技解锁逻辑。
+    /// 科技系统，负责里程碑检测与时代推进。
     /// </summary>
     public class TechSystem : GameSystemBase
     {
+        private bool _transitioning;
+
         public void CheckMilestone()
         {
+            if (_transitioning) return;
+
             var inventory = this.Query<IInventoryQueries>();
             var tech = this.Query<ITechQueries>();
 
-            int requiredValue = GetEraMilestoneRequirement(tech.CurrentEra);
+            int nextEra = tech.CurrentEra + 1;
+            int requiredValue = MilestoneConfigLoader.GetRequiredValueForEra(nextEra);
 
             if (inventory.TotalProductionValue >= requiredValue)
             {
-                RunEraTransitionProcedure();
+                RunEraTransitionProcedure(nextEra);
             }
         }
 
-        private void RunEraTransitionProcedure()
+        private void RunEraTransitionProcedure(int newEra)
         {
-            var tech = this.Query<ITechQueries>();
-            var procedure = new EraTransitionProcedure(tech.CurrentEra + 1, GameObject.Find("UIRoot").transform);
-            RunProcedureAsync(procedure).Forget();
+            _transitioning = true;
+            var uiRoot = GameObject.Find("UIRoot");
+            var viewRoot = uiRoot != null ? uiRoot.transform : null;
+            var procedure = new EraTransitionProcedure(newEra, viewRoot);
+            RunProcedureAsync(procedure, newEra).Forget();
         }
 
-        private async UniTaskVoid RunProcedureAsync(EraTransitionProcedure procedure)
+        private async UniTaskVoid RunProcedureAsync(EraTransitionProcedure procedure, int newEra)
         {
             try
             {
                 await procedure.ExecuteAsync(CancellationToken.None);
-                AdvanceEra();
+                AdvanceEra(newEra);
             }
             catch (System.Exception ex)
             {
-                Debug.LogException(ex);
+                GF.LogException(ex);
+            }
+            finally
+            {
+                _transitioning = false;
             }
         }
 
-        private void AdvanceEra()
+        private void AdvanceEra(int newEra)
         {
             this.Mutate<TechStore>(s => s.AdvanceEra());
-            var tech = this.Query<ITechQueries>();
-            UnlockEraFeatures(tech.CurrentEra);
-            Debug.Log($"Era advanced! Current era: {tech.CurrentEra}");
+            UnlockEraFeatures(newEra);
+            this.Publish(new EraChangedEvent(newEra));
+            GF.Log($"Era advanced! Current era: {newEra}");
         }
 
         private void UnlockEraFeatures(int era)
         {
-            // TODO: 查询时代解锁表以解锁机器和配方
-            Debug.Log($"Features unlocked for era {era}");
-        }
+            var milestone = MilestoneConfigLoader.GetMilestoneForEra(era);
+            if (milestone == null)
+            {
+                GF.LogError($"No milestone found for era {era}");
+                return;
+            }
 
-        private int GetEraMilestoneRequirement(int era)
-        {
-            // TODO: 查询里程碑表获取目标值
-            return 1000 * (era + 1);
+            this.Mutate<TechStore>(store =>
+            {
+                for (int i = 0; i < milestone.UnlockMachines.Length; i++)
+                {
+                    store.UnlockMachine(milestone.UnlockMachines[i]);
+                    GF.Log($"Unlocked machine: {milestone.UnlockMachines[i]}");
+                }
+                for (int i = 0; i < milestone.UnlockRecipes.Length; i++)
+                {
+                    store.UnlockRecipe(milestone.UnlockRecipes[i]);
+                    GF.Log($"Unlocked recipe: {milestone.UnlockRecipes[i]}");
+                }
+            });
         }
     }
 }

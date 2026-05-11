@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "name": "Miner",
+    "sizeX": 1,
+    "sizeY": 1,
+    "recipeId": 0,
+    "cost": 100,
+    "refundRatio": 0.5,
+    "requiredEra": 0,
+    "inputSlotSize": 0
+  },
+  {
+    "id": 2,
+    "name": "Smelter",
+    "sizeX": 1,
+    "sizeY": 1,
+    "recipeId": 3,
+    "cost": 200,
+    "refundRatio": 0.5,
+    "requiredEra": 0,
+    "inputSlotSize": 2
+  },
+  {
+    "id": 3,
+    "name": "Conveyor",
+    "sizeX": 1,
+    "sizeY": 1,
+    "recipeId": 0,
+    "cost": 10,
+    "refundRatio": 0.5,
+    "requiredEra": 0,
+    "inputSlotSize": 0
+  },
+  {
+    "id": 4,
+    "name": "Port",
+    "sizeX": 1,
+    "sizeY": 1,
+    "recipeId": 0,
+    "cost": 0,
+    "refundRatio": 0,
+    "requiredEra": 0,
+    "inputSlotSize": 0
+  },
+  {
+    "id": 5,
+    "name": "ComboMachine",
+    "sizeX": 1,
+    "sizeY": 1,
+    "recipeId": 4,
+    "cost": 300,
+    "refundRatio": 0.5,
+    "requiredEra": 1,
+    "inputSlotSize": 2
+  },
+  {
+    "id": 6,
+    "name": "Generator",
+    "sizeX": 2,
+    "sizeY": 2,
+    "recipeId": 0,
+    "cost": 500,
+    "refundRatio": 0.5,
+    "requiredEra": 2,
+    "inputSlotSize": 0
+  },
+  {
+    "id": 7,
+    "name": "Wire",
+    "sizeX": 1,
+    "sizeY": 1,
+    "recipeId": 0,
+    "cost": 20,
+    "refundRatio": 0.5,
+    "requiredEra": 2,
+    "inputSlotSize": 0
+  },
+  {
+    "id": 8,
+    "name": "Sorter",
+    "sizeX": 1,
+    "sizeY": 1,
+    "recipeId": 0,
+    "cost": 150,
+    "refundRatio": 0.5,
+    "requiredEra": 3,
+    "inputSlotSize": 0
+  }
+]

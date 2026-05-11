@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using IsleWorks.Production;
+
 namespace IsleWorks.Grid
 {
     public enum TileType : byte
@@ -17,13 +20,19 @@ namespace IsleWorks.Grid
     {
         public int Width;
         public int Height;
-        public TileType[] Tiles;            // 地块类型
-        public int[] BuildingIds;           // 每格的建筑 ID（0 = 空）
+        public TileType[] Tiles;
+        public int[] BuildingIds;
+        public ResourceType[] ResourceNodes;
+        public List<MachineInstance> Machines;
+        public List<ConveyorSegment> Conveyors;
+        public int NextBuildingId;
 
-        /// <summary>
-        /// 初始化网格数据。
-        /// </summary>
-        public GridData() { }
+        public GridData()
+        {
+            Machines = new List<MachineInstance>();
+            Conveyors = new List<ConveyorSegment>();
+            NextBuildingId = 1;
+        }
 
         public GridData(int width, int height)
         {
@@ -31,38 +40,108 @@ namespace IsleWorks.Grid
             Height = height;
             Tiles = new TileType[width * height];
             BuildingIds = new int[width * height];
+            ResourceNodes = new ResourceType[width * height];
+            Machines = new List<MachineInstance>();
+            Conveyors = new List<ConveyorSegment>();
+            NextBuildingId = 1;
         }
 
-        /// <summary>
-        /// 索引地块类型。
-        /// </summary>
-        public TileType GetTileType(int x, int y)
+        public TileType GetTileType(int x, int y) => Tiles[x + y * Width];
+
+        public void SetTileType(int x, int y, TileType type) => Tiles[x + y * Width] = type;
+
+        public int GetBuildingId(int x, int y) => BuildingIds[x + y * Width];
+
+        public void SetBuildingId(int x, int y, int buildingId) => BuildingIds[x + y * Width] = buildingId;
+
+        public ResourceType GetResourceNode(int x, int y) => ResourceNodes[x + y * Width];
+
+        public void SetResourceNode(int x, int y, ResourceType type) => ResourceNodes[x + y * Width] = type;
+
+        public int AllocateBuildingId() => NextBuildingId++;
+
+        public void AddMachine(MachineInstance machine)
         {
-            return Tiles[x + y * Width];
+            Machines.Add(machine);
+            for (int x = 0; x < machine.Size.x; x++)
+            {
+                for (int y = 0; y < machine.Size.y; y++)
+                {
+                    SetBuildingId(machine.Position.x + x, machine.Position.y + y, machine.Id);
+                }
+            }
         }
 
-        /// <summary>
-        /// 设置地块类型。
-        /// </summary>
-        public void SetTileType(int x, int y, TileType type)
+        public void RemoveMachine(int id)
         {
-            Tiles[x + y * Width] = type;
+            for (int i = Machines.Count - 1; i >= 0; i--)
+            {
+                if (Machines[i].Id == id)
+                {
+                    var machine = Machines[i];
+                    for (int x = 0; x < machine.Size.x; x++)
+                    {
+                        for (int y = 0; y < machine.Size.y; y++)
+                        {
+                            SetBuildingId(machine.Position.x + x, machine.Position.y + y, 0);
+                        }
+                    }
+                    Machines.RemoveAt(i);
+                    return;
+                }
+            }
         }
 
-        /// <summary>
-        /// 获取建筑 ID。
-        /// </summary>
-        public int GetBuildingId(int x, int y)
+        public MachineInstance GetMachineById(int id)
         {
-            return BuildingIds[x + y * Width];
+            for (int i = 0; i < Machines.Count; i++)
+            {
+                if (Machines[i].Id == id) return Machines[i];
+            }
+            return null;
         }
 
-        /// <summary>
-        /// 设置建筑 ID。
-        /// </summary>
-        public void SetBuildingId(int x, int y, int buildingId)
+        public MachineInstance GetMachineAt(int x, int y)
         {
-            BuildingIds[x + y * Width] = buildingId;
+            int buildingId = GetBuildingId(x, y);
+            return buildingId > 0 ? GetMachineById(buildingId) : null;
         }
+
+        public void AddConveyor(ConveyorSegment conveyor)
+        {
+            Conveyors.Add(conveyor);
+            SetBuildingId(conveyor.Position.x, conveyor.Position.y, conveyor.Id);
+        }
+
+        public void RemoveConveyor(int id)
+        {
+            for (int i = Conveyors.Count - 1; i >= 0; i--)
+            {
+                if (Conveyors[i].Id == id)
+                {
+                    var conv = Conveyors[i];
+                    SetBuildingId(conv.Position.x, conv.Position.y, 0);
+                    Conveyors.RemoveAt(i);
+                    return;
+                }
+            }
+        }
+
+        public ConveyorSegment GetConveyorById(int id)
+        {
+            for (int i = 0; i < Conveyors.Count; i++)
+            {
+                if (Conveyors[i].Id == id) return Conveyors[i];
+            }
+            return null;
+        }
+
+        public ConveyorSegment GetConveyorAt(int x, int y)
+        {
+            int buildingId = GetBuildingId(x, y);
+            return buildingId > 0 ? GetConveyorById(buildingId) : null;
+        }
+
+        public bool IsInBounds(int x, int y) => x >= 0 && x < Width && y >= 0 && y < Height;
     }
 }

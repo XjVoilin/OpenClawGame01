@@ -1,5 +1,7 @@
-using UnityEngine;
+using System.Collections.Generic;
+using IsleWorks.Production;
 using JulyArch;
+using JulyCore;
 
 namespace IsleWorks.Economy
 {
@@ -7,6 +9,7 @@ namespace IsleWorks.Economy
     {
         public int Gold;
         public int TotalProductionValue;
+        public List<ResourceType> PortProducts;
     }
 
     /// <summary>
@@ -16,16 +19,37 @@ namespace IsleWorks.Economy
     {
         public int Gold => Data.Gold;
         public int TotalProductionValue => Data.TotalProductionValue;
+        public IReadOnlyList<ResourceType> PortProducts => Data.PortProducts;
+
+        protected override InventoryData LoadData()
+        {
+            return new InventoryData
+            {
+                Gold = 500,
+                TotalProductionValue = 0,
+                PortProducts = new List<ResourceType>()
+            };
+        }
 
         public void UpdateGold(int amount)
         {
             Data.Gold += amount;
-            Debug.Log($"Gold updated by {amount}. Current: {Data.Gold}");
+            GF.Log($"Gold updated by {amount}. Current: {Data.Gold}");
         }
 
         public void UpdateTotalProductionValue(int amount)
         {
             Data.TotalProductionValue += amount;
+        }
+
+        public void AddPortProduct(ResourceType item)
+        {
+            Data.PortProducts.Add(item);
+        }
+
+        public void ClearPortProducts()
+        {
+            Data.PortProducts.Clear();
         }
     }
 }

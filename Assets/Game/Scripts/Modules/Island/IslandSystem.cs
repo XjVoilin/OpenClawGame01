@@ -1,5 +1,6 @@
 using UnityEngine;
 using JulyArch;
+using JulyCore;
 using IsleWorks.Grid;
 using IsleWorks.Economy;
 
@@ -17,20 +18,20 @@ namespace IsleWorks.Island
 
             if (grid.GetTile(position.x, position.y) != TileType.Locked)
             {
-                Debug.LogError("Cannot unlock tile: Already unlocked or invalid.");
+                GF.LogError("Cannot unlock tile: Already unlocked or invalid.");
                 return;
             }
 
             if (inventory.Gold < cost)
             {
-                Debug.LogError("Cannot unlock tile: Not enough gold.");
+                GF.LogError("Cannot unlock tile: Not enough gold.");
                 return;
             }
 
             this.Mutate<GridStore>(s => s.UpdateTileType(position.x, position.y, TileType.Normal));
             this.Mutate<InventoryStore>(s => s.UpdateGold(-cost));
 
-            Debug.Log($"Tile at {position} unlocked for {cost} gold.");
+            GF.Log($"Tile at {position} unlocked for {cost} gold.");
         }
 
         public void GenerateRandomMap(int width, int height, int lockedRatio)
@@ -46,7 +47,7 @@ namespace IsleWorks.Island
                 }
             }
 
-            Debug.Log("Random map generated.");
+            GF.Log("Random map generated.");
         }
     }
 }

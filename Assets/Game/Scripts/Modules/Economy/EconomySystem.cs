@@ -1,6 +1,7 @@
-using UnityEngine;
 using IsleWorks.Production;
+using IsleWorks.Tech;
 using JulyArch;
+using JulyCore;
 
 namespace IsleWorks.Economy
 {
@@ -12,15 +13,13 @@ namespace IsleWorks.Economy
         public void SellAtPort(ResourceType[] products)
         {
             int totalRevenue = 0;
-            int totalCost = 0;
 
-            foreach (var product in products)
+            for (int i = 0; i < products.Length; i++)
             {
-                var config = ResourceConfigLoader.GetConfig((int)product);
+                var config = ResourceConfigLoader.GetConfig((int)products[i]);
                 if (config != null)
                 {
                     totalRevenue += config.SellPrice;
-                    totalCost += CalculateProductionCost(product);
                 }
             }
 
@@ -30,14 +29,13 @@ namespace IsleWorks.Economy
                 store.UpdateTotalProductionValue(totalRevenue);
             });
 
-            int profit = totalRevenue - totalCost;
-            Debug.Log($"Sold products at port for {totalRevenue} gold. Production cost: {totalCost}, Profit: {profit}");
-        }
+            var inv = this.Query<IInventoryQueries>();
+            this.Publish(new GoldChangedEvent(inv.Gold));
 
-        private int CalculateProductionCost(ResourceType product)
-        {
-            // TODO: 根据产品的输入资源计算生产成本
-            return 10;
+            GF.Log($"Sold {products.Length} products at port for {totalRevenue} gold. Total value: {inv.TotalProductionValue}");
+
+            // Check milestone after selling
+            this.GetSystem<TechSystem>().CheckMilestone();
         }
     }
 }

@@ -1,27 +1,31 @@
+using UnityEngine;
+
 namespace IsleWorks.Production
 {
     /// <summary>
-    /// 机器实例，用于模拟运行状态。
+    /// 机器实例，运行时状态。
     /// </summary>
     public class MachineInstance
     {
         public int Id;
-        public RecipeConfig CurrentRecipe;
+        public int MachineTypeId;
+        public Vector2Int Position;
+        public Vector2Int Size;
         public ResourceType[] InputSlots;
         public ResourceType OutputSlot;
         public float ProcessTimer;
         public bool IsProcessing;
 
-        public MachineInstance(int id, int inputSlotSize)
+        public MachineInstance(int id, int machineTypeId, Vector2Int position, Vector2Int size, int inputSlotSize)
         {
             Id = id;
+            MachineTypeId = machineTypeId;
+            Position = position;
+            Size = size;
             InputSlots = new ResourceType[inputSlotSize];
             OutputSlot = ResourceType.None;
         }
 
-        /// <summary>
-        /// 向输入槽中添加资源。
-        /// </summary>
         public bool AddToInput(ResourceType resource)
         {
             for (int i = 0; i < InputSlots.Length; i++)
@@ -32,8 +36,16 @@ namespace IsleWorks.Production
                     return true;
                 }
             }
+            return false;
+        }
 
-            return false; // 没有空位添加传入资源
+        public bool HasEmptyInputSlot()
+        {
+            for (int i = 0; i < InputSlots.Length; i++)
+            {
+                if (InputSlots[i] == ResourceType.None) return true;
+            }
+            return false;
         }
     }
 }

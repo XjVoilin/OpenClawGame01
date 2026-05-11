@@ -1,4 +1,5 @@
 using UnityEngine;
+using JulyCore;
 
 namespace IsleWorks.Tech
 {
@@ -18,7 +19,7 @@ namespace IsleWorks.Tech
         {
             if (_audioSource == null)
             {
-                Debug.LogError("AudioSource not initialized for AudioFeedbackManager");
+                GF.LogError("AudioSource not initialized for AudioFeedbackManager");
                 return;
             }
 
@@ -27,11 +28,11 @@ namespace IsleWorks.Tech
             if (clip != null)
             {
                 _audioSource.PlayOneShot(clip);
-                Debug.Log("Era transition sound played.");
+                GF.Log("Era transition sound played.");
             }
             else
             {
-                Debug.LogError("Era transition sound not found.");
+                GF.LogError("Era transition sound not found.");
             }
         }
     }

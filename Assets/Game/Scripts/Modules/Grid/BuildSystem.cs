@@ -1,11 +1,13 @@
-using UnityEngine;
-using JulyArch;
 using IsleWorks.Economy;
+using IsleWorks.Production;
+using JulyArch;
+using JulyCore;
+using UnityEngine;
 
 namespace IsleWorks.Grid
 {
     /// <summary>
-    /// 建造系统 —— 负责放置和拆除建筑。
+    /// 建造系统 —— 负责放置和拆除建筑、传送带。
     /// </summary>
     public class BuildSystem : GameSystemBase
     {
@@ -14,29 +16,76 @@ namespace IsleWorks.Grid
             var grid = this.Query<IGridQueries>();
             var inventory = this.Query<IInventoryQueries>();
 
-            if (grid.GetTile(position.x, position.y) != TileType.Normal)
+            var size = MachineConfigLoader.GetSize(machineTypeId);
+            int cost = MachineConfigLoader.GetCost(machineTypeId);
+
+            if (!grid.CanPlace(position, size))
             {
-                Debug.LogError("Cannot place building: Tile type invalid.");
+                GF.LogError($"Cannot place building at {position}: area not free or invalid tile.");
                 return;
             }
 
-            if (grid.GetBuilding(position.x, position.y) != 0)
+            if (inventory.Gold < cost)
             {
-                Debug.LogError("Cannot place building: Tile is already occupied.");
+                GF.LogError("Cannot place building: not enough gold.");
                 return;
             }
 
-            int buildingCost = GetBuildingCost(machineTypeId);
-            if (inventory.Gold < buildingCost)
+            int inputSlotSize = MachineConfigLoader.GetInputSlotSize(machineTypeId);
+            int buildingId = 0;
+
+            this.Mutate<GridStore>(store =>
             {
-                Debug.LogError("Cannot place building: Not enough gold.");
+                buildingId = store.AllocateBuildingId();
+                var machine = new MachineInstance(buildingId, machineTypeId, position, size, inputSlotSize);
+                store.AddMachine(machine);
+            });
+
+            this.Mutate<InventoryStore>(store => store.UpdateGold(-cost));
+
+            var inv = this.Query<IInventoryQueries>();
+            this.Publish(new GoldChangedEvent(inv.Gold));
+
+            RebuildConveyorLinks();
+            this.Publish(new BuildingPlacedEvent(position, machineTypeId, buildingId));
+            GF.Log($"Building {machineTypeId} placed at {position} for {cost} gold.");
+        }
+
+        public void PlaceConveyor(Vector2Int position, Direction direction)
+        {
+            var grid = this.Query<IGridQueries>();
+            var inventory = this.Query<IInventoryQueries>();
+
+            int cost = MachineConfigLoader.GetCost((int)MachineType.Conveyor);
+
+            if (!grid.CanPlace(position, Vector2Int.one))
+            {
+                GF.LogError($"Cannot place conveyor at {position}: tile not free.");
                 return;
             }
 
-            this.Mutate<GridStore>(s => s.PlaceBuilding(position.x, position.y, machineTypeId));
-            this.Mutate<InventoryStore>(s => s.UpdateGold(-buildingCost));
+            if (inventory.Gold < cost)
+            {
+                GF.LogError("Cannot place conveyor: not enough gold.");
+                return;
+            }
 
-            Debug.Log($"Building {machineTypeId} placed at {position} for {buildingCost} gold.");
+            int buildingId = 0;
+
+            this.Mutate<GridStore>(store =>
+            {
+                buildingId = store.AllocateBuildingId();
+                var conveyor = new ConveyorSegment(buildingId, position, direction, SimConstants.ConveyorCapacity);
+                store.AddConveyor(conveyor);
+            });
+
+            this.Mutate<InventoryStore>(store => store.UpdateGold(-cost));
+
+            var inv2 = this.Query<IInventoryQueries>();
+            this.Publish(new GoldChangedEvent(inv2.Gold));
+
+            RebuildConveyorLinks();
+            this.Publish(new BuildingPlacedEvent(position, (int)MachineType.Conveyor, buildingId));
         }
 
         public void RemoveBuilding(Vector2Int position)
@@ -46,27 +95,75 @@ namespace IsleWorks.Grid
 
             if (buildingId == 0)
             {
-                Debug.LogError("Cannot remove building: No building found at the specified position.");
+                GF.LogError("Cannot remove building: nothing at this position.");
                 return;
             }
 
-            int refundAmount = GetRefundAmount(buildingId);
-            this.Mutate<GridStore>(s => s.PlaceBuilding(position.x, position.y, 0));
-            this.Mutate<InventoryStore>(s => s.UpdateGold(refundAmount));
+            int refund = 0;
+            int machineTypeId = 0;
 
-            Debug.Log($"Building {buildingId} removed at {position}. Refunded {refundAmount} gold.");
+            var machine = grid.GetMachine(buildingId);
+            if (machine != null)
+            {
+                machineTypeId = machine.MachineTypeId;
+                int cost = MachineConfigLoader.GetCost(machineTypeId);
+                float ratio = MachineConfigLoader.GetRefundRatio(machineTypeId);
+                refund = Mathf.RoundToInt(cost * ratio);
+                this.Mutate<GridStore>(store => store.RemoveMachine(buildingId));
+            }
+            else
+            {
+                int convCost = MachineConfigLoader.GetCost((int)MachineType.Conveyor);
+                refund = Mathf.RoundToInt(convCost * MachineConfigLoader.GetRefundRatio((int)MachineType.Conveyor));
+                this.Mutate<GridStore>(store => store.RemoveConveyor(buildingId));
+            }
+
+            this.Mutate<InventoryStore>(store => store.UpdateGold(refund));
+
+            var inv3 = this.Query<IInventoryQueries>();
+            this.Publish(new GoldChangedEvent(inv3.Gold));
+
+            RebuildConveyorLinks();
+            this.Publish(new BuildingRemovedEvent(position, buildingId));
+            GF.Log($"Building removed at {position}. Refunded {refund} gold.");
         }
 
-        private int GetBuildingCost(int machineTypeId)
+        private void RebuildConveyorLinks()
         {
-            // TODO: 查询机器配表获取成本
-            return 100;
-        }
+            var grid = this.Query<IGridQueries>();
 
-        private int GetRefundAmount(int buildingId)
-        {
-            // TODO: 查询机器配表计算退款比例
-            return 50;
+            // Reset all conveyor links
+            for (int i = 0; i < grid.AllConveyors.Count; i++)
+            {
+                var conv = grid.AllConveyors[i];
+                conv.NextSegmentId = -1;
+                conv.PrevSegmentId = -1;
+            }
+
+            // Rebuild links
+            for (int i = 0; i < grid.AllConveyors.Count; i++)
+            {
+                var conv = grid.AllConveyors[i];
+                var nextPos = conv.Position + conv.Direction.ToVector2Int();
+
+                if (!grid.IsInBounds(nextPos.x, nextPos.y)) continue;
+
+                // Check if next position has a conveyor
+                var nextConv = grid.GetConveyorAt(nextPos.x, nextPos.y);
+                if (nextConv != null)
+                {
+                    conv.NextSegmentId = nextConv.Id;
+                    nextConv.PrevSegmentId = conv.Id;
+                    continue;
+                }
+
+                // Check if next position has a machine (including port)
+                var nextMachine = grid.GetMachineAt(nextPos.x, nextPos.y);
+                if (nextMachine != null)
+                {
+                    conv.NextSegmentId = nextMachine.Id;
+                }
+            }
         }
     }
 }

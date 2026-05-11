@@ -1,45 +1,38 @@
-using System.Collections.Generic;
-using UnityEngine;
+using cfg;
+using JulyCore;
+using JulyCore.Provider.Config;
 
 namespace IsleWorks.Economy
 {
     /// <summary>
-    /// 资源配置加载器，加载并缓存资源数据。
+    /// 资源配置加载器，从 Luban 配表读取资源数据。
     /// </summary>
     public static class ResourceConfigLoader
     {
-        private static Dictionary<int, ResourceConfig> _resourceConfigs;
+        private static TbResource _table;
 
-        /// <summary>
-        /// 初始化资源配置。
-        /// </summary>
         public static void LoadConfigs()
         {
-            // TODO: 从 Luban 配表加载资源配置
-            _resourceConfigs = new Dictionary<int, ResourceConfig>
+            if (GF.TryResolve<IConfigProvider>(out var provider) && provider.TryGetTable(out TbResource table))
             {
-                { 101, new ResourceConfig(101, "Wood", 10) },
-                { 102, new ResourceConfig(102, "Ore", 15) },
-                { 103, new ResourceConfig(103, "Coal", 20) },
-                { 201, new ResourceConfig(201, "Plank", 25) },
-                { 202, new ResourceConfig(202, "Ingot", 30) }
-            };
-
-            Debug.Log("Resource configs loaded.");
+                _table = table;
+                GF.Log($"Resource configs loaded: {table.DataList.Count} resources");
+            }
+            else
+            {
+                GF.LogError("Failed to load resource config table");
+            }
         }
 
-        /// <summary>
-        /// 获取资源配置。
-        /// </summary>
         public static ResourceConfig GetConfig(int resourceId)
         {
-            if (_resourceConfigs.TryGetValue(resourceId, out var config))
+            var row = _table?.GetOrDefault(resourceId);
+            if (row == null)
             {
-                return config;
+                GF.LogError($"Resource config not found for ID: {resourceId}");
+                return null;
             }
-
-            Debug.LogError($"Resource config not found for ID: {resourceId}");
-            return null;
+            return new ResourceConfig(row.Id, row.Name, row.SellPrice);
         }
     }
 

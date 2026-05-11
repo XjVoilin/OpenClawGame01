@@ -1,4 +1,5 @@
 using UnityEngine;
+using JulyCore;
 
 namespace IsleWorks.Tech
 {
@@ -12,12 +13,12 @@ namespace IsleWorks.Tech
             var particleSystem = effectRoot.Find("EraTransitionParticles")?.GetComponent<ParticleSystem>();
             if (particleSystem == null)
             {
-                Debug.LogError("Era transition particle system not found.");
+                GF.LogError("Era transition particle system not found.");
                 return;
             }
 
             particleSystem.Play();
-            Debug.Log("Era transition particles played.");
+            GF.Log("Era transition particles played.");
         }
     }
 }
