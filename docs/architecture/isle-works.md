@@ -9,99 +9,108 @@
 
 ### 架构角色分配
 
-| 类名 | 角色 | 命名空间 | 职责 |
+| 类名 | 角色 | 所属模块/目录 | 职责 |
 |---|---|---|---|
-| `IsleWorksContext` | GameContext | `IsleWorks` | 统一协调中心，注册所有 Store/System |
-| `GridStore` | Store | `IsleWorks.Stores` | 网格数据：地块状态、建筑占位、地形 |
-| `InventoryStore` | Store | `IsleWorks.Stores` | 玩家经济：金币、港口待售产品 |
-| `TechStore` | Store | `IsleWorks.Stores` | 科技进度：当前时代、已解锁机器/配方 |
-| `ConveyorSimSystem` | System (IUpdatableSystem) | `IsleWorks.Systems` | **热路径**：每帧推进传送带物品流转 |
-| `ProductionSystem` | System (IUpdatableSystem) | `IsleWorks.Systems` | **热路径**：每帧推进机器加工进度 |
-| `BuildSystem` | System | `IsleWorks.Systems` | 接收建造/拆除命令，验证合法性 |
-| `EconomySystem` | System | `IsleWorks.Systems` | 处理卖出、购买、扩岛交易 |
-| `TechSystem` | System | `IsleWorks.Systems` | 检测里程碑、触发时代升级 |
-| `EraTransitionProcedure` | Procedure | `IsleWorks.Procedures` | 时代切换动画编排（await View） |
-| `IslandRevealProcedure` | Procedure | `IsleWorks.Procedures` | 购买新地块后的揭示动画 |
-| `GridView` | View | `IsleWorks.Views` | 网格渲染：地块、建筑、传送带、物品流动 |
-| `HudView` | View | `IsleWorks.Views` | 顶部状态栏：金币、时代、产值 |
-| `BuildPanelView` | View | `IsleWorks.Views` | 建造面板：机器选择、拆除模式 |
-| `IslandMapView` | View | `IsleWorks.Views` | 岛屿地图：可购买地块、迷雾 |
+| `GridStore` | Store | `Modules/Grid` | 网格数据：地块状态、建筑占位、地形 |
+| `InventoryStore` | Store | `Modules/Economy` | 玩家经济：金币、港口待售产品 |
+| `TechStore` | Store | `Modules/Tech` | 科技进度：当前时代、已解锁机器/配方 |
+| `ConveyorSimSystem` | System (IUpdatableSystem) | `Modules/Production` | **热路径**：每帧推进传送带物品流转 |
+| `ProductionSystem` | System (IUpdatableSystem) | `Modules/Production` | **热路径**：每帧推进机器加工进度 |
+| `BuildSystem` | System | `Modules/Grid` | 接收建造/拆除命令，验证合法性 |
+| `EconomySystem` | System | `Modules/Economy` | 处理卖出、购买、扩岛交易 |
+| `IslandSystem` | System | `Modules/Island` | 岛屿地块解锁与价格计算 |
+| `TechSystem` | System | `Modules/Tech` | 检测里程碑、触发时代升级 |
+| `EraTransitionProcedure` | Procedure | `Modules/Tech` | 时代切换动画编排（await View） |
+| `GridView` | View | `Views/World` | 网格渲染：地块、建筑、传送带、物品流动 |
+| `GameHUD` | View (Window) | `Views/Windows/GameHUD` | 顶部状态栏：金币、时代、产值 |
+| `BuildWindow` | View (Window) | `Views/Windows/BuildWindow` | 建造面板：机器选择、拆除模式 |
+| `IslandMapView` | View | `Views/World` | 岛屿地图：可购买地块、迷雾 |
+| `PlaceholderVisuals` | View | `Views/World` | 占位符可视化 |
+| `GameUIView` | View | `Views/Windows` | UI 窗口基础管理 |
 
 ### 项目目录
 
 按功能模块组织，每个模块下按角色类型分子目录（与 GooseMarket 一致）。
 
 ```
-Assets/IsleWorks/
+Assets/Game/
 ├── Scripts/
-│   ├── Context/                        # 全局上下文
-│   │   └── IsleWorksContext.cs
-│   ├── Shared/                         # 跨模块共享
-│   │   ├── ResourceType.cs
-│   │   ├── TileType.cs
-│   │   ├── Direction.cs
-│   │   └── SimConstants.cs
-│   └── Modules/
-│       ├── Grid/                       # 网格与建造
-│       │   ├── GridStore.cs
-│       │   ├── GridData.cs
-│       │   ├── IGridQueries.cs
-│       │   ├── GridEvents.cs
-│       │   ├── BuildSystem.cs
-│       │   ├── Mutations/
-│       │   │   ├── PlaceBuildingMutation.cs
-│       │   │   └── RemoveBuildingMutation.cs
-│       │   └── Simulation/
-│       │       ├── ConveyorSegment.cs
-│       │       ├── MachineInstance.cs
-│       │       └── ItemSlot.cs
-│       ├── Production/                 # 传送带与加工
-│       │   ├── ConveyorSimSystem.cs
-│       │   └── ProductionSystem.cs
-│       ├── Economy/                    # 经济与交易
-│       │   ├── InventoryStore.cs
-│       │   ├── InventoryData.cs
-│       │   ├── IInventoryQueries.cs
-│       │   ├── EconomySystem.cs
-│       │   ├── EconomyEvents.cs
-│       │   └── Mutations/
-│       │       └── SellProductMutation.cs
-│       ├── Island/                     # 岛屿扩展
-│       │   ├── IslandSystem.cs
-│       │   ├── Mutations/
-│       │   │   └── UnlockTileMutation.cs
-│       │   └── Procedures/
-│       │       └── IslandRevealProcedure.cs
-│       └── Tech/                       # 科技与时代
-│           ├── TechStore.cs
-│           ├── TechData.cs
-│           ├── ITechQueries.cs
-│           ├── TechSystem.cs
-│           ├── TechEvents.cs
-│           ├── Mutations/
-│           │   └── AdvanceEraMutation.cs
-│           └── Procedures/
-│               └── EraTransitionProcedure.cs
-├── Views/                              # View 层（MonoBehaviour）
-│   ├── GridView.cs
-│   ├── HudView.cs
-│   ├── BuildPanelView.cs
-│   └── IslandMapView.cs
+│   ├── HotUpdateRegistrar.cs               # 热更注册入口
+│   ├── Context/                             # 全局上下文（待建）
+│   ├── Shared/                              # 跨模块共享
+│   │   ├── UIWindowId.cs
+│   │   └── Utils/
+│   │       └── Config.cs
+│   ├── Modules/
+│   │   ├── Grid/                            # 网格与建造
+│   │   │   ├── GridStore.cs
+│   │   │   ├── GridData.cs
+│   │   │   ├── IGridQueries.cs
+│   │   │   ├── GridEvents.cs
+│   │   │   ├── BuildSystem.cs
+│   │   │   └── Direction.cs
+│   │   ├── Production/                      # 传送带与加工
+│   │   │   ├── ConveyorSimSystem.cs
+│   │   │   ├── ProductionSystem.cs
+│   │   │   ├── ConveyorSegment.cs
+│   │   │   ├── MachineInstance.cs
+│   │   │   ├── MachineType.cs
+│   │   │   ├── ResourceType.cs
+│   │   │   └── SimConstants.cs
+│   │   ├── Economy/                         # 经济与交易
+│   │   │   ├── InventoryStore.cs
+│   │   │   ├── IInventoryQueries.cs
+│   │   │   ├── EconomySystem.cs
+│   │   │   └── EconomyEvents.cs
+│   │   ├── Island/                          # 岛屿扩展
+│   │   │   ├── IslandSystem.cs
+│   │   │   └── IslandPriceCalculator.cs
+│   │   └── Tech/                            # 科技与时代
+│   │       ├── TechStore.cs
+│   │       ├── ITechQueries.cs
+│   │       ├── TechSystem.cs
+│   │       ├── TechEvents.cs
+│   │       ├── EraTransitionProcedure.cs
+│   │       ├── AudioFeedbackManager.cs
+│   │       └── ParticleFeedbackManager.cs
+│   ├── Providers/                           # Provider 实现
+│   │   ├── Config/
+│   │   │   ├── LubanConfigProvider.cs
+│   │   │   └── LubanUIWindowConfigProvider.cs
+│   │   └── Localization/
+│   │       └── LubanLocalizationProvider.cs
+│   ├── Views/                               # View 层（MonoBehaviour）
+│   │   ├── Windows/                         # UI 窗口
+│   │   │   ├── GameUIView.cs                # UI 窗口基础
+│   │   │   ├── BuildWindow/
+│   │   │   │   └── BuildWindow.cs
+│   │   │   └── GameHUD/
+│   │   │       └── GameHUD.cs
+│   │   └── World/                           # 世界场景视图
+│   │       ├── GridView.cs
+│   │       ├── IslandMapView.cs
+│   │       └── PlaceholderVisuals.cs
+│   ├── Generated/                           # Luban 自动生成（禁止手改）
+│   │   └── Configs/
+│   └── Editor/                              # 编辑器工具
+│       └── LubanGenerator.cs
 ├── Res/
-│   ├── Configs/                        # Luban 生成的 JSON
+│   ├── Configs/                             # Luban 生成的 JSON
 │   ├── Prefabs/
 │   └── Textures/
 ├── Art/
 │   └── Textures/
 └── Scenes/
-    └── IsleWorks.unity
+    └── Main.unity
 ```
 
 **组织原则**：
 - `Modules/{功能}/` 下放该功能的 Store、System、Events、Data、Mutations、Procedures
-- 文件少的模块（如 Mutation 只有 1 个）不必建子目录，直接放模块根
-- `Views/` 单独放顶层，因为 View 是 MonoBehaviour，跟场景/prefab 绑定，跨模块引用常见
+- 文件少的模块不必建子目录，直接放模块根
+- `Views/Windows/` 放 UI 窗口（继承窗口基类），每个窗口一个子文件夹
+- `Views/World/` 放世界场景 View（GridView、IslandMapView 等）
 - `Shared/` 放被多个模块共用的枚举、常量、工具类
+- `Providers/` 放 JulyCore Provider 实现（Config、Localization 等）
 
 ---
 
