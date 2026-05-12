@@ -208,7 +208,10 @@ def create_uiwindow_xlsx():
     headers  = ["##var",  "id",  "desc",   "windowName", "isNeedBlackMask", "isClickBlankQuit", "enterAnimType", "exitAnimType", "isIgnoreSafeArea", "uiLayer"]
     comments = ["##",     "ID",  "描述",    "窗口名称",    "需要黑色遮罩",     "点击空白关闭",       "进入动画类型",    "退出动画类型",  "忽略安全区域",       "UI层级"]
 
-    rows = []
+    rows = [
+        ["", 1001, "游戏HUD",  "GameHUD",     False, False, 0, 0, True,  1],
+        ["", 1002, "建造面板",  "BuildWindow", False, False, 0, 0, True,  1],
+    ]
 
     write_sheet(ws, headers, comments, rows)
     path = os.path.join(DATAS_DIR, "uiwindow.xlsx")

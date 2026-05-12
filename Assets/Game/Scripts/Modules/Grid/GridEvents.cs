@@ -39,4 +39,14 @@ namespace IsleWorks.Grid
             NewType = newType;
         }
     }
+
+    public readonly struct MachineSelectedEvent
+    {
+        public readonly int MachineTypeId;
+
+        public MachineSelectedEvent(int machineTypeId)
+        {
+            MachineTypeId = machineTypeId;
+        }
+    }
 }

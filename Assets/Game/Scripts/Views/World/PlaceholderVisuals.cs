@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using IsleWorks.Production;
 using UnityEngine;
 
 namespace IsleWorks.Views
@@ -25,16 +26,31 @@ namespace IsleWorks.Views
             return sprite;
         }
 
-        // 预定义颜色
-        // 地块颜色
+        public static void ClearCache()
+        {
+            foreach (var kvp in Cache)
+            {
+                if (kvp.Value != null)
+                {
+                    Object.Destroy(kvp.Value.texture);
+                    Object.Destroy(kvp.Value);
+                }
+            }
+            Cache.Clear();
+        }
+
+        #region Tile Colors
+
         public static readonly Color NormalTile = new Color(0.35f, 0.65f, 0.35f);
         public static readonly Color LockedTile = new Color(0.4f, 0.4f, 0.4f);
         public static readonly Color PortTile = new Color(0.9f, 0.8f, 0.2f);
         public static readonly Color WaterTile = new Color(0.2f, 0.4f, 0.7f);
         public static readonly Color MountainTile = new Color(0.5f, 0.45f, 0.4f);
-        public static readonly Color ResourceNode = new Color(0.55f, 0.55f, 0.6f);
 
-        // 机器颜色
+        #endregion
+
+        #region Machine Colors
+
         public static readonly Color MinerColor = new Color(0.6f, 0.4f, 0.2f);
         public static readonly Color SmelterColor = new Color(0.7f, 0.3f, 0.3f);
         public static readonly Color ConveyorColor = new Color(0.5f, 0.5f, 0.5f);
@@ -44,7 +60,10 @@ namespace IsleWorks.Views
         public static readonly Color WireColor = new Color(0.6f, 0.6f, 0.1f);
         public static readonly Color SorterColor = new Color(0.6f, 0.3f, 0.7f);
 
-        // 资源颜色
+        #endregion
+
+        #region Resource Colors
+
         public static readonly Color OreColor = new Color(0.4f, 0.4f, 0.45f);
         public static readonly Color IngotColor = new Color(0.7f, 0.6f, 0.3f);
         public static readonly Color WoodColor = new Color(0.45f, 0.3f, 0.15f);
@@ -55,6 +74,8 @@ namespace IsleWorks.Views
         public static readonly Color ToolColor = new Color(0.5f, 0.55f, 0.6f);
         public static readonly Color CircuitBoardColor = new Color(0.2f, 0.6f, 0.3f);
         public static readonly Color AutomatonColor = new Color(0.7f, 0.5f, 0.9f);
+
+        #endregion
 
         public static Color GetMachineColor(int machineTypeId)
         {
@@ -72,20 +93,20 @@ namespace IsleWorks.Views
             };
         }
 
-        public static Color GetResourceColor(IsleWorks.Production.ResourceType type)
+        public static Color GetResourceColor(ResourceType type)
         {
             return type switch
             {
-                IsleWorks.Production.ResourceType.Ore => OreColor,
-                IsleWorks.Production.ResourceType.Ingot => IngotColor,
-                IsleWorks.Production.ResourceType.Wood => WoodColor,
-                IsleWorks.Production.ResourceType.Plank => PlankColor,
-                IsleWorks.Production.ResourceType.Coal => CoalColor,
-                IsleWorks.Production.ResourceType.Oil => OilColor,
-                IsleWorks.Production.ResourceType.Plastic => PlasticColor,
-                IsleWorks.Production.ResourceType.Tool => ToolColor,
-                IsleWorks.Production.ResourceType.CircuitBoard => CircuitBoardColor,
-                IsleWorks.Production.ResourceType.Automaton => AutomatonColor,
+                ResourceType.Ore => OreColor,
+                ResourceType.Ingot => IngotColor,
+                ResourceType.Wood => WoodColor,
+                ResourceType.Plank => PlankColor,
+                ResourceType.Coal => CoalColor,
+                ResourceType.Oil => OilColor,
+                ResourceType.Plastic => PlasticColor,
+                ResourceType.Tool => ToolColor,
+                ResourceType.CircuitBoard => CircuitBoardColor,
+                ResourceType.Automaton => AutomatonColor,
                 _ => Color.white
             };
         }

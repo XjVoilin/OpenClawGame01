@@ -5,7 +5,6 @@ using IsleWorks.Grid;
 using IsleWorks.Island;
 using IsleWorks.Production;
 using IsleWorks.Tech;
-using IsleWorks.Views;
 using JulyArch;
 using JulyCore;
 using JulyCore.Provider.Config;
@@ -15,7 +14,6 @@ using JulyCore.Provider.Save;
 using JulyCore.Provider.UI;
 using JulyCore.Provider.Audio;
 using JulyCore.Provider.Pool;
-using UnityEngine;
 #if JULYGF_DEBUG
 using JulyCore.Provider.GM;
 #endif
@@ -84,45 +82,16 @@ namespace IsleWorks
         public async UniTask OnGameLaunch()
         {
             ConfigureUI();
-            CreateViews();
-            SetupCamera();
 
-            GF.Log("Game launched successfully.");
-            await UniTask.CompletedTask;
+            await GF.Scene.SwitchAsync("Main");
+
+            GF.UI.Open(UIWindowId.GameHUD);
+            GF.UI.Open(UIWindowId.BuildWindow);
         }
 
         private static void ConfigureUI()
         {
             GF.UI.SetWindowConfig(new LubanUIWindowConfigProvider());
-        }
-
-        private static void CreateViews()
-        {
-            // GridView
-            var gridObj = new GameObject("GridView");
-            var gridView = gridObj.AddComponent<GridView>();
-            gridView.Initialize();
-
-            // HudView
-            var hudObj = new GameObject("HudView");
-            var hudView = hudObj.AddComponent<HudView>();
-            hudView.Initialize();
-
-            // BuildPanelView
-            var panelObj = new GameObject("BuildPanelView");
-            var panelView = panelObj.AddComponent<BuildPanelView>();
-            panelView.Initialize(gridView);
-        }
-
-        private static void SetupCamera()
-        {
-            var cam = Camera.main;
-            if (cam == null) return;
-
-            cam.orthographic = true;
-            cam.transform.position = new Vector3(3.5f, 3.5f, -10f);
-            cam.orthographicSize = 5.5f;
-            cam.backgroundColor = new Color(0.15f, 0.15f, 0.2f);
         }
     }
 }

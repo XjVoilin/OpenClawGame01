@@ -40,6 +40,19 @@ namespace IsleWorks.Tech
             return Data.UnlockedRecipes.Contains(recipeId);
         }
 
+        public IReadOnlyList<int> GetBuildableMachineIds()
+        {
+            var result = new List<int>();
+            foreach (var id in Data.UnlockedMachineTypes)
+            {
+                var config = CfgTable.Machine.GetOrDefault(id);
+                if (config != null && config.Cost > 0)
+                    result.Add(id);
+            }
+            result.Sort();
+            return result;
+        }
+
         public void AdvanceEra()
         {
             Data.CurrentEra++;

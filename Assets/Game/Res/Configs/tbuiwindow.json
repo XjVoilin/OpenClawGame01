@@ -1,1 +1,24 @@
-[]
+[
+  {
+    "id": 1001,
+    "desc": "游戏HUD",
+    "windowName": "GameHUD",
+    "isNeedBlackMask": false,
+    "isClickBlankQuit": false,
+    "enterAnimType": 0,
+    "exitAnimType": 0,
+    "isIgnoreSafeArea": true,
+    "uiLayer": 1
+  },
+  {
+    "id": 1002,
+    "desc": "建造面板",
+    "windowName": "BuildWindow",
+    "isNeedBlackMask": false,
+    "isClickBlankQuit": false,
+    "enterAnimType": 0,
+    "exitAnimType": 0,
+    "isIgnoreSafeArea": true,
+    "uiLayer": 1
+  }
+]

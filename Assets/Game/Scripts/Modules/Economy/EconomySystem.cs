@@ -36,5 +36,22 @@ namespace IsleWorks.Economy
 
             this.GetSystem<TechSystem>().CheckMilestone();
         }
+
+        /// <summary>
+        /// 卖出港口中所有产品并清空港口库存。
+        /// </summary>
+        public void SellAllPortProducts()
+        {
+            var inv = this.Query<IInventoryQueries>();
+            if (inv.PortProducts.Count == 0) return;
+
+            var products = new ResourceType[inv.PortProducts.Count];
+            for (int i = 0; i < inv.PortProducts.Count; i++)
+                products[i] = inv.PortProducts[i];
+
+            SellAtPort(products);
+
+            this.Mutate<InventoryStore>(store => store.ClearPortProducts());
+        }
     }
 }
