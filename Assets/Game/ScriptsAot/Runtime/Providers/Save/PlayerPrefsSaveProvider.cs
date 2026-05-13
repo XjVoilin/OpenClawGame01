@@ -9,7 +9,7 @@ using JulyCore.Provider.Base;
 using JulyCore.Provider.Save;
 using LitJson;
 
-namespace IsleWorks.Aot
+namespace OffTrail.Aot
 {
     public class PlayerPrefsSaveProvider : ProviderBase, ISaveProvider
     {

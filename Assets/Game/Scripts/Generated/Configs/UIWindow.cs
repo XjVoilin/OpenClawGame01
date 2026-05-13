@@ -34,7 +34,7 @@ public sealed partial class UIWindow : Luban.BeanBase
     }
 
     /// <summary>
-    /// ID
+    /// 唯一id
     /// </summary>
     public readonly int Id;
     /// <summary>
@@ -42,31 +42,31 @@ public sealed partial class UIWindow : Luban.BeanBase
     /// </summary>
     public readonly string Desc;
     /// <summary>
-    /// 窗口名称
+    /// 窗口名字
     /// </summary>
     public readonly string WindowName;
     /// <summary>
-    /// 需要黑色遮罩
+    /// 是否需要黑色遮早罩
     /// </summary>
     public readonly bool IsNeedBlackMask;
     /// <summary>
-    /// 点击空白关闭
+    /// 是否点击空白处关闭
     /// </summary>
     public readonly bool IsClickBlankQuit;
     /// <summary>
-    /// 进入动画类型
+    /// 打开窗口的动画类型
     /// </summary>
     public readonly int EnterAnimType;
     /// <summary>
-    /// 退出动画类型
+    /// 关闭窗口的动画类型
     /// </summary>
     public readonly int ExitAnimType;
     /// <summary>
-    /// 忽略安全区域
+    /// 是否忽略安全区域
     /// </summary>
     public readonly bool IsIgnoreSafeArea;
     /// <summary>
-    /// UI层级
+    /// 层级
     /// </summary>
     public readonly int UiLayer;
    

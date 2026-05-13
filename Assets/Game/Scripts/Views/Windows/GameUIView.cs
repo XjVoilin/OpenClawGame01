@@ -1,7 +1,7 @@
 using JulyArch;
 using JulyCore.Provider.UI;
 
-namespace IsleWorks
+namespace OffTrail
 {
     /// <summary>
     /// UI 面板 View 基类（盒子层）

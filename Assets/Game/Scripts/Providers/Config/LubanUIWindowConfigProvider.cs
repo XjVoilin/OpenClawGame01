@@ -2,7 +2,7 @@ using cfg;
 using JulyCore;
 using JulyCore.Data.UI;
 
-namespace IsleWorks
+namespace OffTrail
 {
     public class LubanUIWindowConfigProvider : IUIWindowConfigProvider
     {

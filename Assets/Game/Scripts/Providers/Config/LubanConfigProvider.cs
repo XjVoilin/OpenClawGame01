@@ -10,7 +10,7 @@ using JulyCore.Provider.Resource;
 using SimpleJSON;
 using UnityEngine;
 
-namespace IsleWorks
+namespace OffTrail
 {
     public class LubanConfigProvider : ProviderBase, IConfigProvider
     {

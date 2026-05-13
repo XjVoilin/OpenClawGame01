@@ -1,24 +1,46 @@
 [
   {
     "id": 1001,
-    "desc": "游戏HUD",
-    "windowName": "GameHUD",
+    "desc": "生存HUD - 显示饥饿/口渴/体温/体力/时间",
+    "windowName": "SurvivalHUD",
     "isNeedBlackMask": false,
     "isClickBlankQuit": false,
     "enterAnimType": 0,
     "exitAnimType": 0,
-    "isIgnoreSafeArea": true,
-    "uiLayer": 1
+    "isIgnoreSafeArea": false,
+    "uiLayer": 100
   },
   {
     "id": 1002,
-    "desc": "建造面板",
-    "windowName": "BuildWindow",
-    "isNeedBlackMask": false,
-    "isClickBlankQuit": false,
-    "enterAnimType": 0,
-    "exitAnimType": 0,
-    "isIgnoreSafeArea": true,
-    "uiLayer": 1
+    "desc": "背包",
+    "windowName": "InventoryWindow",
+    "isNeedBlackMask": true,
+    "isClickBlankQuit": true,
+    "enterAnimType": 1,
+    "exitAnimType": 1,
+    "isIgnoreSafeArea": false,
+    "uiLayer": 200
+  },
+  {
+    "id": 1003,
+    "desc": "知识本",
+    "windowName": "KnowledgeBookWindow",
+    "isNeedBlackMask": true,
+    "isClickBlankQuit": true,
+    "enterAnimType": 1,
+    "exitAnimType": 1,
+    "isIgnoreSafeArea": false,
+    "uiLayer": 200
+  },
+  {
+    "id": 1004,
+    "desc": "制作面板",
+    "windowName": "CraftingWindow",
+    "isNeedBlackMask": true,
+    "isClickBlankQuit": true,
+    "enterAnimType": 1,
+    "exitAnimType": 1,
+    "isIgnoreSafeArea": false,
+    "uiLayer": 200
   }
 ]

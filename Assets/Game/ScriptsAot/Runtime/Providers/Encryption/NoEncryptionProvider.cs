@@ -2,7 +2,7 @@ using JulyCore.Core;
 using JulyCore.Provider.Base;
 using JulyCore.Provider.Encryption;
 
-namespace IsleWorks.Aot
+namespace OffTrail.Aot
 {
     public class NoEncryptionProvider : ProviderBase, IEncryptionProvider
     {

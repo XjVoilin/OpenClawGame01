@@ -4,7 +4,7 @@ using JulyCore;
 using JulyCore.Core.Launch;
 using JulyCore.Provider.Resource;
 
-namespace IsleWorks.Aot
+namespace OffTrail.Aot
 {
     public class InitResourceStep : ILaunchStep
     {

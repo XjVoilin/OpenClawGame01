@@ -9,7 +9,7 @@ using UnityEditor;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace IsleWorks.Editor
+namespace OffTrail.Editor
 {
     public class LubanGeneratorWindow : EditorWindow
     {

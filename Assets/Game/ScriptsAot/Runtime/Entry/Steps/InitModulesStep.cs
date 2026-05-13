@@ -2,7 +2,7 @@ using Cysharp.Threading.Tasks;
 using JulyArch;
 using JulyCore.Core.Launch;
 
-namespace IsleWorks.Aot
+namespace OffTrail.Aot
 {
     public class InitModulesStep : ILaunchStep
     {

@@ -1,11 +1,10 @@
-namespace IsleWorks
+namespace OffTrail
 {
-    /// <summary>
-    /// UI 窗口 ID 常量，与 Luban TbUIWindow 表中的 Id 字段对应。
-    /// </summary>
     public static class UIWindowId
     {
-        public const int GameHUD = 1001;
-        public const int BuildWindow = 1002;
+        public const int SurvivalHUD = 1001;
+        public const int InventoryWindow = 1002;
+        public const int KnowledgeBookWindow = 1003;
+        public const int CraftingWindow = 1004;
     }
 }

@@ -15,7 +15,7 @@ using JulyCore.Provider.Time;
 using JulyCore.Provider.GM;
 #endif
 
-namespace IsleWorks.Aot
+namespace OffTrail.Aot
 {
     public class RegisterInfrastructureStep : ILaunchStep
     {

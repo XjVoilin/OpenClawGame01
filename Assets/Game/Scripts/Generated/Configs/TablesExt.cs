@@ -6,17 +6,17 @@ namespace cfg
 {
     public partial class Tables
     {
-        public static readonly string[] TableNames = { "tbmachine", "tbrecipe", "tbresource", "tbmilestone", "tbtileprice", "tbuiwindow", "tblanguage" };
+        public static readonly string[] TableNames = { "tbuiwindow", "tblanguage", "tbitem", "tbrecipe", "tbknowledge", "tbregion", "tbcraftstation" };
 
         public void RegisterTo(Dictionary<Type, object> registry)
         {
-            registry[typeof(TbMachine)] = TbMachine;
-            registry[typeof(TbRecipe)] = TbRecipe;
-            registry[typeof(TbResource)] = TbResource;
-            registry[typeof(TbMilestone)] = TbMilestone;
-            registry[typeof(TbTilePrice)] = TbTilePrice;
             registry[typeof(TbUIWindow)] = TbUIWindow;
             registry[typeof(TbLanguage)] = TbLanguage;
+            registry[typeof(TbItem)] = TbItem;
+            registry[typeof(TbRecipe)] = TbRecipe;
+            registry[typeof(TbKnowledge)] = TbKnowledge;
+            registry[typeof(TbRegion)] = TbRegion;
+            registry[typeof(TbCraftStation)] = TbCraftStation;
         }
     }
 }

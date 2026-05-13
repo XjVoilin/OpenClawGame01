@@ -11,7 +11,7 @@ using JulyCore.Module.Save;
 using JulyCore.Module.Scene;
 using JulyCore.Module.UI;
 
-namespace IsleWorks.Aot
+namespace OffTrail.Aot
 {
     public class RegisterModulesStep : ILaunchStep
     {
@@ -43,7 +43,7 @@ namespace IsleWorks.Aot
 
         private static IHotUpdateRegistrar FindRegistrar()
         {
-            const string typeFullName = "IsleWorks.HotUpdateRegistrar";
+            const string typeFullName = "OffTrail.HotUpdateRegistrar";
             try
             {
                 var assembly = System.Reflection.Assembly.Load("Assembly-CSharp");

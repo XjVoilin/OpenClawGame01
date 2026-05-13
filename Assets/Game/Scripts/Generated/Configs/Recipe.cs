@@ -18,11 +18,13 @@ public sealed partial class Recipe : Luban.BeanBase
     public Recipe(JSONNode _buf) 
     {
         { if(!_buf["id"].IsNumber) { throw new SerializationException(); }  Id = _buf["id"]; }
-        { var __json0 = _buf["inputs"]; if(!__json0.IsArray) { throw new SerializationException(); } Inputs = new System.Collections.Generic.List<int>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { int __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = __e0; }  Inputs.Add(__v0); }   }
-        { var __json0 = _buf["inputQuantities"]; if(!__json0.IsArray) { throw new SerializationException(); } InputQuantities = new System.Collections.Generic.List<int>(__json0.Count); foreach(JSONNode __e0 in __json0.Children) { int __v0;  { if(!__e0.IsNumber) { throw new SerializationException(); }  __v0 = __e0; }  InputQuantities.Add(__v0); }   }
-        { if(!_buf["output"].IsNumber) { throw new SerializationException(); }  Output = _buf["output"]; }
-        { if(!_buf["processTime"].IsNumber) { throw new SerializationException(); }  ProcessTime = _buf["processTime"]; }
-        { if(!_buf["requiredEra"].IsNumber) { throw new SerializationException(); }  RequiredEra = _buf["requiredEra"]; }
+        { if(!_buf["name"].IsString) { throw new SerializationException(); }  Name = _buf["name"]; }
+        { if(!_buf["stationType"].IsNumber) { throw new SerializationException(); }  StationType = _buf["stationType"]; }
+        { if(!_buf["resultItemId"].IsNumber) { throw new SerializationException(); }  ResultItemId = _buf["resultItemId"]; }
+        { if(!_buf["resultCount"].IsNumber) { throw new SerializationException(); }  ResultCount = _buf["resultCount"]; }
+        { if(!_buf["craftTime"].IsNumber) { throw new SerializationException(); }  CraftTime = _buf["craftTime"]; }
+        { if(!_buf["materials"].IsString) { throw new SerializationException(); }  Materials = _buf["materials"]; }
+        { if(!_buf["requiredKnowledgeId"].IsNumber) { throw new SerializationException(); }  RequiredKnowledgeId = _buf["requiredKnowledgeId"]; }
     }
 
     public static Recipe DeserializeRecipe(JSONNode _buf)
@@ -31,31 +33,39 @@ public sealed partial class Recipe : Luban.BeanBase
     }
 
     /// <summary>
-    /// ID
+    /// 唯一 ID
     /// </summary>
     public readonly int Id;
     /// <summary>
-    /// 输入资源ID
+    /// 配方名称
     /// </summary>
-    public readonly System.Collections.Generic.List<int> Inputs;
+    public readonly string Name;
     /// <summary>
-    /// 输入数量
+    /// 0=Hand, 1=Campfire, 2=Workbench, 3=Forge
     /// </summary>
-    public readonly System.Collections.Generic.List<int> InputQuantities;
+    public readonly int StationType;
     /// <summary>
-    /// 输出资源ID
+    /// 产出物品 ID
     /// </summary>
-    public readonly int Output;
+    public readonly int ResultItemId;
     /// <summary>
-    /// 加工时间(秒)
+    /// 产出数量
     /// </summary>
-    public readonly float ProcessTime;
+    public readonly int ResultCount;
     /// <summary>
-    /// 所需时代
+    /// 制作耗时（秒）
     /// </summary>
-    public readonly int RequiredEra;
+    public readonly float CraftTime;
+    /// <summary>
+    /// 材料要求 JSON 字符串 "itemId:count,..."
+    /// </summary>
+    public readonly string Materials;
+    /// <summary>
+    /// 所需知识 ID，0 表示无要求
+    /// </summary>
+    public readonly int RequiredKnowledgeId;
    
-    public const int __ID__ = -1851047506;
+    public const int __ID__ = 1709786135;
     public override int GetTypeId() => __ID__;
 
     public  void ResolveRef(Tables tables)
@@ -66,13 +76,14 @@ public sealed partial class Recipe : Luban.BeanBase
     {
         return "{ "
         + "id:" + Id + ","
-        + "inputs:" + Luban.StringUtil.CollectionToString(Inputs) + ","
-        + "inputQuantities:" + Luban.StringUtil.CollectionToString(InputQuantities) + ","
-        + "output:" + Output + ","
-        + "processTime:" + ProcessTime + ","
-        + "requiredEra:" + RequiredEra + ","
+        + "name:" + Name + ","
+        + "stationType:" + StationType + ","
+        + "resultItemId:" + ResultItemId + ","
+        + "resultCount:" + ResultCount + ","
+        + "craftTime:" + CraftTime + ","
+        + "materials:" + Materials + ","
+        + "requiredKnowledgeId:" + RequiredKnowledgeId + ","
         + "}";
     }
 }
 }
-

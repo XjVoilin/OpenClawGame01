@@ -14,7 +14,7 @@ using SimpleJSON;
 namespace cfg
 {
 /// <summary>
-/// 配方配置表
+/// 制作配方表（Off Trail）
 /// </summary>
 public partial class TbRecipe
 {
@@ -53,4 +53,3 @@ public partial class TbRecipe
 }
 
 }
-

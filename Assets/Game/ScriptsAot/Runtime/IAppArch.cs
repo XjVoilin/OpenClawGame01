@@ -1,6 +1,6 @@
 using JulyArch;
 
-namespace IsleWorks
+namespace OffTrail
 {
     public interface IAppArch : IArchNode { }
 }

@@ -14,56 +14,35 @@ namespace cfg
 {
 public partial class Tables
 {
-    /// <summary>
-    /// 机器配置表
-    /// </summary>
-    public TbMachine TbMachine {get; }
-    /// <summary>
-    /// 配方配置表
-    /// </summary>
-    public TbRecipe TbRecipe {get; }
-    /// <summary>
-    /// 资源配置表
-    /// </summary>
-    public TbResource TbResource {get; }
-    /// <summary>
-    /// 里程碑配置表
-    /// </summary>
-    public TbMilestone TbMilestone {get; }
-    /// <summary>
-    /// 地块价格表
-    /// </summary>
-    public TbTilePrice TbTilePrice {get; }
-    /// <summary>
-    /// UI窗口配置表
-    /// </summary>
     public TbUIWindow TbUIWindow {get; }
-    /// <summary>
-    /// 多语言表
-    /// </summary>
     public TbLanguage TbLanguage {get; }
+    public TbItem TbItem {get; }
+    public TbRecipe TbRecipe {get; }
+    public TbKnowledge TbKnowledge {get; }
+    public TbRegion TbRegion {get; }
+    public TbCraftStation TbCraftStation {get; }
 
     public Tables(System.Func<string, JSONNode> loader)
     {
-        TbMachine = new TbMachine(loader("tbmachine"));
-        TbRecipe = new TbRecipe(loader("tbrecipe"));
-        TbResource = new TbResource(loader("tbresource"));
-        TbMilestone = new TbMilestone(loader("tbmilestone"));
-        TbTilePrice = new TbTilePrice(loader("tbtileprice"));
         TbUIWindow = new TbUIWindow(loader("tbuiwindow"));
         TbLanguage = new TbLanguage(loader("tblanguage"));
+        TbItem = new TbItem(loader("tbitem"));
+        TbRecipe = new TbRecipe(loader("tbrecipe"));
+        TbKnowledge = new TbKnowledge(loader("tbknowledge"));
+        TbRegion = new TbRegion(loader("tbregion"));
+        TbCraftStation = new TbCraftStation(loader("tbcraftstation"));
         ResolveRef();
     }
     
     private void ResolveRef()
     {
-        TbMachine.ResolveRef(this);
-        TbRecipe.ResolveRef(this);
-        TbResource.ResolveRef(this);
-        TbMilestone.ResolveRef(this);
-        TbTilePrice.ResolveRef(this);
         TbUIWindow.ResolveRef(this);
         TbLanguage.ResolveRef(this);
+        TbItem.ResolveRef(this);
+        TbRecipe.ResolveRef(this);
+        TbKnowledge.ResolveRef(this);
+        TbRegion.ResolveRef(this);
+        TbCraftStation.ResolveRef(this);
     }
 }
 

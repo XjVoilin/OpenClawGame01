@@ -1,10 +1,10 @@
 using Cysharp.Threading.Tasks;
-using IsleWorks.Aot;
-using IsleWorks.Economy;
-using IsleWorks.Grid;
-using IsleWorks.Island;
-using IsleWorks.Production;
-using IsleWorks.Tech;
+using OffTrail.Aot;
+using OffTrail.Crafting;
+using OffTrail.Inventory;
+using OffTrail.Knowledge;
+using OffTrail.Survival;
+using OffTrail.World;
 using JulyArch;
 using JulyCore;
 using JulyCore.Provider.Config;
@@ -18,12 +18,8 @@ using JulyCore.Provider.Pool;
 using JulyCore.Provider.GM;
 #endif
 
-namespace IsleWorks
+namespace OffTrail
 {
-    /// <summary>
-    /// 热更程序集注册入口。
-    /// 框架在加载热更 DLL 后通过反射发现此类并调用，所有业务类型注册集中在此完成。
-    /// </summary>
     public class HotUpdateRegistrar : IHotUpdateRegistrar, IAppArch
     {
         public IGameContext GetArchitecture() => AppArch.Context;
@@ -64,19 +60,19 @@ namespace IsleWorks
 
         private void RegisterStores(GameContext ctx)
         {
-            ctx.RegisterStore(new GridStore());
+            ctx.RegisterStore(new TimeStore());
+            ctx.RegisterStore(new WorldStore());
+            ctx.RegisterStore(new SurvivalStore());
+            ctx.RegisterStore(new KnowledgeStore());
             ctx.RegisterStore(new InventoryStore());
-            ctx.RegisterStore(new TechStore());
         }
 
         private void RegisterSystems(GameContext ctx)
         {
-            ctx.RegisterSystem(new BuildSystem());
-            ctx.RegisterSystem(new EconomySystem());
-            ctx.RegisterSystem(new IslandSystem());
-            ctx.RegisterSystem(new ProductionSystem());
-            ctx.RegisterSystem(new ConveyorSimSystem());
-            ctx.RegisterSystem(new TechSystem());
+            ctx.RegisterSystem(new DayNightSystem());
+            ctx.RegisterSystem(new SurvivalSystem());
+            ctx.RegisterSystem(new KnowledgeSystem());
+            ctx.RegisterSystem(new CraftingSystem());
         }
 
         public async UniTask OnGameLaunch()
@@ -85,8 +81,7 @@ namespace IsleWorks
 
             await GF.Scene.SwitchAsync("Main");
 
-            GF.UI.Open(UIWindowId.GameHUD);
-            GF.UI.Open(UIWindowId.BuildWindow);
+            GF.UI.Open(UIWindowId.SurvivalHUD);
         }
 
         private static void ConfigureUI()
