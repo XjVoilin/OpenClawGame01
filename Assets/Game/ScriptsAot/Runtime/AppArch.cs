@@ -1,6 +1,6 @@
 using JulyArch;
 
-namespace OffTrail
+namespace SpiritHealer
 {
     public static class AppArch
     {

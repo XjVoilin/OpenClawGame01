@@ -31,11 +31,11 @@
       "hash": "952e36ddfaf8a0acb675c8cc49f4fba081d0af93"
     },
     "com.july.core": {
-      "version": "https://github.com/XjVoilin/JulyCore.git#v1.0.68",
+      "version": "https://github.com/XjVoilin/JulyCore.git#v1.0.69",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "948c0426a121476bb29f13b78aa8a8771333daa8"
+      "hash": "708532100ef1d30c790a226cf7410b7aa6ad7566"
     },
     "com.july.toolkit": {
       "version": "https://github.com/XjVoilin/JulyToolkit.git#v1.0.7",

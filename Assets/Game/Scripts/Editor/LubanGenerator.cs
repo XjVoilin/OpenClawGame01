@@ -9,7 +9,7 @@ using UnityEditor;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace OffTrail.Editor
+namespace SpiritHealer.Editor
 {
     public class LubanGeneratorWindow : EditorWindow
     {

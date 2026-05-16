@@ -2,7 +2,7 @@ using Cysharp.Threading.Tasks;
 using JulyArch;
 using JulyCore.Core.Launch;
 
-namespace OffTrail.Aot
+namespace SpiritHealer.Aot
 {
     public class LaunchGameStep : ILaunchStep
     {

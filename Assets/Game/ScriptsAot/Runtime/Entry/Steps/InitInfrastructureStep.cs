@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using JulyCore.Core.Launch;
 
-namespace OffTrail.Aot
+namespace SpiritHealer.Aot
 {
     public class InitInfrastructureStep : ILaunchStep
     {

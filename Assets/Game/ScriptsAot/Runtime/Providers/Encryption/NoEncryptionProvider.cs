@@ -2,7 +2,7 @@ using JulyCore.Core;
 using JulyCore.Provider.Base;
 using JulyCore.Provider.Encryption;
 
-namespace OffTrail.Aot
+namespace SpiritHealer.Aot
 {
     public class NoEncryptionProvider : ProviderBase, IEncryptionProvider
     {

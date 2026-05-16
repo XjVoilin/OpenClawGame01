@@ -3,7 +3,7 @@ using JulyCore.Core;
 using JulyCore.Core.Launch;
 using UnityEngine;
 
-namespace OffTrail.Aot
+namespace SpiritHealer.Aot
 {
     public class GameEntry : JulyGameEntry
     {

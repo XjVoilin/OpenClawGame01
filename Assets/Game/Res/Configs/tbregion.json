@@ -1,9 +1,0 @@
-[
-  {"id":1,"name":"营地","desc":"一小片平坦的空地，适合安营扎寨","resourceItems":"2,4,7","unlockCondition":"","dangerLevel":0},
-  {"id":2,"name":"松林","desc":"茂密的松树林，木材的主要来源","resourceItems":"2,3,7,102","unlockCondition":"","dangerLevel":0},
-  {"id":3,"name":"溪谷","desc":"清澈的溪流穿过山谷","resourceItems":"6,103","unlockCondition":"","dangerLevel":0},
-  {"id":4,"name":"岩坡","desc":"陡峭的岩石山坡","resourceItems":"1,5,8","unlockCondition":"","dangerLevel":1},
-  {"id":5,"name":"沼泽","desc":"潮湿的沼泽地带","resourceItems":"7,101,102","unlockCondition":"","dangerLevel":1},
-  {"id":6,"name":"白桦林","desc":"美丽的白桦树林","resourceItems":"2,3,101,9","unlockCondition":"","dangerLevel":1},
-  {"id":7,"name":"山脊","desc":"高处的山脊，可以俯瞰全景","resourceItems":"1,5","unlockCondition":"has_tool","dangerLevel":2}
-]

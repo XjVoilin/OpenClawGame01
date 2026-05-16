@@ -4,7 +4,7 @@ using JulyCore;
 using JulyCore.Core.Launch;
 using JulyCore.Provider.Resource;
 
-namespace OffTrail.Aot
+namespace SpiritHealer.Aot
 {
     public class InitResourceStep : ILaunchStep
     {

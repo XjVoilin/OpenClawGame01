@@ -1,6 +1,0 @@
-[
-  {"id":1,"name":"手工","desc":"不需要任何工具，随时制作","stationType":0,"buildMaterials":"","requiredKnowledgeId":0},
-  {"id":2,"name":"火堆","desc":"用石头围成一圈，中间生火","stationType":1,"buildMaterials":"1:5,4:3","requiredKnowledgeId":1},
-  {"id":3,"name":"工作台","desc":"用原木搭建的简易工作台","stationType":2,"buildMaterials":"3:4,11:2","requiredKnowledgeId":302},
-  {"id":4,"name":"锻造炉","desc":"用石头砌成的锻造炉","stationType":3,"buildMaterials":"1:10,6:5,12:5","requiredKnowledgeId":0}
-]

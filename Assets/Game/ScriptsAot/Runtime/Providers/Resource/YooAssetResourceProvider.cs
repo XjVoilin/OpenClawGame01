@@ -13,7 +13,7 @@ using UnityEngine.SceneManagement;
 using YooAsset;
 using Object = UnityEngine.Object;
 
-namespace OffTrail.Aot
+namespace SpiritHealer.Aot
 {
     internal class YooAssetResourceProvider : ProviderBase, IResourceProvider
     {

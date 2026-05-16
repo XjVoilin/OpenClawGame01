@@ -2,7 +2,7 @@ using cfg;
 using JulyCore;
 using JulyCore.Data.UI;
 
-namespace OffTrail
+namespace SpiritHealer
 {
     public class LubanUIWindowConfigProvider : IUIWindowConfigProvider
     {

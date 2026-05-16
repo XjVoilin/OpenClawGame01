@@ -15,7 +15,7 @@ using JulyCore.Provider.Time;
 using JulyCore.Provider.GM;
 #endif
 
-namespace OffTrail.Aot
+namespace SpiritHealer.Aot
 {
     public class RegisterInfrastructureStep : ILaunchStep
     {

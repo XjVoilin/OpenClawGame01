@@ -1,10 +1,5 @@
 using Cysharp.Threading.Tasks;
-using OffTrail.Aot;
-using OffTrail.Crafting;
-using OffTrail.Inventory;
-using OffTrail.Knowledge;
-using OffTrail.Survival;
-using OffTrail.World;
+using SpiritHealer.Aot;
 using JulyArch;
 using JulyCore;
 using JulyCore.Provider.Config;
@@ -18,7 +13,7 @@ using JulyCore.Provider.Pool;
 using JulyCore.Provider.GM;
 #endif
 
-namespace OffTrail
+namespace SpiritHealer
 {
     public class HotUpdateRegistrar : IHotUpdateRegistrar, IAppArch
     {
@@ -60,19 +55,12 @@ namespace OffTrail
 
         private void RegisterStores(GameContext ctx)
         {
-            ctx.RegisterStore(new TimeStore());
-            ctx.RegisterStore(new WorldStore());
-            ctx.RegisterStore(new SurvivalStore());
-            ctx.RegisterStore(new KnowledgeStore());
-            ctx.RegisterStore(new InventoryStore());
+            // TODO: Register Spirit Healer stores here
         }
 
         private void RegisterSystems(GameContext ctx)
         {
-            ctx.RegisterSystem(new DayNightSystem());
-            ctx.RegisterSystem(new SurvivalSystem());
-            ctx.RegisterSystem(new KnowledgeSystem());
-            ctx.RegisterSystem(new CraftingSystem());
+            // TODO: Register Spirit Healer systems here
         }
 
         public async UniTask OnGameLaunch()
@@ -81,7 +69,7 @@ namespace OffTrail
 
             await GF.Scene.SwitchAsync("Main");
 
-            GF.UI.Open(UIWindowId.SurvivalHUD);
+            // TODO: Open Spirit Healer main UI
         }
 
         private static void ConfigureUI()

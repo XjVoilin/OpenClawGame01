@@ -9,7 +9,7 @@ using JulyCore.Provider.Base;
 using JulyCore.Provider.Save;
 using LitJson;
 
-namespace OffTrail.Aot
+namespace SpiritHealer.Aot
 {
     public class PlayerPrefsSaveProvider : ProviderBase, ISaveProvider
     {
