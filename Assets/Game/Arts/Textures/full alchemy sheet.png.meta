@@ -1,0 +1,2339 @@
+fileFormatVersion: 2
+guid: e716fb764ae674588876cc0261c51e43
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -4266394144771505960
+    second: herb_crystal_violet
+  - first:
+      213: 6932991417446240243
+    second: herb_fire_tulip
+  - first:
+      213: 8104374954593708558
+    second: herb_azure_bell
+  - first:
+      213: -4125769028577167113
+    second: herb_lotus_pink
+  - first:
+      213: -4677288609291506009
+    second: herb_frost_bloom
+  - first:
+      213: 703400424733143163
+    second: herb_golden_fern
+  - first:
+      213: 1404900507179257577
+    second: herb_jade_cluster
+  - first:
+      213: 7476193065875206562
+    second: herb_broad_leaf
+  - first:
+      213: -5768464378935070155
+    second: herb_spirit_reed
+  - first:
+      213: -1486542088670984102
+    second: herb_orchid_purple
+  - first:
+      213: -2775408239967823146
+    second: herb_orchid_crimson
+  - first:
+      213: 6746140902462061368
+    second: herb_blossom_red
+  - first:
+      213: -7801436199343475792
+    second: herb_blossom_orange
+  - first:
+      213: -2167858783639572293
+    second: mat_berry_red
+  - first:
+      213: -1041585763868547647
+    second: herb_stalk_green
+  - first:
+      213: 2532842431651783008
+    second: herb_bush_violet
+  - first:
+      213: -4138705234712918830
+    second: mat_bud_pink
+  - first:
+      213: -7703200022463155253
+    second: mat_shard_blue
+  - first:
+      213: 1299134841867125539
+    second: mat_shard_amber
+  - first:
+      213: -9029016815944369428
+    second: mat_leaf_golden
+  - first:
+      213: 9154187201078295069
+    second: mat_spot_red
+  - first:
+      213: 4869288629996409212
+    second: mat_spot_green
+  - first:
+      213: 5103059309207799017
+    second: mat_pile_green
+  - first:
+      213: -4334580549918886083
+    second: mat_bud_crimson
+  - first:
+      213: 2987547001468196169
+    second: mat_spot_red_sm
+  - first:
+      213: -8371543320239843038
+    second: mat_spot_green_sm
+  - first:
+      213: 2878799798199368351
+    second: mat_moss_dark
+  - first:
+      213: 4605381047235176024
+    second: mat_fruit_large
+  - first:
+      213: -4189090423173590657
+    second: mat_gem_red
+  - first:
+      213: -8491914303550486919
+    second: mat_drop_water
+  - first:
+      213: -5658303690105740047
+    second: mat_drop_fire
+  - first:
+      213: -4230857481568262954
+    second: mat_petal_pink
+  - first:
+      213: 8457886483015762799
+    second: mat_gem_blue
+  - first:
+      213: -7095368408422943321
+    second: mat_gem_green
+  - first:
+      213: 2165305237649208439
+    second: mat_petal_azure
+  - first:
+      213: -3637758987716017895
+    second: mat_root_purple
+  - first:
+      213: -4412661036397418542
+    second: mat_root_amber
+  - first:
+      213: 5901044700640584529
+    second: mat_crystal_gold
+  - first:
+      213: 5168819617338027636
+    second: mat_petal_rose
+  - first:
+      213: 4884117904148823719
+    second: mat_petal_olive
+  - first:
+      213: -6880271044287396259
+    second: mat_pile_mixed
+  - first:
+      213: -261051688450142004
+    second: mat_leaf_jade
+  - first:
+      213: 8612972241258977444
+    second: mat_leaf_mint
+  - first:
+      213: 6499695069475775747
+    second: mat_bark_brown
+  - first:
+      213: 3820447229233154326
+    second: mat_bark_tan
+  - first:
+      213: 1209862127190124351
+    second: mat_chip_green
+  - first:
+      213: -2810103619193311872
+    second: mat_seed_tiny
+  - first:
+      213: 8074624424774111183
+    second: mat_root_thin
+  - first:
+      213: 1678527176188338353
+    second: mat_root_short
+  - first:
+      213: -2973199541952303962
+    second: mat_petal_red
+  - first:
+      213: -6161082810964679670
+    second: mat_petal_brown
+  - first:
+      213: -2851618466038063416
+    second: mat_petal_dark
+  - first:
+      213: 2172719720050596228
+    second: mat_seed_blue
+  - first:
+      213: 4813080060410831808
+    second: bottle_round_empty
+  - first:
+      213: -7760989641419567754
+    second: bottle_flask_empty
+  - first:
+      213: -2931850537622671218
+    second: bottle_small_empty
+  - first:
+      213: -2368316621843564675
+    second: mat_crystal_cluster
+  - first:
+      213: 4671553444024056465
+    second: mat_mineral_blue
+  - first:
+      213: 1463488809421940961
+    second: mat_mineral_flat
+  - first:
+      213: -7227629317659254306
+    second: bottle_tall_clear
+  - first:
+      213: 5370733272274555906
+    second: bottle_tall_blue
+  - first:
+      213: 1415036283780737749
+    second: mat_pile_ore
+  - first:
+      213: -1823420831744216970
+    second: mat_pile_red
+  - first:
+      213: 4636217737838158702
+    second: mat_pile_blue
+  - first:
+      213: 2925323871503604965
+    second: mat_pile_cyan
+  - first:
+      213: -7060548796240379552
+    second: mat_pile_amber
+  - first:
+      213: 9194877874783133311
+    second: bottle_potion_green
+  - first:
+      213: -3669646099616627955
+    second: bottle_potion_blue
+  - first:
+      213: 726571459307870499
+    second: mat_cluster_red
+  - first:
+      213: -1064683559052227322
+    second: mat_cluster_blue
+  - first:
+      213: 46613217055828749
+    second: mat_pile_large
+  - first:
+      213: 3551125432323776805
+    second: bottle_flask_thin
+  - first:
+      213: 7219514618251470780
+    second: bottle_flask_tall
+  - first:
+      213: -7596114615330859174
+    second: bottle_flask_round
+  - first:
+      213: 1253247548208852523
+    second: scale_icon
+  - first:
+      213: -2380649194657514481
+    second: mat_cluster_mixed
+  - first:
+      213: -8065934183730300786
+    second: mat_cluster_flat
+  - first:
+      213: -6086043499678443893
+    second: mat_crystal_single
+  - first:
+      213: -1593457506396998867
+    second: mat_cluster_brown
+  - first:
+      213: 3393088680023470094
+    second: mat_pile_final
+  - first:
+      213: -432595430307689933
+    second: bottle_tube_a
+  - first:
+      213: 4047926867878047804
+    second: bottle_tube_b
+  - first:
+      213: 2512987370196865479
+    second: scale_large
+  - first:
+      213: -4280307705567538292
+    second: scale_tilt_left
+  - first:
+      213: 210845695152511217
+    second: scale_balanced
+  - first:
+      213: 4502907369969244548
+    second: scale_tilt_right
+  - first:
+      213: 2567018001519285036
+    second: bottle_sample
+  - first:
+      213: -2332306715694948069
+    second: scale_gold_a
+  - first:
+      213: 145595953624840280
+    second: scale_gold_b
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: herb_crystal_violet
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 256
+        width: 23
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d086113129bac4c0800000000000000
+      internalID: -4266394144771505960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_fire_tulip
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 260
+        width: 20
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3ff07bb26fee63060800000000000000
+      internalID: 6932991417446240243
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_azure_bell
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 258
+        width: 18
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0a61271516887070800000000000000
+      internalID: 8104374954593708558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_lotus_pink
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 257
+        width: 27
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7f879528de25eb6c0800000000000000
+      internalID: -4125769028577167113
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_frost_bloom
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 257
+        width: 29
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7aee23b8acee61fb0800000000000000
+      internalID: -4677288609291506009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_golden_fern
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 260
+        width: 22
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b70f313a5faf2c900800000000000000
+      internalID: 703400424733143163
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_jade_cluster
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 260
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ee8f2b51953f7310800000000000000
+      internalID: 1404900507179257577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_broad_leaf
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 226
+        width: 28
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2a1fabb9bf5c0c760800000000000000
+      internalID: 7476193065875206562
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_spirit_reed
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 224
+        width: 21
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 532b412c53c42ffa0800000000000000
+      internalID: -5768464378935070155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_orchid_purple
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 227
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a58491da8ddbe5be0800000000000000
+      internalID: -1486542088670984102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_orchid_crimson
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 227
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6da960619e4cb79d0800000000000000
+      internalID: -2775408239967823146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_blossom_red
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 231
+        width: 19
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 83bfbff786b1f9d50800000000000000
+      internalID: 6746140902462061368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_blossom_orange
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 230
+        width: 18
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b332484c1bbbb390800000000000000
+      internalID: -7801436199343475792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_berry_red
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 199
+        width: 22
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb0f3fd0ce73ae1e0800000000000000
+      internalID: -2167858783639572293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_stalk_green
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 194
+        width: 16
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1c5e28d244b8b81f0800000000000000
+      internalID: -1041585763868547647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_bush_violet
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 195
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06124a2a5c6762320800000000000000
+      internalID: 2532842431651783008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_bud_pink
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 209
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d403ee448d5096c0800000000000000
+      internalID: -4138705234712918830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_shard_blue
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 196
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc37d43946cb81590800000000000000
+      internalID: -7703200022463155253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_shard_amber
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 196
+        width: 16
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 323c2dc6144770210800000000000000
+      internalID: 1299134841867125539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_leaf_golden
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 196
+        width: 15
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cea7b9e2b0d72b280800000000000000
+      internalID: -9029016815944369428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_spot_red
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 209
+        width: 16
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d1af2b722c43a0f70800000000000000
+      internalID: 9154187201078295069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_spot_green
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 209
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c71d8cbd530339340800000000000000
+      internalID: 4869288629996409212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_pile_green
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 200
+        width: 24
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e4c4119765b1d640800000000000000
+      internalID: 5103059309207799017
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_bud_crimson
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 193
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3774c794f978d3c0800000000000000
+      internalID: -4334580549918886083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_spot_red_sm
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 194
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9459b4c4b26e57920800000000000000
+      internalID: 2987547001468196169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_spot_green_sm
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 194
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2295f4f54bd42db80800000000000000
+      internalID: -8371543320239843038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_moss_dark
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 194
+        width: 14
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9ab327f92d83f720800000000000000
+      internalID: 2878799798199368351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_fruit_large
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 166
+        width: 19
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 856e4cf79a999ef30800000000000000
+      internalID: 4605381047235176024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_gem_red
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 167
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f715fb2747c5dd5c0800000000000000
+      internalID: -4189090423173590657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_drop_water
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 178
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97680d9dee8a62a80800000000000000
+      internalID: -8491914303550486919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_drop_fire
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 177
+        width: 12
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f427f7d5caa971b0800000000000000
+      internalID: -5658303690105740047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_petal_pink
+      rect:
+        serializedVersion: 2
+        x: 116
+        y: 179
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d4e1db5989f845c0800000000000000
+      internalID: -4230857481568262954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_gem_blue
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 178
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f638bbac1f2706570800000000000000
+      internalID: 8457886483015762799
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_gem_green
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 179
+        width: 12
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7a5fb618600388d90800000000000000
+      internalID: -7095368408422943321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_petal_azure
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 179
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 774bf5034a5bc0e10800000000000000
+      internalID: 2165305237649208439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_root_purple
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 177
+        width: 9
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 911c3be6975148dc0800000000000000
+      internalID: -3637758987716017895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_root_amber
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 177
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d7235baa2413c2c0800000000000000
+      internalID: -4412661036397418542
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_crystal_gold
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 176
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1532261e3e8b4e150800000000000000
+      internalID: 5901044700640584529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_petal_rose
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 178
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47ee08f6e065bb740800000000000000
+      internalID: 5168819617338027636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_petal_olive
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 179
+        width: 14
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ae7aed4b5fd7c340800000000000000
+      internalID: 4884117904148823719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_pile_mixed
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 168
+        width: 24
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5608de30fd5480a0800000000000000
+      internalID: -6880271044287396259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_leaf_jade
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 160
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc0d9e95fde806cf0800000000000000
+      internalID: -261051688450142004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_leaf_mint
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 161
+        width: 13
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4a89a84be9c678770800000000000000
+      internalID: 8612972241258977444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_bark_brown
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 163
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30526749a3e833a50800000000000000
+      internalID: 6499695069475775747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_bark_tan
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 163
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 619419d6384f40530800000000000000
+      internalID: 3820447229233154326
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_chip_green
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 165
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f37ad5ec13b4ac010800000000000000
+      internalID: 1209862127190124351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_seed_tiny
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 164
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08d61fb95a18009d0800000000000000
+      internalID: -2810103619193311872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_root_thin
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 161
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fcf8a551224de0070800000000000000
+      internalID: 8074624424774111183
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_root_short
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 162
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b0ab82d2935b4710800000000000000
+      internalID: 1678527176188338353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_petal_red
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 163
+        width: 14
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ac249fe4c21db6d0800000000000000
+      internalID: -2973199541952303962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_petal_brown
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 163
+        width: 13
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a046fa483df6f7aa0800000000000000
+      internalID: -6161082810964679670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_petal_dark
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 163
+        width: 13
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ce5bd81d140d68d0800000000000000
+      internalID: -2851618466038063416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_seed_blue
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 162
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4891a16e21d072e10800000000000000
+      internalID: 2172719720050596228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bottle_round_empty
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 136
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c3ad4c60de7bc240800000000000000
+      internalID: 4813080060410831808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bottle_flask_empty
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 135
+        width: 17
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67d43b56a0d6b4490800000000000000
+      internalID: -7760989641419567754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bottle_small_empty
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 135
+        width: 13
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e80767a3879ff47d0800000000000000
+      internalID: -2931850537622671218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_crystal_cluster
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 133
+        width: 20
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d777c5f849c022fd0800000000000000
+      internalID: -2368316621843564675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_mineral_blue
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 135
+        width: 21
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 19a7e4c3b11b4d040800000000000000
+      internalID: 4671553444024056465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_mineral_flat
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 136
+        width: 11
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e8aa5a715b5f4410800000000000000
+      internalID: 1463488809421940961
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bottle_tall_clear
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 133
+        width: 14
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed1a8b0ed6d42bb90800000000000000
+      internalID: -7227629317659254306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bottle_tall_blue
+      rect:
+        serializedVersion: 2
+        x: 234
+        y: 135
+        width: 14
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 204db4da47da88a40800000000000000
+      internalID: 5370733272274555906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_pile_ore
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 134
+        width: 24
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5da2a0fb00833a310800000000000000
+      internalID: 1415036283780737749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_pile_red
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 105
+        width: 21
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 670b6d71a68e1b6e0800000000000000
+      internalID: -1823420831744216970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_pile_blue
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 103
+        width: 26
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e6365350877275040800000000000000
+      internalID: 4636217737838158702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_pile_cyan
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 108
+        width: 21
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ec51f5ef86d89820800000000000000
+      internalID: 2925323871503604965
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_pile_amber
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 106
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 061c7c83744e30e90800000000000000
+      internalID: -7060548796240379552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bottle_potion_green
+      rect:
+        serializedVersion: 2
+        x: 138
+        y: 104
+        width: 14
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7e1c87e5b4ca9f70800000000000000
+      internalID: 9194877874783133311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bottle_potion_blue
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 104
+        width: 15
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0304f4a05cc21dc0800000000000000
+      internalID: -3669646099616627955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_cluster_red
+      rect:
+        serializedVersion: 2
+        x: 199
+        y: 106
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3299bf784ec451a00800000000000000
+      internalID: 726571459307870499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_cluster_blue
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 105
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 60d4e78a1fb7931f0800000000000000
+      internalID: -1064683559052227322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_pile_large
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 103
+        width: 24
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d0b6374597a95a000800000000000000
+      internalID: 46613217055828749
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bottle_flask_thin
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 67
+        width: 16
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 521a38a14c1284130800000000000000
+      internalID: 3551125432323776805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bottle_flask_tall
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 66
+        width: 14
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cb76e9f6b4ed03460800000000000000
+      internalID: 7219514618251470780
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bottle_flask_round
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 67
+        width: 14
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a571d08d00e259690800000000000000
+      internalID: -7596114615330859174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scale_icon
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 70
+        width: 19
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b2e2e9e410e646110800000000000000
+      internalID: 1253247548208852523
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_cluster_mixed
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 72
+        width: 22
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0c7e91bb2c36fed0800000000000000
+      internalID: -2380649194657514481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_cluster_flat
+      rect:
+        serializedVersion: 2
+        x: 165
+        y: 73
+        width: 22
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e883315589b001090800000000000000
+      internalID: -8065934183730300786
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_crystal_single
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 74
+        width: 12
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b86571aaea70a8ba0800000000000000
+      internalID: -6086043499678443893
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_cluster_brown
+      rect:
+        serializedVersion: 2
+        x: 231
+        y: 73
+        width: 20
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d23f68627d6e2e9e0800000000000000
+      internalID: -1593457506396998867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_pile_final
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 72
+        width: 24
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e00b2385d2ca61f20800000000000000
+      internalID: 3393088680023470094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bottle_tube_a
+      rect:
+        serializedVersion: 2
+        x: 12
+        y: 36
+        width: 8
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33a8d058fbc1ff9f0800000000000000
+      internalID: -432595430307689933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bottle_tube_b
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 36
+        width: 8
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c3071ac1a002d2830800000000000000
+      internalID: 4047926867878047804
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scale_large
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 19
+        width: 50
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7c190a5e2bcefd220800000000000000
+      internalID: 2512987370196865479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scale_tilt_left
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 33
+        width: 37
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c839740e1da4994c0800000000000000
+      internalID: -4280307705567538292
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scale_balanced
+      rect:
+        serializedVersion: 2
+        x: 182
+        y: 33
+        width: 37
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f85cf9ea031de200800000000000000
+      internalID: 210845695152511217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scale_tilt_right
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 33
+        width: 37
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4895183456a8d7e30800000000000000
+      internalID: 4502907369969244548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bottle_sample
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 3
+        width: 16
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2317909541ef9320800000000000000
+      internalID: 2567018001519285036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scale_gold_a
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 1
+        width: 37
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b11aebf266bf1afd0800000000000000
+      internalID: -2332306715694948069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: scale_gold_b
+      rect:
+        serializedVersion: 2
+        x: 182
+        y: 1
+        width: 37
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 858fa889fb2450200800000000000000
+      internalID: 145595953624840280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      bottle_flask_empty: -7760989641419567754
+      bottle_flask_round: -7596114615330859174
+      bottle_flask_tall: 7219514618251470780
+      bottle_flask_thin: 3551125432323776805
+      bottle_potion_blue: -3669646099616627955
+      bottle_potion_green: 9194877874783133311
+      bottle_round_empty: 4813080060410831808
+      bottle_sample: 2567018001519285036
+      bottle_small_empty: -2931850537622671218
+      bottle_tall_blue: 5370733272274555906
+      bottle_tall_clear: -7227629317659254306
+      bottle_tube_a: -432595430307689933
+      bottle_tube_b: 4047926867878047804
+      herb_azure_bell: 8104374954593708558
+      herb_blossom_orange: -7801436199343475792
+      herb_blossom_red: 6746140902462061368
+      herb_broad_leaf: 7476193065875206562
+      herb_bush_violet: 2532842431651783008
+      herb_crystal_violet: -4266394144771505960
+      herb_fire_tulip: 6932991417446240243
+      herb_frost_bloom: -4677288609291506009
+      herb_golden_fern: 703400424733143163
+      herb_jade_cluster: 1404900507179257577
+      herb_lotus_pink: -4125769028577167113
+      herb_orchid_crimson: -2775408239967823146
+      herb_orchid_purple: -1486542088670984102
+      herb_spirit_reed: -5768464378935070155
+      herb_stalk_green: -1041585763868547647
+      mat_bark_brown: 6499695069475775747
+      mat_bark_tan: 3820447229233154326
+      mat_berry_red: -2167858783639572293
+      mat_bud_crimson: -4334580549918886083
+      mat_bud_pink: -4138705234712918830
+      mat_chip_green: 1209862127190124351
+      mat_cluster_blue: -1064683559052227322
+      mat_cluster_brown: -1593457506396998867
+      mat_cluster_flat: -8065934183730300786
+      mat_cluster_mixed: -2380649194657514481
+      mat_cluster_red: 726571459307870499
+      mat_crystal_cluster: -2368316621843564675
+      mat_crystal_gold: 5901044700640584529
+      mat_crystal_single: -6086043499678443893
+      mat_drop_fire: -5658303690105740047
+      mat_drop_water: -8491914303550486919
+      mat_fruit_large: 4605381047235176024
+      mat_gem_blue: 8457886483015762799
+      mat_gem_green: -7095368408422943321
+      mat_gem_red: -4189090423173590657
+      mat_leaf_golden: -9029016815944369428
+      mat_leaf_jade: -261051688450142004
+      mat_leaf_mint: 8612972241258977444
+      mat_mineral_blue: 4671553444024056465
+      mat_mineral_flat: 1463488809421940961
+      mat_moss_dark: 2878799798199368351
+      mat_petal_azure: 2165305237649208439
+      mat_petal_brown: -6161082810964679670
+      mat_petal_dark: -2851618466038063416
+      mat_petal_olive: 4884117904148823719
+      mat_petal_pink: -4230857481568262954
+      mat_petal_red: -2973199541952303962
+      mat_petal_rose: 5168819617338027636
+      mat_pile_amber: -7060548796240379552
+      mat_pile_blue: 4636217737838158702
+      mat_pile_cyan: 2925323871503604965
+      mat_pile_final: 3393088680023470094
+      mat_pile_green: 5103059309207799017
+      mat_pile_large: 46613217055828749
+      mat_pile_mixed: -6880271044287396259
+      mat_pile_ore: 1415036283780737749
+      mat_pile_red: -1823420831744216970
+      mat_root_amber: -4412661036397418542
+      mat_root_purple: -3637758987716017895
+      mat_root_short: 1678527176188338353
+      mat_root_thin: 8074624424774111183
+      mat_seed_blue: 2172719720050596228
+      mat_seed_tiny: -2810103619193311872
+      mat_shard_amber: 1299134841867125539
+      mat_shard_blue: -7703200022463155253
+      mat_spot_green: 4869288629996409212
+      mat_spot_green_sm: -8371543320239843038
+      mat_spot_red: 9154187201078295069
+      mat_spot_red_sm: 2987547001468196169
+      scale_balanced: 210845695152511217
+      scale_gold_a: -2332306715694948069
+      scale_gold_b: 145595953624840280
+      scale_icon: 1253247548208852523
+      scale_large: 2512987370196865479
+      scale_tilt_left: -4280307705567538292
+      scale_tilt_right: 4502907369969244548
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,1214 @@
+fileFormatVersion: 2
+guid: 37c5291a2f326495ebef7102e1d00674
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -9060099701970152068
+    second: herb_crystal_violet
+  - first:
+      213: -2266153539462980928
+    second: herb_fire_tulip
+  - first:
+      213: -5077748803130241485
+    second: herb_azure_bell
+  - first:
+      213: -2372627711202567408
+    second: herb_lotus_pink
+  - first:
+      213: -3568542212661197428
+    second: herb_frost_bloom
+  - first:
+      213: -9159454737059851556
+    second: herb_golden_fern
+  - first:
+      213: 2845366975409575923
+    second: herb_jade_cluster
+  - first:
+      213: 6986233964029239430
+    second: herb_broad_leaf
+  - first:
+      213: -241947786745108893
+    second: herb_spirit_reed
+  - first:
+      213: -7066156548460342507
+    second: herb_orchid_purple
+  - first:
+      213: 2074351700848398339
+    second: herb_orchid_crimson
+  - first:
+      213: 6416012112283920947
+    second: herb_blossom_red
+  - first:
+      213: 8691951203213172212
+    second: herb_blossom_orange
+  - first:
+      213: -4832064135425087436
+    second: mat_berry_red
+  - first:
+      213: 1667346771465772311
+    second: herb_stalk_green
+  - first:
+      213: 3659880017459171051
+    second: herb_bush_violet
+  - first:
+      213: -8295474311268622499
+    second: mat_bud_pink
+  - first:
+      213: -3441869896295083884
+    second: mat_shard_blue
+  - first:
+      213: 6975911082294469219
+    second: mat_shard_amber
+  - first:
+      213: 8132410314875130330
+    second: mat_leaf_golden
+  - first:
+      213: 1862973534598852885
+    second: mat_bud_crimson
+  - first:
+      213: -4620354004953410608
+    second: mat_drop_water
+  - first:
+      213: -3663887928367992399
+    second: mat_drop_fire
+  - first:
+      213: 3175634409018413495
+    second: mat_petal_pink
+  - first:
+      213: -3643901125830117498
+    second: mat_gem_blue
+  - first:
+      213: -3838394570133488295
+    second: mat_gem_green
+  - first:
+      213: -773872994145919679
+    second: mat_petal_azure
+  - first:
+      213: -8913292009055826375
+    second: mat_root_purple
+  - first:
+      213: -8819972429034761865
+    second: mat_root_amber
+  - first:
+      213: -403583338707762875
+    second: mat_crystal_gold
+  - first:
+      213: 743636675620715990
+    second: mat_petal_rose
+  - first:
+      213: -6619752663715049767
+    second: mat_petal_olive
+  - first:
+      213: -6258593729556381541
+    second: mat_leaf_jade
+  - first:
+      213: 613804549936062851
+    second: mat_leaf_mint
+  - first:
+      213: -8720864757701624401
+    second: mat_bark_brown
+  - first:
+      213: 1640721344878295705
+    second: mat_bark_tan
+  - first:
+      213: 3041835774508315220
+    second: mat_chip_green
+  - first:
+      213: -4866235525348561050
+    second: mat_seed_tiny
+  - first:
+      213: -281340830591364482
+    second: mat_root_thin
+  - first:
+      213: -1932817643813142068
+    second: mat_root_short
+  - first:
+      213: -8001377036698157114
+    second: mat_petal_red
+  - first:
+      213: -6636242107643115795
+    second: mat_petal_brown
+  - first:
+      213: -1650320048008514347
+    second: mat_petal_dark
+  - first:
+      213: -1452080676030537502
+    second: mat_seed_blue
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: herb_crystal_violet
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 96
+        width: 23
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3d94ce19a84894b75a932ee4510542d6
+      internalID: 1534560153
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_fire_tulip
+      rect:
+        serializedVersion: 2
+        x: 37
+        y: 100
+        width: 20
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c0b51977606f34e8997a63a6ea599929
+      internalID: -2054529055
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_azure_bell
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 98
+        width: 18
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd10f586757984c4f8bb0f1007744c34
+      internalID: -740482545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_lotus_pink
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 97
+        width: 27
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 73c84fef9de0e4e36a5dffa036953aad
+      internalID: 648766783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_frost_bloom
+      rect:
+        serializedVersion: 2
+        x: 131
+        y: 97
+        width: 29
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 10012389b747e4c459bf6446dece044c
+      internalID: 2051056002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_golden_fern
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 100
+        width: 22
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 331f85496d25d4175853b1882c4bf814
+      internalID: -184246550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_jade_cluster
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 100
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c39bd8574878b4c10b3540849a66a6b4
+      internalID: 1599336145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_broad_leaf
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 66
+        width: 28
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 34bce43ea0d304aa8a26755f34ba2936
+      internalID: 938554478
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_spirit_reed
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 64
+        width: 21
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2747d7399fb634fd585cfa7e0232434b
+      internalID: 1104518730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_orchid_purple
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 67
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7e502c9ccee24e3dbf0d2fb27ba7e35
+      internalID: -795779762
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_orchid_crimson
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 67
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 207af142602fc46a4ac8078cbd424d54
+      internalID: -1595629069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_blossom_red
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 71
+        width: 19
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6aec8027e13da48fabe51d74a2923153
+      internalID: -217560152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_blossom_orange
+      rect:
+        serializedVersion: 2
+        x: 167
+        y: 70
+        width: 18
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe087c477d90240aa9d0e905b399a61f
+      internalID: 987869021
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_berry_red
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 39
+        width: 22
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa19d6a1e0b524caca132d85b8cc3b69
+      internalID: -1221953445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_stalk_green
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 34
+        width: 16
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2cabd64fb4c64b7da2fe9a021a10b90
+      internalID: -1315824731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: herb_bush_violet
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 35
+        width: 26
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f1bf8580cbd9c4acf903350f34a4a2cb
+      internalID: 1077416335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_bud_pink
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 49
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39fbcadf03b3d4f4c9b5557044415330
+      internalID: 374697119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_shard_blue
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 36
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 367292e9a42ae478688c0770da85ac0e
+      internalID: 460004238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_shard_amber
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 36
+        width: 16
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a2f42adeefdd4f3788f23ca3fa5a271
+      internalID: 666485255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_leaf_golden
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 36
+        width: 15
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25a2c189ab6fa4daba1c3a5691f9c66e
+      internalID: 487787302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_bud_crimson
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 33
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e01d072ef2394950842ccf0915cc7be
+      internalID: -374677894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_drop_water
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 18
+        width: 11
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 76c09433706e744e2aaf4196d5b20328
+      internalID: -1220469237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_drop_fire
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 17
+        width: 12
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9345acd5dad204fa5ae28162a7303cbd
+      internalID: -1593552685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_petal_pink
+      rect:
+        serializedVersion: 2
+        x: 116
+        y: 19
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70eddd243ff854a36a0bfeaea131672a
+      internalID: 524397004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_gem_blue
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 18
+        width: 12
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8cc75ecc8c8a413d96444d9d21b5b5c
+      internalID: -786331989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_gem_green
+      rect:
+        serializedVersion: 2
+        x: 146
+        y: 19
+        width: 12
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7edd37ccf80024981aaf3749ecf41890
+      internalID: 1148785039
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_petal_azure
+      rect:
+        serializedVersion: 2
+        x: 164
+        y: 19
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 95246dbf43c25454f93ccde71ebd8a97
+      internalID: 109861915
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_root_purple
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 17
+        width: 9
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef2537eeefec04f8b96060348be38a92
+      internalID: -741627265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_root_amber
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 17
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ffc6e14541904a2087598109a40bf50
+      internalID: 1881737815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_crystal_gold
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 16
+        width: 12
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0df0322c331154f9eaa2a073d9300a23
+      internalID: -550353080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_petal_rose
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 18
+        width: 14
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66068f85b843749f2b75459b5bb7a719
+      internalID: 1351378178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_petal_olive
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 19
+        width: 14
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4817ce9b02106414e839524c5722cd06
+      internalID: -364480521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_leaf_jade
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 0
+        width: 15
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3a91e958e5e6497683df3238b588cd6
+      internalID: -528236291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_leaf_mint
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 1
+        width: 13
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7aa5885bbdc954512b077e8c418fe0bc
+      internalID: -1804498690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_bark_brown
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 3
+        width: 16
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0df58762771343d88951f10c8693309
+      internalID: 58236669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_bark_tan
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 3
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c6ee155354a34e979e2b41ebfec78c6
+      internalID: -1972416926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_chip_green
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 5
+        width: 12
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e674066a895f409f9a755d5c6953660
+      internalID: -248959575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_seed_tiny
+      rect:
+        serializedVersion: 2
+        x: 148
+        y: 4
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 159b3cc05692a47c5b82e2968bf1b7f1
+      internalID: 379756401
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_root_thin
+      rect:
+        serializedVersion: 2
+        x: 163
+        y: 1
+        width: 9
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffc70005294284d5c955615b5686b335
+      internalID: 1123595608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_root_short
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 2
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a9d32e7301beb4af7af10bebbd2c8ae8
+      internalID: 1593724418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_petal_red
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 3
+        width: 14
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0373bcc2fe2954347b7d04703a7bdfd5
+      internalID: -1306774921
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_petal_brown
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 3
+        width: 13
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07e240d41a3234650b17fbef29393b8e
+      internalID: -1897353957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_petal_dark
+      rect:
+        serializedVersion: 2
+        x: 226
+        y: 3
+        width: 13
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5e2d0d902d3048cf8a03f7b83184d28
+      internalID: 265922255
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: mat_seed_blue
+      rect:
+        serializedVersion: 2
+        x: 244
+        y: 2
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9710e926eec6148b0b1c43b2f3e802c0
+      internalID: 435916364
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 7dfd2e669ff864a1caf8981d98a63323
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      herb_crystal_violet: 1534560153
+      herb_fire_tulip: -2054529055
+      herb_orchid_crimson: -1595629069
+      herb_blossom_red: -217560152
+      herb_blossom_orange: 987869021
+      mat_berry_red: -1221953445
+      herb_stalk_green: -1315824731
+      herb_bush_violet: 1077416335
+      mat_bud_pink: 374697119
+      mat_shard_blue: 460004238
+      mat_shard_amber: 666485255
+      mat_leaf_golden: 487787302
+      herb_azure_bell: -740482545
+      mat_bud_crimson: -374677894
+      mat_drop_water: -1220469237
+      mat_drop_fire: -1593552685
+      mat_petal_pink: 524397004
+      mat_gem_blue: -786331989
+      mat_gem_green: 1148785039
+      mat_petal_azure: 109861915
+      mat_root_purple: -741627265
+      mat_root_amber: 1881737815
+      mat_crystal_gold: -550353080
+      herb_lotus_pink: 648766783
+      mat_petal_rose: 1351378178
+      mat_petal_olive: -364480521
+      mat_leaf_jade: -528236291
+      mat_leaf_mint: -1804498690
+      mat_bark_brown: 58236669
+      mat_bark_tan: -1972416926
+      mat_chip_green: -248959575
+      mat_seed_tiny: 379756401
+      mat_root_thin: 1123595608
+      mat_root_short: 1593724418
+      herb_frost_bloom: 2051056002
+      mat_petal_red: -1306774921
+      mat_petal_brown: -1897353957
+      mat_petal_dark: 265922255
+      mat_seed_blue: 435916364
+      herb_golden_fern: -184246550
+      herb_jade_cluster: 1599336145
+      herb_broad_leaf: 938554478
+      herb_spirit_reed: 1104518730
+      herb_orchid_purple: -795779762
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
