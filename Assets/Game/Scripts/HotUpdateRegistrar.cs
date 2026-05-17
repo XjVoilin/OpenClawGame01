@@ -55,12 +55,22 @@ namespace SpiritHealer
 
         private void RegisterStores(GameContext ctx)
         {
-            // TODO: Register Spirit Healer stores here
+            ctx.RegisterStore(new DiagnosisStore());
+            ctx.RegisterStore(new GardenStore());
+            ctx.RegisterStore(new PrescriptionStore());
+            ctx.RegisterStore(new VisitorStore());
+            ctx.RegisterStore(new PlayerStore());
+            ctx.RegisterStore(new InventoryStore());
         }
 
         private void RegisterSystems(GameContext ctx)
         {
-            // TODO: Register Spirit Healer systems here
+            ctx.RegisterSystem(new DiagnosisSystem());
+            ctx.RegisterSystem(new GardenSystem());
+            ctx.RegisterSystem(new PrescriptionSystem());
+            ctx.RegisterSystem(new VisitorSystem());
+            ctx.RegisterSystem(new TimeSystem());
+            ctx.RegisterSystem(new EncounterSystem());
         }
 
         public async UniTask OnGameLaunch()
@@ -69,7 +79,7 @@ namespace SpiritHealer
 
             await GF.Scene.SwitchAsync("Main");
 
-            // TODO: Open Spirit Healer main UI
+            
         }
 
         private static void ConfigureUI()
