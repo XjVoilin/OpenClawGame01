@@ -14,17 +14,15 @@ namespace SpiritHealer
 
         private bool _paused;
         private float _phaseDuration = DefaultPhaseDuration;
+        
+        private TimeStore _timeStore;
 
         public bool IsPaused => _paused;
         public float PhaseDuration => _phaseDuration;
 
-        /// <summary>
-        /// 流逝的时间
-        /// </summary>
-        private float _phaseElapsed;
-
         protected override void OnInitialize()
         {
+            _timeStore = GetStore<TimeStore>();
         }
 
         /// <summary>暂停时间流逝（UI 面板打开时调用）。</summary>
@@ -40,9 +38,9 @@ namespace SpiritHealer
         {
             if (_paused) return;
 
-            _phaseElapsed += deltaTime;
+            _timeStore.AddPhaseElapsed(deltaTime);
 
-            if (_phaseElapsed >= _phaseDuration)
+            if (_timeStore.PhaseElapsed >= _phaseDuration)
             {
                 AdvancePhase();
             }
@@ -61,7 +59,7 @@ namespace SpiritHealer
             var newPhase = NextPhase(oldPhase);
 
             time.SetPhase(newPhase);
-            _phaseElapsed = 0f;
+            time.SetPhaseElapsed(0f);
 
             this.Publish(new PhaseChangedEvent { OldPhase = oldPhase, NewPhase = newPhase });
 
