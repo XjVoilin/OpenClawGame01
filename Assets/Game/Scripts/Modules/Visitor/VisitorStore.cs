@@ -23,15 +23,7 @@ namespace SpiritHealer
         public int TotalCured;
     }
 
-    public interface IVisitorQueries : IStoreQueries
-    {
-        IReadOnlyList<VisitorInstance> WaitingQueue { get; }
-        VisitorInstance CurrentVisitor { get; }
-        int TotalTreated { get; }
-        int TotalCured { get; }
-    }
-
-    public class VisitorStore : StoreBase<VisitorData>, IVisitorQueries
+    public class VisitorStore : StoreBase<VisitorData>
     {
         public IReadOnlyList<VisitorInstance> WaitingQueue => Data.WaitingQueue;
         public VisitorInstance CurrentVisitor => Data.CurrentVisitor;

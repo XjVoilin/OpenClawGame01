@@ -30,18 +30,8 @@ namespace SpiritHealer
         public bool HasSpiritSpring;
         public bool HasGreenhouse;
     }
-
-    public interface IGardenQueries : IStoreQueries
-    {
-        int GridSize { get; }
-        IReadOnlyList<GardenPlot> Plots { get; }
-        GardenPlot GetPlot(int x, int y);
-        bool HasSpiritArray { get; }
-        bool HasSpiritSpring { get; }
-        bool HasGreenhouse { get; }
-    }
-
-    public class GardenStore : StoreBase<GardenData>, IGardenQueries
+    
+    public class GardenStore : StoreBase<GardenData>
     {
         public int GridSize => Data.GridSize;
         public IReadOnlyList<GardenPlot> Plots => Data.Plots;

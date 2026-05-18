@@ -1,105 +1,89 @@
+using System;
 using JulyArch;
 
 namespace SpiritHealer
 {
     /// <summary>
-    /// 时间系统 —— 轻量混合时间模型。
-    /// 时间缓慢自然流逝，打开交互面板时自动暂停，玩家可随时手动跳过当前时段。
-    /// 每 7 天轮转季节（春→夏→秋→冬），季节影响种植、来客、奇遇概率。
+    /// 时间系统 —— 行为驱动时间模型。
+    /// 时间不自动流逝，由玩家行为（看诊、种植等）消耗游戏内分钟推进。
+    /// 时段由当天时刻对照 TimeConfig 阈值自动推算。
+    /// 每 DaysPerSeason 天轮转季节（春→夏→秋→冬）。
     /// </summary>
-    public class TimeSystem : GameSystemBase, IUpdatableSystem
+    public class TimeSystem : GameSystemBase
     {
-        private const float DefaultPhaseDuration = 180f;
-        private const int DaysPerSeason = 7;
+        private TimeStore _store;
 
-        private bool _paused;
-        private float _phaseDuration = DefaultPhaseDuration;
-        
-        private TimeStore _timeStore;
-
-        public bool IsPaused => _paused;
-        public float PhaseDuration => _phaseDuration;
+        public bool IsOpen => _store.IsOpen;
+        public int MinuteOfDay => _store.MinuteOfDay;
+        public TimePhase CurrentPhase => _store.CurrentPhase;
 
         protected override void OnInitialize()
         {
-            _timeStore = GetStore<TimeStore>();
+            _store = GetStore<TimeStore>();
         }
 
-        /// <summary>暂停时间流逝（UI 面板打开时调用）。</summary>
-        public void Pause() => _paused = true;
-
-        /// <summary>恢复时间流逝（UI 面板关闭时调用）。</summary>
-        public void Resume() => _paused = false;
-
-        /// <summary>设置每个时段的持续秒数（调试/配置用）。</summary>
-        public void SetPhaseDuration(float seconds) => _phaseDuration = seconds;
-
-        public void OnUpdate(float deltaTime)
+        /// <summary>
+        /// 消耗游戏内时间。自动检测并逐个触发跨越的时段边界事件。
+        /// </summary>
+        public void ConsumeTime(int minutes)
         {
-            if (_paused) return;
-
-            _timeStore.AddPhaseElapsed(deltaTime);
-
-            if (_timeStore.PhaseElapsed >= _phaseDuration)
+            var remaining = minutes;
+            while (remaining > 0)
             {
-                AdvancePhase();
+                var oldPhase = _store.CurrentPhase;
+                var toNext = GetMinutesToNextPhase();
+                var step = Math.Min(remaining, toNext);
+                _store.AddMinutes(step);
+                remaining -= step;
+
+                var newPhase = _store.CurrentPhase;
+                if (oldPhase != newPhase)
+                {
+                    Publish(new PhaseChangedEvent { OldPhase = oldPhase, NewPhase = newPhase });
+                }
             }
         }
 
-        /// <summary>手动跳过当前时段，立即推进到下一时段。</summary>
-        public void SkipPhase()
+        /// <summary>结束当天：触发夜间结算，然后推进到下一天早晨。</summary>
+        public void EndDay()
         {
-            AdvancePhase();
-        }
-
-        private void AdvancePhase()
-        {
-            var time = GetStore<TimeStore>();
-            var oldPhase = time.CurrentPhase;
-            var newPhase = NextPhase(oldPhase);
-
-            time.SetPhase(newPhase);
-            time.SetPhaseElapsed(0f);
-
-            this.Publish(new PhaseChangedEvent { OldPhase = oldPhase, NewPhase = newPhase });
-
-            if (oldPhase == TimePhase.Night && newPhase == TimePhase.Morning)
+            var oldPhase = _store.CurrentPhase;
+            if (oldPhase != TimePhase.Night)
             {
-                AdvanceToNextDay();
+                _store.SetMinuteOfDay(TimeConfig.Night);
+                this.Publish(new PhaseChangedEvent { OldPhase = oldPhase, NewPhase = TimePhase.Night });
             }
-        }
 
-        private void AdvanceToNextDay()
-        {
-            GetStore<TimeStore>().AdvanceDay();
-
+            _store.AdvanceDay();
             CheckSeasonTransition();
+            _store.SetMinuteOfDay(TimeConfig.DayStart);
 
-            var time = GetStore<TimeStore>();
             this.Publish(new DayChangedEvent
             {
-                NewDay = time.Day,
-                CurrentSeason = time.CurrentSeason
+                NewDay = _store.Day,
+                CurrentSeason = _store.CurrentSeason
             });
+
+            this.Publish(new PhaseChangedEvent { OldPhase = TimePhase.Night, NewPhase = TimePhase.Morning });
+        }
+
+        private int GetMinutesToNextPhase()
+        {
+            var m = _store.MinuteOfDay;
+            if (m < TimeConfig.Noon)      return TimeConfig.Noon - m;
+            if (m < TimeConfig.Afternoon) return TimeConfig.Afternoon - m;
+            if (m < TimeConfig.Evening)   return TimeConfig.Evening - m;
+            if (m < TimeConfig.Night)     return TimeConfig.Night - m;
+            return int.MaxValue;
         }
 
         private void CheckSeasonTransition()
         {
-            var time = GetStore<TimeStore>();
-            if ((time.Day - 1) % DaysPerSeason == 0 && time.Day > 1)
+            if ((_store.Day - 1) % TimeConfig.DaysPerSeason == 0 && _store.Day > 1)
             {
-                var next = (Season)(((int)time.CurrentSeason + 1) % 4);
-                time.SetSeason(next);
+                var next = (Season)(((int)_store.CurrentSeason + 1) % 4);
+                _store.SetSeason(next);
             }
         }
-
-        private static TimePhase NextPhase(TimePhase current) => current switch
-        {
-            TimePhase.Morning => TimePhase.Daytime,
-            TimePhase.Daytime => TimePhase.Evening,
-            TimePhase.Evening => TimePhase.Night,
-            TimePhase.Night => TimePhase.Morning,
-            _ => TimePhase.Morning
-        };
     }
 }

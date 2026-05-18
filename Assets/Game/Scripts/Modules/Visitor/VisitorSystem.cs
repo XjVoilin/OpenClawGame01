@@ -6,7 +6,7 @@ namespace SpiritHealer
     /// 来客系统 —— 驱动游戏节奏的核心来源。
     /// 每日根据声望和季节生成来客队列（凡人/散修/宗门弟子/长老/神秘人），
     /// 管理接诊流程和治疗结果统计。
-    /// 昼时段结束时，未接诊的访客自动离开（无惩罚，仅错过收益）。
+    /// 营业时间结束（进入傍晚）时，未接诊的访客自动离开（无惩罚，仅错过收益）。
     /// </summary>
     public class VisitorSystem : GameSystemBase
     {
@@ -21,7 +21,7 @@ namespace SpiritHealer
             {
                 GenerateDailyVisitors();
             }
-            else if (e.OldPhase == TimePhase.Daytime)
+            else if (e.NewPhase == TimePhase.Evening)
             {
                 DismissRemainingVisitors();
             }
@@ -45,7 +45,7 @@ namespace SpiritHealer
         {
         }
 
-        /// <summary>昼时段结束时清空未接诊的等候队列。</summary>
+        /// <summary>营业时间结束时清空未接诊的等候队列。</summary>
         private void DismissRemainingVisitors()
         {
         }

@@ -24,13 +24,7 @@ namespace SpiritHealer
         };
     }
 
-    public interface IDiagnosisQueries : IStoreQueries
-    {
-        int GetMethodLevel(DiagnosisMethod method);
-        float GetMethodExp(DiagnosisMethod method);
-    }
-
-    public class DiagnosisStore : StoreBase<DiagnosisData>, IDiagnosisQueries
+    public class DiagnosisStore : StoreBase<DiagnosisData>
     {
         public int GetMethodLevel(DiagnosisMethod method) => Data.MethodLevels[method];
         public float GetMethodExp(DiagnosisMethod method) => Data.MethodExp[method];

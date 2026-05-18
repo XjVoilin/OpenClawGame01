@@ -1,31 +1,63 @@
-using JulyArch;
-using JulyCore;
+using System;
+using JulyCore.Data.Save;
 
 namespace SpiritHealer
 {
-    public class TimeData
+    [Serializable]
+    public class TimeData : ISaveData
     {
-        public int Day;
+        public int Day = 1;
+        public int MinuteOfDay = TimeConfig.DayStart;
         public Season CurrentSeason;
-        public TimePhase CurrentPhase;
-        public float PhaseElapsed;
+
+        public SaveImportance Importance => SaveImportance.Normal;
     }
 
-    public class TimeStore : StoreBase<TimeData>
+    public class TimeStore : SavableStoreBase<TimeData>
     {
+        protected override string SaveKey => SaveKeys.TimeDataKey;
+
         public int Day => Data.Day;
+        public int MinuteOfDay => Data.MinuteOfDay;
         public Season CurrentSeason => Data.CurrentSeason;
-        public TimePhase CurrentPhase => Data.CurrentPhase;
-        public float PhaseElapsed => Data.PhaseElapsed;
 
-        public void AdvanceDay() => Data.Day++;
-        public void SetSeason(Season season) => Data.CurrentSeason = season;
-        public void SetPhase(TimePhase phase) => Data.CurrentPhase = phase;
-        public void SetPhaseElapsed(float elapsed) => Data.PhaseElapsed = elapsed;
-
-        public void AddPhaseElapsed(float delta)
+        public TimePhase CurrentPhase => MinuteOfDay switch
         {
-            Data.PhaseElapsed += delta;
+            < TimeConfig.Noon => TimePhase.Morning,
+            < TimeConfig.Afternoon => TimePhase.Noon,
+            < TimeConfig.Evening => TimePhase.Afternoon,
+            < TimeConfig.Night => TimePhase.Evening,
+            _ => TimePhase.Night
+        };
+
+        public bool IsOpen => MinuteOfDay >= TimeConfig.DayStart
+                              && MinuteOfDay < TimeConfig.CloseTime;
+
+        public int Hour => MinuteOfDay / 60;
+        public int Minute => MinuteOfDay % 60;
+
+        public void AddMinutes(int minutes)
+        {
+            Data.MinuteOfDay += minutes;
+            MarkDirty();
+        }
+
+        public void SetMinuteOfDay(int m)
+        {
+            Data.MinuteOfDay = m;
+            MarkDirty();
+        }
+
+        public void AdvanceDay()
+        {
+            Data.Day++;
+            MarkDirty();
+        }
+
+        public void SetSeason(Season s)
+        {
+            Data.CurrentSeason = s;
+            MarkDirty();
         }
     }
 }

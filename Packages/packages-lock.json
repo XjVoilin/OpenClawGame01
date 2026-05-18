@@ -24,11 +24,11 @@
       }
     },
     "com.july.arch": {
-      "version": "https://github.com/XjVoilin/JulyArch.git#v1.0.22",
+      "version": "https://github.com/XjVoilin/JulyArch.git#v1.0.24",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "035f02918a9345173850f72e82dc11b87b419f7c"
+      "hash": "ed9d1091b528f04c1ff492eb48de1809950f7153"
     },
     "com.july.core": {
       "version": "https://github.com/XjVoilin/JulyCore.git#v1.0.69",

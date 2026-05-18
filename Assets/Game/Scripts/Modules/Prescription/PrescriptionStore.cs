@@ -38,14 +38,7 @@ namespace SpiritHealer
         public Dictionary<int, HerbKnowledge> KnowledgeMap = new();
     }
 
-    public interface IPrescriptionQueries : IStoreQueries
-    {
-        IReadOnlyList<PrescriptionSlot> CurrentSlots { get; }
-        IReadOnlyList<PrescriptionRecord> Records { get; }
-        HerbKnowledge GetKnowledge(int herbConfigId);
-    }
-
-    public class PrescriptionStore : StoreBase<PrescriptionData>, IPrescriptionQueries
+    public class PrescriptionStore : StoreBase<PrescriptionData>
     {
         public IReadOnlyList<PrescriptionSlot> CurrentSlots => Data.CurrentSlots;
         public IReadOnlyList<PrescriptionRecord> Records => Data.Records;

@@ -7,7 +7,11 @@ namespace SpiritHealer
 
     public enum TimePhase
     {
-        Morning, Daytime, Evening, Night
+        Morning,
+        Noon,
+        Afternoon,
+        Evening,
+        Night
     }
     
 }

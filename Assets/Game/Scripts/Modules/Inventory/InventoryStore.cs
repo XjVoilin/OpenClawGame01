@@ -22,15 +22,7 @@ namespace SpiritHealer
         public List<SeedItem> Seeds = new();
     }
 
-    public interface IInventoryQueries : IStoreQueries
-    {
-        IReadOnlyList<HerbItem> Herbs { get; }
-        IReadOnlyList<SeedItem> Seeds { get; }
-        int GetHerbCount(int configId, int quality);
-        int GetSeedCount(int configId);
-    }
-
-    public class InventoryStore : StoreBase<InventoryData>, IInventoryQueries
+    public class InventoryStore : StoreBase<InventoryData>
     {
         public IReadOnlyList<HerbItem> Herbs => Data.Herbs;
         public IReadOnlyList<SeedItem> Seeds => Data.Seeds;

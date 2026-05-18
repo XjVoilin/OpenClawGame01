@@ -14,13 +14,7 @@ namespace SpiritHealer
         public int Coins;
     }
 
-    public interface IPlayerQueries : IStoreQueries
-    {
-        int Reputation { get; }
-        int Coins { get; }
-    }
-
-    public class PlayerStore : StoreBase<PlayerData>, IPlayerQueries
+    public class PlayerStore : StoreBase<PlayerData>
     {
         public int Reputation => Data.Reputation;
         public int Coins => Data.Coins;
