@@ -1,3 +1,4 @@
+using cfg;
 using JulyArch;
 
 namespace SpiritHealer
@@ -16,7 +17,7 @@ namespace SpiritHealer
 
         private void OnPhaseChanged(PhaseChangedEvent e)
         {
-            if (e.NewPhase == TimePhase.Night)
+            if (e.NewPhase == ETimePhase.Night)
             {
                 OnDayEnd();
             }

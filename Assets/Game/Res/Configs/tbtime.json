@@ -1,0 +1,11 @@
+[
+  {
+    "DayStart": 480,
+    "Noon": 720,
+    "Afternoon": 840,
+    "CloseTime": 1080,
+    "Evening": 1140,
+    "Night": 1320,
+    "DaysPerSeason": 7
+  }
+]

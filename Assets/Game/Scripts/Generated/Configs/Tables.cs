@@ -14,35 +14,26 @@ namespace cfg
 {
 public partial class Tables
 {
-    public TbUIWindow TbUIWindow {get; }
     public TbLanguage TbLanguage {get; }
-    public TbItem TbItem {get; }
-    public TbRecipe TbRecipe {get; }
-    public TbKnowledge TbKnowledge {get; }
-    public TbRegion TbRegion {get; }
-    public TbCraftStation TbCraftStation {get; }
+    public TbUIWindow TbUIWindow {get; }
+    public TbTime TbTime {get; }
+    public TbReputation TbReputation {get; }
 
     public Tables(System.Func<string, JSONNode> loader)
     {
-        TbUIWindow = new TbUIWindow(loader("tbuiwindow"));
         TbLanguage = new TbLanguage(loader("tblanguage"));
-        TbItem = new TbItem(loader("tbitem"));
-        TbRecipe = new TbRecipe(loader("tbrecipe"));
-        TbKnowledge = new TbKnowledge(loader("tbknowledge"));
-        TbRegion = new TbRegion(loader("tbregion"));
-        TbCraftStation = new TbCraftStation(loader("tbcraftstation"));
+        TbUIWindow = new TbUIWindow(loader("tbuiwindow"));
+        TbTime = new TbTime(loader("tbtime"));
+        TbReputation = new TbReputation(loader("tbreputation"));
         ResolveRef();
     }
     
     private void ResolveRef()
     {
-        TbUIWindow.ResolveRef(this);
         TbLanguage.ResolveRef(this);
-        TbItem.ResolveRef(this);
-        TbRecipe.ResolveRef(this);
-        TbKnowledge.ResolveRef(this);
-        TbRegion.ResolveRef(this);
-        TbCraftStation.ResolveRef(this);
+        TbUIWindow.ResolveRef(this);
+        TbTime.ResolveRef(this);
+        TbReputation.ResolveRef(this);
     }
 }
 

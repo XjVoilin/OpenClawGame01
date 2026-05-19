@@ -1,4 +1,6 @@
 using System;
+using cfg;
+using JulyCore;
 using JulyCore.Data.Save;
 
 namespace SpiritHealer
@@ -7,8 +9,8 @@ namespace SpiritHealer
     public class TimeData : ISaveData
     {
         public int Day = 1;
-        public int MinuteOfDay = TimeConfig.DayStart;
-        public Season CurrentSeason;
+        public int MinuteOfDay;
+        public ESeason CurrentSeason;
 
         public SaveImportance Importance => SaveImportance.Normal;
     }
@@ -19,19 +21,40 @@ namespace SpiritHealer
 
         public int Day => Data.Day;
         public int MinuteOfDay => Data.MinuteOfDay;
-        public Season CurrentSeason => Data.CurrentSeason;
+        public ESeason CurrentSeason => Data.CurrentSeason;
 
-        public TimePhase CurrentPhase => MinuteOfDay switch
+        public ETimePhase CurrentPhase
         {
-            < TimeConfig.Noon => TimePhase.Morning,
-            < TimeConfig.Afternoon => TimePhase.Noon,
-            < TimeConfig.Evening => TimePhase.Afternoon,
-            < TimeConfig.Night => TimePhase.Evening,
-            _ => TimePhase.Night
-        };
+            get
+            {
+                var tbTime = GF.Config.GetTable<TbTime>();
+                var result = ETimePhase.Night;
+                if (MinuteOfDay < tbTime.Noon)
+                {
+                    result = ETimePhase.Morning;
+                }else if (MinuteOfDay < tbTime.Afternoon)
+                {
+                    result = ETimePhase.Noon;
+                }else if (MinuteOfDay < tbTime.Evening)
+                {
+                    result = ETimePhase.Afternoon;
+                }else if (MinuteOfDay < tbTime.Night)
+                {
+                    result = ETimePhase.Evening;
+                }
+                return result;
+            }
+        }
 
-        public bool IsOpen => MinuteOfDay >= TimeConfig.DayStart
-                              && MinuteOfDay < TimeConfig.CloseTime;
+        public bool IsOpen
+        {
+            get
+            {
+                var tbTime = GF.Config.GetTable<TbTime>();
+                return MinuteOfDay >= tbTime.DayStart
+                    && MinuteOfDay < tbTime.CloseTime;
+            }
+        }
 
         public int Hour => MinuteOfDay / 60;
         public int Minute => MinuteOfDay % 60;
@@ -54,7 +77,7 @@ namespace SpiritHealer
             MarkDirty();
         }
 
-        public void SetSeason(Season s)
+        public void SetSeason(ESeason s)
         {
             Data.CurrentSeason = s;
             MarkDirty();

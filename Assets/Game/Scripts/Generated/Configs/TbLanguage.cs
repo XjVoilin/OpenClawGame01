@@ -13,9 +13,6 @@ using SimpleJSON;
 
 namespace cfg
 {
-/// <summary>
-/// 多语言表
-/// </summary>
 public partial class TbLanguage
 {
     private readonly System.Collections.Generic.Dictionary<string, Language> _dataMap;

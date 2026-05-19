@@ -1,3 +1,4 @@
+using cfg;
 using JulyArch;
 
 namespace SpiritHealer
@@ -11,12 +12,12 @@ namespace SpiritHealer
     {
         protected override void OnInitialize()
         {
-            this.Subscribe<PhaseChangedEvent>(OnPhaseChanged);
+            Subscribe<PhaseChangedEvent>(OnPhaseChanged);
         }
 
         private void OnPhaseChanged(PhaseChangedEvent e)
         {
-            if (e.NewPhase == TimePhase.Night)
+            if (e.NewPhase == ETimePhase.Night)
             {
                 CheckDailyEncounter();
             }

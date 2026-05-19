@@ -1,3 +1,4 @@
+using cfg;
 using JulyArch;
 
 namespace SpiritHealer
@@ -17,11 +18,11 @@ namespace SpiritHealer
 
         private void OnPhaseChanged(PhaseChangedEvent e)
         {
-            if (e.NewPhase == TimePhase.Morning)
+            if (e.NewPhase == ETimePhase.Morning)
             {
                 GenerateDailyVisitors();
             }
-            else if (e.NewPhase == TimePhase.Evening)
+            else if (e.NewPhase == ETimePhase.Evening)
             {
                 DismissRemainingVisitors();
             }
