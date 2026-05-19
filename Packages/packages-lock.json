@@ -31,21 +31,21 @@
       "hash": "ed9d1091b528f04c1ff492eb48de1809950f7153"
     },
     "com.july.core": {
-      "version": "https://github.com/XjVoilin/JulyCore.git#v1.0.69",
+      "version": "https://github.com/XjVoilin/JulyCore.git#v1.0.71",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "708532100ef1d30c790a226cf7410b7aa6ad7566"
+      "hash": "59ea6ddb3b67d3358dbcb5f074ea0aa27b99c684"
     },
     "com.july.toolkit": {
-      "version": "https://github.com/XjVoilin/JulyToolkit.git#v1.0.7",
+      "version": "https://github.com/XjVoilin/JulyToolkit.git#v1.0.8",
       "depth": 0,
       "source": "git",
       "dependencies": {
         "com.july.core": "1.0.55",
         "com.july.arch": "1.0.17"
       },
-      "hash": "43b1772845da47a36055286e741714936eafd13f"
+      "hash": "4b082e84ac90a07d027c5f831c871e8bcff0e4b6"
     },
     "com.tuyoogame.yooasset": {
       "version": "file:com.tuyoogame.yooasset@2.3.12",
@@ -338,12 +338,6 @@
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
-    },
-    "com.unity.modules.accessibility": {
-      "version": "1.0.0",
-      "depth": 0,
-      "source": "builtin",
-      "dependencies": {}
     },
     "com.unity.modules.animation": {
       "version": "1.0.0",

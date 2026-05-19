@@ -32,7 +32,7 @@ public sealed partial class Time : Luban.BeanBase
     }
 
     /// <summary>
-    /// 1899/12/31 8:00:00
+    /// 1899/12/31 08:00:00
     /// </summary>
     public readonly int DayStart;
     /// <summary>

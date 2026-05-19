@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using JulyArch;
 
 namespace SpiritHealer
@@ -15,10 +16,10 @@ namespace SpiritHealer
     public class PrescriptionRecord
     {
         public int Id;
+        public int CauseId;
         public List<PrescriptionSlot> Slots = new();
         public float EfficacyScore;
         public bool IsVerified;
-        public string Note;
     }
 
     public class HerbKnowledge
@@ -28,7 +29,6 @@ namespace SpiritHealer
         public bool KnowsFlavor;
         public bool KnowsMeridian;
         public bool KnowsToxicity;
-        public bool KnowsSpecial;
     }
 
     public class PrescriptionData
@@ -36,6 +36,7 @@ namespace SpiritHealer
         public List<PrescriptionSlot> CurrentSlots = new();
         public List<PrescriptionRecord> Records = new();
         public Dictionary<int, HerbKnowledge> KnowledgeMap = new();
+        public int NextRecordId = 1;
     }
 
     public class PrescriptionStore : StoreBase<PrescriptionData>
@@ -46,6 +47,16 @@ namespace SpiritHealer
         public HerbKnowledge GetKnowledge(int herbConfigId) =>
             Data.KnowledgeMap.TryGetValue(herbConfigId, out var k) ? k : null;
 
+        public HerbKnowledge GetOrCreateKnowledge(int herbConfigId)
+        {
+            if (!Data.KnowledgeMap.TryGetValue(herbConfigId, out var k))
+            {
+                k = new HerbKnowledge { HerbConfigId = herbConfigId };
+                Data.KnowledgeMap[herbConfigId] = k;
+            }
+            return k;
+        }
+
         public void SetSlot(HerbRole role, int herbId, int quality)
         {
             var slot = Data.CurrentSlots.Find(s => s.Role == role);
@@ -54,11 +65,21 @@ namespace SpiritHealer
                 slot.HerbId = herbId;
                 slot.Quality = quality;
             }
+            else
+            {
+                Data.CurrentSlots.Add(new PrescriptionSlot { Role = role, HerbId = herbId, Quality = quality });
+            }
         }
+
+        public void ClearSlots() => Data.CurrentSlots.Clear();
+
+        public PrescriptionSlot GetSlot(HerbRole role) =>
+            Data.CurrentSlots.Find(s => s.Role == role);
+
+        public int AllocateRecordId() => Data.NextRecordId++;
 
         public void AddRecord(PrescriptionRecord record) => Data.Records.Add(record);
 
-        public void RevealKnowledge(int herbConfigId, HerbKnowledge knowledge) =>
-            Data.KnowledgeMap[herbConfigId] = knowledge;
+        public PrescriptionRecord GetRecord(int id) => Data.Records.Find(r => r.Id == id);
     }
 }

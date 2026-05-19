@@ -6,7 +6,7 @@ namespace cfg
 {
     public partial class Tables
     {
-        public static readonly string[] TableNames = { "tblanguage", "tbuiwindow", "tbtime", "tbreputation" };
+        public static readonly string[] TableNames = { "tblanguage", "tbuiwindow", "tbtime", "tbreputation", "tbherb", "tbcause", "tbsymptom", "tbvisitortemplate" };
 
         public void RegisterTo(Dictionary<Type, object> registry)
         {
@@ -14,6 +14,10 @@ namespace cfg
             registry[typeof(TbUIWindow)] = TbUIWindow;
             registry[typeof(TbTime)] = TbTime;
             registry[typeof(TbReputation)] = TbReputation;
+            registry[typeof(TbHerb)] = TbHerb;
+            registry[typeof(TbCause)] = TbCause;
+            registry[typeof(TbSymptom)] = TbSymptom;
+            registry[typeof(TbVisitorTemplate)] = TbVisitorTemplate;
         }
     }
 }

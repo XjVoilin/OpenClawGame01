@@ -1,0 +1,152 @@
+[
+  {
+    "id": 1,
+    "Name": "甘草",
+    "Nature": 5,
+    "Flavor": 3,
+    "Meridian": "心肺脾胃",
+    "Toxicity": 0,
+    "BasePrice": 5,
+    "Description": "调和诸药，补脾益气"
+  },
+  {
+    "id": 2,
+    "Name": "黄芪",
+    "Nature": 3,
+    "Flavor": 3,
+    "Meridian": "脾肺",
+    "Toxicity": 0,
+    "BasePrice": 10,
+    "Description": "补气固表，利尿消肿"
+  },
+  {
+    "id": 3,
+    "Name": "当归",
+    "Nature": 3,
+    "Flavor": 3,
+    "Meridian": "肝心脾",
+    "Toxicity": 0,
+    "BasePrice": 12,
+    "Description": "补血活血，调经止痛"
+  },
+  {
+    "id": 4,
+    "Name": "金银花",
+    "Nature": 1,
+    "Flavor": 3,
+    "Meridian": "肺心胃",
+    "Toxicity": 0,
+    "BasePrice": 8,
+    "Description": "清热解毒，疏散风热"
+  },
+  {
+    "id": 5,
+    "Name": "柴胡",
+    "Nature": 1,
+    "Flavor": 2,
+    "Meridian": "肝胆",
+    "Toxicity": 0,
+    "BasePrice": 8,
+    "Description": "疏散退热，疏肝解郁"
+  },
+  {
+    "id": 6,
+    "Name": "黄连",
+    "Nature": 1,
+    "Flavor": 2,
+    "Meridian": "心脾胃肝胆",
+    "Toxicity": 0,
+    "BasePrice": 15,
+    "Description": "清热燥湿，泻火解毒"
+  },
+  {
+    "id": 7,
+    "Name": "桂枝",
+    "Nature": 3,
+    "Flavor": 4,
+    "Meridian": "心肺膀胱",
+    "Toxicity": 0,
+    "BasePrice": 6,
+    "Description": "发汗解肌，温通经脉"
+  },
+  {
+    "id": 8,
+    "Name": "麻黄",
+    "Nature": 3,
+    "Flavor": 4,
+    "Meridian": "肺膀胱",
+    "Toxicity": 0,
+    "BasePrice": 7,
+    "Description": "发汗散寒，宣肺平喘"
+  },
+  {
+    "id": 9,
+    "Name": "白术",
+    "Nature": 3,
+    "Flavor": 2,
+    "Meridian": "脾胃",
+    "Toxicity": 0,
+    "BasePrice": 10,
+    "Description": "健脾益气，燥湿利水"
+  },
+  {
+    "id": 10,
+    "Name": "茯苓",
+    "Nature": 5,
+    "Flavor": 3,
+    "Meridian": "心肺脾肾",
+    "Toxicity": 0,
+    "BasePrice": 8,
+    "Description": "利水渗湿，健脾安神"
+  },
+  {
+    "id": 11,
+    "Name": "人参",
+    "Nature": 3,
+    "Flavor": 3,
+    "Meridian": "脾肺心",
+    "Toxicity": 0,
+    "BasePrice": 50,
+    "Description": "大补元气，生津安神"
+  },
+  {
+    "id": 12,
+    "Name": "熟地黄",
+    "Nature": 3,
+    "Flavor": 3,
+    "Meridian": "肝肾",
+    "Toxicity": 0,
+    "BasePrice": 15,
+    "Description": "滋阴补血，益精填髓"
+  },
+  {
+    "id": 13,
+    "Name": "白芍",
+    "Nature": 4,
+    "Flavor": 2,
+    "Meridian": "肝脾",
+    "Toxicity": 0,
+    "BasePrice": 10,
+    "Description": "养血敛阴，柔肝止痛"
+  },
+  {
+    "id": 14,
+    "Name": "陈皮",
+    "Nature": 3,
+    "Flavor": 4,
+    "Meridian": "脾肺",
+    "Toxicity": 0,
+    "BasePrice": 6,
+    "Description": "理气健脾，燥湿化痰"
+  },
+  {
+    "id": 15,
+    "Name": "半夏",
+    "Nature": 3,
+    "Flavor": 4,
+    "Meridian": "脾胃肺",
+    "Toxicity": 1,
+    "BasePrice": 8,
+    "Description": "燥湿化痰，降逆止呕"
+  }
+]

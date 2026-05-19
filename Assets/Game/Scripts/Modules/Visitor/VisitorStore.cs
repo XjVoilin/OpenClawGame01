@@ -7,12 +7,16 @@ namespace SpiritHealer
 
     public class VisitorInstance
     {
-        public int ConfigId;
+        public int TemplateId;
+        public string Name;
         public VisitorType Type;
-        public int SymptomId;
-        public bool Diagnosed;
+        public int CauseId;
+        public int TimeCost;
+        public int BaseReputation;
+        public int BaseCoin;
         public bool Treated;
         public float TreatmentScore;
+        public HashSet<int> RevealedSymptomIds = new();
     }
 
     public class VisitorData
@@ -33,6 +37,7 @@ namespace SpiritHealer
         public void SetCurrentVisitor(VisitorInstance visitor) => Data.CurrentVisitor = visitor;
         public void AddToQueue(VisitorInstance visitor) => Data.WaitingQueue.Add(visitor);
         public void RemoveFromQueue(VisitorInstance visitor) => Data.WaitingQueue.Remove(visitor);
+        public void ClearQueue() => Data.WaitingQueue.Clear();
         public void IncrementTreated() => Data.TotalTreated++;
         public void IncrementCured() => Data.TotalCured++;
     }

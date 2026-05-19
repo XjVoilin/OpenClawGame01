@@ -55,22 +55,25 @@ namespace SpiritHealer
 
         private void RegisterStores(GameContext ctx)
         {
+            ctx.RegisterStore(new TimeStore());
             ctx.RegisterStore(new DiagnosisStore());
             ctx.RegisterStore(new GardenStore());
             ctx.RegisterStore(new PrescriptionStore());
             ctx.RegisterStore(new VisitorStore());
             ctx.RegisterStore(new PlayerStore());
             ctx.RegisterStore(new InventoryStore());
+            ctx.RegisterStore(new MilestoneStore());
         }
 
         private void RegisterSystems(GameContext ctx)
         {
+            ctx.RegisterSystem(new TimeSystem());
             ctx.RegisterSystem(new DiagnosisSystem());
-            ctx.RegisterSystem(new GardenSystem());
             ctx.RegisterSystem(new PrescriptionSystem());
             ctx.RegisterSystem(new VisitorSystem());
-            ctx.RegisterSystem(new TimeSystem());
+            ctx.RegisterSystem(new GardenSystem());
             ctx.RegisterSystem(new EncounterSystem());
+            ctx.RegisterSystem(new GameLoopSystem());
         }
 
         public async UniTask OnGameLaunch()
@@ -79,7 +82,10 @@ namespace SpiritHealer
 
             await GF.Scene.SwitchAsync("Main");
 
-            
+            AppArch.Context.GetSystem<TimeSystem>().EnsureDayStarted();
+            AppArch.Context.GetSystem<VisitorSystem>().GenerateDailyVisitors();
+
+            GF.UI.Open(UIWindowId.GameHUD);
         }
 
         private static void ConfigureUI()

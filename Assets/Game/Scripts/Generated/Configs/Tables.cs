@@ -18,6 +18,22 @@ public partial class Tables
     public TbUIWindow TbUIWindow {get; }
     public TbTime TbTime {get; }
     public TbReputation TbReputation {get; }
+    /// <summary>
+    /// 药材配置表
+    /// </summary>
+    public TbHerb TbHerb {get; }
+    /// <summary>
+    /// 病因配置表
+    /// </summary>
+    public TbCause TbCause {get; }
+    /// <summary>
+    /// 病症配置表
+    /// </summary>
+    public TbSymptom TbSymptom {get; }
+    /// <summary>
+    /// 来客模板配置表
+    /// </summary>
+    public TbVisitorTemplate TbVisitorTemplate {get; }
 
     public Tables(System.Func<string, JSONNode> loader)
     {
@@ -25,6 +41,10 @@ public partial class Tables
         TbUIWindow = new TbUIWindow(loader("tbuiwindow"));
         TbTime = new TbTime(loader("tbtime"));
         TbReputation = new TbReputation(loader("tbreputation"));
+        TbHerb = new TbHerb(loader("tbherb"));
+        TbCause = new TbCause(loader("tbcause"));
+        TbSymptom = new TbSymptom(loader("tbsymptom"));
+        TbVisitorTemplate = new TbVisitorTemplate(loader("tbvisitortemplate"));
         ResolveRef();
     }
     
@@ -34,6 +54,10 @@ public partial class Tables
         TbUIWindow.ResolveRef(this);
         TbTime.ResolveRef(this);
         TbReputation.ResolveRef(this);
+        TbHerb.ResolveRef(this);
+        TbCause.ResolveRef(this);
+        TbSymptom.ResolveRef(this);
+        TbVisitorTemplate.ResolveRef(this);
     }
 }
 

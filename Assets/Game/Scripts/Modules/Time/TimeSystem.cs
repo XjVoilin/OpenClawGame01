@@ -8,7 +8,7 @@ namespace SpiritHealer
     /// <summary>
     /// 时间系统 —— 行为驱动时间模型。
     /// 时间不自动流逝，由玩家行为（看诊、种植等）消耗游戏内分钟推进。
-    /// 时段由当天时刻对照 TimeConfig 阈值自动推算。
+    /// 时段由当天时刻对照 TbTime 配表阈值自动推算。
     /// 每 DaysPerSeason 天轮转季节（春→夏→秋→冬）。
     /// </summary>
     public class TimeSystem : GameSystemBase
@@ -22,6 +22,19 @@ namespace SpiritHealer
         protected override void OnInitialize()
         {
             _store = GetStore<TimeStore>();
+        }
+
+        /// <summary>
+        /// 如果当前时刻在 DayStart 之前（如新游戏 MinuteOfDay=0），
+        /// 自动设置为当天开门时间并触发 Morning 事件。
+        /// </summary>
+        public void EnsureDayStarted()
+        {
+            var tbTime = GF.Config.GetTable<TbTime>();
+            if (_store.MinuteOfDay < tbTime.DayStart)
+            {
+                _store.SetMinuteOfDay(tbTime.DayStart);
+            }
         }
 
         /// <summary>

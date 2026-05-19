@@ -29,7 +29,7 @@ public partial class TbTime
 
 
     /// <summary>
-    /// 1899/12/31 8:00:00
+    /// 1899/12/31 08:00:00
     /// </summary>
      public int DayStart => _data.DayStart;
     /// <summary>

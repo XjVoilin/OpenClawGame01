@@ -68,13 +68,13 @@ Phase 5: EA 期间持续更新   [第 29-52 周]
 | 任务 | 预计耗时 | 依赖 |
 |------|---------|------|
 | `ProgressionStore` + `ProgressionSystem`（声望 + 四诊经验） | 5h | - |
-| `TimeStore` + `DayNightSystem`（日/时段推进） | 4h | 复用 Off Trail 代码 |
-| 日循环串联：晨→昼（接诊）→暮→夜，时段自动推进 | 4h | TimeStore |
+| `TimeSystem` 行为驱动时间（ConsumeTime 推进游戏内分钟） | 3h | 已有 TimeStore/TimeSystem 骨架 |
+| 日循环串联：行为消耗时间，过营业时间自动打烊，玩家选择结束当天 | 4h | TimeSystem |
 | 药理笔记 UI（记录诊断结果和方剂） | 6h | DiagnosisStore, PrescriptionStore |
 | 整体流程测试 + Bug 修复 | 6h | 全部 |
 
 **Phase 1 交付物**：
-- 完整的一天循环可玩：来客→诊断→开方→结果→声望变化
+- 完整的一天循环可玩：来客上门→望闻问切（消耗时间）→开方→结果→声望变化→打烊/结束当天
 - 15-20 种药材，10 个病症
 - 药理笔记可查阅
 - **这是你的第一个"能看到效果"的里程碑——写完代码立刻能玩**

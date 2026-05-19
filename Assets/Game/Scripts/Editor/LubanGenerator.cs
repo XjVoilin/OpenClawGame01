@@ -11,16 +11,37 @@ using Debug = UnityEngine.Debug;
 
 namespace SpiritHealer.Editor
 {
+    /// <summary>
+    /// Luban 配置表 Editor 工具 —— 通用版。
+    /// 自动发现 DataTables/Datas 下的模块结构（扁平或分模块），
+    /// 解析 macOS/Windows 上的 dotnet 路径，一键生成 C# + JSON。
+    /// 
+    /// 约定：
+    ///   Tools/Luban/Luban/Luban.dll          — Luban 可执行 DLL
+    ///   Tools/Luban/DataTables/Defines/       — XML schema 定义（枚举/bean）
+    ///   Tools/Luban/DataTables/Datas/         — 扁平模式：__tables__.xlsx + 数据 xlsx 直接放此目录
+    ///   Tools/Luban/DataTables/Datas/Common/  — 分模块模式：公共表
+    ///   Tools/Luban/DataTables/Datas/GameN/   — 分模块模式：游戏子模块
+    ///
+    /// 输出：
+    ///   Assets/Game/Res/Configs/              — JSON 数据
+    ///   Assets/Game/Scripts/Generated/Configs/ — C# 代码 + TablesExt.cs
+    /// </summary>
     public class LubanGeneratorWindow : EditorWindow
     {
         private const string LubanDll = "Tools/Luban/Luban/Luban.dll";
         private const string DataTablesRoot = "Tools/Luban/DataTables";
         private const string DefinesDir = "Defines";
         private const string DatasDir = "Datas";
+        private const string CommonModule = "Common";
 
+        private List<string> _modules = new();
+        private bool _isFlatLayout;
         private Vector2 _scrollPos;
 
         private static GUIStyle _headerStyle;
+        private static GUIStyle _sectionLabelStyle;
+        private static GUIStyle _moduleButtonStyle;
         private static GUIStyle _statusBarStyle;
 
         private static bool? _prerequisitesValid;
@@ -35,6 +56,14 @@ namespace SpiritHealer.Editor
         [MenuItem("JulyGF/配置表/生成全部", priority = 11)]
         public static void MenuGenerateAll() => GenerateAll();
 
+        private void OnEnable() => RefreshModules();
+
+        private void RefreshModules()
+        {
+            _isFlatLayout = DetectFlatLayout();
+            _modules = _isFlatLayout ? new List<string>() : DiscoverModules();
+        }
+
         private static void EnsureStyles()
         {
             if (_headerStyle != null) return;
@@ -44,6 +73,19 @@ namespace SpiritHealer.Editor
                 fontSize = 15,
                 alignment = TextAnchor.MiddleCenter,
                 padding = new RectOffset(0, 0, 6, 6),
+            };
+
+            _sectionLabelStyle = new GUIStyle(EditorStyles.boldLabel)
+            {
+                fontSize = 11,
+                padding = new RectOffset(2, 0, 2, 2),
+            };
+
+            _moduleButtonStyle = new GUIStyle("Button")
+            {
+                alignment = TextAnchor.MiddleLeft,
+                padding = new RectOffset(12, 8, 4, 4),
+                fixedHeight = 24,
             };
 
             _statusBarStyle = new GUIStyle(EditorStyles.helpBox)
@@ -58,6 +100,7 @@ namespace SpiritHealer.Editor
         private void OnGUI()
         {
             EnsureStyles();
+            const float pad = 8f;
 
             EditorGUILayout.Space(4);
             GUILayout.Label("Luban 配置表生成", _headerStyle);
@@ -66,7 +109,7 @@ namespace SpiritHealer.Editor
 
             using (new EditorGUILayout.HorizontalScope())
             {
-                GUILayout.Space(8);
+                GUILayout.Space(pad);
                 using (new EditorGUILayout.VerticalScope())
                 {
                     var prevBg = GUI.backgroundColor;
@@ -75,12 +118,53 @@ namespace SpiritHealer.Editor
                         GenerateAll();
                     GUI.backgroundColor = prevBg;
                 }
-                GUILayout.Space(8);
+                GUILayout.Space(pad);
+            }
+
+            if (!_isFlatLayout && _modules.Count > 0)
+            {
+                EditorGUILayout.Space(6);
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    GUILayout.Space(pad);
+                    using (new EditorGUILayout.VerticalScope())
+                    {
+                        GUILayout.Label("公共模块", _sectionLabelStyle);
+                        if (GUILayout.Button("Common", _moduleButtonStyle))
+                            GenerateSingle(CommonModule);
+
+                        EditorGUILayout.Space(4);
+                        GUILayout.Label($"游戏模块（{_modules.Count}）", _sectionLabelStyle);
+
+                        using (var scroll = new EditorGUILayout.ScrollViewScope(_scrollPos, EditorStyles.helpBox))
+                        {
+                            _scrollPos = scroll.scrollPosition;
+                            for (var i = 0; i < _modules.Count; i++)
+                            {
+                                if (i % 2 == 1) DrawRowBackground();
+                                if (GUILayout.Button(_modules[i], _moduleButtonStyle))
+                                    GenerateSingle(_modules[i]);
+                            }
+                        }
+                    }
+                    GUILayout.Space(pad);
+                }
             }
 
             GUILayout.FlexibleSpace();
             DrawSeparator();
-            GUILayout.Label("  配置表路径: Tools/Luban/DataTables", _statusBarStyle);
+            var layoutDesc = _isFlatLayout ? "扁平模式" : $"1 Common + {_modules.Count} 子模块";
+            GUILayout.Label($"  {layoutDesc}  |  配置表路径: {DataTablesRoot}", _statusBarStyle);
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.FlexibleSpace();
+                if (GUILayout.Button("刷新", GUILayout.Width(50), GUILayout.Height(20)))
+                {
+                    _prerequisitesValid = null;
+                    RefreshModules();
+                }
+                GUILayout.Space(4);
+            }
             EditorGUILayout.Space(2);
         }
 
@@ -90,11 +174,28 @@ namespace SpiritHealer.Editor
         {
             if (!CheckPrerequisitesCached()) return false;
 
+            var isFlat = DetectFlatLayout();
+
             try
             {
-                EditorUtility.DisplayProgressBar("Luban", "Generating Common...", 0.5f);
-                if (!Generate())
-                    return false;
+                if (isFlat)
+                {
+                    EditorUtility.DisplayProgressBar("Luban", "生成中...", 0.5f);
+                    if (!GenerateFlat()) return false;
+                }
+                else
+                {
+                    var modules = DiscoverModules();
+                    var all = new List<string> { CommonModule };
+                    all.AddRange(modules);
+                    for (var i = 0; i < all.Count; i++)
+                    {
+                        var module = all[i];
+                        EditorUtility.DisplayProgressBar("Luban", $"生成 {module}... ({i + 1}/{all.Count})",
+                            (float)i / all.Count);
+                        if (!GenerateModule(module)) return false;
+                    }
+                }
             }
             finally
             {
@@ -127,13 +228,17 @@ namespace SpiritHealer.Editor
                     RedirectStandardError = true,
                     CreateNoWindow = true,
                 };
+                ApplyDotnetEnvironment(psi);
 
                 using var p = Process.Start(psi);
+                var stderrTask = p?.StandardError.ReadToEndAsync();
                 var stdout = p?.StandardOutput.ReadToEnd()?.Trim();
                 p?.WaitForExit();
+                var stderr = stderrTask?.Result?.Trim();
                 if (p == null || p.ExitCode != 0)
                 {
-                    Debug.LogError($"[Luban] dotnet 运行时不可用 (路径: {dotnet})，请安装 .NET SDK");
+                    var detail = !string.IsNullOrEmpty(stderr) ? $"\n{stderr}" : "";
+                    Debug.LogError($"[Luban] dotnet 运行时不可用 (路径: {dotnet})，请安装 .NET SDK{detail}");
                     return false;
                 }
 
@@ -150,16 +255,54 @@ namespace SpiritHealer.Editor
 
         #endregion
 
-        #region Internal
+        #region Generation
 
-        private static bool Generate()
+        private static void GenerateSingle(string module)
+        {
+            if (!CheckPrerequisitesCached()) return;
+            try
+            {
+                EditorUtility.DisplayProgressBar("Luban", $"生成 {module}...", 0.5f);
+                if (GenerateModule(module)) AssetDatabase.Refresh();
+            }
+            finally
+            {
+                EditorUtility.ClearProgressBar();
+            }
+        }
+
+        private static bool GenerateFlat()
         {
             const string jsonOut = "Assets/Game/Res/Configs";
             const string codeOut = "Assets/Game/Scripts/Generated/Configs";
             const string topModule = "cfg";
-            var dataDir = $"{DatasDir}";
 
-            var schemaFiles = BuildSchemaFiles();
+            var schemaFiles = BuildSchemaFilesFlat();
+            if (schemaFiles == null) return false;
+
+            var confPath = WriteConf(topModule, schemaFiles, DatasDir);
+            var success = RunLuban(confPath, jsonOut, codeOut);
+
+            if (success)
+            {
+                var codeOutAbs = Path.GetFullPath(Path.Combine(ProjectRoot, codeOut));
+                GenerateTablesExt(codeOutAbs, topModule);
+                Debug.Log("[Luban] 生成完成");
+            }
+            return success;
+        }
+
+        private static bool GenerateModule(string module)
+        {
+            var isCommon = module == CommonModule;
+            var jsonOut = isCommon ? "Assets/Game/Res/Configs" : $"Assets/Game/MiniGames/{module}/Res/Configs";
+            var codeOut = isCommon
+                ? "Assets/Game/Scripts/Generated/Configs"
+                : $"Assets/Game/MiniGames/{module}/Scripts/Generated";
+            var topModule = isCommon ? "cfg" : $"cfg.{module}";
+            var dataDir = $"{DatasDir}/{module}";
+
+            var schemaFiles = BuildSchemaFilesModular(module);
             if (schemaFiles == null) return false;
 
             var confPath = WriteConf(topModule, schemaFiles, dataDir);
@@ -169,9 +312,8 @@ namespace SpiritHealer.Editor
             {
                 var codeOutAbs = Path.GetFullPath(Path.Combine(ProjectRoot, codeOut));
                 GenerateTablesExt(codeOutAbs, topModule);
-                Debug.Log("[Luban] Common 生成完成");
+                Debug.Log($"[Luban] {module} 生成完成");
             }
-
             return success;
         }
 
@@ -200,6 +342,7 @@ namespace SpiritHealer.Editor
                 RedirectStandardError = true,
                 CreateNoWindow = true,
             };
+            ApplyDotnetEnvironment(psi);
 
             try
             {
@@ -241,18 +384,57 @@ namespace SpiritHealer.Editor
             }
         }
 
-        private static List<string> BuildSchemaFiles()
+        #endregion
+
+        #region Layout Detection & Module Discovery
+
+        /// <summary>
+        /// 扁平模式：__tables__.xlsx 直接在 Datas/ 下。
+        /// 分模块模式：__tables__.xlsx 在 Datas/Common/ 等子目录下。
+        /// </summary>
+        private static bool DetectFlatLayout()
+        {
+            var flatTableFile = Path.Combine(ProjectRoot, DataTablesRoot, DatasDir, "__tables__.xlsx");
+            return File.Exists(flatTableFile);
+        }
+
+        private static List<string> DiscoverModules()
+        {
+            var result = new List<string>();
+            var datasPath = Path.Combine(ProjectRoot, DataTablesRoot, DatasDir);
+            if (!Directory.Exists(datasPath)) return result;
+
+            foreach (var dir in Directory.GetDirectories(datasPath).OrderBy(d => d))
+            {
+                var name = Path.GetFileName(dir);
+                if (name == CommonModule) continue;
+                if (File.Exists(Path.Combine(dir, "__tables__.xlsx")))
+                    result.Add(name);
+            }
+            return result;
+        }
+
+        #endregion
+
+        #region Schema Files
+
+        private static List<string> BuildSchemaFilesFlat()
         {
             var basePath = Path.Combine(ProjectRoot, DataTablesRoot, DatasDir);
-
             var tablesFile = Path.Combine(basePath, "__tables__.xlsx");
             if (!File.Exists(tablesFile))
             {
-                Debug.LogError($"[Luban] Common 缺少 __tables__.xlsx");
+                Debug.LogError("[Luban] 缺少 Datas/__tables__.xlsx");
                 return null;
             }
 
-            var files = new List<string> { DefinesDir, $"{DatasDir}/__tables__.xlsx" };
+            var files = new List<string>();
+
+            var definesPath = Path.Combine(ProjectRoot, DataTablesRoot, DefinesDir);
+            if (Directory.Exists(definesPath))
+                files.Add(DefinesDir);
+
+            files.Add($"{DatasDir}/__tables__.xlsx");
 
             var beansFile = Path.Combine(basePath, "__beans__.xlsx");
             if (File.Exists(beansFile))
@@ -261,6 +443,38 @@ namespace SpiritHealer.Editor
             var enumsFile = Path.Combine(basePath, "__enums__.xlsx");
             if (File.Exists(enumsFile))
                 files.Add($"{DatasDir}/__enums__.xlsx");
+
+            return files;
+        }
+
+        private static List<string> BuildSchemaFilesModular(string module)
+        {
+            var basePath = Path.Combine(ProjectRoot, DataTablesRoot, DatasDir, module);
+            var tablesFile = Path.Combine(basePath, "__tables__.xlsx");
+            if (!File.Exists(tablesFile))
+            {
+                Debug.LogError($"[Luban] {module} 缺少 __tables__.xlsx");
+                return null;
+            }
+
+            var files = new List<string>();
+
+            if (module == CommonModule)
+            {
+                var definesPath = Path.Combine(ProjectRoot, DataTablesRoot, DefinesDir);
+                if (Directory.Exists(definesPath))
+                    files.Add(DefinesDir);
+            }
+
+            files.Add($"{DatasDir}/{module}/__tables__.xlsx");
+
+            var beansFile = Path.Combine(basePath, "__beans__.xlsx");
+            if (File.Exists(beansFile))
+                files.Add($"{DatasDir}/{module}/__beans__.xlsx");
+
+            var enumsFile = Path.Combine(basePath, "__enums__.xlsx");
+            if (File.Exists(enumsFile))
+                files.Add($"{DatasDir}/{module}/__enums__.xlsx");
 
             return files;
         }
@@ -293,14 +507,14 @@ namespace SpiritHealer.Editor
             sb.AppendLine("  ]");
             sb.Append("}");
 
-            var confPath = Path.Combine(ProjectRoot, DataTablesRoot, ".luban_common_temp.conf");
+            var confPath = Path.Combine(ProjectRoot, DataTablesRoot, $".luban_temp_{topModule.Replace(".", "_")}.conf");
             File.WriteAllText(confPath, sb.ToString());
             return confPath;
         }
 
         #endregion
 
-        #region TablesExt
+        #region TablesExt Generation
 
         private struct TablePropInfo
         {
@@ -331,7 +545,6 @@ namespace SpiritHealer.Editor
                         : propMatches[i].Groups[2].Value.ToLower()
                 });
             }
-
             return props;
         }
 
@@ -369,13 +582,87 @@ namespace SpiritHealer.Editor
 
         #endregion
 
+        #region dotnet Resolution (macOS + Windows)
+
+        private static string _resolvedDotnet;
+
+        private static string ResolveDotnet()
+        {
+            if (_resolvedDotnet != null) return _resolvedDotnet;
+
+#if UNITY_EDITOR_OSX
+            string[] candidates =
+            {
+                "/usr/local/share/dotnet/dotnet",
+                "/opt/homebrew/bin/dotnet",
+                "/usr/local/bin/dotnet",
+                Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                    ".dotnet/dotnet"),
+            };
+            foreach (var c in candidates)
+            {
+                if (File.Exists(c))
+                {
+                    _resolvedDotnet = c;
+                    return c;
+                }
+            }
+
+            try
+            {
+                var shell = Environment.GetEnvironmentVariable("SHELL") ?? "/bin/zsh";
+                var psi = new ProcessStartInfo
+                {
+                    FileName = shell,
+                    Arguments = "-lc \"which dotnet\"",
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    CreateNoWindow = true,
+                };
+                using var p = Process.Start(psi);
+                var output = p?.StandardOutput.ReadToEnd()?.Trim();
+                p?.WaitForExit();
+                if (p?.ExitCode == 0 && !string.IsNullOrEmpty(output) && File.Exists(output))
+                {
+                    _resolvedDotnet = output;
+                    return output;
+                }
+            }
+            catch { /* fallback below */ }
+#endif
+            _resolvedDotnet = "dotnet";
+            return "dotnet";
+        }
+
+        private static void ApplyDotnetEnvironment(ProcessStartInfo psi)
+        {
+#if UNITY_EDITOR_OSX
+            var dotnetPath = ResolveDotnet();
+            if (dotnetPath == "dotnet") return;
+
+            var dotnetRoot = Path.GetDirectoryName(dotnetPath);
+            psi.Environment["DOTNET_ROOT"] = dotnetRoot;
+
+            var currentPath = psi.Environment.ContainsKey("PATH") ? psi.Environment["PATH"] : "";
+            string[] extraPaths = { dotnetRoot, "/usr/local/bin", "/opt/homebrew/bin" };
+            foreach (var ep in extraPaths)
+            {
+                if (!string.IsNullOrEmpty(ep) && !currentPath.Contains(ep))
+                    currentPath = ep + ":" + currentPath;
+            }
+            psi.Environment["PATH"] = currentPath;
+#endif
+        }
+
+        #endregion
+
         #region Helpers
 
         private static bool CheckPrerequisitesCached()
         {
             if (_prerequisitesValid.HasValue)
                 return _prerequisitesValid.Value;
-
             _prerequisitesValid = ValidatePrerequisites();
             return _prerequisitesValid.Value;
         }
@@ -387,18 +674,17 @@ namespace SpiritHealer.Editor
             EditorGUI.DrawRect(rect, new Color(0.3f, 0.3f, 0.3f, 0.6f));
         }
 
-        private static string _resolvedDotnet;
-
-        private static string ResolveDotnet()
+        private static void DrawRowBackground()
         {
-            if (_resolvedDotnet != null) return _resolvedDotnet;
-            _resolvedDotnet = "dotnet";
-            return "dotnet";
+            var rect = GUILayoutUtility.GetRect(0f, 0f, GUILayout.ExpandWidth(true));
+            rect.height = 24f;
+            rect.y -= 1f;
+            EditorGUI.DrawRect(rect, new Color(0f, 0f, 0f, 0.06f));
         }
 
         private static void CleanTempConf(string path)
         {
-            if (File.Exists(path) && path.Contains("_temp.conf"))
+            if (File.Exists(path) && path.Contains("_temp"))
                 File.Delete(path);
         }
 
