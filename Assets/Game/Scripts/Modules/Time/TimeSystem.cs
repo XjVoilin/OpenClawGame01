@@ -30,19 +30,19 @@ namespace SpiritHealer
         public void ConsumeTime(int minutes)
         {
             var remaining = minutes;
+            var oldPhase = _store.CurrentPhase;
             while (remaining > 0)
             {
-                var oldPhase = _store.CurrentPhase;
                 var toNext = GetMinutesToNextPhase();
                 var step = Math.Min(remaining, toNext);
                 _store.AddMinutes(step);
                 remaining -= step;
-
-                var newPhase = _store.CurrentPhase;
-                if (oldPhase != newPhase)
-                {
-                    Publish(new PhaseChangedEvent { OldPhase = oldPhase, NewPhase = newPhase });
-                }
+            }
+            
+            var newPhase = _store.CurrentPhase;
+            if (oldPhase != newPhase)
+            {
+                Publish(new PhaseChangedEvent { OldPhase = oldPhase, NewPhase = newPhase });
             }
         }
 
