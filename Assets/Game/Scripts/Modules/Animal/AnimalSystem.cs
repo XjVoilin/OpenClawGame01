@@ -73,6 +73,7 @@ namespace CozyYard
                 DaysSinceLastProduce = 0,
                 FedToday = false
             });
+            GetSystem<MilestoneSystem>().NotifyAdoptAnimal();
             return true;
         }
 

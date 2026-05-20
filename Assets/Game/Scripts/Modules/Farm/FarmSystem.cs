@@ -60,6 +60,7 @@ namespace CozyYard
             _timeSystem.ConsumeTime(15);
 
             Publish(new CropPlantedEvent { GridX = x, GridY = y, CropId = cropId });
+            GetSystem<MilestoneSystem>().NotifyPlantCrop();
             return true;
         }
 
