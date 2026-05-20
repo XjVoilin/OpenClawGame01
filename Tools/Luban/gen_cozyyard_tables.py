@@ -195,16 +195,16 @@ def create_uiwindow_xlsx():
     comments = ["##",    "ID", "描述",  "窗口名称",    "需要黑色遮罩",     "点击空白关闭",       "进入动画",       "退出动画",       "忽略安全区域",      "UI层级"]
 
     rows = [
-        ["", 1001, "游戏HUD",     "GameHUD",           False, False, 0, 0, True, 1],
-        ["", 1002, "背包",         "InventoryWindow",   True,  True,  1, 1, False, 2],
-        ["", 1003, "建造面板",     "BuildWindow",       True,  True,  1, 1, False, 2],
-        ["", 1004, "制作界面",     "CraftWindow",       True,  True,  1, 1, False, 2],
-        ["", 1005, "来客对话",     "VisitorWindow",     True,  True,  1, 1, False, 2],
-        ["", 1006, "里程碑",       "MilestoneWindow",   True,  True,  1, 1, False, 2],
-        ["", 1007, "配方本",       "RecipeBookWindow",  True,  True,  1, 1, False, 2],
-        ["", 1008, "问妈",         "PhoneWindow",       True,  True,  1, 1, False, 2],
-        ["", 1009, "货郎商店",     "ShopWindow",        True,  True,  1, 1, False, 2],
-        ["", 1010, "设置",         "SettingsWindow",    True,  True,  1, 1, False, 2],
+        ["", 1001, "游戏HUD",     "GameHUD",           False, False, 0, 0, True, 100],
+        ["", 1002, "背包",         "InventoryWindow",   True,  True,  3, 3, False, 200],
+        ["", 1003, "建造面板",     "BuildWindow",       True,  True,  3, 3, False, 200],
+        ["", 1004, "制作界面",     "CraftWindow",       True,  True,  3, 3, False, 200],
+        ["", 1005, "来客对话",     "VisitorWindow",     True,  True,  3, 3, False, 200],
+        ["", 1006, "里程碑",       "MilestoneWindow",   True,  True,  3, 3, False, 200],
+        ["", 1007, "配方本",       "RecipeBookWindow",  True,  True,  3, 3, False, 200],
+        ["", 1008, "问妈",         "PhoneWindow",       True,  True,  3, 3, False, 200],
+        ["", 1009, "货郎商店",     "ShopWindow",        True,  True,  3, 3, False, 200],
+        ["", 1010, "设置",         "SettingsWindow",    True,  True,  3, 3, False, 200],
     ]
 
     write_sheet(ws, headers, types, comments, rows)
