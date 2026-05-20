@@ -93,6 +93,11 @@ namespace CozyYard
             }
         }
 
+        public void ExpandGrid(int newWidth, int newHeight)
+        {
+            _store.ExpandGrid(newWidth, newHeight);
+        }
+
         public Vector2 GridToWorldPosition(int x, int y)
         {
             return IsometricUtils.GridToWorld(x, y);

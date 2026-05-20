@@ -79,5 +79,44 @@ namespace CozyYard
             }
             MarkDirty();
         }
+
+        public void ExpandGrid(int newWidth, int newHeight)
+        {
+            if (newWidth <= Data.Width && newHeight <= Data.Height) return;
+
+            int oldW = Data.Width;
+            int oldH = Data.Height;
+            var oldCells = Data.Cells;
+
+            Data.Width = newWidth;
+            Data.Height = newHeight;
+            Data.Cells = new System.Collections.Generic.List<GridCellData>();
+
+            for (int y = 0; y < newHeight; y++)
+            {
+                for (int x = 0; x < newWidth; x++)
+                {
+                    if (x < oldW && y < oldH)
+                    {
+                        var cell = oldCells[y * oldW + x];
+                        cell.X = x;
+                        cell.Y = y;
+                        Data.Cells.Add(cell);
+                    }
+                    else
+                    {
+                        Data.Cells.Add(new GridCellData
+                        {
+                            X = x,
+                            Y = y,
+                            State = CellState.Empty,
+                            OccupantId = 0,
+                            ObstacleId = 0
+                        });
+                    }
+                }
+            }
+            MarkDirty();
+        }
     }
 }
