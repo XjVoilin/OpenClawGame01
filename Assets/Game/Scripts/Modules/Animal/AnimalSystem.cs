@@ -21,6 +21,7 @@ namespace CozyYard
         public int ItemId;
     }
 
+    /// <summary>动物系统：管理动物的收养、每日喂食、产出周期计算，以及宠物随机礼物。</summary>
     public class AnimalSystem : GameSystemBase
     {
         private AnimalStore _store;

@@ -3,6 +3,7 @@ using JulyArch;
 
 namespace CozyYard
 {
+    /// <summary>里程碑系统：监听各类游戏事件累计进度，达成条件时发放奖励并触发院子扩建。</summary>
     public class MilestoneSystem : GameSystemBase
     {
         private MilestoneStore _store;

@@ -15,6 +15,7 @@ namespace CozyYard
         public int VisitorId;
     }
 
+    /// <summary>来客系统：每日根据概率和天气生成来客订单，处理订单完成与拒绝，支持大门开关控制。</summary>
     public class VisitorSystem : GameSystemBase
     {
         private VisitorStore _store;

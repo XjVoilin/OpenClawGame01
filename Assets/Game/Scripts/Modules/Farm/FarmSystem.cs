@@ -3,6 +3,7 @@ using JulyArch;
 
 namespace CozyYard
 {
+    /// <summary>种植系统：处理翻地、播种、浇水、收获及每日作物生长，与天气联动自动浇水。</summary>
     public class FarmSystem : GameSystemBase
     {
         private FarmStore _store;

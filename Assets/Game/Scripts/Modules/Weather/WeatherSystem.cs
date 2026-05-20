@@ -2,6 +2,7 @@ using JulyArch;
 
 namespace CozyYard
 {
+    /// <summary>天气系统：每日根据季节概率随机天气，影响作物浇水和来客到访概率。</summary>
     public class WeatherSystem : GameSystemBase
     {
         private WeatherStore _store;

@@ -3,6 +3,7 @@ using JulyArch;
 
 namespace CozyYard
 {
+    /// <summary>建造系统：验证并执行建筑的放置与拆除，消耗材料和时间，拆除返还部分材料。</summary>
     public class BuildSystem : GameSystemBase
     {
         private const float RefundRatio = 0.6f;

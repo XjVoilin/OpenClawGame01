@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace CozyYard
 {
+    /// <summary>时间系统：驱动游戏内时间流逝、日夜交替、季节轮换，支持加速和行动消耗时间。</summary>
     public class TimeSystem : GameSystemBase, IUpdatableSystem
     {
         private TimeStore _store;

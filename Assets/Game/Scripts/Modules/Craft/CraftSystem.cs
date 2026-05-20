@@ -21,6 +21,7 @@ namespace CozyYard
 
     public struct ExperimentFailedEvent { }
 
+    /// <summary>制作系统：管理配方解锁、材料消耗制作、问妈妈获取配方、自由实验（失败产出黑暗料理）。</summary>
     public class CraftSystem : GameSystemBase
     {
         private CraftStore _store;

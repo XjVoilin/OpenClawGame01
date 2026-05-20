@@ -2,6 +2,7 @@ using JulyArch;
 
 namespace CozyYard
 {
+    /// <summary>背包系统：管理玩家物品的增删、堆叠、金币收支和容量扩展。</summary>
     public class InventorySystem : GameSystemBase
     {
         private InventoryStore _store;

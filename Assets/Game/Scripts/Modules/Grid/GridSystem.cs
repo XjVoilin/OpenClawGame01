@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace CozyYard
 {
+    /// <summary>网格系统：管理院子的格子状态、障碍物清除、占位与坐标转换。</summary>
     public class GridSystem : GameSystemBase
     {
         private GridStore _store;
