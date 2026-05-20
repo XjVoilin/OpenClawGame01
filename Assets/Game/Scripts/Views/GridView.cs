@@ -12,6 +12,7 @@ namespace CozyYard
         [SerializeField] private Transform _tilesParent;
 
         private GridSystem _gridSystem;
+        private FarmSystem _farmSystem;
         private SpriteRenderer[,] _tileRenderers;
         private GameObject _highlightObj;
 
@@ -20,6 +21,7 @@ namespace CozyYard
         protected override void OnViewEnable()
         {
             _gridSystem = this.GetSystem<GridSystem>();
+            _farmSystem = this.GetSystem<FarmSystem>();
             this.Subscribe<GridCellChangedEvent>(OnCellChanged);
             RenderGrid();
             CreateHighlight();
@@ -94,9 +96,35 @@ namespace CozyYard
         private void OnTileClicked(int x, int y)
         {
             var cell = _gridSystem.GetCell(x, y);
-            if (cell.State == CellState.Obstacle)
+            if (cell == null) return;
+
+            switch (cell.State)
             {
-                _gridSystem.ClearObstacle(x, y);
+                case CellState.Obstacle:
+                    _gridSystem.ClearObstacle(x, y);
+                    break;
+                case CellState.Empty:
+                    _farmSystem.TillSoil(x, y);
+                    break;
+                case CellState.Soil:
+                    var crop = _farmSystem.GetCropAt(x, y);
+                    if (crop == null)
+                    {
+                        _farmSystem.PlantCrop(x, y, 1, 2001);
+                    }
+                    else if (crop.Stage == CropGrowthStage.Mature)
+                    {
+                        _farmSystem.HarvestCrop(x, y);
+                    }
+                    else if (!crop.WateredToday && crop.Stage != CropGrowthStage.Withered)
+                    {
+                        _farmSystem.WaterCrop(x, y);
+                    }
+                    else if (crop.Stage == CropGrowthStage.Withered)
+                    {
+                        _farmSystem.RemoveWithered(x, y);
+                    }
+                    break;
             }
         }
 
