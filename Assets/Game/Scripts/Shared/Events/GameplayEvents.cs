@@ -23,7 +23,8 @@ namespace CozyYard
 
     public struct OrderCompletedEvent
     {
-        public int OrderId;
+        public int VisitorId;
+        public int RewardCoins;
     }
 
     public struct MilestoneAchievedEvent
