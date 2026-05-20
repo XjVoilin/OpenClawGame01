@@ -1,5 +1,5 @@
 using Cysharp.Threading.Tasks;
-using SpiritHealer.Aot;
+using CozyYard.Aot;
 using JulyArch;
 using JulyCore;
 using JulyCore.Provider.Config;
@@ -13,7 +13,7 @@ using JulyCore.Provider.Pool;
 using JulyCore.Provider.GM;
 #endif
 
-namespace SpiritHealer
+namespace CozyYard
 {
     public class HotUpdateRegistrar : IHotUpdateRegistrar, IAppArch
     {
@@ -49,31 +49,17 @@ namespace SpiritHealer
 #if JULYGF_DEBUG
         private static void RegisterGMCommands()
         {
-
         }
 #endif
 
         private void RegisterStores(GameContext ctx)
         {
-            ctx.RegisterStore(new TimeStore());
-            ctx.RegisterStore(new DiagnosisStore());
-            ctx.RegisterStore(new GardenStore());
-            ctx.RegisterStore(new PrescriptionStore());
-            ctx.RegisterStore(new VisitorStore());
-            ctx.RegisterStore(new PlayerStore());
-            ctx.RegisterStore(new InventoryStore());
-            ctx.RegisterStore(new MilestoneStore());
+            ctx.RegisterStore(new GridStore());
         }
 
         private void RegisterSystems(GameContext ctx)
         {
-            ctx.RegisterSystem(new TimeSystem());
-            ctx.RegisterSystem(new DiagnosisSystem());
-            ctx.RegisterSystem(new PrescriptionSystem());
-            ctx.RegisterSystem(new VisitorSystem());
-            ctx.RegisterSystem(new GardenSystem());
-            ctx.RegisterSystem(new EncounterSystem());
-            ctx.RegisterSystem(new GameLoopSystem());
+            ctx.RegisterSystem(new GridSystem());
         }
 
         public async UniTask OnGameLaunch()
@@ -82,8 +68,11 @@ namespace SpiritHealer
 
             await GF.Scene.SwitchAsync("Main");
 
-            AppArch.Context.GetSystem<TimeSystem>().EnsureDayStarted();
-            AppArch.Context.GetSystem<VisitorSystem>().GenerateDailyVisitors();
+            var gridSystem = AppArch.Context.GetSystem<GridSystem>();
+            if (gridSystem.Width == 0)
+            {
+                gridSystem.InitializeNewGrid(12, 12);
+            }
 
             GF.UI.Open(UIWindowId.GameHUD);
         }
