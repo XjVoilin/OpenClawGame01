@@ -76,6 +76,7 @@ def create_tables_xlsx():
         ["", "TbShop",       "ShopItem",   "true", "shop.xlsx",       "map", "id", "", "商店商品表",   "", ""],
         ["", "TbUIWindow",   "UIWindow",   "true", "uiwindow.xlsx",   "map", "id", "", "UI窗口表",     "", ""],
         ["", "TbLanguage",   "Language",   "true", "language.xlsx",   "map", "key", "", "多语言表",    "", ""],
+        ["", "TbWeather",    "Weather",    "true", "weather.xlsx",    "map", "id", "", "天气配置表",   "", ""],
     ]
 
     for t in tables:
@@ -470,6 +471,28 @@ def create_shop_xlsx():
     print(f"  -> {path}")
 
 
+def create_weather_xlsx():
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "weather"
+
+    headers  = ["##var", "id", "season", "sunny", "cloudy", "lightRain", "heavyRain", "windy"]
+    types    = ["##type", "int", "string", "int", "int", "int", "int", "int"]
+    comments = ["##",    "ID", "季节",    "晴天%",  "多云%",   "小雨%",      "大雨%",     "大风%"]
+
+    rows = [
+        ["", 1, "Spring", 30, 30, 25, 10, 5],
+        ["", 2, "Summer", 45, 20, 15, 10, 10],
+        ["", 3, "Autumn", 20, 25, 30, 15, 10],
+        ["", 4, "Winter", 25, 35, 15, 5,  20],
+    ]
+
+    write_sheet(ws, headers, types, comments, rows)
+    path = os.path.join(DATAS_DIR, "weather.xlsx")
+    wb.save(path)
+    print(f"  -> {path}")
+
+
 def create_language_xlsx():
     wb = Workbook()
     ws = wb.active
@@ -561,5 +584,6 @@ if __name__ == "__main__":
     create_order_xlsx()
     create_expansion_xlsx()
     create_shop_xlsx()
+    create_weather_xlsx()
     generate_tables_ext()
     print("Done!")
