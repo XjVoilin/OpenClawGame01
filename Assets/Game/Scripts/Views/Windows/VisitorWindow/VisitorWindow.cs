@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using JulyArch;
-using JulyCore;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace CozyYard
 {
-    public class VisitorWindow : GameView
+    public class VisitorWindow : GameUIView
     {
         private static readonly Dictionary<int, string> VisitorNames = new()
         {
@@ -22,13 +21,11 @@ namespace CozyYard
 
         private readonly List<GameObject> _entries = new();
 
-        public override IGameContext GetArchitecture() => AppArch.Context;
-
         protected override void OnViewEnable()
         {
-            this.Subscribe<VisitorArrivedEvent>(OnVisitorChanged);
-            this.Subscribe<VisitorLeftEvent>(OnVisitorLeft);
-            this.Subscribe<OrderCompletedEvent>(OnOrderCompleted);
+            Subscribe<VisitorArrivedEvent>(OnVisitorChanged);
+            Subscribe<VisitorLeftEvent>(OnVisitorLeft);
+            Subscribe<OrderCompletedEvent>(OnOrderCompleted);
             if (_gateToggleBtn) _gateToggleBtn.onClick.AddListener(OnGateToggle);
             if (_closeBtn) _closeBtn.onClick.AddListener(OnClose);
             Refresh();
@@ -53,7 +50,7 @@ namespace CozyYard
             if (_entryPrefab == null || _listContainer == null) return;
 
             var visitorQueries = this.Query<IVisitorQueries>();
-            var visitorSystem = this.GetSystem<VisitorSystem>();
+            var visitorSystem = GetSystem<VisitorSystem>();
 
             foreach (var order in visitorQueries.TodayOrders)
             {
@@ -100,7 +97,7 @@ namespace CozyYard
 
         private void OnGateToggle()
         {
-            this.GetSystem<VisitorSystem>().ToggleGate();
+            GetSystem<VisitorSystem>().ToggleGate();
             RefreshGate();
         }
 
@@ -121,6 +118,6 @@ namespace CozyYard
             _entries.Clear();
         }
 
-        private void OnClose() => gameObject.SetActive(false);
+        private void OnClose() => CloseWindow();
     }
 }

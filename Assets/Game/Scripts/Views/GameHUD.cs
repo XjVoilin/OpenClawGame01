@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace CozyYard
 {
-    public class GameHUD : GameView
+    public class GameHUD : GameUIView
     {
         [SerializeField] private Button _inventoryBtn;
         [SerializeField] private Button _buildBtn;
@@ -19,13 +19,11 @@ namespace CozyYard
         [SerializeField] private TextMeshProUGUI _gateText;
         [SerializeField] private TextMeshProUGUI _visitorBadgeText;
 
-        public override IGameContext GetArchitecture() => AppArch.Context;
-
         protected override void OnViewEnable()
         {
-            this.Subscribe<VisitorArrivedEvent>(OnVisitorChanged);
-            this.Subscribe<VisitorLeftEvent>(OnVisitorLeft);
-            this.Subscribe<OrderCompletedEvent>(OnOrderCompleted);
+            Subscribe<VisitorArrivedEvent>(OnVisitorChanged);
+            Subscribe<VisitorLeftEvent>(OnVisitorLeft);
+            Subscribe<OrderCompletedEvent>(OnOrderCompleted);
 
             if (_inventoryBtn) _inventoryBtn.onClick.AddListener(() => GF.UI.Open(UIWindowId.InventoryWindow));
             if (_buildBtn) _buildBtn.onClick.AddListener(() => GF.UI.Open(UIWindowId.BuildWindow));
@@ -58,7 +56,7 @@ namespace CozyYard
 
         private void OnGateToggle()
         {
-            this.GetSystem<VisitorSystem>().ToggleGate();
+            GetSystem<VisitorSystem>().ToggleGate();
             RefreshGate();
         }
 

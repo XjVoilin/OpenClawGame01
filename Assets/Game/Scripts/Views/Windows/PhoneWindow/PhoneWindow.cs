@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using JulyArch;
-using JulyCore;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace CozyYard
 {
-    public class PhoneWindow : GameView
+    public class PhoneWindow : GameUIView
     {
         private const int MomAskLimit = 1;
 
@@ -22,11 +21,9 @@ namespace CozyYard
         private readonly List<GameObject> _itemEntries = new();
         private int _selectedItemId;
 
-        public override IGameContext GetArchitecture() => AppArch.Context;
-
         protected override void OnViewEnable()
         {
-            this.Subscribe<RecipeUnlockedEvent>(OnRecipeUnlocked);
+            Subscribe<RecipeUnlockedEvent>(OnRecipeUnlocked);
             if (_askBtn) _askBtn.onClick.AddListener(OnAsk);
             if (_closeBtn) _closeBtn.onClick.AddListener(OnClose);
             Refresh();
@@ -103,7 +100,7 @@ namespace CozyYard
         {
             if (_selectedItemId <= 0) return;
 
-            var craftSystem = this.GetSystem<CraftSystem>();
+            var craftSystem = GetSystem<CraftSystem>();
             bool success = craftSystem.AskMom(_selectedItemId);
 
             if (!success && _resultText)
@@ -123,6 +120,6 @@ namespace CozyYard
             _itemEntries.Clear();
         }
 
-        private void OnClose() => gameObject.SetActive(false);
+        private void OnClose() => CloseWindow();
     }
 }

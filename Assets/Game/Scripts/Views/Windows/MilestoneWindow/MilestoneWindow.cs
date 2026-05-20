@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using JulyArch;
-using JulyCore;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace CozyYard
 {
-    public class MilestoneWindow : GameView
+    public class MilestoneWindow : GameUIView
     {
         private static readonly int[] MilestoneIds = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
@@ -39,11 +38,9 @@ namespace CozyYard
 
         private readonly List<GameObject> _entries = new();
 
-        public override IGameContext GetArchitecture() => AppArch.Context;
-
         protected override void OnViewEnable()
         {
-            this.Subscribe<MilestoneAchievedEvent>(OnMilestoneAchieved);
+            Subscribe<MilestoneAchievedEvent>(OnMilestoneAchieved);
             if (_closeBtn) _closeBtn.onClick.AddListener(OnClose);
             Refresh();
         }
@@ -93,6 +90,6 @@ namespace CozyYard
             _entries.Clear();
         }
 
-        private void OnClose() => gameObject.SetActive(false);
+        private void OnClose() => CloseWindow();
     }
 }

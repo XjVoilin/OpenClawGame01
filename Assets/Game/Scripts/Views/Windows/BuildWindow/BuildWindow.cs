@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using JulyArch;
-using JulyCore;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace CozyYard
 {
-    public class BuildWindow : GameView
+    public class BuildWindow : GameUIView
     {
         private static readonly int[] BuildingIds = { 1, 2, 10, 11, 20, 30, 40, 50, 60, 70 };
 
@@ -35,11 +34,9 @@ namespace CozyYard
 
         private readonly List<GameObject> _entries = new();
 
-        public override IGameContext GetArchitecture() => AppArch.Context;
-
         protected override void OnViewEnable()
         {
-            this.Subscribe<BuildingPlacedEvent>(OnBuildingPlaced);
+            Subscribe<BuildingPlacedEvent>(OnBuildingPlaced);
             if (_closeBtn) _closeBtn.onClick.AddListener(OnClose);
             Refresh();
         }
@@ -57,7 +54,7 @@ namespace CozyYard
             ClearEntries();
             if (_entryPrefab == null || _listContainer == null) return;
 
-            var buildSystem = this.GetSystem<BuildSystem>();
+            var buildSystem = GetSystem<BuildSystem>();
 
             foreach (int id in BuildingIds)
             {
@@ -102,6 +99,6 @@ namespace CozyYard
             _entries.Clear();
         }
 
-        private void OnClose() => gameObject.SetActive(false);
+        private void OnClose() => CloseWindow();
     }
 }

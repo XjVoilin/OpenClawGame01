@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using JulyArch;
-using JulyCore;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace CozyYard
 {
-    public class RecipeBookWindow : GameView
+    public class RecipeBookWindow : GameUIView
     {
         private static readonly Dictionary<int, string> RecipeNames = new()
         {
@@ -34,11 +33,9 @@ namespace CozyYard
 
         private readonly List<GameObject> _entries = new();
 
-        public override IGameContext GetArchitecture() => AppArch.Context;
-
         protected override void OnViewEnable()
         {
-            this.Subscribe<RecipeUnlockedEvent>(OnRecipeUnlocked);
+            Subscribe<RecipeUnlockedEvent>(OnRecipeUnlocked);
             if (_closeBtn) _closeBtn.onClick.AddListener(OnClose);
             Refresh();
         }
@@ -83,6 +80,6 @@ namespace CozyYard
             _entries.Clear();
         }
 
-        private void OnClose() => gameObject.SetActive(false);
+        private void OnClose() => CloseWindow();
     }
 }

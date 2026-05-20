@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using JulyArch;
-using JulyCore;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace CozyYard
 {
-    public class InventoryWindow : GameView
+    public class InventoryWindow : GameUIView
     {
         [SerializeField] private Transform _itemsContainer;
         [SerializeField] private GameObject _itemSlotPrefab;
@@ -17,11 +16,9 @@ namespace CozyYard
 
         private readonly List<GameObject> _slotInstances = new();
 
-        public override IGameContext GetArchitecture() => AppArch.Context;
-
         protected override void OnViewEnable()
         {
-            this.Subscribe<InventoryChangedEvent>(OnInventoryChanged);
+            Subscribe<InventoryChangedEvent>(OnInventoryChanged);
             if (_closeBtn) _closeBtn.onClick.AddListener(OnClose);
             Refresh();
         }
@@ -68,7 +65,7 @@ namespace CozyYard
 
         private void OnClose()
         {
-            gameObject.SetActive(false);
+            CloseWindow();
         }
     }
 }

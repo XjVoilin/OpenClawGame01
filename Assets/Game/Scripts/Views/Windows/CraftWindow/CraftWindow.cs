@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using JulyArch;
-using JulyCore;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace CozyYard
 {
-    public class CraftWindow : GameView
+    public class CraftWindow : GameUIView
     {
         private static readonly Dictionary<int, string> RecipeNames = new()
         {
@@ -34,12 +33,10 @@ namespace CozyYard
 
         private readonly List<GameObject> _entries = new();
 
-        public override IGameContext GetArchitecture() => AppArch.Context;
-
         protected override void OnViewEnable()
         {
-            this.Subscribe<CraftCompletedEvent>(OnCraftChanged);
-            this.Subscribe<InventoryChangedEvent>(OnInventoryChanged);
+            Subscribe<CraftCompletedEvent>(OnCraftChanged);
+            Subscribe<InventoryChangedEvent>(OnInventoryChanged);
             if (_closeBtn) _closeBtn.onClick.AddListener(OnClose);
             Refresh();
         }
@@ -59,7 +56,7 @@ namespace CozyYard
             if (_entryPrefab == null || _listContainer == null) return;
 
             var craftQueries = this.Query<ICraftQueries>();
-            var craftSystem = this.GetSystem<CraftSystem>();
+            var craftSystem = GetSystem<CraftSystem>();
 
             foreach (int recipeId in craftQueries.UnlockedRecipeIds)
             {
@@ -105,6 +102,6 @@ namespace CozyYard
             _entries.Clear();
         }
 
-        private void OnClose() => gameObject.SetActive(false);
+        private void OnClose() => CloseWindow();
     }
 }
