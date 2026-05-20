@@ -135,6 +135,22 @@ def create_item_xlsx():
         ["", 3004, "菊花",   "Product", 50, "新鲜菊花"],
         ["", 3005, "辣椒",   "Product", 50, "新鲜辣椒"],
         ["", 3101, "鸡蛋",   "Product", 50, "新鲜鸡蛋"],
+        # Tree produce
+        ["", 3006, "桂花",   "Product", 50, "秋天采集"],
+        ["", 3007, "柿子",   "Product", 50, "秋天采集"],
+        # Intermediate materials
+        ["", 4001, "桂花干", "Material", 50, "晾晒桂花制得"],
+        ["", 4002, "糯米粉", "Material", 50, "石磨糯米制得"],
+        ["", 4003, "萝卜干", "Material", 50, "晾晒萝卜制得"],
+        ["", 4004, "菊花干", "Material", 50, "晾晒菊花制得"],
+        # Final products
+        ["", 5001, "桂花糕", "Product", 20, "香甜的桂花糕"],
+        ["", 5002, "辣炒蛋", "Product", 20, "简单美味"],
+        ["", 5003, "清炒白菜", "Product", 20, "清淡爽口"],
+        ["", 5004, "菊花茶", "Product", 20, "清香提神"],
+        ["", 5005, "柿饼",   "Product", 20, "甜糯柿饼"],
+        # Junk
+        ["", 9001, "黑暗料理", "Material", 10, "实验失败的产物"],
     ]
 
     write_sheet(ws, headers, comments, rows)
@@ -282,6 +298,32 @@ def create_building_xlsx():
     print(f"  -> {path}")
 
 
+def create_recipe_xlsx():
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "recipe"
+
+    headers  = ["##var", "id", "name", "requiredBuildingId", "inputItemIds", "inputQuantities", "outputItemId", "outputQuantity", "craftMinutes"]
+    comments = ["##",    "ID", "名称",  "需要设施ID",          "输入物品ID列表", "输入数量列表",     "输出物品ID",    "输出数量",       "制作时间(分钟)"]
+
+    rows = [
+        ["", 1,  "桂花干",     20, "3006",      "3",   4001, 2, 120],
+        ["", 2,  "糯米粉",     30, "3003",      "2",   4002, 2, 60],
+        ["", 3,  "桂花糕",     10, "4001,4002", "2,2", 5001, 1, 90],
+        ["", 4,  "辣炒蛋",     10, "3101,3005", "1,1", 5002, 1, 30],
+        ["", 5,  "清炒白菜",   10, "3001",      "2",   5003, 1, 20],
+        ["", 6,  "萝卜干",     20, "3002",      "2",   4003, 2, 120],
+        ["", 7,  "菊花干",     20, "3004",      "3",   4004, 2, 120],
+        ["", 8,  "菊花茶",     10, "4004",      "2",   5004, 1, 30],
+        ["", 9,  "柿饼",       20, "3007",      "3",   5005, 2, 180],
+    ]
+
+    write_sheet(ws, headers, comments, rows)
+    path = os.path.join(DATAS_DIR, "recipe.xlsx")
+    wb.save(path)
+    print(f"  -> {path}")
+
+
 def create_language_xlsx():
     wb = Workbook()
     ws = wb.active
@@ -318,6 +360,7 @@ if __name__ == "__main__":
     create_crop_xlsx()
     create_animal_xlsx()
     create_building_xlsx()
+    create_recipe_xlsx()
     create_uiwindow_xlsx()
     create_language_xlsx()
     create_time_xlsx()
