@@ -1,289 +1,568 @@
 #if UNITY_EDITOR
 using System.IO;
+using JulyCore;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace SpiritHealer.Editor
+namespace CozyYard.Editor
 {
     /// <summary>
-    /// 一键生成灵药师 UI 预制体（竖屏 1080×1920）。
-    /// 每个面板生成到各自子文件夹：UI/{Name}/{Name}.prefab
+    /// 一键生成 CozyYard UI 预制体（横屏 1920×1080）
     /// </summary>
     public static class UIPrefabGenerator
     {
         private const string PrefabRoot = "Assets/Game/Res/Prefabs/UI";
+        private static readonly Vector2 LandscapeSize = new(1920, 1080);
 
-        [MenuItem("SpiritHealer/生成所有 UI 预制体", false, 200)]
+        [MenuItem("CozyYard/生成所有 UI 预制体", false, 200)]
         public static void GenerateAll()
         {
-            GenerateUITipItem();
             GenerateGameHUD();
+            GenerateInventoryWindow();
+            GenerateBuildWindow();
+            GenerateCraftWindow();
             GenerateVisitorWindow();
-            GeneratePrescriptionWindow();
-            GenerateTreatmentResultWindow();
+            GenerateMilestoneWindow();
+            GenerateRecipeBookWindow();
+            GeneratePhoneWindow();
             AssetDatabase.Refresh();
-            Debug.Log("[UIPrefabGenerator] 所有 UI 预制体已生成完毕 (1080×1920 竖屏)");
+            Debug.Log("[UIPrefabGenerator] CozyYard UI 预制体已生成完毕 (1920×1080 横屏)");
         }
 
-        [MenuItem("SpiritHealer/生成所有 UI 预制体", true)]
+        [MenuItem("CozyYard/生成所有 UI 预制体", true)]
         private static bool GenerateAllValidate() => !Application.isPlaying;
 
         // ══════════════════════════════════════════════
-        //  UITipItem
-        // ══════════════════════════════════════════════
-
-        private static void GenerateUITipItem()
-        {
-            if (PrefabExists("UITipItem", "UITipItem")) return;
-
-            var go = CreatePanelRoot("UITipItem", new Vector2(600, 60));
-
-            var bg = AddFullStretchChild(go, "Bg");
-            var bgImg = bg.AddComponent<Image>();
-            bgImg.color = new Color(0.15f, 0.15f, 0.2f, 0.9f);
-
-            var textGo = AddFullStretchChild(go, "Text", new RectOffset(20, 20, 8, 8));
-            var text = textGo.AddComponent<TextMeshProUGUI>();
-            text.text = "提示";
-            text.fontSize = 24;
-            text.color = Color.white;
-            text.alignment = TextAlignmentOptions.Center;
-
-            go.AddComponent<CanvasGroup>();
-            var csf = go.AddComponent<ContentSizeFitter>();
-            csf.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
-
-            go.AddComponent<UITipItem>();
-
-            SavePrefab(go, "UITipItem", "UITipItem");
-        }
-
-        // ══════════════════════════════════════════════
-        //  GameHUD — 常驻主界面 (全屏 1080×1920)
+        //  GameHUD — 常驻主界面 (全屏 1920×1080)
         // ══════════════════════════════════════════════
 
         private static void GenerateGameHUD()
         {
             if (PrefabExists("GameHUD", "GameHUD")) return;
 
-            var root = CreatePanelRoot("GameHUD", new Vector2(1080, 1920));
+            var root = CreatePanelRoot("GameHUD", LandscapeSize);
             StretchToParent(root);
 
-            // ── 顶部信息栏 ──
-            var topBar = AddChild(root, "TopBar");
-            SetAnchors(topBar, new Vector2(0, 1), new Vector2(1, 1), new Vector2(20, -100), new Vector2(-20, -10));
-            AddVerticalLayout(topBar, 8, TextAnchor.UpperCenter);
+            // ── 右上角：大门状态 ──
+            var topRight = AddChild(root, "TopRight");
+            SetAnchors(topRight, new Vector2(1, 1), new Vector2(1, 1),
+                new Vector2(-320, -90), new Vector2(-20, -20));
+            AddVerticalLayout(topRight, 8, TextAnchor.UpperRight);
 
-            var timeRow = AddChild(topBar, "TimeRow");
-            SetSize(timeRow, 0, 40);
-            AddHorizontalLayout(timeRow, 15, TextAnchor.MiddleCenter);
+            var gateText = AddText(topRight, "GateText", "大门: 开", 22);
+            SetSize(gateText.gameObject, 280, 36);
+            gateText.alignment = TextAlignmentOptions.Right;
 
-            var dayText = AddText(timeRow, "DayText", "第 1 天", 26);
-            SetSize(dayText.gameObject, 180, 40);
-            var seasonText = AddText(timeRow, "SeasonText", "春", 26);
-            SetSize(seasonText.gameObject, 60, 40);
-            var phaseText = AddText(timeRow, "PhaseText", "早晨", 26);
-            SetSize(phaseText.gameObject, 100, 40);
-            var timeText = AddText(timeRow, "TimeText", "08:00", 26);
-            SetSize(timeText.gameObject, 120, 40);
+            var gateToggleBtn = AddButton(topRight, "GateToggleBtn", "切换大门", new Vector2(160, 44), 20);
 
-            var resourceRow = AddChild(topBar, "ResourceRow");
-            SetSize(resourceRow, 0, 36);
-            AddHorizontalLayout(resourceRow, 30, TextAnchor.MiddleCenter);
+            // ── 来客角标（访客按钮上显示） ──
+            var visitorBadgeText = AddText(root, "VisitorBadgeText", "1", 18);
+            SetAnchors(visitorBadgeText.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
+                new Vector2(200, 95), new Vector2(230, 125));
+            visitorBadgeText.color = new Color(1f, 0.85f, 0.3f);
 
-            var coinsText = AddText(resourceRow, "CoinsText", "碎银: 0", 22);
-            SetSize(coinsText.gameObject, 160, 36);
-            var repText = AddText(resourceRow, "ReputationText", "声望: 0", 22);
-            SetSize(repText.gameObject, 160, 36);
-
-            // ── 中央区域 ──
-            var center = AddChild(root, "CenterArea");
-            SetAnchors(center, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f), Vector2.zero, Vector2.zero);
-            SetSize(center, 600, 200);
-            AddVerticalLayout(center, 20, TextAnchor.MiddleCenter);
-
-            var queueText = AddText(center, "QueueText", "等候: 0人", 28);
-            SetSize(queueText.gameObject, 300, 50);
-
-            // ── 底部按钮栏 ──
+            // ── 底部导航栏 ──
             var bottomBar = AddChild(root, "BottomBar");
-            SetAnchors(bottomBar, new Vector2(0, 0), new Vector2(1, 0), new Vector2(40, 60), new Vector2(-40, 180));
-            AddHorizontalLayout(bottomBar, 30, TextAnchor.MiddleCenter);
+            SetAnchors(bottomBar, new Vector2(0, 0), new Vector2(1, 0),
+                new Vector2(40, 20), new Vector2(-40, 100));
+            AddHorizontalLayout(bottomBar, 20, TextAnchor.MiddleCenter);
 
-            var acceptBtn = AddButton(bottomBar, "AcceptVisitorBtn", "接  诊", new Vector2(260, 80), 28);
-            var endDayBtn = AddButton(bottomBar, "EndDayBtn", "结束当天", new Vector2(260, 80), 28);
+            var inventoryBtn = AddButton(bottomBar, "InventoryBtn", "背包", new Vector2(120, 56), 20);
+            var buildBtn = AddButton(bottomBar, "BuildBtn", "建造", new Vector2(120, 56), 20);
+            var craftBtn = AddButton(bottomBar, "CraftBtn", "制作", new Vector2(120, 56), 20);
+            var visitorBtn = AddButton(bottomBar, "VisitorBtn", "来客", new Vector2(120, 56), 20);
+            var milestoneBtn = AddButton(bottomBar, "MilestoneBtn", "里程碑", new Vector2(120, 56), 20);
+            var recipeBookBtn = AddButton(bottomBar, "RecipeBookBtn", "配方本", new Vector2(120, 56), 20);
+            var phoneBtn = AddButton(bottomBar, "PhoneBtn", "问妈", new Vector2(120, 56), 20);
 
-            // ── 绑定组件 ──
             var hud = root.AddComponent<GameHUD>();
-            Bind(hud, "_dayText", dayText);
-            Bind(hud, "_seasonText", seasonText);
-            Bind(hud, "_phaseText", phaseText);
-            Bind(hud, "_timeText", timeText);
-            Bind(hud, "_coinsText", coinsText);
-            Bind(hud, "_reputationText", repText);
-            Bind(hud, "_queueText", queueText);
-            Bind(hud, "_acceptVisitorBtn", acceptBtn);
-            Bind(hud, "_endDayBtn", endDayBtn);
+            Bind(hud, "_inventoryBtn", inventoryBtn);
+            Bind(hud, "_buildBtn", buildBtn);
+            Bind(hud, "_craftBtn", craftBtn);
+            Bind(hud, "_visitorBtn", visitorBtn);
+            Bind(hud, "_milestoneBtn", milestoneBtn);
+            Bind(hud, "_recipeBookBtn", recipeBookBtn);
+            Bind(hud, "_phoneBtn", phoneBtn);
+            Bind(hud, "_gateToggleBtn", gateToggleBtn);
+            Bind(hud, "_gateText", gateText);
+            Bind(hud, "_visitorBadgeText", visitorBadgeText);
 
             SavePrefab(root, "GameHUD", "GameHUD");
         }
 
         // ══════════════════════════════════════════════
-        //  VisitorWindow — 来客面板
+        //  InventoryWindow — 背包
+        // ══════════════════════════════════════════════
+
+        private static void GenerateInventoryWindow()
+        {
+            if (PrefabExists("InventoryWindow", "InventoryWindow")) return;
+
+            var root = CreatePanelRoot("InventoryWindow", new Vector2(600, 500));
+            AddBg(root);
+
+            var title = AddText(root, "Title", "背  包", 28);
+            SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
+                new Vector2(0, -50), new Vector2(0, -8));
+
+            var statusBar = AddChild(root, "StatusBar");
+            SetAnchors(statusBar, new Vector2(0, 1), new Vector2(1, 1),
+                new Vector2(20, -95), new Vector2(-20, -55));
+            AddHorizontalLayout(statusBar, 30, TextAnchor.MiddleLeft);
+
+            var capacityText = AddText(statusBar, "CapacityText", "0/20", 20);
+            SetSize(capacityText.gameObject, 160, 36);
+            capacityText.alignment = TextAlignmentOptions.Left;
+            var coinsText = AddText(statusBar, "CoinsText", "0", 20);
+            SetSize(coinsText.gameObject, 160, 36);
+            coinsText.alignment = TextAlignmentOptions.Left;
+            coinsText.color = new Color(1f, 0.85f, 0.3f);
+
+            var scrollArea = AddChild(root, "ScrollArea");
+            SetAnchors(scrollArea, new Vector2(0, 0), new Vector2(1, 1),
+                new Vector2(20, 60), new Vector2(-20, -100));
+            var itemsContainerGo = CreateScrollContent(scrollArea, "ItemsContainer", out _).gameObject;
+            Object.DestroyImmediate(itemsContainerGo.GetComponent<VerticalLayoutGroup>());
+            var grid = itemsContainerGo.AddComponent<GridLayoutGroup>();
+            grid.cellSize = new Vector2(120, 50);
+            grid.spacing = new Vector2(8, 8);
+            grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+            grid.constraintCount = 4;
+            grid.childAlignment = TextAnchor.UpperLeft;
+
+            var itemSlotPrefab = CreateItemSlot(itemsContainerGo);
+
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20);
+            SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
+                new Vector2(-70, 12), new Vector2(70, 56));
+
+            var panel = root.AddComponent<InventoryWindow>();
+            Bind(panel, "_itemsContainer", itemsContainerGo.transform);
+            Bind(panel, "_itemSlotPrefab", itemSlotPrefab);
+            Bind(panel, "_capacityText", capacityText);
+            Bind(panel, "_coinsText", coinsText);
+            Bind(panel, "_closeBtn", closeBtn);
+
+            SavePrefab(root, "InventoryWindow", "InventoryWindow");
+        }
+
+        // ══════════════════════════════════════════════
+        //  BuildWindow — 建造面板
+        // ══════════════════════════════════════════════
+
+        private static void GenerateBuildWindow()
+        {
+            if (PrefabExists("BuildWindow", "BuildWindow")) return;
+
+            var root = CreatePanelRoot("BuildWindow", new Vector2(500, 600));
+            AddBg(root);
+
+            var title = AddText(root, "Title", "建  造", 28);
+            SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
+                new Vector2(0, -50), new Vector2(0, -8));
+
+            var scrollArea = AddChild(root, "ScrollArea");
+            SetAnchors(scrollArea, new Vector2(0, 0), new Vector2(1, 1),
+                new Vector2(16, 60), new Vector2(-16, -58));
+            var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
+
+            var entryPrefab = CreateBuildEntry(listContainer);
+
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20);
+            SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
+                new Vector2(-70, 12), new Vector2(70, 56));
+
+            var panel = root.AddComponent<BuildWindow>();
+            Bind(panel, "_listContainer", listContainer);
+            Bind(panel, "_entryPrefab", entryPrefab);
+            Bind(panel, "_closeBtn", closeBtn);
+
+            SavePrefab(root, "BuildWindow", "BuildWindow");
+        }
+
+        // ══════════════════════════════════════════════
+        //  CraftWindow — 制作界面
+        // ══════════════════════════════════════════════
+
+        private static void GenerateCraftWindow()
+        {
+            if (PrefabExists("CraftWindow", "CraftWindow")) return;
+
+            var root = CreatePanelRoot("CraftWindow", new Vector2(560, 620));
+            AddBg(root);
+
+            var title = AddText(root, "Title", "制  作", 28);
+            SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
+                new Vector2(0, -50), new Vector2(0, -8));
+
+            var scrollArea = AddChild(root, "ScrollArea");
+            SetAnchors(scrollArea, new Vector2(0, 0), new Vector2(1, 1),
+                new Vector2(16, 60), new Vector2(-16, -58));
+            var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
+
+            var entryPrefab = CreateCraftEntry(listContainer);
+
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20);
+            SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
+                new Vector2(-70, 12), new Vector2(70, 56));
+
+            var panel = root.AddComponent<CraftWindow>();
+            Bind(panel, "_listContainer", listContainer);
+            Bind(panel, "_entryPrefab", entryPrefab);
+            Bind(panel, "_closeBtn", closeBtn);
+
+            SavePrefab(root, "CraftWindow", "CraftWindow");
+        }
+
+        // ══════════════════════════════════════════════
+        //  VisitorWindow — 来客对话
         // ══════════════════════════════════════════════
 
         private static void GenerateVisitorWindow()
         {
             if (PrefabExists("VisitorWindow", "VisitorWindow")) return;
 
-            var root = CreatePanelRoot("VisitorWindow", new Vector2(960, 1500));
+            var root = CreatePanelRoot("VisitorWindow", new Vector2(640, 580));
             AddBg(root);
 
-            // ── 标题 ──
-            var title = AddText(root, "Title", "来  客", 30);
+            var title = AddText(root, "Title", "来  客", 28);
             SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(0, -60), new Vector2(0, -10));
+                new Vector2(0, -50), new Vector2(0, -8));
 
-            // ── 来客信息 ──
-            var infoArea = AddChild(root, "InfoArea");
-            SetAnchors(infoArea, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(30, -160), new Vector2(-30, -70));
-            AddVerticalLayout(infoArea, 6, TextAnchor.UpperLeft);
+            var gateRow = AddChild(root, "GateRow");
+            SetAnchors(gateRow, new Vector2(0, 1), new Vector2(1, 1),
+                new Vector2(20, -95), new Vector2(-20, -55));
+            AddHorizontalLayout(gateRow, 16, TextAnchor.MiddleLeft);
 
-            var visitorName = AddText(infoArea, "VisitorName", "来客名", 24);
-            SetSize(visitorName.gameObject, 0, 34);
-            visitorName.alignment = TextAlignmentOptions.Left;
-            var visitorType = AddText(infoArea, "VisitorType", "凡人", 20);
-            SetSize(visitorType.gameObject, 0, 30);
-            visitorType.alignment = TextAlignmentOptions.Left;
-            visitorType.color = new Color(0.7f, 0.7f, 0.6f);
-            var causeHint = AddText(infoArea, "CauseHint", "主诉……", 18);
-            SetSize(causeHint.gameObject, 0, 28);
-            causeHint.alignment = TextAlignmentOptions.Left;
-            causeHint.color = new Color(0.8f, 0.8f, 0.7f);
+            var gateText = AddText(gateRow, "GateText", "大门: 开", 20);
+            SetSize(gateText.gameObject, 180, 36);
+            gateText.alignment = TextAlignmentOptions.Left;
+            var gateToggleBtn = AddButton(gateRow, "GateToggleBtn", "切换大门", new Vector2(140, 40), 18);
 
-            // ── 四诊区域 (2×2 网格) ──
-            var diagArea = AddChild(root, "DiagnosisArea");
-            SetAnchors(diagArea, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(30, -400), new Vector2(-30, -175));
-            var diagGrid = diagArea.AddComponent<GridLayoutGroup>();
-            diagGrid.cellSize = new Vector2(400, 100);
-            diagGrid.spacing = new Vector2(15, 12);
-            diagGrid.childAlignment = TextAnchor.MiddleCenter;
-            diagGrid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-            diagGrid.constraintCount = 2;
+            var scrollArea = AddChild(root, "ScrollArea");
+            SetAnchors(scrollArea, new Vector2(0, 0), new Vector2(1, 1),
+                new Vector2(16, 60), new Vector2(-16, -100));
+            var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
 
-            var wangG = CreateDiagGroup(diagArea, "WangGroup", "望诊");
-            var wenG = CreateDiagGroup(diagArea, "WenGroup", "闻诊");
-            var wen2G = CreateDiagGroup(diagArea, "Wen2Group", "问诊");
-            var qieG = CreateDiagGroup(diagArea, "QieGroup", "切诊");
+            var entryPrefab = CreateVisitorEntry(listContainer);
 
-            // ── 诊断结果 ──
-            var diagResult = AddText(root, "DiagnosisResult", "", 20);
-            SetAnchors(diagResult.gameObject, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(30, -440), new Vector2(-30, -405));
-            diagResult.alignment = TextAlignmentOptions.Left;
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20);
+            SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
+                new Vector2(-70, 12), new Vector2(70, 56));
 
-            // ── 症状列表 (滚动区域) ──
-            var symptomScroll = AddChild(root, "SymptomScroll");
-            SetAnchors(symptomScroll, new Vector2(0, 0), new Vector2(1, 1),
-                new Vector2(20, 120), new Vector2(-20, -460));
-
-            var scrollRect = symptomScroll.AddComponent<ScrollRect>();
-            var viewport = AddFullStretchChild(symptomScroll, "Viewport");
-            viewport.AddComponent<RectMask2D>();
-            var content = AddChild(viewport, "Content");
-            SetAnchors(content, new Vector2(0, 1), new Vector2(1, 1), Vector2.zero, Vector2.zero);
-            AddVerticalLayout(content, 6, TextAnchor.UpperLeft);
-            var csf = content.AddComponent<ContentSizeFitter>();
-            csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-
-            scrollRect.viewport = viewport.GetComponent<RectTransform>();
-            scrollRect.content = content.GetComponent<RectTransform>();
-            scrollRect.horizontal = false;
-
-            var symptomItem = AddChild(content, "SymptomItem");
-            SetSize(symptomItem, 0, 36);
-            var stText = symptomItem.AddComponent<TextMeshProUGUI>();
-            stText.text = "[望] 面色苍白";
-            stText.fontSize = 20;
-            stText.color = new Color(0.9f, 0.9f, 0.8f);
-            stText.alignment = TextAlignmentOptions.Left;
-            symptomItem.SetActive(false);
-
-            // ── 底部按钮 ──
-            var btnArea = AddChild(root, "ButtonArea");
-            SetAnchors(btnArea, new Vector2(0, 0), new Vector2(1, 0),
-                new Vector2(30, 20), new Vector2(-30, 100));
-            AddHorizontalLayout(btnArea, 30, TextAnchor.MiddleCenter);
-
-            var prescribeBtn = AddButton(btnArea, "PrescribeBtn", "开  方", new Vector2(280, 70), 26);
-            var dismissBtn = AddButton(btnArea, "DismissBtn", "送  走", new Vector2(280, 70), 26);
-
-            // ── 绑定 ──
             var panel = root.AddComponent<VisitorWindow>();
-            Bind(panel, "_visitorName", visitorName);
-            Bind(panel, "_visitorType", visitorType);
-            Bind(panel, "_causeHint", causeHint);
-            Bind(panel, "_wangBtn", wangG.btn);
-            Bind(panel, "_wenBtn", wenG.btn);
-            Bind(panel, "_wen2Btn", wen2G.btn);
-            Bind(panel, "_qieBtn", qieG.btn);
-            Bind(panel, "_wangLevel", wangG.levelText);
-            Bind(panel, "_wenLevel", wenG.levelText);
-            Bind(panel, "_wen2Level", wen2G.levelText);
-            Bind(panel, "_qieLevel", qieG.levelText);
-            Bind(panel, "_diagnosisResult", diagResult);
-            Bind(panel, "_symptomListRoot", content.transform);
-            Bind(panel, "_symptomItemPrefab", symptomItem);
-            Bind(panel, "_prescribeBtn", prescribeBtn);
-            Bind(panel, "_dismissBtn", dismissBtn);
+            Bind(panel, "_listContainer", listContainer);
+            Bind(panel, "_entryPrefab", entryPrefab);
+            Bind(panel, "_gateToggleBtn", gateToggleBtn);
+            Bind(panel, "_gateText", gateText);
+            Bind(panel, "_closeBtn", closeBtn);
 
             SavePrefab(root, "VisitorWindow", "VisitorWindow");
         }
 
         // ══════════════════════════════════════════════
-        //  PrescriptionWindow — 处方面板
+        //  MilestoneWindow — 里程碑
         // ══════════════════════════════════════════════
 
-        private static void GeneratePrescriptionWindow()
+        private static void GenerateMilestoneWindow()
         {
-            if (PrefabExists("PrescriptionWindow", "PrescriptionWindow")) return;
+            if (PrefabExists("MilestoneWindow", "MilestoneWindow")) return;
 
-            var root = CreatePanelRoot("PrescriptionWindow", new Vector2(960, 1600));
+            var root = CreatePanelRoot("MilestoneWindow", new Vector2(560, 620));
             AddBg(root);
 
-            var title = AddText(root, "Title", "处  方", 30);
+            var title = AddText(root, "Title", "里程碑", 28);
             SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(0, -60), new Vector2(0, -10));
+                new Vector2(0, -50), new Vector2(0, -8));
 
-            // ── 处方槽位 (2×2 网格) ──
-            var slotsArea = AddChild(root, "SlotsArea");
-            SetAnchors(slotsArea, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(30, -440), new Vector2(-30, -80));
-            var slotsGrid = slotsArea.AddComponent<GridLayoutGroup>();
-            slotsGrid.cellSize = new Vector2(410, 160);
-            slotsGrid.spacing = new Vector2(15, 15);
-            slotsGrid.childAlignment = TextAnchor.MiddleCenter;
-            slotsGrid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-            slotsGrid.constraintCount = 2;
+            var expansionText = AddText(root, "ExpansionText", "扩建等级: 0", 20);
+            SetAnchors(expansionText.gameObject, new Vector2(0, 1), new Vector2(1, 1),
+                new Vector2(20, -95), new Vector2(-20, -58));
+            expansionText.alignment = TextAlignmentOptions.Left;
 
-            var junSlot = CreateSlot(slotsArea, "JunSlot");
-            var chenSlot = CreateSlot(slotsArea, "ChenSlot");
-            var zuoSlot = CreateSlot(slotsArea, "ZuoSlot");
-            var shiSlot = CreateSlot(slotsArea, "ShiSlot");
+            var scrollArea = AddChild(root, "ScrollArea");
+            SetAnchors(scrollArea, new Vector2(0, 0), new Vector2(1, 1),
+                new Vector2(16, 60), new Vector2(-16, -100));
+            var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
 
-            // ── 药材列表 (滚动区域) ──
-            var herbScroll = AddChild(root, "HerbScroll");
-            SetAnchors(herbScroll, new Vector2(0, 0), new Vector2(1, 1),
-                new Vector2(20, 110), new Vector2(-20, -460));
+            var entryPrefab = CreateMilestoneEntry(listContainer);
 
-            var scrollRect = herbScroll.AddComponent<ScrollRect>();
-            var viewport = AddFullStretchChild(herbScroll, "Viewport");
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20);
+            SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
+                new Vector2(-70, 12), new Vector2(70, 56));
+
+            var panel = root.AddComponent<MilestoneWindow>();
+            Bind(panel, "_listContainer", listContainer);
+            Bind(panel, "_entryPrefab", entryPrefab);
+            Bind(panel, "_expansionText", expansionText);
+            Bind(panel, "_closeBtn", closeBtn);
+
+            SavePrefab(root, "MilestoneWindow", "MilestoneWindow");
+        }
+
+        // ══════════════════════════════════════════════
+        //  RecipeBookWindow — 配方本
+        // ══════════════════════════════════════════════
+
+        private static void GenerateRecipeBookWindow()
+        {
+            if (PrefabExists("RecipeBookWindow", "RecipeBookWindow")) return;
+
+            var root = CreatePanelRoot("RecipeBookWindow", new Vector2(560, 620));
+            AddBg(root);
+
+            var title = AddText(root, "Title", "配方本", 28);
+            SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
+                new Vector2(0, -50), new Vector2(0, -8));
+
+            var scrollArea = AddChild(root, "ScrollArea");
+            SetAnchors(scrollArea, new Vector2(0, 0), new Vector2(1, 1),
+                new Vector2(16, 60), new Vector2(-16, -58));
+            var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
+
+            var entryPrefab = CreateRecipeBookEntry(listContainer);
+
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20);
+            SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
+                new Vector2(-70, 12), new Vector2(70, 56));
+
+            var panel = root.AddComponent<RecipeBookWindow>();
+            Bind(panel, "_listContainer", listContainer);
+            Bind(panel, "_entryPrefab", entryPrefab);
+            Bind(panel, "_closeBtn", closeBtn);
+
+            SavePrefab(root, "RecipeBookWindow", "RecipeBookWindow");
+        }
+
+        // ══════════════════════════════════════════════
+        //  PhoneWindow — 问妈
+        // ══════════════════════════════════════════════
+
+        private static void GeneratePhoneWindow()
+        {
+            if (PrefabExists("PhoneWindow", "PhoneWindow")) return;
+
+            var root = CreatePanelRoot("PhoneWindow", new Vector2(560, 620));
+            AddBg(root);
+
+            var title = AddText(root, "Title", "问  妈", 28);
+            SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
+                new Vector2(0, -50), new Vector2(0, -8));
+
+            var hintText = AddText(root, "HintText", "告诉妈妈你有什么材料，她可能知道配方", 18);
+            SetAnchors(hintText.gameObject, new Vector2(0, 1), new Vector2(1, 1),
+                new Vector2(20, -95), new Vector2(-20, -58));
+            hintText.alignment = TextAlignmentOptions.Left;
+            hintText.color = new Color(0.85f, 0.85f, 0.8f);
+
+            var asksRemainingText = AddText(root, "AsksRemainingText", "今日剩余询问: 1/1", 18);
+            SetAnchors(asksRemainingText.gameObject, new Vector2(0, 1), new Vector2(1, 1),
+                new Vector2(20, -130), new Vector2(-20, -98));
+            asksRemainingText.alignment = TextAlignmentOptions.Left;
+
+            var scrollArea = AddChild(root, "ItemScrollArea");
+            SetAnchors(scrollArea, new Vector2(0, 0), new Vector2(1, 1),
+                new Vector2(16, 120), new Vector2(-16, -140));
+            var itemsContainer = CreateScrollContent(scrollArea, "ItemsContainer", out _);
+
+            var itemEntryPrefab = CreatePhoneItemEntry(itemsContainer);
+
+            var resultText = AddText(root, "ResultText", "", 18);
+            SetAnchors(resultText.gameObject, new Vector2(0, 0), new Vector2(1, 0),
+                new Vector2(20, 68), new Vector2(-20, 108));
+            resultText.alignment = TextAlignmentOptions.Left;
+            resultText.color = new Color(0.9f, 0.9f, 0.75f);
+
+            var btnArea = AddChild(root, "ButtonArea");
+            SetAnchors(btnArea, new Vector2(0, 0), new Vector2(1, 0),
+                new Vector2(20, 12), new Vector2(-20, 60));
+            AddHorizontalLayout(btnArea, 20, TextAnchor.MiddleCenter);
+
+            var askBtn = AddButton(btnArea, "AskBtn", "询问妈妈", new Vector2(160, 44), 20);
+            var closeBtn = AddButton(btnArea, "CloseBtn", "关  闭", new Vector2(140, 44), 20);
+
+            var panel = root.AddComponent<PhoneWindow>();
+            Bind(panel, "_hintText", hintText);
+            Bind(panel, "_asksRemainingText", asksRemainingText);
+            Bind(panel, "_resultText", resultText);
+            Bind(panel, "_itemsContainer", itemsContainer);
+            Bind(panel, "_itemEntryPrefab", itemEntryPrefab);
+            Bind(panel, "_askBtn", askBtn);
+            Bind(panel, "_closeBtn", closeBtn);
+
+            SavePrefab(root, "PhoneWindow", "PhoneWindow");
+        }
+
+        // ══════════════════════════════════════════════
+        //  Entry Prefabs
+        // ══════════════════════════════════════════════
+
+        private static GameObject CreateItemSlot(GameObject parent)
+        {
+            var go = new GameObject("ItemSlotPrefab", typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(parent.transform, false);
+            SetSize(go, 120, 50);
+
+            var bg = go.GetComponent<Image>();
+            bg.color = new Color(0.18f, 0.18f, 0.22f, 0.85f);
+
+            var textGo = AddFullStretchChild(go, "Text", new RectOffset(8, 8, 4, 4));
+            var text = textGo.AddComponent<TextMeshProUGUI>();
+            text.text = "#1001 x5";
+            text.fontSize = 16;
+            text.color = Color.white;
+            text.alignment = TextAlignmentOptions.Center;
+
+            go.SetActive(false);
+            return go;
+        }
+
+        private static GameObject CreateBuildEntry(GameObject parent)
+        {
+            var go = new GameObject("EntryPrefab", typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(parent.transform, false);
+            SetSize(go, 0, 56);
+
+            var bg = go.GetComponent<Image>();
+            bg.color = new Color(0.18f, 0.18f, 0.22f, 0.85f);
+
+            AddHorizontalLayout(go, 12, TextAnchor.MiddleLeft);
+            var hlg = go.GetComponent<HorizontalLayoutGroup>();
+            hlg.padding = new RectOffset(12, 12, 6, 6);
+
+            var infoText = AddText(go, "InfoText", "茅草屋 (#1003×20)", 18);
+            infoText.alignment = TextAlignmentOptions.Left;
+            SetSize(infoText.gameObject, 280, 44);
+
+            AddButton(go, "BuildBtn", "建造", new Vector2(90, 40), 18);
+
+            go.SetActive(false);
+            return go;
+        }
+
+        private static GameObject CreateCraftEntry(GameObject parent)
+        {
+            var go = new GameObject("EntryPrefab", typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(parent.transform, false);
+            SetSize(go, 0, 80);
+
+            var bg = go.GetComponent<Image>();
+            bg.color = new Color(0.18f, 0.18f, 0.22f, 0.85f);
+
+            AddHorizontalLayout(go, 12, TextAnchor.MiddleLeft);
+            var hlg = go.GetComponent<HorizontalLayoutGroup>();
+            hlg.padding = new RectOffset(12, 12, 6, 6);
+
+            var infoText = AddText(go, "InfoText", "桂花干\n材料: #3006×3\n产出: #4001×2", 16);
+            infoText.alignment = TextAlignmentOptions.Left;
+            SetSize(infoText.gameObject, 340, 68);
+
+            AddButton(go, "CraftBtn", "制作", new Vector2(90, 40), 18);
+
+            go.SetActive(false);
+            return go;
+        }
+
+        private static GameObject CreateVisitorEntry(GameObject parent)
+        {
+            var go = new GameObject("EntryPrefab", typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(parent.transform, false);
+            SetSize(go, 0, 90);
+
+            var bg = go.GetComponent<Image>();
+            bg.color = new Color(0.18f, 0.18f, 0.22f, 0.85f);
+
+            AddHorizontalLayout(go, 10, TextAnchor.MiddleLeft);
+            var hlg = go.GetComponent<HorizontalLayoutGroup>();
+            hlg.padding = new RectOffset(12, 12, 6, 6);
+
+            var infoText = AddText(go, "InfoText", "张阿婆\n需要: #5001×1\n奖励: 30 金币", 16);
+            infoText.alignment = TextAlignmentOptions.Left;
+            SetSize(infoText.gameObject, 300, 78);
+
+            AddButton(go, "FulfillBtn", "交付", new Vector2(80, 40), 18);
+            AddButton(go, "DismissBtn", "送走", new Vector2(80, 40), 18);
+
+            go.SetActive(false);
+            return go;
+        }
+
+        private static GameObject CreateMilestoneEntry(GameObject parent)
+        {
+            var go = new GameObject("EntryPrefab", typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(parent.transform, false);
+            SetSize(go, 0, 72);
+
+            var bg = go.GetComponent<Image>();
+            bg.color = new Color(0.18f, 0.18f, 0.22f, 0.85f);
+
+            var textGo = AddFullStretchChild(go, "Text", new RectOffset(12, 12, 6, 6));
+            var text = textGo.AddComponent<TextMeshProUGUI>();
+            text.text = "初次播种\n播种第一株作物\n进度: 0/1";
+            text.fontSize = 16;
+            text.color = Color.white;
+            text.alignment = TextAlignmentOptions.Left;
+
+            go.SetActive(false);
+            return go;
+        }
+
+        private static GameObject CreateRecipeBookEntry(GameObject parent)
+        {
+            var go = new GameObject("EntryPrefab", typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(parent.transform, false);
+            SetSize(go, 0, 72);
+
+            var bg = go.GetComponent<Image>();
+            bg.color = new Color(0.18f, 0.18f, 0.22f, 0.85f);
+
+            var textGo = AddFullStretchChild(go, "Text", new RectOffset(12, 12, 6, 6));
+            var text = textGo.AddComponent<TextMeshProUGUI>();
+            text.text = "桂花干\n材料: #3006×3\n产出: #4001×2";
+            text.fontSize = 16;
+            text.color = Color.white;
+            text.alignment = TextAlignmentOptions.Left;
+
+            go.SetActive(false);
+            return go;
+        }
+
+        private static GameObject CreatePhoneItemEntry(GameObject parent)
+        {
+            var go = new GameObject("ItemEntryPrefab", typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(parent.transform, false);
+            SetSize(go, 0, 44);
+
+            var bg = go.GetComponent<Image>();
+            bg.color = new Color(0.18f, 0.18f, 0.22f, 0.85f);
+
+            AddHorizontalLayout(go, 8, TextAnchor.MiddleLeft);
+            var hlg = go.GetComponent<HorizontalLayoutGroup>();
+            hlg.padding = new RectOffset(10, 10, 4, 4);
+
+            var infoText = AddText(go, "InfoText", "#1001 ×5", 16);
+            infoText.alignment = TextAlignmentOptions.Left;
+            SetSize(infoText.gameObject, 320, 36);
+
+            go.AddComponent<UISmartButton>();
+
+            go.SetActive(false);
+            return go;
+        }
+
+        // ══════════════════════════════════════════════
+        //  构建辅助
+        // ══════════════════════════════════════════════
+
+        private static Transform CreateScrollContent(GameObject scrollArea, string contentName, out ScrollRect scrollRect)
+        {
+            scrollRect = scrollArea.AddComponent<ScrollRect>();
+            var viewport = AddFullStretchChild(scrollArea, "Viewport");
             viewport.AddComponent<RectMask2D>();
-            var content = AddChild(viewport, "Content");
+
+            var content = AddChild(viewport, contentName);
             SetAnchors(content, new Vector2(0, 1), new Vector2(1, 1), Vector2.zero, Vector2.zero);
             AddVerticalLayout(content, 8, TextAnchor.UpperLeft);
             var csf = content.AddComponent<ContentSizeFitter>();
@@ -293,77 +572,8 @@ namespace SpiritHealer.Editor
             scrollRect.content = content.GetComponent<RectTransform>();
             scrollRect.horizontal = false;
 
-            var herbItem = CreateHerbItem(content);
-
-            // ── 底部按钮 ──
-            var btnArea = AddChild(root, "ButtonArea");
-            SetAnchors(btnArea, new Vector2(0, 0), new Vector2(1, 0),
-                new Vector2(20, 15), new Vector2(-20, 95));
-            AddHorizontalLayout(btnArea, 15, TextAnchor.MiddleCenter);
-
-            var confirmBtn = AddButton(btnArea, "ConfirmBtn", "确认开方", new Vector2(240, 65), 24);
-            var clearBtn = AddButton(btnArea, "ClearBtn", "清  空", new Vector2(180, 65), 24);
-            var closeBtn = AddButton(btnArea, "CloseBtn", "返  回", new Vector2(180, 65), 24);
-
-            // ── 绑定 ──
-            var panel = root.AddComponent<PrescriptionWindow>();
-            Bind(panel, "_junSlot", junSlot);
-            Bind(panel, "_chenSlot", chenSlot);
-            Bind(panel, "_zuoSlot", zuoSlot);
-            Bind(panel, "_shiSlot", shiSlot);
-            Bind(panel, "_herbListRoot", content.transform);
-            Bind(panel, "_herbItemPrefab", herbItem);
-            Bind(panel, "_confirmBtn", confirmBtn);
-            Bind(panel, "_clearBtn", clearBtn);
-            Bind(panel, "_closeBtn", closeBtn);
-
-            SavePrefab(root, "PrescriptionWindow", "PrescriptionWindow");
+            return content.transform;
         }
-
-        // ══════════════════════════════════════════════
-        //  TreatmentResultWindow — 结算弹窗
-        // ══════════════════════════════════════════════
-
-        private static void GenerateTreatmentResultWindow()
-        {
-            if (PrefabExists("TreatmentResultWindow", "TreatmentResultWindow")) return;
-
-            var root = CreatePanelRoot("TreatmentResultWindow", new Vector2(700, 600));
-            AddBg(root);
-
-            var contentArea = AddChild(root, "Content");
-            SetAnchors(contentArea, new Vector2(0, 0), new Vector2(1, 1),
-                new Vector2(30, 90), new Vector2(-30, -30));
-            AddVerticalLayout(contentArea, 18, TextAnchor.MiddleCenter);
-
-            var scoreText = AddText(contentArea, "ScoreText", "85", 56);
-            SetSize(scoreText.gameObject, 200, 70);
-            var gradeText = AddText(contentArea, "GradeText", "见效", 36);
-            SetSize(gradeText.gameObject, 300, 50);
-            var descText = AddText(contentArea, "DescriptionText", "症状有所缓解……", 20);
-            SetSize(descText.gameObject, 600, 60);
-            descText.color = new Color(0.85f, 0.85f, 0.8f);
-            var rewardText = AddText(contentArea, "RewardText", "声望 +5  碎银 +10", 22);
-            SetSize(rewardText.gameObject, 400, 40);
-            rewardText.color = new Color(1f, 0.85f, 0.3f);
-
-            var confirmBtn = AddButton(root, "ConfirmBtn", "确  认", new Vector2(240, 65), 26);
-            SetAnchors(confirmBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
-                new Vector2(-120, 15), new Vector2(120, 80));
-
-            var panel = root.AddComponent<TreatmentResultWindow>();
-            Bind(panel, "_scoreText", scoreText);
-            Bind(panel, "_gradeText", gradeText);
-            Bind(panel, "_descriptionText", descText);
-            Bind(panel, "_rewardText", rewardText);
-            Bind(panel, "_confirmBtn", confirmBtn);
-
-            SavePrefab(root, "TreatmentResultWindow", "TreatmentResultWindow");
-        }
-
-        // ════════════════════════════════════════
-        //  构建辅助
-        // ════════════════════════════════════════
 
         private static GameObject CreatePanelRoot(string name, Vector2 size)
         {
@@ -433,8 +643,6 @@ namespace SpiritHealer.Editor
             go.GetComponent<RectTransform>().sizeDelta = new Vector2(w, h);
         }
 
-        // ── Text ──
-
         private static TextMeshProUGUI AddText(GameObject parent, string name, string text, int fontSize = 22)
         {
             var go = AddChild(parent, name);
@@ -446,9 +654,7 @@ namespace SpiritHealer.Editor
             return tmp;
         }
 
-        // ── Button ──
-
-        private static UISmartButton AddButton(GameObject parent, string name, string label, Vector2 size, int fontSize = 22)
+        private static Button AddButton(GameObject parent, string name, string label, Vector2 size, int fontSize = 22)
         {
             var go = new GameObject(name, typeof(RectTransform), typeof(Image), typeof(UISmartButton));
             go.transform.SetParent(parent.transform, false);
@@ -466,8 +672,6 @@ namespace SpiritHealer.Editor
 
             return go.GetComponent<UISmartButton>();
         }
-
-        // ── Layout ──
 
         private static void AddHorizontalLayout(GameObject go, int spacing, TextAnchor align)
         {
@@ -490,113 +694,6 @@ namespace SpiritHealer.Editor
             vlg.childForceExpandWidth = true;
             vlg.childForceExpandHeight = false;
         }
-
-        // ── Diagnosis Group ──
-
-        private struct DiagGroup { public UISmartButton btn; public TextMeshProUGUI levelText; }
-
-        private static DiagGroup CreateDiagGroup(GameObject parent, string name, string label)
-        {
-            var go = AddChild(parent, name);
-            AddVerticalLayout(go, 6, TextAnchor.MiddleCenter);
-
-            var levelText = AddText(go, "Level", $"{label} Lv.1", 16);
-            SetSize(levelText.gameObject, 0, 24);
-            var btn = AddButton(go, "Btn", label, new Vector2(200, 55), 22);
-
-            return new DiagGroup { btn = btn, levelText = levelText };
-        }
-
-        // ── Prescription Slot ──
-
-        private static PrescriptionSlotUI CreateSlot(GameObject parent, string name)
-        {
-            var go = new GameObject(name, typeof(RectTransform), typeof(Image));
-            go.transform.SetParent(parent.transform, false);
-
-            var bg = go.GetComponent<Image>();
-            bg.color = new Color(0.16f, 0.16f, 0.2f);
-
-            AddVerticalLayout(go, 6, TextAnchor.MiddleCenter);
-
-            var roleLabel = AddText(go, "RoleLabel", "君", 26);
-            SetSize(roleLabel.gameObject, 0, 34);
-            var herbName = AddText(go, "HerbName", "空", 20);
-            SetSize(herbName.gameObject, 0, 30);
-            var qualityText = AddText(go, "QualityText", "", 16);
-            SetSize(qualityText.gameObject, 0, 24);
-            qualityText.color = new Color(0.7f, 0.7f, 0.6f);
-
-            var slotBtn = go.AddComponent<UISmartButton>();
-
-            var clearBtn = AddButton(go, "ClearBtn", "×", new Vector2(40, 34), 18);
-            clearBtn.gameObject.SetActive(false);
-
-            var highlight = new GameObject("Highlight", typeof(RectTransform), typeof(Image));
-            highlight.transform.SetParent(go.transform, false);
-            highlight.transform.SetAsFirstSibling();
-            var hrt = highlight.GetComponent<RectTransform>();
-            hrt.anchorMin = Vector2.zero;
-            hrt.anchorMax = Vector2.one;
-            hrt.offsetMin = new Vector2(-3, -3);
-            hrt.offsetMax = new Vector2(3, 3);
-            var himg = highlight.GetComponent<Image>();
-            himg.color = new Color(1f, 0.8f, 0.2f, 0.5f);
-            himg.raycastTarget = false;
-            himg.enabled = false;
-
-            var comp = go.AddComponent<PrescriptionSlotUI>();
-            Bind(comp, "_roleLabel", roleLabel);
-            Bind(comp, "_herbName", herbName);
-            Bind(comp, "_qualityText", qualityText);
-            Bind(comp, "_slotBtn", slotBtn);
-            Bind(comp, "_clearBtn", clearBtn);
-            Bind(comp, "_highlight", himg);
-
-            return comp;
-        }
-
-        // ── Herb Item ──
-
-        private static GameObject CreateHerbItem(GameObject parent)
-        {
-            var go = new GameObject("HerbItem", typeof(RectTransform), typeof(Image));
-            go.transform.SetParent(parent.transform, false);
-            SetSize(go, 0, 60);
-
-            var bg = go.GetComponent<Image>();
-            bg.color = new Color(0.18f, 0.18f, 0.22f, 0.8f);
-
-            AddHorizontalLayout(go, 12, TextAnchor.MiddleLeft);
-            var hlg = go.GetComponent<HorizontalLayoutGroup>();
-            hlg.padding = new RectOffset(15, 15, 6, 6);
-
-            var nameText = AddText(go, "NameText", "甘草", 20);
-            nameText.alignment = TextAlignmentOptions.Left;
-            SetSize(nameText.gameObject, 120, 48);
-
-            var countText = AddText(go, "CountText", "x5", 18);
-            countText.alignment = TextAlignmentOptions.Center;
-            SetSize(countText.gameObject, 50, 48);
-
-            var infoText = AddText(go, "InfoText", "未知", 16);
-            infoText.alignment = TextAlignmentOptions.Left;
-            infoText.color = new Color(0.7f, 0.7f, 0.6f);
-            SetSize(infoText.gameObject, 300, 48);
-
-            var selectBtn = go.AddComponent<UISmartButton>();
-
-            var comp = go.AddComponent<HerbItemUI>();
-            Bind(comp, "_nameText", nameText);
-            Bind(comp, "_countText", countText);
-            Bind(comp, "_infoText", infoText);
-            Bind(comp, "_selectBtn", selectBtn);
-
-            go.SetActive(false);
-            return go;
-        }
-
-        // ── Save / Bind ──
 
         private static bool PrefabExists(string folder, string name)
         {
