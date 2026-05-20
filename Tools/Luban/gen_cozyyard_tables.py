@@ -345,6 +345,36 @@ def create_visitor_xlsx():
     print(f"  -> {path}")
 
 
+def create_milestone_xlsx():
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "milestone"
+
+    headers  = ["##var", "id", "name", "description", "conditionType", "conditionTarget", "conditionCount", "rewardType", "rewardId", "rewardQty"]
+    comments = ["##",    "ID", "名称",  "描述",          "条件类型",       "条件目标ID",      "条件数量",       "奖励类型",    "奖励ID",   "奖励数量"]
+
+    # conditionType: HarvestCrop, BuildBuilding, AdoptAnimal, UnlockRecipe, CraftItem, FulfillOrder, ExpansionLevel, PlantCrop
+    # rewardType: Coins, Item, RecipeUnlock, Expansion
+
+    rows = [
+        ["", 1,  "初次播种",   "种下第一棵作物",       "PlantCrop",      0,  1,  "Coins",       0,    50],
+        ["", 2,  "初次收获",   "收获第一棵作物",       "HarvestCrop",    0,  1,  "Coins",       0,    100],
+        ["", 3,  "安家落户",   "建造第一座房屋",       "BuildBuilding",  1,  1,  "Expansion",   0,    1],
+        ["", 4,  "养鸡达人",   "收养第一只动物",       "AdoptAnimal",    0,  1,  "Item",        1001, 10],
+        ["", 5,  "初学厨艺",   "制作第一道料理",       "CraftItem",      0,  1,  "Coins",       0,    80],
+        ["", 6,  "远亲近邻",   "完成第一笔订单",       "FulfillOrder",   0,  1,  "Coins",       0,    60],
+        ["", 7,  "小有规模",   "建造3座设施",         "BuildBuilding",  0,  3,  "Expansion",   0,    1],
+        ["", 8,  "丰收之秋",   "收获10次作物",        "HarvestCrop",    0,  10, "Item",        3006, 5],
+        ["", 9,  "食谱收藏家", "解锁5个配方",         "UnlockRecipe",   0,  5,  "Coins",       0,    200],
+        ["", 10, "远近闻名",   "完成5笔订单",         "FulfillOrder",  0,  5,  "RecipeUnlock", 3,   1],
+    ]
+
+    write_sheet(ws, headers, comments, rows)
+    path = os.path.join(DATAS_DIR, "milestone.xlsx")
+    wb.save(path)
+    print(f"  -> {path}")
+
+
 def create_language_xlsx():
     wb = Workbook()
     ws = wb.active
@@ -387,4 +417,5 @@ if __name__ == "__main__":
     create_language_xlsx()
     create_time_xlsx()
     create_season_xlsx()
+    create_milestone_xlsx()
     print("Done!")
