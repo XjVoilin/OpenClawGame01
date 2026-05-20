@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JulyArch;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,11 +7,6 @@ namespace CozyYard
 {
     public class VisitorWindow : GameUIView
     {
-        private static readonly Dictionary<int, string> VisitorNames = new()
-        {
-            { 1, "张阿婆" }, { 2, "李大爷" }, { 3, "小花" }, { 4, "王货郎" },
-        };
-
         [SerializeField] private Transform _listContainer;
         [SerializeField] private GameObject _entryPrefab;
         [SerializeField] private Button _gateToggleBtn;
@@ -49,24 +43,22 @@ namespace CozyYard
 
             if (_entryPrefab == null || _listContainer == null) return;
 
-            var visitorQueries = this.GetStore<VisitorStore>();
+            var visitorStore = GetStore<VisitorStore>();
             var visitorSystem = GetSystem<VisitorSystem>();
 
-            foreach (var order in visitorQueries.TodayOrders)
+            foreach (var order in visitorStore.TodayOrders)
             {
                 var go = Object.Instantiate(_entryPrefab, _listContainer);
                 go.SetActive(true);
 
-                string visitorName = VisitorNames.TryGetValue(order.VisitorId, out var n)
-                    ? n
-                    : $"#{order.VisitorId}";
+                string visitorName = CfgHelper.GetVisitorName(order.VisitorId);
+                string itemName = CfgHelper.GetItemName(order.RequestedItemId);
                 string reward = FormatReward(order);
 
                 var texts = go.GetComponentsInChildren<TextMeshProUGUI>();
                 if (texts.Length > 0)
                 {
-                    texts[0].text =
-                        $"{visitorName}\n需要: #{order.RequestedItemId}×{order.RequestedQuantity}\n奖励: {reward}";
+                    texts[0].text = $"{visitorName}\n需要: {itemName}×{order.RequestedQuantity}\n奖励: {reward}";
                 }
 
                 var buttons = go.GetComponentsInChildren<Button>();
@@ -91,7 +83,7 @@ namespace CozyYard
             var parts = new List<string>();
             if (order.RewardCoins > 0) parts.Add($"{order.RewardCoins} 金币");
             if (order.RewardItemId > 0 && order.RewardItemQty > 0)
-                parts.Add($"#{order.RewardItemId}×{order.RewardItemQty}");
+                parts.Add($"{CfgHelper.GetItemName(order.RewardItemId)}×{order.RewardItemQty}");
             return parts.Count > 0 ? string.Join(", ", parts) : "无";
         }
 
@@ -103,7 +95,7 @@ namespace CozyYard
 
         private void RefreshGate()
         {
-            var q = this.GetStore<VisitorStore>();
+            var q = GetStore<VisitorStore>();
             if (_gateText) _gateText.text = q.IsGateOpen ? "大门: 开" : "大门: 关";
         }
 

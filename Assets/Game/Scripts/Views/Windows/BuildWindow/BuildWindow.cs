@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using JulyArch;
+using cfg;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,23 +8,6 @@ namespace CozyYard
 {
     public class BuildWindow : GameUIView
     {
-        private static readonly int[] BuildingIds = { 1, 2, 10, 11, 20, 30, 40, 50, 60, 70 };
-
-        private static readonly Dictionary<int, string> BuildingNames = new()
-        {
-            { 1, "茅草屋" }, { 2, "土砖房" }, { 10, "野外篝火" }, { 11, "土灶" },
-            { 20, "简易竹架" }, { 30, "石磨" }, { 40, "露天围栏" }, { 50, "围栏" },
-            { 60, "饲料槽" }, { 70, "仓库" },
-        };
-
-        private static readonly Dictionary<int, string> MaterialCosts = new()
-        {
-            { 1, "#1003×20" }, { 2, "#1003×30, #1002×20" }, { 10, "#1003×5, #1002×3" },
-            { 11, "#1002×10, #1003×8" }, { 20, "#1003×8" }, { 30, "#1002×15" },
-            { 40, "#1003×12" }, { 50, "#1003×3" }, { 60, "#1003×5, #1002×3" },
-            { 70, "#1003×15, #1002×10" },
-        };
-
         private const int TestGridX = 0;
         private const int TestGridY = 0;
 
@@ -55,8 +38,10 @@ namespace CozyYard
             if (_entryPrefab == null || _listContainer == null) return;
 
             var buildSystem = GetSystem<BuildSystem>();
+            var tbBuilding = CfgTable.Tables?.TbBuilding;
+            if (tbBuilding == null) return;
 
-            foreach (int id in BuildingIds)
+            foreach (var (id, cfg) in tbBuilding.DataMap)
             {
                 var go = Object.Instantiate(_entryPrefab, _listContainer);
                 go.SetActive(true);
@@ -64,9 +49,8 @@ namespace CozyYard
                 var texts = go.GetComponentsInChildren<TextMeshProUGUI>();
                 if (texts.Length > 0)
                 {
-                    string name = BuildingNames.TryGetValue(id, out var n) ? n : $"#{id}";
-                    string cost = MaterialCosts.TryGetValue(id, out var c) ? c : "?";
-                    texts[0].text = $"{name} ({cost})";
+                    string cost = CfgHelper.FormatMaterials(cfg.Materials, cfg.MaterialQtys);
+                    texts[0].text = $"{cfg.Name} ({cost})";
                 }
 
                 var buildBtn = go.GetComponentInChildren<Button>();

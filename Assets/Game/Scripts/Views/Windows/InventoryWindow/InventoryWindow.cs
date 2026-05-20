@@ -48,7 +48,7 @@ namespace CozyYard
                 go.SetActive(true);
 
                 var nameText = go.GetComponentInChildren<TextMeshProUGUI>();
-                if (nameText) nameText.text = $"#{stack.ItemId} x{stack.Quantity}";
+                if (nameText) nameText.text = $"{CfgHelper.GetItemName(stack.ItemId)} ×{stack.Quantity}";
 
                 _slotInstances.Add(go);
             }

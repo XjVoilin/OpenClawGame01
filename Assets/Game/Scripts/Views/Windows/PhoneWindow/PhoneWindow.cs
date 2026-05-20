@@ -38,7 +38,7 @@ namespace CozyYard
 
         private void OnRecipeUnlocked(RecipeUnlockedEvent e)
         {
-            if (_resultText) _resultText.text = $"妈妈教了你新配方! (#{e.RecipeId})";
+            if (_resultText) _resultText.text = $"妈妈教了你新配方! ({CfgHelper.GetRecipeName(e.RecipeId)})";
             Refresh();
         }
 
@@ -69,7 +69,7 @@ namespace CozyYard
                 go.SetActive(true);
 
                 var text = go.GetComponentInChildren<TextMeshProUGUI>();
-                if (text) text.text = $"#{stack.ItemId} ×{stack.Quantity}";
+                if (text) text.text = $"{CfgHelper.GetItemName(stack.ItemId)} ×{stack.Quantity}";
 
                 var btn = go.GetComponentInChildren<Button>();
                 if (btn)
@@ -85,7 +85,7 @@ namespace CozyYard
         private void OnSelectItem(int itemId)
         {
             _selectedItemId = itemId;
-            if (_resultText) _resultText.text = $"已选择: #{itemId}";
+            if (_resultText) _resultText.text = $"已选择: {CfgHelper.GetItemName(itemId)}";
             RefreshAskButton();
         }
 
