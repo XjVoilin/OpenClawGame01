@@ -159,6 +159,50 @@ def create_uiwindow_xlsx():
     print(f"  -> {path}")
 
 
+def create_time_xlsx():
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "time"
+
+    headers  = ["##var", "id", "phaseName", "startMinute", "lightIntensity", "lightColor"]
+    comments = ["##",    "ID", "时段名称",    "开始分钟",     "光照强度(0-1)",    "光照颜色(hex)"]
+
+    rows = [
+        ["", 1, "Dawn",      360,  0.4, "FFD4A0"],
+        ["", 2, "Morning",   480,  0.8, "FFFFFF"],
+        ["", 3, "Noon",      720,  1.0, "FFFFFF"],
+        ["", 4, "Afternoon", 840,  0.9, "FFF8E0"],
+        ["", 5, "Evening",   1080, 0.5, "FF9040"],
+        ["", 6, "Night",     1260, 0.2, "4060A0"],
+    ]
+
+    write_sheet(ws, headers, comments, rows)
+    path = os.path.join(DATAS_DIR, "time.xlsx")
+    wb.save(path)
+    print(f"  -> {path}")
+
+
+def create_season_xlsx():
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "season"
+
+    headers  = ["##var", "id", "name",   "days", "tempModifier"]
+    comments = ["##",    "ID", "季节名称", "天数",  "温度修正"]
+
+    rows = [
+        ["", 0, "春", 15, 1.0],
+        ["", 1, "夏", 15, 1.2],
+        ["", 2, "秋", 15, 1.0],
+        ["", 3, "冬", 10, 0.5],
+    ]
+
+    write_sheet(ws, headers, comments, rows)
+    path = os.path.join(DATAS_DIR, "season.xlsx")
+    wb.save(path)
+    print(f"  -> {path}")
+
+
 def create_language_xlsx():
     wb = Workbook()
     ws = wb.active
@@ -194,4 +238,6 @@ if __name__ == "__main__":
     create_item_xlsx()
     create_uiwindow_xlsx()
     create_language_xlsx()
+    create_time_xlsx()
+    create_season_xlsx()
     print("Done!")
