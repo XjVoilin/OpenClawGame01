@@ -55,11 +55,13 @@ namespace CozyYard
         private void RegisterStores(GameContext ctx)
         {
             ctx.RegisterStore(new GridStore());
+            ctx.RegisterStore(new TimeStore());
         }
 
         private void RegisterSystems(GameContext ctx)
         {
             ctx.RegisterSystem(new GridSystem());
+            ctx.RegisterSystem(new TimeSystem());
         }
 
         public async UniTask OnGameLaunch()
@@ -73,6 +75,9 @@ namespace CozyYard
             {
                 gridSystem.InitializeNewGrid(12, 12);
             }
+
+            var timeSystem = AppArch.Context.GetSystem<TimeSystem>();
+            timeSystem.EnsureDayStarted();
 
             GF.UI.Open(UIWindowId.GameHUD);
         }
