@@ -15,7 +15,7 @@ using JulyCore.Provider.Time;
 using JulyCore.Provider.GM;
 #endif
 
-namespace SpiritHealer.Aot
+namespace CozyYard.Aot
 {
     public class RegisterInfrastructureStep : ILaunchStep
     {

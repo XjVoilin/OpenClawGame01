@@ -13,7 +13,7 @@ using UnityEngine.SceneManagement;
 using YooAsset;
 using Object = UnityEngine.Object;
 
-namespace SpiritHealer.Aot
+namespace CozyYard.Aot
 {
     internal class YooAssetResourceProvider : ProviderBase, IResourceProvider
     {

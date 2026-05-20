@@ -3,12 +3,8 @@ using JulyArch;
 using JulyCore;
 using JulyCore.Data.Save;
 
-namespace SpiritHealer
+namespace CozyYard
 {
-    /// <summary>
-    /// 可持久化 Store 基类 — 继承后自动获得 Save 能力。
-    /// 纯内存 Store 继续使用 StoreBase。
-    /// </summary>
     public abstract class SavableStoreBase<TData> : StoreBase<TData>, IAsyncLoadable
         where TData : class, ISaveData, new()
     {

@@ -1,16 +1,20 @@
-using cfg;
-
-namespace SpiritHealer
+namespace CozyYard
 {
     public struct PhaseChangedEvent
     {
-        public ETimePhase OldPhase;
-        public ETimePhase NewPhase;
+        public TimePhase OldPhase;
+        public TimePhase NewPhase;
     }
 
     public struct DayChangedEvent
     {
         public int NewDay;
-        public ESeason CurrentSeason;
+        public Season CurrentSeason;
+    }
+
+    public struct SeasonChangedEvent
+    {
+        public Season OldSeason;
+        public Season NewSeason;
     }
 }

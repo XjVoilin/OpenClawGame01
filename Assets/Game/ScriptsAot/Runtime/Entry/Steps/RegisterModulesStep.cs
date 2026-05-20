@@ -11,7 +11,7 @@ using JulyCore.Module.Save;
 using JulyCore.Module.Scene;
 using JulyCore.Module.UI;
 
-namespace SpiritHealer.Aot
+namespace CozyYard.Aot
 {
     public class RegisterModulesStep : ILaunchStep
     {
@@ -43,7 +43,7 @@ namespace SpiritHealer.Aot
 
         private static IHotUpdateRegistrar FindRegistrar()
         {
-            const string typeFullName = "SpiritHealer.HotUpdateRegistrar";
+            const string typeFullName = "CozyYard.HotUpdateRegistrar";
             try
             {
                 var assembly = System.Reflection.Assembly.Load("Assembly-CSharp");

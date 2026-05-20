@@ -2,7 +2,7 @@ using JulyCore.Core;
 using JulyCore.Provider.Base;
 using JulyCore.Provider.Encryption;
 
-namespace SpiritHealer.Aot
+namespace CozyYard.Aot
 {
     public class NoEncryptionProvider : ProviderBase, IEncryptionProvider
     {

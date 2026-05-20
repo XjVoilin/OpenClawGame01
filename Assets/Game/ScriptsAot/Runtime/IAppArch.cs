@@ -1,6 +1,6 @@
 using JulyArch;
 
-namespace SpiritHealer
+namespace CozyYard
 {
     public interface IAppArch : IArchNode { }
 }

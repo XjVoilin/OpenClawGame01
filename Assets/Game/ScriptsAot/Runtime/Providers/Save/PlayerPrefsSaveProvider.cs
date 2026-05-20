@@ -9,7 +9,7 @@ using JulyCore.Provider.Base;
 using JulyCore.Provider.Save;
 using LitJson;
 
-namespace SpiritHealer.Aot
+namespace CozyYard.Aot
 {
     public class PlayerPrefsSaveProvider : ProviderBase, ISaveProvider
     {

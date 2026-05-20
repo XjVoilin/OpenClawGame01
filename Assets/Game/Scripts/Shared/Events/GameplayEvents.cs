@@ -1,13 +1,40 @@
-namespace SpiritHealer
+namespace CozyYard
 {
-    public struct TreatmentCompletedEvent
+    public struct InventoryChangedEvent { }
+
+    public struct BuildingPlacedEvent
     {
-        public VisitorInstance Visitor;
-        public float EfficacyScore;
-        public int ReputationGained;
-        public int CoinsGained;
+        public int BuildingId;
+        public int GridX;
+        public int GridY;
     }
 
-    /// <summary>来客队列或当前来客发生变化时触发。</summary>
-    public struct VisitorChangedEvent { }
+    public struct BuildingRemovedEvent
+    {
+        public int GridX;
+        public int GridY;
+    }
+
+    public struct CropHarvestedEvent
+    {
+        public int CropId;
+        public int Quantity;
+    }
+
+    public struct OrderCompletedEvent
+    {
+        public int OrderId;
+    }
+
+    public struct MilestoneAchievedEvent
+    {
+        public int MilestoneId;
+    }
+
+    public struct GridCellChangedEvent
+    {
+        public int GridX;
+        public int GridY;
+        public CellState NewState;
+    }
 }

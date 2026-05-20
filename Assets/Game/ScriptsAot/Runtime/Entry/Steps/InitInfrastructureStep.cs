@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using JulyCore.Core.Launch;
 
-namespace SpiritHealer.Aot
+namespace CozyYard.Aot
 {
     public class InitInfrastructureStep : ILaunchStep
     {

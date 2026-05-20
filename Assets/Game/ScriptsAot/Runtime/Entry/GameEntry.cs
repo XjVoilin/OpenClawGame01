@@ -3,7 +3,7 @@ using JulyCore.Core;
 using JulyCore.Core.Launch;
 using UnityEngine;
 
-namespace SpiritHealer.Aot
+namespace CozyYard.Aot
 {
     public class GameEntry : JulyGameEntry
     {

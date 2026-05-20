@@ -4,7 +4,7 @@ using JulyCore;
 using JulyCore.Core.Launch;
 using JulyCore.Provider.Resource;
 
-namespace SpiritHealer.Aot
+namespace CozyYard.Aot
 {
     public class InitResourceStep : ILaunchStep
     {
