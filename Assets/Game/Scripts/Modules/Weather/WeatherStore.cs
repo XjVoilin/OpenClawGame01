@@ -1,6 +1,6 @@
 namespace CozyYard
 {
-    public class WeatherStore : SavableStoreBase<WeatherData>, IWeatherQueries
+    public class WeatherStore : SavableStoreBase<WeatherData>
     {
         protected override string SaveKey => SaveKeys.WeatherData;
 

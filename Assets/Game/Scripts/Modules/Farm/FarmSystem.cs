@@ -120,7 +120,7 @@ namespace CozyYard
                 _store.MarkDirtyExplicit();
             }
 
-            for (int i = _store.Crops.Count - 1; i >= 0; i--))
+            for (int i = _store.Crops.Count - 1; i >= 0; i--)
             {
                 var crop = (CropInstance)_store.Crops[i];
 
