@@ -8,7 +8,7 @@
     "enterAnimType": 0,
     "exitAnimType": 0,
     "isIgnoreSafeArea": true,
-    "uiLayer": 1
+    "uiLayer": 100
   },
   {
     "id": 1002,
@@ -16,10 +16,10 @@
     "windowName": "InventoryWindow",
     "isNeedBlackMask": true,
     "isClickBlankQuit": true,
-    "enterAnimType": 1,
-    "exitAnimType": 1,
+    "enterAnimType": 3,
+    "exitAnimType": 3,
     "isIgnoreSafeArea": false,
-    "uiLayer": 2
+    "uiLayer": 200
   },
   {
     "id": 1003,
@@ -27,10 +27,10 @@
     "windowName": "BuildWindow",
     "isNeedBlackMask": true,
     "isClickBlankQuit": true,
-    "enterAnimType": 1,
-    "exitAnimType": 1,
+    "enterAnimType": 3,
+    "exitAnimType": 3,
     "isIgnoreSafeArea": false,
-    "uiLayer": 2
+    "uiLayer": 200
   },
   {
     "id": 1004,
@@ -38,10 +38,10 @@
     "windowName": "CraftWindow",
     "isNeedBlackMask": true,
     "isClickBlankQuit": true,
-    "enterAnimType": 1,
-    "exitAnimType": 1,
+    "enterAnimType": 3,
+    "exitAnimType": 3,
     "isIgnoreSafeArea": false,
-    "uiLayer": 2
+    "uiLayer": 200
   },
   {
     "id": 1005,
@@ -49,10 +49,10 @@
     "windowName": "VisitorWindow",
     "isNeedBlackMask": true,
     "isClickBlankQuit": true,
-    "enterAnimType": 1,
-    "exitAnimType": 1,
+    "enterAnimType": 3,
+    "exitAnimType": 3,
     "isIgnoreSafeArea": false,
-    "uiLayer": 2
+    "uiLayer": 200
   },
   {
     "id": 1006,
@@ -60,10 +60,10 @@
     "windowName": "MilestoneWindow",
     "isNeedBlackMask": true,
     "isClickBlankQuit": true,
-    "enterAnimType": 1,
-    "exitAnimType": 1,
+    "enterAnimType": 3,
+    "exitAnimType": 3,
     "isIgnoreSafeArea": false,
-    "uiLayer": 2
+    "uiLayer": 200
   },
   {
     "id": 1007,
@@ -71,10 +71,10 @@
     "windowName": "RecipeBookWindow",
     "isNeedBlackMask": true,
     "isClickBlankQuit": true,
-    "enterAnimType": 1,
-    "exitAnimType": 1,
+    "enterAnimType": 3,
+    "exitAnimType": 3,
     "isIgnoreSafeArea": false,
-    "uiLayer": 2
+    "uiLayer": 200
   },
   {
     "id": 1008,
@@ -82,10 +82,10 @@
     "windowName": "PhoneWindow",
     "isNeedBlackMask": true,
     "isClickBlankQuit": true,
-    "enterAnimType": 1,
-    "exitAnimType": 1,
+    "enterAnimType": 3,
+    "exitAnimType": 3,
     "isIgnoreSafeArea": false,
-    "uiLayer": 2
+    "uiLayer": 200
   },
   {
     "id": 1009,
@@ -93,10 +93,10 @@
     "windowName": "ShopWindow",
     "isNeedBlackMask": true,
     "isClickBlankQuit": true,
-    "enterAnimType": 1,
-    "exitAnimType": 1,
+    "enterAnimType": 3,
+    "exitAnimType": 3,
     "isIgnoreSafeArea": false,
-    "uiLayer": 2
+    "uiLayer": 200
   },
   {
     "id": 1010,
@@ -104,9 +104,9 @@
     "windowName": "SettingsWindow",
     "isNeedBlackMask": true,
     "isClickBlankQuit": true,
-    "enterAnimType": 1,
-    "exitAnimType": 1,
+    "enterAnimType": 3,
+    "exitAnimType": 3,
     "isIgnoreSafeArea": false,
-    "uiLayer": 2
+    "uiLayer": 200
   }
 ]

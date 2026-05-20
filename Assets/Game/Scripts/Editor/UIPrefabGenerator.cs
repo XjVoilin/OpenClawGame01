@@ -168,7 +168,7 @@ namespace CozyYard.Editor
                 new Vector2(16, 60), new Vector2(-16, -58));
             var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
 
-            var entryPrefab = CreateBuildEntry(listContainer);
+            var entryPrefab = CreateBuildEntry(listContainer.gameObject);
 
             var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20);
             SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
@@ -202,7 +202,7 @@ namespace CozyYard.Editor
                 new Vector2(16, 60), new Vector2(-16, -58));
             var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
 
-            var entryPrefab = CreateCraftEntry(listContainer);
+            var entryPrefab = CreateCraftEntry(listContainer.gameObject);
 
             var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20);
             SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
@@ -246,7 +246,7 @@ namespace CozyYard.Editor
                 new Vector2(16, 60), new Vector2(-16, -100));
             var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
 
-            var entryPrefab = CreateVisitorEntry(listContainer);
+            var entryPrefab = CreateVisitorEntry(listContainer.gameObject);
 
             var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20);
             SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
@@ -287,7 +287,7 @@ namespace CozyYard.Editor
                 new Vector2(16, 60), new Vector2(-16, -100));
             var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
 
-            var entryPrefab = CreateMilestoneEntry(listContainer);
+            var entryPrefab = CreateMilestoneEntry(listContainer.gameObject);
 
             var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20);
             SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
@@ -322,7 +322,7 @@ namespace CozyYard.Editor
                 new Vector2(16, 60), new Vector2(-16, -58));
             var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
 
-            var entryPrefab = CreateRecipeBookEntry(listContainer);
+            var entryPrefab = CreateRecipeBookEntry(listContainer.gameObject);
 
             var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20);
             SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
@@ -367,7 +367,7 @@ namespace CozyYard.Editor
                 new Vector2(16, 120), new Vector2(-16, -140));
             var itemsContainer = CreateScrollContent(scrollArea, "ItemsContainer", out _);
 
-            var itemEntryPrefab = CreatePhoneItemEntry(itemsContainer);
+            var itemEntryPrefab = CreatePhoneItemEntry(itemsContainer.gameObject);
 
             var resultText = AddText(root, "ResultText", "", 18);
             SetAnchors(resultText.gameObject, new Vector2(0, 0), new Vector2(1, 0),
@@ -654,7 +654,7 @@ namespace CozyYard.Editor
             return tmp;
         }
 
-        private static Button AddButton(GameObject parent, string name, string label, Vector2 size, int fontSize = 22)
+        private static UISmartButton AddButton(GameObject parent, string name, string label, Vector2 size, int fontSize = 22)
         {
             var go = new GameObject(name, typeof(RectTransform), typeof(Image), typeof(UISmartButton));
             go.transform.SetParent(parent.transform, false);

@@ -1,6 +1,6 @@
 namespace CozyYard
 {
-    public class GridStore : SavableStoreBase<GridData>, IGridQueries
+    public class GridStore : SavableStoreBase<GridData>
     {
         protected override string SaveKey => SaveKeys.GridData;
 

@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace CozyYard
 {
-    public class VisitorStore : SavableStoreBase<VisitorData>, IVisitorQueries
+    public class VisitorStore : SavableStoreBase<VisitorData>
     {
         protected override string SaveKey => SaveKeys.VisitorData;
 

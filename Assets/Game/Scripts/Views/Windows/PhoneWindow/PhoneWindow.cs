@@ -46,7 +46,7 @@ namespace CozyYard
         {
             if (_hintText) _hintText.text = "告诉妈妈你有什么材料，她可能知道配方";
 
-            var craftQueries = this.Query<ICraftQueries>();
+            var craftQueries = GetStore<CraftStore>();
             int remaining = MomAskLimit - craftQueries.MomAsksToday;
             if (_asksRemainingText) _asksRemainingText.text = $"今日剩余询问: {remaining}/{MomAskLimit}";
 
@@ -60,12 +60,12 @@ namespace CozyYard
             ClearItemEntries();
             if (_itemEntryPrefab == null || _itemsContainer == null) return;
 
-            var inventoryQueries = this.Query<IInventoryQueries>();
+            var inventoryQueries = GetStore<InventoryStore>();
             _selectedItemId = 0;
 
             foreach (var stack in inventoryQueries.Items)
             {
-                var go = Object.Instantiate(_itemEntryPrefab, _itemsContainer);
+                var go = Instantiate(_itemEntryPrefab, _itemsContainer);
                 go.SetActive(true);
 
                 var text = go.GetComponentInChildren<TextMeshProUGUI>();
@@ -91,7 +91,7 @@ namespace CozyYard
 
         private void RefreshAskButton()
         {
-            var craftQueries = this.Query<ICraftQueries>();
+            var craftQueries = GetStore<CraftStore>();
             int remaining = MomAskLimit - craftQueries.MomAsksToday;
             if (_askBtn) _askBtn.interactable = remaining > 0 && _selectedItemId > 0;
         }

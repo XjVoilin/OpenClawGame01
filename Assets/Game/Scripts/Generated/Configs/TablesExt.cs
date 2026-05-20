@@ -6,11 +6,7 @@ namespace cfg
 {
     public partial class Tables
     {
-        public static readonly string[] TableNames =
-        {
-            "tbitem", "tbcrop", "tbtree", "tbanimal", "tbbuilding", "tbrecipe", "tbvisitor", "tborder",
-            "tbmilestone", "tbseason", "tbtime", "tbexpansion", "tbobstacle", "tbshop", "tbuiwindow", "tblanguage"
-        };
+        public static readonly string[] TableNames = { "tbitem", "tbcrop", "tbtree", "tbanimal", "tbbuilding", "tbrecipe", "tbvisitor", "tborder", "tbmilestone", "tbseason", "tbtime", "tbexpansion", "tbobstacle", "tbshop", "tbuiwindow", "tblanguage" };
 
         public void RegisterTo(Dictionary<Type, object> registry)
         {

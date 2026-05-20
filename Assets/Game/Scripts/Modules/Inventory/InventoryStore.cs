@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace CozyYard
 {
-    public class InventoryStore : SavableStoreBase<InventoryData>, IInventoryQueries
+    public class InventoryStore : SavableStoreBase<InventoryData>
     {
         protected override string SaveKey => SaveKeys.InventoryData;
 

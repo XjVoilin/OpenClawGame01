@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace CozyYard
 {
-    public class MilestoneStore : SavableStoreBase<MilestoneData>, IMilestoneQueries
+    public class MilestoneStore : SavableStoreBase<MilestoneData>
     {
         protected override string SaveKey => SaveKeys.MilestoneData;
 

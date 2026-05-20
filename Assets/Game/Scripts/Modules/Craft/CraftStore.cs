@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace CozyYard
 {
-    public class CraftStore : SavableStoreBase<CraftData>, ICraftQueries
+    public class CraftStore : SavableStoreBase<CraftData>
     {
         protected override string SaveKey => SaveKeys.CraftData;
 

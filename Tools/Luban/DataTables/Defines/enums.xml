@@ -1,29 +1,2 @@
 <module name="">
-    <enum name="ESeason" comment="季节">
-        <var name="Spring" alias="春" value="1"/>
-        <var name="Summer" alias="夏" value="2"/>
-        <var name="Autumn" alias="秋" value="3"/>
-        <var name="Winter" alias="冬" value="4"/>
-    </enum>
-    <enum name="ETimePhase" comment="时间段">
-        <var name="Morning" alias="上午" value="1"/>
-        <var name="Noon" alias="中午" value="2"/>
-        <var name="Afternoon" alias="下午" value="3"/>
-        <var name="Evening" alias="傍晚" value="4"/>
-        <var name="Night" alias="夜晚" value="5"/>
-    </enum>
-    <enum name="EHerbNature" comment="药性">
-        <var name="Cold" alias="寒" value="1"/>
-        <var name="Hot" alias="热" value="2"/>
-        <var name="Warm" alias="温" value="3"/>
-        <var name="Cool" alias="凉" value="4"/>
-        <var name="Neutral" alias="平" value="5"/>
-    </enum>
-    <enum name="EHerbFlavor" comment="药味">
-        <var name="Sour" alias="酸" value="1"/>
-        <var name="Bitter" alias="苦" value="2"/>
-        <var name="Sweet" alias="甘" value="3"/>
-        <var name="Pungent" alias="辛" value="4"/>
-        <var name="Salty" alias="咸" value="5"/>
-    </enum>
 </module>

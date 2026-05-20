@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace CozyYard
 {
-    public class BuildStore : SavableStoreBase<BuildData>, IBuildQueries
+    public class BuildStore : SavableStoreBase<BuildData>
     {
         protected override string SaveKey => SaveKeys.BuildData;
 

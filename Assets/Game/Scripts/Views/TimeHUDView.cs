@@ -63,14 +63,14 @@ namespace CozyYard
 
         private void RefreshTime()
         {
-            var q = this.Query<ITimeQueries>();
+            var q = this.GetStore<TimeStore>();
             if (_timeText) _timeText.text = $"{q.Hour:D2}:{q.Minute:D2}";
             if (_phaseText) _phaseText.text = GetPhaseName(q.CurrentPhase);
         }
 
         private void RefreshDay()
         {
-            var q = this.Query<ITimeQueries>();
+            var q = this.GetStore<TimeStore>();
             if (_dayText) _dayText.text = $"第 {q.Day} 天";
             if (_seasonText) _seasonText.text = GetSeasonName(q.CurrentSeason);
         }

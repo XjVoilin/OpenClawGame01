@@ -49,7 +49,7 @@ namespace CozyYard
 
             if (_entryPrefab == null || _listContainer == null) return;
 
-            var visitorQueries = this.Query<IVisitorQueries>();
+            var visitorQueries = this.GetStore<VisitorStore>();
             var visitorSystem = GetSystem<VisitorSystem>();
 
             foreach (var order in visitorQueries.TodayOrders)
@@ -103,7 +103,7 @@ namespace CozyYard
 
         private void RefreshGate()
         {
-            var q = this.Query<IVisitorQueries>();
+            var q = this.GetStore<VisitorStore>();
             if (_gateText) _gateText.text = q.IsGateOpen ? "大门: 开" : "大门: 关";
         }
 

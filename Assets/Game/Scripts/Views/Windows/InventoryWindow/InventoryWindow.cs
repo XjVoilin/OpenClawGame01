@@ -33,7 +33,7 @@ namespace CozyYard
 
         private void Refresh()
         {
-            var q = this.Query<IInventoryQueries>();
+            var q = GetStore<InventoryStore>();
 
             if (_capacityText) _capacityText.text = $"{q.UsedSlots}/{q.Capacity}";
             if (_coinsText) _coinsText.text = q.Coins.ToString();

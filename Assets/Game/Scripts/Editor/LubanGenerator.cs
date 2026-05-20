@@ -9,7 +9,7 @@ using UnityEditor;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace SpiritHealer.Editor
+namespace CozyYard.Editor
 {
     /// <summary>
     /// Luban 配置表 Editor 工具 —— 通用版。
@@ -174,26 +174,34 @@ namespace SpiritHealer.Editor
         {
             if (!CheckPrerequisitesCached()) return false;
 
-            var isFlat = DetectFlatLayout();
-
             try
             {
-                if (isFlat)
+                var confPath = Path.Combine(ProjectRoot, DataTablesRoot, "luban.conf");
+                if (File.Exists(confPath))
                 {
-                    EditorUtility.DisplayProgressBar("Luban", "生成中...", 0.5f);
-                    if (!GenerateFlat()) return false;
+                    EditorUtility.DisplayProgressBar("Luban", "使用 luban.conf 生成...", 0.5f);
+                    if (!GenerateWithConf(confPath)) return false;
                 }
                 else
                 {
-                    var modules = DiscoverModules();
-                    var all = new List<string> { CommonModule };
-                    all.AddRange(modules);
-                    for (var i = 0; i < all.Count; i++)
+                    var isFlat = DetectFlatLayout();
+                    if (isFlat)
                     {
-                        var module = all[i];
-                        EditorUtility.DisplayProgressBar("Luban", $"生成 {module}... ({i + 1}/{all.Count})",
-                            (float)i / all.Count);
-                        if (!GenerateModule(module)) return false;
+                        EditorUtility.DisplayProgressBar("Luban", "生成中...", 0.5f);
+                        if (!GenerateFlat()) return false;
+                    }
+                    else
+                    {
+                        var modules = DiscoverModules();
+                        var all = new List<string> { CommonModule };
+                        all.AddRange(modules);
+                        for (var i = 0; i < all.Count; i++)
+                        {
+                            var module = all[i];
+                            EditorUtility.DisplayProgressBar("Luban", $"生成 {module}... ({i + 1}/{all.Count})",
+                                (float)i / all.Count);
+                            if (!GenerateModule(module)) return false;
+                        }
                     }
                 }
             }
@@ -205,6 +213,21 @@ namespace SpiritHealer.Editor
             AssetDatabase.Refresh();
             Debug.Log("[Luban] 生成完成");
             return true;
+        }
+
+        private static bool GenerateWithConf(string confPath)
+        {
+            const string jsonOut = "Assets/Game/Res/Configs";
+            const string codeOut = "Assets/Game/Scripts/Generated/Configs";
+            const string topModule = "cfg";
+
+            var success = RunLuban(confPath, jsonOut, codeOut, useConfDirectly: true);
+            if (success)
+            {
+                var codeOutAbs = Path.GetFullPath(Path.Combine(ProjectRoot, codeOut));
+                GenerateTablesExt(codeOutAbs, topModule);
+            }
+            return success;
         }
 
         public static bool ValidatePrerequisites()
@@ -317,7 +340,7 @@ namespace SpiritHealer.Editor
             return success;
         }
 
-        private static bool RunLuban(string confPath, string jsonOutRelative, string codeOutRelative)
+        private static bool RunLuban(string confPath, string jsonOutRelative, string codeOutRelative, bool useConfDirectly = false)
         {
             var dllPath = Path.Combine(ProjectRoot, LubanDll);
             var jsonOutAbs = Path.GetFullPath(Path.Combine(ProjectRoot, jsonOutRelative));
@@ -350,7 +373,7 @@ namespace SpiritHealer.Editor
                 if (process == null)
                 {
                     Debug.LogError("[Luban] 无法启动 dotnet 进程");
-                    CleanTempConf(confPath);
+                    if (!useConfDirectly) CleanTempConf(confPath);
                     return false;
                 }
 
@@ -380,7 +403,7 @@ namespace SpiritHealer.Editor
             }
             finally
             {
-                CleanTempConf(confPath);
+                if (!useConfDirectly) CleanTempConf(confPath);
             }
         }
 

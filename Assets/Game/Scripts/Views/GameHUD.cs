@@ -62,14 +62,14 @@ namespace CozyYard
 
         private void RefreshGate()
         {
-            var q = this.Query<IVisitorQueries>();
+            var q = this.GetStore<VisitorStore>();
             if (_gateText) _gateText.text = q.IsGateOpen ? "大门: 开" : "大门: 关";
         }
 
         private void RefreshVisitorBadge()
         {
             if (_visitorBadgeText == null) return;
-            var q = this.Query<IVisitorQueries>();
+            var q = this.GetStore<VisitorStore>();
             int count = q.TodayOrders.Count;
             _visitorBadgeText.text = count > 0 ? count.ToString() : "";
             _visitorBadgeText.gameObject.SetActive(count > 0);

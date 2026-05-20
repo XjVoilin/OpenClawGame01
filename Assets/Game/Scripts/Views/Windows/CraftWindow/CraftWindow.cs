@@ -55,7 +55,7 @@ namespace CozyYard
             ClearEntries();
             if (_entryPrefab == null || _listContainer == null) return;
 
-            var craftQueries = this.Query<ICraftQueries>();
+            var craftQueries = this.GetStore<CraftStore>();
             var craftSystem = GetSystem<CraftSystem>();
 
             foreach (int recipeId in craftQueries.UnlockedRecipeIds)

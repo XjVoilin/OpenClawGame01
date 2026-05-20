@@ -47,7 +47,7 @@ namespace CozyYard
 
         private void UpdateTargetFromCurrentPhase()
         {
-            var q = this.Query<ITimeQueries>();
+            var q = this.GetStore<TimeStore>();
             UpdateTargetForPhase(q.CurrentPhase);
         }
 

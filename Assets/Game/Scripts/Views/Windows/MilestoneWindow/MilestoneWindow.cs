@@ -57,7 +57,7 @@ namespace CozyYard
         {
             ClearEntries();
 
-            var q = this.Query<IMilestoneQueries>();
+            var q = GetStore<MilestoneStore>();
             if (_expansionText) _expansionText.text = $"扩建等级: {q.ExpansionLevel}";
 
             if (_entryPrefab == null || _listContainer == null) return;

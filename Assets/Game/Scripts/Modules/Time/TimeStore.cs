@@ -1,6 +1,6 @@
 namespace CozyYard
 {
-    public class TimeStore : SavableStoreBase<TimeData>, ITimeQueries
+    public class TimeStore : SavableStoreBase<TimeData>
     {
         protected override string SaveKey => SaveKeys.TimeData;
 
