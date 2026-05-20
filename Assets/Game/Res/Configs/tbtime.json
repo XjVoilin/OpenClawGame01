@@ -1,11 +1,44 @@
 [
   {
-    "DayStart": 480,
-    "Noon": 720,
-    "Afternoon": 840,
-    "CloseTime": 1080,
-    "Evening": 1140,
-    "Night": 1320,
-    "DaysPerSeason": 7
+    "id": 1,
+    "phaseName": "Dawn",
+    "startMinute": 360,
+    "lightIntensity": 0.4,
+    "lightColor": "FFD4A0"
+  },
+  {
+    "id": 2,
+    "phaseName": "Morning",
+    "startMinute": 480,
+    "lightIntensity": 0.8,
+    "lightColor": "FFFFFF"
+  },
+  {
+    "id": 3,
+    "phaseName": "Noon",
+    "startMinute": 720,
+    "lightIntensity": 1,
+    "lightColor": "FFFFFF"
+  },
+  {
+    "id": 4,
+    "phaseName": "Afternoon",
+    "startMinute": 840,
+    "lightIntensity": 0.9,
+    "lightColor": "FFF8E0"
+  },
+  {
+    "id": 5,
+    "phaseName": "Evening",
+    "startMinute": 1080,
+    "lightIntensity": 0.5,
+    "lightColor": "FF9040"
+  },
+  {
+    "id": 6,
+    "phaseName": "Night",
+    "startMinute": 1260,
+    "lightIntensity": 0.2,
+    "lightColor": "4060A0"
   }
 ]

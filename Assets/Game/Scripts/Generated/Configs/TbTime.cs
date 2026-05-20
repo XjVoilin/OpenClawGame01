@@ -13,54 +13,43 @@ using SimpleJSON;
 
 namespace cfg
 {
+/// <summary>
+/// 时间配置表
+/// </summary>
 public partial class TbTime
 {
-
-     private readonly Time _data;
-
-     public Time Data => _data;
-
+    private readonly System.Collections.Generic.Dictionary<int, TimeCfg> _dataMap;
+    private readonly System.Collections.Generic.List<TimeCfg> _dataList;
+    
     public TbTime(JSONNode _buf)
     {
-        int n = _buf.Count;
-        if (n != 1) throw new SerializationException("table mode=one, but size != 1");
-        { if(!_buf[0].IsObject) { throw new SerializationException(); }  _data = global::cfg.Time.DeserializeTime(_buf[0]);  }
+        _dataMap = new System.Collections.Generic.Dictionary<int, TimeCfg>();
+        _dataList = new System.Collections.Generic.List<TimeCfg>();
+        
+        foreach(JSONNode _ele in _buf.Children)
+        {
+            TimeCfg _v;
+            { if(!_ele.IsObject) { throw new SerializationException(); }  _v = global::cfg.TimeCfg.DeserializeTimeCfg(_ele);  }
+            _dataList.Add(_v);
+            _dataMap.Add(_v.Id, _v);
+        }
     }
 
+    public System.Collections.Generic.Dictionary<int, TimeCfg> DataMap => _dataMap;
+    public System.Collections.Generic.List<TimeCfg> DataList => _dataList;
 
-    /// <summary>
-    /// 1899/12/31 08:00:00
-    /// </summary>
-     public int DayStart => _data.DayStart;
-    /// <summary>
-    /// 1899/12/31 12:00:00
-    /// </summary>
-     public int Noon => _data.Noon;
-    /// <summary>
-    /// 1899/12/31 14:00:00
-    /// </summary>
-     public int Afternoon => _data.Afternoon;
-    /// <summary>
-    /// 1899/12/31 18:00:00
-    /// </summary>
-     public int CloseTime => _data.CloseTime;
-    /// <summary>
-    /// 1899/12/31 19:00:00
-    /// </summary>
-     public int Evening => _data.Evening;
-    /// <summary>
-    /// 1899/12/31 22:00:00
-    /// </summary>
-     public int Night => _data.Night;
-    /// <summary>
-    /// 多少天一个季节
-    /// </summary>
-     public int DaysPerSeason => _data.DaysPerSeason;
-    
+    public TimeCfg GetOrDefault(int key) => _dataMap.TryGetValue(key, out var v) ? v : null;
+    public TimeCfg Get(int key) => _dataMap[key];
+    public TimeCfg this[int key] => _dataMap[key];
+
     public void ResolveRef(Tables tables)
     {
-        _data.ResolveRef(tables);
+        foreach(var _v in _dataList)
+        {
+            _v.ResolveRef(tables);
+        }
     }
+
 }
 
 }

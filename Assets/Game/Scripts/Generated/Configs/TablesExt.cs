@@ -6,18 +6,30 @@ namespace cfg
 {
     public partial class Tables
     {
-        public static readonly string[] TableNames = { "tblanguage", "tbuiwindow", "tbtime", "tbreputation", "tbherb", "tbcause", "tbsymptom", "tbvisitortemplate" };
+        public static readonly string[] TableNames =
+        {
+            "tbitem", "tbcrop", "tbtree", "tbanimal", "tbbuilding", "tbrecipe", "tbvisitor", "tborder",
+            "tbmilestone", "tbseason", "tbtime", "tbexpansion", "tbobstacle", "tbshop", "tbuiwindow", "tblanguage"
+        };
 
         public void RegisterTo(Dictionary<Type, object> registry)
         {
-            registry[typeof(TbLanguage)] = TbLanguage;
-            registry[typeof(TbUIWindow)] = TbUIWindow;
+            registry[typeof(TbItem)] = TbItem;
+            registry[typeof(TbCrop)] = TbCrop;
+            registry[typeof(TbTree)] = TbTree;
+            registry[typeof(TbAnimal)] = TbAnimal;
+            registry[typeof(TbBuilding)] = TbBuilding;
+            registry[typeof(TbRecipe)] = TbRecipe;
+            registry[typeof(TbVisitor)] = TbVisitor;
+            registry[typeof(TbOrder)] = TbOrder;
+            registry[typeof(TbMilestone)] = TbMilestone;
+            registry[typeof(TbSeason)] = TbSeason;
             registry[typeof(TbTime)] = TbTime;
-            registry[typeof(TbReputation)] = TbReputation;
-            registry[typeof(TbHerb)] = TbHerb;
-            registry[typeof(TbCause)] = TbCause;
-            registry[typeof(TbSymptom)] = TbSymptom;
-            registry[typeof(TbVisitorTemplate)] = TbVisitorTemplate;
+            registry[typeof(TbExpansion)] = TbExpansion;
+            registry[typeof(TbObstacle)] = TbObstacle;
+            registry[typeof(TbShop)] = TbShop;
+            registry[typeof(TbUIWindow)] = TbUIWindow;
+            registry[typeof(TbLanguage)] = TbLanguage;
         }
     }
 }

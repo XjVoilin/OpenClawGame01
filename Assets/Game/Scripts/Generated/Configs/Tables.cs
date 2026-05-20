@@ -14,50 +14,110 @@ namespace cfg
 {
 public partial class Tables
 {
-    public TbLanguage TbLanguage {get; }
-    public TbUIWindow TbUIWindow {get; }
+    /// <summary>
+    /// 物品总表
+    /// </summary>
+    public TbItem TbItem {get; }
+    /// <summary>
+    /// 作物配置表
+    /// </summary>
+    public TbCrop TbCrop {get; }
+    /// <summary>
+    /// 树木配置表
+    /// </summary>
+    public TbTree TbTree {get; }
+    /// <summary>
+    /// 动物配置表
+    /// </summary>
+    public TbAnimal TbAnimal {get; }
+    /// <summary>
+    /// 建筑配置表
+    /// </summary>
+    public TbBuilding TbBuilding {get; }
+    /// <summary>
+    /// 制作配方表
+    /// </summary>
+    public TbRecipe TbRecipe {get; }
+    /// <summary>
+    /// 来客配置表
+    /// </summary>
+    public TbVisitor TbVisitor {get; }
+    /// <summary>
+    /// 订单模板表
+    /// </summary>
+    public TbOrder TbOrder {get; }
+    /// <summary>
+    /// 里程碑表
+    /// </summary>
+    public TbMilestone TbMilestone {get; }
+    /// <summary>
+    /// 季节表
+    /// </summary>
+    public TbSeason TbSeason {get; }
+    /// <summary>
+    /// 时间配置表
+    /// </summary>
     public TbTime TbTime {get; }
-    public TbReputation TbReputation {get; }
     /// <summary>
-    /// 药材配置表
+    /// 扩建区域表
     /// </summary>
-    public TbHerb TbHerb {get; }
+    public TbExpansion TbExpansion {get; }
     /// <summary>
-    /// 病因配置表
+    /// 障碍物表
     /// </summary>
-    public TbCause TbCause {get; }
+    public TbObstacle TbObstacle {get; }
     /// <summary>
-    /// 病症配置表
+    /// 商店商品表
     /// </summary>
-    public TbSymptom TbSymptom {get; }
+    public TbShop TbShop {get; }
     /// <summary>
-    /// 来客模板配置表
+    /// UI窗口表
     /// </summary>
-    public TbVisitorTemplate TbVisitorTemplate {get; }
+    public TbUIWindow TbUIWindow {get; }
+    /// <summary>
+    /// 多语言表
+    /// </summary>
+    public TbLanguage TbLanguage {get; }
 
     public Tables(System.Func<string, JSONNode> loader)
     {
-        TbLanguage = new TbLanguage(loader("tblanguage"));
-        TbUIWindow = new TbUIWindow(loader("tbuiwindow"));
+        TbItem = new TbItem(loader("tbitem"));
+        TbCrop = new TbCrop(loader("tbcrop"));
+        TbTree = new TbTree(loader("tbtree"));
+        TbAnimal = new TbAnimal(loader("tbanimal"));
+        TbBuilding = new TbBuilding(loader("tbbuilding"));
+        TbRecipe = new TbRecipe(loader("tbrecipe"));
+        TbVisitor = new TbVisitor(loader("tbvisitor"));
+        TbOrder = new TbOrder(loader("tborder"));
+        TbMilestone = new TbMilestone(loader("tbmilestone"));
+        TbSeason = new TbSeason(loader("tbseason"));
         TbTime = new TbTime(loader("tbtime"));
-        TbReputation = new TbReputation(loader("tbreputation"));
-        TbHerb = new TbHerb(loader("tbherb"));
-        TbCause = new TbCause(loader("tbcause"));
-        TbSymptom = new TbSymptom(loader("tbsymptom"));
-        TbVisitorTemplate = new TbVisitorTemplate(loader("tbvisitortemplate"));
+        TbExpansion = new TbExpansion(loader("tbexpansion"));
+        TbObstacle = new TbObstacle(loader("tbobstacle"));
+        TbShop = new TbShop(loader("tbshop"));
+        TbUIWindow = new TbUIWindow(loader("tbuiwindow"));
+        TbLanguage = new TbLanguage(loader("tblanguage"));
         ResolveRef();
     }
     
     private void ResolveRef()
     {
-        TbLanguage.ResolveRef(this);
-        TbUIWindow.ResolveRef(this);
+        TbItem.ResolveRef(this);
+        TbCrop.ResolveRef(this);
+        TbTree.ResolveRef(this);
+        TbAnimal.ResolveRef(this);
+        TbBuilding.ResolveRef(this);
+        TbRecipe.ResolveRef(this);
+        TbVisitor.ResolveRef(this);
+        TbOrder.ResolveRef(this);
+        TbMilestone.ResolveRef(this);
+        TbSeason.ResolveRef(this);
         TbTime.ResolveRef(this);
-        TbReputation.ResolveRef(this);
-        TbHerb.ResolveRef(this);
-        TbCause.ResolveRef(this);
-        TbSymptom.ResolveRef(this);
-        TbVisitorTemplate.ResolveRef(this);
+        TbExpansion.ResolveRef(this);
+        TbObstacle.ResolveRef(this);
+        TbShop.ResolveRef(this);
+        TbUIWindow.ResolveRef(this);
+        TbLanguage.ResolveRef(this);
     }
 }
 

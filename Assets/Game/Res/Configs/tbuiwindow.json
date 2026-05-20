@@ -1,46 +1,112 @@
 [
   {
     "id": 1001,
-    "desc": "主界面HUD",
+    "desc": "游戏HUD",
     "windowName": "GameHUD",
     "isNeedBlackMask": false,
     "isClickBlankQuit": false,
     "enterAnimType": 0,
     "exitAnimType": 0,
-    "isIgnoreSafeArea": false,
-    "uiLayer": 100
+    "isIgnoreSafeArea": true,
+    "uiLayer": 1
   },
   {
     "id": 1002,
-    "desc": "来客面板",
-    "windowName": "VisitorWindow",
+    "desc": "背包",
+    "windowName": "InventoryWindow",
     "isNeedBlackMask": true,
-    "isClickBlankQuit": false,
-    "enterAnimType": 3,
-    "exitAnimType": 3,
+    "isClickBlankQuit": true,
+    "enterAnimType": 1,
+    "exitAnimType": 1,
     "isIgnoreSafeArea": false,
-    "uiLayer": 200
+    "uiLayer": 2
   },
   {
     "id": 1003,
-    "desc": "处方面板",
-    "windowName": "PrescriptionWindow",
+    "desc": "建造面板",
+    "windowName": "BuildWindow",
     "isNeedBlackMask": true,
-    "isClickBlankQuit": false,
-    "enterAnimType": 3,
-    "exitAnimType": 3,
+    "isClickBlankQuit": true,
+    "enterAnimType": 1,
+    "exitAnimType": 1,
     "isIgnoreSafeArea": false,
-    "uiLayer": 200
+    "uiLayer": 2
   },
   {
     "id": 1004,
-    "desc": "治疗结果",
-    "windowName": "TreatmentResultWindow",
+    "desc": "制作界面",
+    "windowName": "CraftWindow",
     "isNeedBlackMask": true,
     "isClickBlankQuit": true,
-    "enterAnimType": 3,
-    "exitAnimType": 3,
+    "enterAnimType": 1,
+    "exitAnimType": 1,
     "isIgnoreSafeArea": false,
-    "uiLayer": 200
+    "uiLayer": 2
+  },
+  {
+    "id": 1005,
+    "desc": "来客对话",
+    "windowName": "VisitorWindow",
+    "isNeedBlackMask": true,
+    "isClickBlankQuit": true,
+    "enterAnimType": 1,
+    "exitAnimType": 1,
+    "isIgnoreSafeArea": false,
+    "uiLayer": 2
+  },
+  {
+    "id": 1006,
+    "desc": "里程碑",
+    "windowName": "MilestoneWindow",
+    "isNeedBlackMask": true,
+    "isClickBlankQuit": true,
+    "enterAnimType": 1,
+    "exitAnimType": 1,
+    "isIgnoreSafeArea": false,
+    "uiLayer": 2
+  },
+  {
+    "id": 1007,
+    "desc": "配方本",
+    "windowName": "RecipeBookWindow",
+    "isNeedBlackMask": true,
+    "isClickBlankQuit": true,
+    "enterAnimType": 1,
+    "exitAnimType": 1,
+    "isIgnoreSafeArea": false,
+    "uiLayer": 2
+  },
+  {
+    "id": 1008,
+    "desc": "问妈",
+    "windowName": "PhoneWindow",
+    "isNeedBlackMask": true,
+    "isClickBlankQuit": true,
+    "enterAnimType": 1,
+    "exitAnimType": 1,
+    "isIgnoreSafeArea": false,
+    "uiLayer": 2
+  },
+  {
+    "id": 1009,
+    "desc": "货郎商店",
+    "windowName": "ShopWindow",
+    "isNeedBlackMask": true,
+    "isClickBlankQuit": true,
+    "enterAnimType": 1,
+    "exitAnimType": 1,
+    "isIgnoreSafeArea": false,
+    "uiLayer": 2
+  },
+  {
+    "id": 1010,
+    "desc": "设置",
+    "windowName": "SettingsWindow",
+    "isNeedBlackMask": true,
+    "isClickBlankQuit": true,
+    "enterAnimType": 1,
+    "exitAnimType": 1,
+    "isIgnoreSafeArea": false,
+    "uiLayer": 2
   }
 ]

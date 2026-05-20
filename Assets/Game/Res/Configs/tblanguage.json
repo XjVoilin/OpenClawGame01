@@ -1,6 +1,42 @@
 [
   {
-    "key": "ReputationTitle_0",
-    "cn": "医道入门"
+    "key": "season_spring",
+    "cn": "春"
+  },
+  {
+    "key": "season_summer",
+    "cn": "夏"
+  },
+  {
+    "key": "season_autumn",
+    "cn": "秋"
+  },
+  {
+    "key": "season_winter",
+    "cn": "冬"
+  },
+  {
+    "key": "phase_dawn",
+    "cn": "清晨"
+  },
+  {
+    "key": "phase_morning",
+    "cn": "上午"
+  },
+  {
+    "key": "phase_noon",
+    "cn": "正午"
+  },
+  {
+    "key": "phase_afternoon",
+    "cn": "下午"
+  },
+  {
+    "key": "phase_evening",
+    "cn": "傍晚"
+  },
+  {
+    "key": "phase_night",
+    "cn": "夜晚"
   }
 ]

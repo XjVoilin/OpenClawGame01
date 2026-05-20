@@ -54,11 +54,11 @@ public sealed partial class UIWindow : Luban.BeanBase
     /// </summary>
     public readonly bool IsClickBlankQuit;
     /// <summary>
-    /// 进入动画类型
+    /// 进入动画
     /// </summary>
     public readonly int EnterAnimType;
     /// <summary>
-    /// 退出动画类型
+    /// 退出动画
     /// </summary>
     public readonly int ExitAnimType;
     /// <summary>
