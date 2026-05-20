@@ -38,4 +38,10 @@ namespace CozyYard
         public int GridY;
         public CellState NewState;
     }
+
+    public struct WeatherChangedEvent
+    {
+        public WeatherType NewWeather;
+        public WeatherType PreviousWeather;
+    }
 }

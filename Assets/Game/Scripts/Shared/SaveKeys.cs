@@ -12,5 +12,6 @@ namespace CozyYard
         public const string InventoryData = "Save_InventoryData";
         public const string MilestoneData = "Save_MilestoneData";
         public const string ExpansionData = "Save_ExpansionData";
+        public const string WeatherData = "Save_WeatherData";
     }
 }

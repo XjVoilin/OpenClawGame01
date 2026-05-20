@@ -51,4 +51,13 @@ namespace CozyYard
         Product,
         Tool
     }
+
+    public enum WeatherType
+    {
+        Sunny,
+        Cloudy,
+        LightRain,
+        HeavyRain,
+        Windy
+    }
 }
