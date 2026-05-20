@@ -58,6 +58,7 @@ namespace CozyYard
             ctx.RegisterStore(new TimeStore());
             ctx.RegisterStore(new InventoryStore());
             ctx.RegisterStore(new FarmStore());
+            ctx.RegisterStore(new BuildStore());
         }
 
         private void RegisterSystems(GameContext ctx)
@@ -66,6 +67,7 @@ namespace CozyYard
             ctx.RegisterSystem(new TimeSystem());
             ctx.RegisterSystem(new InventorySystem());
             ctx.RegisterSystem(new FarmSystem());
+            ctx.RegisterSystem(new BuildSystem());
         }
 
         public async UniTask OnGameLaunch()
