@@ -134,6 +134,7 @@ def create_item_xlsx():
         ["", 3003, "糯米",   "Product", 50, "饱满的糯米"],
         ["", 3004, "菊花",   "Product", 50, "新鲜菊花"],
         ["", 3005, "辣椒",   "Product", 50, "新鲜辣椒"],
+        ["", 3101, "鸡蛋",   "Product", 50, "新鲜鸡蛋"],
     ]
 
     write_sheet(ws, headers, comments, rows)
@@ -235,6 +236,25 @@ def create_season_xlsx():
     print(f"  -> {path}")
 
 
+def create_animal_xlsx():
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "animal"
+
+    headers  = ["##var", "id", "name", "type", "produceItemId", "produceCycleDays", "requiredBuildingId", "feedItemId", "feedQuantity"]
+    comments = ["##",    "ID", "名称",  "类型(Poultry/Aquatic/Pet)", "产出物品ID", "产出周期(天)", "需要设施ID", "饲料物品ID", "每次喂食量"]
+
+    rows = [
+        ["", 1, "鸡", "Poultry", 3101, 2, 40, 1001, 2],
+        ["", 2, "猫", "Pet",     0,    0, 0,  0,    0],
+    ]
+
+    write_sheet(ws, headers, comments, rows)
+    path = os.path.join(DATAS_DIR, "animal.xlsx")
+    wb.save(path)
+    print(f"  -> {path}")
+
+
 def create_building_xlsx():
     wb = Workbook()
     ws = wb.active
@@ -296,6 +316,7 @@ if __name__ == "__main__":
     create_obstacle_xlsx()
     create_item_xlsx()
     create_crop_xlsx()
+    create_animal_xlsx()
     create_building_xlsx()
     create_uiwindow_xlsx()
     create_language_xlsx()
