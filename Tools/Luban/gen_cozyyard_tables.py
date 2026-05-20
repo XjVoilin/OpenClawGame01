@@ -124,10 +124,42 @@ def create_item_xlsx():
         ["", 1001, "杂草纤维", "Material", 99, "清除杂草获得"],
         ["", 1002, "石头",     "Material", 99, "清除石块获得"],
         ["", 1003, "木材",     "Material", 99, "清除树桩获得"],
+        ["", 2001, "白菜种子", "Seed", 50, "种植白菜"],
+        ["", 2002, "萝卜种子", "Seed", 50, "种植萝卜"],
+        ["", 2003, "糯米种子", "Seed", 50, "种植糯米"],
+        ["", 2004, "菊花种子", "Seed", 50, "种植菊花"],
+        ["", 2005, "辣椒种子", "Seed", 50, "种植辣椒"],
+        ["", 3001, "白菜",   "Product", 50, "新鲜白菜"],
+        ["", 3002, "萝卜",   "Product", 50, "新鲜萝卜"],
+        ["", 3003, "糯米",   "Product", 50, "饱满的糯米"],
+        ["", 3004, "菊花",   "Product", 50, "新鲜菊花"],
+        ["", 3005, "辣椒",   "Product", 50, "新鲜辣椒"],
     ]
 
     write_sheet(ws, headers, comments, rows)
     path = os.path.join(DATAS_DIR, "item.xlsx")
+    wb.save(path)
+    print(f"  -> {path}")
+
+
+def create_crop_xlsx():
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "crop"
+
+    headers  = ["##var", "id", "name", "season", "growthDays", "harvestWindow", "seedItemId", "produceItemId", "produceQuantity"]
+    comments = ["##",    "ID", "名称",  "适宜季节(0春1夏2秋3冬)", "生长天数", "收获窗口(天)", "种子物品ID", "产出物品ID", "产出数量"]
+
+    rows = [
+        ["", 1, "白菜", 2, 3, 4, 2001, 3001, 2],
+        ["", 2, "萝卜", 2, 5, 4, 2002, 3002, 2],
+        ["", 3, "糯米", 2, 7, 3, 2003, 3003, 3],
+        ["", 4, "菊花", 2, 5, 5, 2004, 3004, 2],
+        ["", 5, "辣椒", 2, 5, 4, 2005, 3005, 3],
+    ]
+
+    write_sheet(ws, headers, comments, rows)
+    path = os.path.join(DATAS_DIR, "crop.xlsx")
     wb.save(path)
     print(f"  -> {path}")
 
@@ -236,6 +268,7 @@ if __name__ == "__main__":
     create_tables_xlsx()
     create_obstacle_xlsx()
     create_item_xlsx()
+    create_crop_xlsx()
     create_uiwindow_xlsx()
     create_language_xlsx()
     create_time_xlsx()
