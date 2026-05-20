@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using cfg;
 using JulyArch;
+using JulyCore;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CozyYard
 {
@@ -12,7 +13,7 @@ namespace CozyYard
         [SerializeField] private GameObject _itemSlotPrefab;
         [SerializeField] private TextMeshProUGUI _capacityText;
         [SerializeField] private TextMeshProUGUI _coinsText;
-        [SerializeField] private Button _closeBtn;
+        [SerializeField] private UISmartButton _closeBtn;
 
         private readonly List<GameObject> _slotInstances = new();
 
@@ -48,7 +49,8 @@ namespace CozyYard
                 go.SetActive(true);
 
                 var nameText = go.GetComponentInChildren<TextMeshProUGUI>();
-                if (nameText) nameText.text = $"{CfgHelper.GetItemName(stack.ItemId)} ×{stack.Quantity}";
+                var itemName = GF.Config.GetTable<TbItem>()?.GetOrDefault(stack.ItemId)?.Name ?? $"#{stack.ItemId}";
+                if (nameText) nameText.text = $"{itemName} ×{stack.Quantity}";
 
                 _slotInstances.Add(go);
             }

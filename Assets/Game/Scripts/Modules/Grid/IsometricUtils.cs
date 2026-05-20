@@ -27,7 +27,7 @@ namespace CozyYard
 
         public static int GetSortingOrder(int gridX, int gridY, int heightOffset = 0)
         {
-            return -(gridX + gridY) * 10 - heightOffset;
+            return -(gridX + gridY) * 100 - heightOffset;
         }
     }
 }

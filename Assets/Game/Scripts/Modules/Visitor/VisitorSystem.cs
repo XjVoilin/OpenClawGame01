@@ -1,5 +1,6 @@
 using cfg;
 using JulyArch;
+using JulyCore;
 
 namespace CozyYard
 {
@@ -78,12 +79,13 @@ namespace CozyYard
             _store.ClearOrders();
 
             if (!_store.IsGateOpen) return;
-            if (CfgTable.Tables == null) return;
+            var tbVisitor = GF.Config.GetTable<TbVisitor>();
+            if (tbVisitor == null) return;
 
             var rng = new System.Random();
             var weatherModifier = GetSystem<WeatherSystem>().GetVisitorChanceModifier();
 
-            foreach (var visitor in CfgTable.Tables.TbVisitor.DataList)
+            foreach (var visitor in tbVisitor.DataList)
             {
                 int adjustedChance = (int)(visitor.VisitChance * weatherModifier);
                 if (rng.Next(100) >= adjustedChance) continue;

@@ -1,5 +1,6 @@
 using cfg;
 using JulyArch;
+using JulyCore;
 
 namespace CozyYard
 {
@@ -172,7 +173,7 @@ namespace CozyYard
 
         private Crop GetCropConfig(int cropId)
         {
-            return CfgTable.Tables?.TbCrop.GetOrDefault(cropId);
+            return GF.Config.GetTable<TbCrop>()?.GetOrDefault(cropId);
         }
 
         private int GetGrowthDays(int cropId)

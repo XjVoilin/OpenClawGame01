@@ -1,5 +1,6 @@
 using cfg;
 using JulyArch;
+using JulyCore;
 
 namespace CozyYard
 {
@@ -37,9 +38,10 @@ namespace CozyYard
 
         private void IncrementCondition(string conditionType, int targetId)
         {
-            if (CfgTable.Tables == null) return;
+            var tbMilestone = GF.Config.GetTable<TbMilestone>();
+            if (tbMilestone == null) return;
 
-            foreach (var cfg in CfgTable.Tables.TbMilestone.DataList)
+            foreach (var cfg in tbMilestone.DataList)
             {
                 if (cfg.ConditionType != conditionType) continue;
                 if (cfg.ConditionTarget != 0 && cfg.ConditionTarget != targetId) continue;

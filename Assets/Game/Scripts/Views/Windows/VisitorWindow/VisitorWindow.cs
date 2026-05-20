@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using cfg;
+using JulyCore;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CozyYard
 {
@@ -9,9 +10,9 @@ namespace CozyYard
     {
         [SerializeField] private Transform _listContainer;
         [SerializeField] private GameObject _entryPrefab;
-        [SerializeField] private Button _gateToggleBtn;
+        [SerializeField] private UISmartButton _gateToggleBtn;
         [SerializeField] private TextMeshProUGUI _gateText;
-        [SerializeField] private Button _closeBtn;
+        [SerializeField] private UISmartButton _closeBtn;
 
         private readonly List<GameObject> _entries = new();
 
@@ -51,8 +52,8 @@ namespace CozyYard
                 var go = Object.Instantiate(_entryPrefab, _listContainer);
                 go.SetActive(true);
 
-                string visitorName = CfgHelper.GetVisitorName(order.VisitorId);
-                string itemName = CfgHelper.GetItemName(order.RequestedItemId);
+                string visitorName = GF.Config.GetTable<TbVisitor>()?.GetOrDefault(order.VisitorId)?.Name ?? $"#{order.VisitorId}";
+                string itemName = GF.Config.GetTable<TbItem>()?.GetOrDefault(order.RequestedItemId)?.Name ?? $"#{order.RequestedItemId}";
                 string reward = FormatReward(order);
 
                 var texts = go.GetComponentsInChildren<TextMeshProUGUI>();
@@ -61,7 +62,7 @@ namespace CozyYard
                     texts[0].text = $"{visitorName}\n需要: {itemName}×{order.RequestedQuantity}\n奖励: {reward}";
                 }
 
-                var buttons = go.GetComponentsInChildren<Button>();
+                var buttons = go.GetComponentsInChildren<UISmartButton>();
                 if (buttons.Length >= 2)
                 {
                     var orderCopy = order;
@@ -83,7 +84,14 @@ namespace CozyYard
             var parts = new List<string>();
             if (order.RewardCoins > 0) parts.Add($"{order.RewardCoins} 金币");
             if (order.RewardItemId > 0 && order.RewardItemQty > 0)
-                parts.Add($"{CfgHelper.GetItemName(order.RewardItemId)}×{order.RewardItemQty}");
+            {
+                var config =  GF.Config.GetTable<TbItem>()?.GetOrDefault(order.RewardItemId);
+                if (config != null)
+                {
+                    parts.Add($"{config.Name}×{order.RewardItemQty}");
+                }
+            }
+
             return parts.Count > 0 ? string.Join(", ", parts) : "无";
         }
 
@@ -103,7 +111,7 @@ namespace CozyYard
         {
             foreach (var go in _entries)
             {
-                foreach (var btn in go.GetComponentsInChildren<Button>())
+                foreach (var btn in go.GetComponentsInChildren<UISmartButton>())
                     btn.onClick.RemoveAllListeners();
                 Object.Destroy(go);
             }

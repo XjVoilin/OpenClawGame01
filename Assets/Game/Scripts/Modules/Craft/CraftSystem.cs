@@ -1,5 +1,6 @@
 using cfg;
 using JulyArch;
+using JulyCore;
 
 namespace CozyYard
 {
@@ -37,6 +38,12 @@ namespace CozyYard
             _timeSystem = GetSystem<TimeSystem>();
 
             this.Subscribe<DayChangedEvent>(OnDayChanged);
+        }
+
+        protected override void OnStart()
+        {
+            if (!_store.IsRecipeUnlocked(1))
+                UnlockStarterRecipes();
         }
 
         public bool CanCraft(int recipeId)
@@ -83,11 +90,12 @@ namespace CozyYard
         public bool AskMom(int itemIdHint)
         {
             if (_store.MomAsksToday >= 1) return false;
-            if (CfgTable.Tables == null) return false;
+            var tbRecipe = GF.Config.GetTable<TbRecipe>();
+            if (tbRecipe == null) return false;
 
             _store.IncrementMomAsks();
 
-            foreach (var recipe in CfgTable.Tables.TbRecipe.DataList)
+            foreach (var recipe in tbRecipe.DataList)
             {
                 if (_store.IsRecipeUnlocked(recipe.Id)) continue;
                 for (int j = 0; j < recipe.InputItemIds.Count; j++)
@@ -106,9 +114,10 @@ namespace CozyYard
         /// <summary>Experiment: try combining items freely.</summary>
         public bool Experiment(int[] itemIds, int[] quantities)
         {
-            if (CfgTable.Tables == null) return false;
+            var tbRecipe = GF.Config.GetTable<TbRecipe>();
+            if (tbRecipe == null) return false;
 
-            foreach (var recipe in CfgTable.Tables.TbRecipe.DataList)
+            foreach (var recipe in tbRecipe.DataList)
             {
                 if (MatchesRecipe(recipe, itemIds, quantities))
                 {
@@ -189,7 +198,7 @@ namespace CozyYard
 
         private Recipe GetRecipe(int recipeId)
         {
-            return CfgTable.Tables?.TbRecipe.GetOrDefault(recipeId);
+            return GF.Config.GetTable<TbRecipe>()?.GetOrDefault(recipeId);
         }
     }
 }

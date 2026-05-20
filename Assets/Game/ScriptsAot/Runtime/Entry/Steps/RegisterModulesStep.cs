@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using JulyArch;
-using JulyCore;
 using JulyCore.Core;
 using JulyCore.Core.Launch;
 using JulyCore.Module.Audio;

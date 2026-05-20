@@ -1,21 +1,19 @@
-using JulyArch;
 using JulyCore;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CozyYard
 {
     public class GameHUD : GameUIView
     {
-        [SerializeField] private Button _inventoryBtn;
-        [SerializeField] private Button _buildBtn;
-        [SerializeField] private Button _craftBtn;
-        [SerializeField] private Button _visitorBtn;
-        [SerializeField] private Button _milestoneBtn;
-        [SerializeField] private Button _recipeBookBtn;
-        [SerializeField] private Button _phoneBtn;
-        [SerializeField] private Button _gateToggleBtn;
+        [SerializeField] private UISmartButton _inventoryBtn;
+        [SerializeField] private UISmartButton _buildBtn;
+        [SerializeField] private UISmartButton _craftBtn;
+        [SerializeField] private UISmartButton _visitorBtn;
+        [SerializeField] private UISmartButton _milestoneBtn;
+        [SerializeField] private UISmartButton _recipeBookBtn;
+        [SerializeField] private UISmartButton _phoneBtn;
+        [SerializeField] private UISmartButton _gateToggleBtn;
         [SerializeField] private TextMeshProUGUI _gateText;
         [SerializeField] private TextMeshProUGUI _visitorBadgeText;
 

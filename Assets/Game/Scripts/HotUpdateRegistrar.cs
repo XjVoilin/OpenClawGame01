@@ -83,31 +83,7 @@ namespace CozyYard
         public async UniTask OnGameLaunch()
         {
             ConfigureUI();
-
             await GF.Scene.SwitchAsync("Main");
-
-            var gridSystem = AppArch.Context.GetSystem<GridSystem>();
-            if (gridSystem.Width == 0)
-            {
-                gridSystem.InitializeNewGrid(12, 12);
-            }
-
-            var timeSystem = AppArch.Context.GetSystem<TimeSystem>();
-            timeSystem.EnsureDayStarted();
-
-            var weatherSystem = AppArch.Context.GetSystem<WeatherSystem>();
-            if (weatherSystem.GetCurrentWeather() == WeatherType.Sunny && AppArch.Context.GetStore<WeatherStore>().ConsecutiveRainDays == 0)
-            {
-                // First launch or new day not yet rolled - roll initial weather
-                weatherSystem.RollDailyWeather();
-            }
-
-            var craftSystem = AppArch.Context.GetSystem<CraftSystem>();
-            if (AppArch.Context.GetSystem<GridSystem>().Width > 0)
-            {
-                craftSystem.UnlockStarterRecipes();
-            }
-
             GF.UI.Open(UIWindowId.GameHUD);
         }
 

@@ -1,5 +1,6 @@
 using cfg;
 using JulyArch;
+using JulyCore;
 using UnityEngine;
 
 namespace CozyYard
@@ -32,6 +33,11 @@ namespace CozyYard
         protected override void OnInitialize()
         {
             _store = GetStore<TimeStore>();
+        }
+
+        protected override void OnStart()
+        {
+            EnsureDayStarted();
         }
 
         public void OnUpdate(float deltaTime)
@@ -148,7 +154,7 @@ namespace CozyYard
 
         private int GetSeasonDays(Season season)
         {
-            var cfg = CfgTable.Tables?.TbSeason.GetOrDefault((int)season);
+            var cfg = GF.Config.GetTable<TbSeason>()?.GetOrDefault((int)season);
             return cfg?.Days ?? 15;
         }
     }

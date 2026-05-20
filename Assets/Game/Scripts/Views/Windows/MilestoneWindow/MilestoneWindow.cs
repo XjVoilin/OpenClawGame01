@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using cfg;
+using JulyCore;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CozyYard
 {
@@ -11,7 +11,7 @@ namespace CozyYard
         [SerializeField] private Transform _listContainer;
         [SerializeField] private GameObject _entryPrefab;
         [SerializeField] private TextMeshProUGUI _expansionText;
-        [SerializeField] private Button _closeBtn;
+        [SerializeField] private UISmartButton _closeBtn;
 
         private readonly List<GameObject> _entries = new();
 
@@ -39,7 +39,7 @@ namespace CozyYard
 
             if (_entryPrefab == null || _listContainer == null) return;
 
-            var tbMilestone = CfgTable.Tables?.TbMilestone;
+            var tbMilestone = GF.Config.GetTable<TbMilestone>();
             if (tbMilestone == null) return;
 
             foreach (var (id, cfg) in tbMilestone.DataMap)

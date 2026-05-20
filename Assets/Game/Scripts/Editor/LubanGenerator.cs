@@ -18,22 +18,19 @@ namespace CozyYard.Editor
     /// 
     /// 约定：
     ///   Tools/Luban/Luban/Luban.dll          — Luban 可执行 DLL
-    ///   Tools/Luban/DataTables/Defines/       — XML schema 定义（枚举/bean）
     ///   Tools/Luban/DataTables/Datas/         — 扁平模式：__tables__.xlsx + 数据 xlsx 直接放此目录
-    ///   Tools/Luban/DataTables/Datas/Common/  — 分模块模式：公共表
-    ///   Tools/Luban/DataTables/Datas/GameN/   — 分模块模式：游戏子模块
+    ///   Tools/Luban/DataTables/Datas/ModuleA/ — 分模块模式：各子模块平等，无特殊目录
+    ///   Tools/Luban/DataTables/Datas/ModuleB/
     ///
     /// 输出：
-    ///   Assets/Game/Res/Configs/              — JSON 数据
+    ///   Assets/Game/Res/Configs/              — JSON 数据（扁平模式或各模块统一输出）
     ///   Assets/Game/Scripts/Generated/Configs/ — C# 代码 + TablesExt.cs
     /// </summary>
     public class LubanGeneratorWindow : EditorWindow
     {
         private const string LubanDll = "Tools/Luban/Luban/Luban.dll";
         private const string DataTablesRoot = "Tools/Luban/DataTables";
-        private const string DefinesDir = "Defines";
         private const string DatasDir = "Datas";
-        private const string CommonModule = "Common";
 
         private List<string> _modules = new();
         private bool _isFlatLayout;
@@ -129,12 +126,7 @@ namespace CozyYard.Editor
                     GUILayout.Space(pad);
                     using (new EditorGUILayout.VerticalScope())
                     {
-                        GUILayout.Label("公共模块", _sectionLabelStyle);
-                        if (GUILayout.Button("Common", _moduleButtonStyle))
-                            GenerateSingle(CommonModule);
-
-                        EditorGUILayout.Space(4);
-                        GUILayout.Label($"游戏模块（{_modules.Count}）", _sectionLabelStyle);
+                        GUILayout.Label($"模块（{_modules.Count}）", _sectionLabelStyle);
 
                         using (var scroll = new EditorGUILayout.ScrollViewScope(_scrollPos, EditorStyles.helpBox))
                         {
@@ -153,7 +145,7 @@ namespace CozyYard.Editor
 
             GUILayout.FlexibleSpace();
             DrawSeparator();
-            var layoutDesc = _isFlatLayout ? "扁平模式" : $"1 Common + {_modules.Count} 子模块";
+            var layoutDesc = _isFlatLayout ? "扁平模式" : $"{_modules.Count} 个模块";
             GUILayout.Label($"  {layoutDesc}  |  配置表路径: {DataTablesRoot}", _statusBarStyle);
             using (new EditorGUILayout.HorizontalScope())
             {
@@ -193,13 +185,11 @@ namespace CozyYard.Editor
                     else
                     {
                         var modules = DiscoverModules();
-                        var all = new List<string> { CommonModule };
-                        all.AddRange(modules);
-                        for (var i = 0; i < all.Count; i++)
+                        for (var i = 0; i < modules.Count; i++)
                         {
-                            var module = all[i];
-                            EditorUtility.DisplayProgressBar("Luban", $"生成 {module}... ({i + 1}/{all.Count})",
-                                (float)i / all.Count);
+                            var module = modules[i];
+                            EditorUtility.DisplayProgressBar("Luban", $"生成 {module}... ({i + 1}/{modules.Count})",
+                                (float)i / modules.Count);
                             if (!GenerateModule(module)) return false;
                         }
                     }
@@ -317,12 +307,9 @@ namespace CozyYard.Editor
 
         private static bool GenerateModule(string module)
         {
-            var isCommon = module == CommonModule;
-            var jsonOut = isCommon ? "Assets/Game/Res/Configs" : $"Assets/Game/MiniGames/{module}/Res/Configs";
-            var codeOut = isCommon
-                ? "Assets/Game/Scripts/Generated/Configs"
-                : $"Assets/Game/MiniGames/{module}/Scripts/Generated";
-            var topModule = isCommon ? "cfg" : $"cfg.{module}";
+            var jsonOut = $"Assets/Game/Res/Configs/{module}";
+            var codeOut = $"Assets/Game/Scripts/Generated/Configs/{module}";
+            var topModule = $"cfg.{module}";
             var dataDir = $"{DatasDir}/{module}";
 
             var schemaFiles = BuildSchemaFilesModular(module);
@@ -413,7 +400,7 @@ namespace CozyYard.Editor
 
         /// <summary>
         /// 扁平模式：__tables__.xlsx 直接在 Datas/ 下。
-        /// 分模块模式：__tables__.xlsx 在 Datas/Common/ 等子目录下。
+        /// 分模块模式：__tables__.xlsx 在 Datas/ 的各子目录下。
         /// </summary>
         private static bool DetectFlatLayout()
         {
@@ -430,7 +417,6 @@ namespace CozyYard.Editor
             foreach (var dir in Directory.GetDirectories(datasPath).OrderBy(d => d))
             {
                 var name = Path.GetFileName(dir);
-                if (name == CommonModule) continue;
                 if (File.Exists(Path.Combine(dir, "__tables__.xlsx")))
                     result.Add(name);
             }
@@ -451,13 +437,7 @@ namespace CozyYard.Editor
                 return null;
             }
 
-            var files = new List<string>();
-
-            var definesPath = Path.Combine(ProjectRoot, DataTablesRoot, DefinesDir);
-            if (Directory.Exists(definesPath))
-                files.Add(DefinesDir);
-
-            files.Add($"{DatasDir}/__tables__.xlsx");
+            var files = new List<string> { $"{DatasDir}/__tables__.xlsx" };
 
             var beansFile = Path.Combine(basePath, "__beans__.xlsx");
             if (File.Exists(beansFile))
@@ -480,16 +460,7 @@ namespace CozyYard.Editor
                 return null;
             }
 
-            var files = new List<string>();
-
-            if (module == CommonModule)
-            {
-                var definesPath = Path.Combine(ProjectRoot, DataTablesRoot, DefinesDir);
-                if (Directory.Exists(definesPath))
-                    files.Add(DefinesDir);
-            }
-
-            files.Add($"{DatasDir}/{module}/__tables__.xlsx");
+            var files = new List<string> { $"{DatasDir}/{module}/__tables__.xlsx" };
 
             var beansFile = Path.Combine(basePath, "__beans__.xlsx");
             if (File.Exists(beansFile))

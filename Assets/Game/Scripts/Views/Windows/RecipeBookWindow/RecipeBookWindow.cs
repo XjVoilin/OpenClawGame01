@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using cfg;
+using JulyCore;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CozyYard
 {
@@ -9,7 +10,7 @@ namespace CozyYard
     {
         [SerializeField] private Transform _listContainer;
         [SerializeField] private GameObject _entryPrefab;
-        [SerializeField] private Button _closeBtn;
+        [SerializeField] private UISmartButton _closeBtn;
 
         private readonly List<GameObject> _entries = new();
 
@@ -43,10 +44,9 @@ namespace CozyYard
                 var text = go.GetComponentInChildren<TextMeshProUGUI>();
                 if (text)
                 {
-                    string name = CfgHelper.GetRecipeName(recipeId);
-                    string inputs = CfgHelper.FormatRecipeInputs(recipeId);
-                    string output = CfgHelper.FormatRecipeOutput(recipeId);
-                    text.text = $"{name}\n材料: {inputs}\n产出: {output}";
+                    var recipe = GF.Config.GetTable<TbRecipe>()?.GetOrDefault(recipeId);
+                    string name = recipe?.Name ?? $"#{recipeId}";
+                    text.text = $"{name}";
                 }
 
                 _entries.Add(go);

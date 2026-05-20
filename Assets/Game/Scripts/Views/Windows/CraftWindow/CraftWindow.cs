@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using cfg;
+using JulyCore;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CozyYard
 {
@@ -9,7 +10,7 @@ namespace CozyYard
     {
         [SerializeField] private Transform _listContainer;
         [SerializeField] private GameObject _entryPrefab;
-        [SerializeField] private Button _closeBtn;
+        [SerializeField] private UISmartButton _closeBtn;
 
         private readonly List<GameObject> _entries = new();
 
@@ -46,17 +47,16 @@ namespace CozyYard
                 var texts = go.GetComponentsInChildren<TextMeshProUGUI>();
                 if (texts.Length > 0)
                 {
-                    string name = CfgHelper.GetRecipeName(recipeId);
-                    string inputs = CfgHelper.FormatRecipeInputs(recipeId);
-                    string output = CfgHelper.FormatRecipeOutput(recipeId);
-                    texts[0].text = $"{name}\n材料: {inputs}\n产出: {output}";
+                    var recipe = GF.Config.GetTable<TbRecipe>()?.GetOrDefault(recipeId);
+                    string name = recipe?.Name ?? $"#{recipeId}";
+                    texts[0].text = $"{name}";
                 }
 
-                var craftBtn = go.GetComponentInChildren<Button>();
+                var craftBtn = go.GetComponentInChildren<UISmartButton>();
                 if (craftBtn)
                 {
                     bool canCraft = craftSystem.CanCraft(recipeId);
-                    craftBtn.interactable = canCraft;
+                    craftBtn.SetInteractable(canCraft);
                     int id = recipeId;
                     craftBtn.onClick.AddListener(() => OnCraft(craftSystem, id));
                 }
@@ -75,7 +75,7 @@ namespace CozyYard
         {
             foreach (var go in _entries)
             {
-                var btn = go.GetComponentInChildren<Button>();
+                var btn = go.GetComponentInChildren<UISmartButton>();
                 if (btn) btn.onClick.RemoveAllListeners();
                 Object.Destroy(go);
             }

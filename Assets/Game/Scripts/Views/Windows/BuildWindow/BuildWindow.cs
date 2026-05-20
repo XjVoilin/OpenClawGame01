@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using cfg;
+using JulyCore;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CozyYard
 {
@@ -13,7 +13,7 @@ namespace CozyYard
 
         [SerializeField] private Transform _listContainer;
         [SerializeField] private GameObject _entryPrefab;
-        [SerializeField] private Button _closeBtn;
+        [SerializeField] private UISmartButton _closeBtn;
 
         private readonly List<GameObject> _entries = new();
 
@@ -38,7 +38,7 @@ namespace CozyYard
             if (_entryPrefab == null || _listContainer == null) return;
 
             var buildSystem = GetSystem<BuildSystem>();
-            var tbBuilding = CfgTable.Tables?.TbBuilding;
+            var tbBuilding = GF.Config.GetTable<TbBuilding>();
             if (tbBuilding == null) return;
 
             foreach (var (id, cfg) in tbBuilding.DataMap)
@@ -49,15 +49,14 @@ namespace CozyYard
                 var texts = go.GetComponentsInChildren<TextMeshProUGUI>();
                 if (texts.Length > 0)
                 {
-                    string cost = CfgHelper.FormatMaterials(cfg.Materials, cfg.MaterialQtys);
-                    texts[0].text = $"{cfg.Name} ({cost})";
+                    texts[0].text = $"{cfg.Name}";
                 }
 
-                var buildBtn = go.GetComponentInChildren<Button>();
+                var buildBtn = go.GetComponentInChildren<UISmartButton>();
                 if (buildBtn)
                 {
                     bool canBuild = buildSystem.CanBuild(id, TestGridX, TestGridY);
-                    buildBtn.interactable = canBuild;
+                    buildBtn.SetInteractable(canBuild);
                     int buildingId = id;
                     buildBtn.onClick.AddListener(() => OnBuild(buildSystem, buildingId));
                 }
@@ -76,7 +75,7 @@ namespace CozyYard
         {
             foreach (var go in _entries)
             {
-                var btn = go.GetComponentInChildren<Button>();
+                var btn = go.GetComponentInChildren<UISmartButton>();
                 if (btn) btn.onClick.RemoveAllListeners();
                 Object.Destroy(go);
             }

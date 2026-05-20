@@ -25,6 +25,12 @@ namespace CozyYard
             this.Subscribe<DayChangedEvent>(OnDayChanged);
         }
 
+        protected override void OnStart()
+        {
+            if (_store.CurrentWeather == WeatherType.Sunny && _store.ConsecutiveRainDays == 0)
+                RollDailyWeather();
+        }
+
         public WeatherType GetCurrentWeather() => _store.CurrentWeather;
         public bool IsRaining() => _store.IsRaining;
 

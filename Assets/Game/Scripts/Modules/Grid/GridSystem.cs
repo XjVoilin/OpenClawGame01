@@ -1,5 +1,6 @@
 using cfg;
 using JulyArch;
+using JulyCore;
 using UnityEngine;
 
 namespace CozyYard
@@ -19,6 +20,12 @@ namespace CozyYard
             _store = GetStore<GridStore>();
             _inventorySystem = GetSystem<InventorySystem>();
             _timeSystem = GetSystem<TimeSystem>();
+        }
+
+        protected override void OnStart()
+        {
+            if (_store.Width == 0)
+                InitializeNewGrid(12, 12);
         }
 
         public void InitializeNewGrid(int width, int height)
@@ -140,7 +147,7 @@ namespace CozyYard
 
         private Obstacle GetObstacleConfig(int obstacleId)
         {
-            return CfgTable.Tables?.TbObstacle.GetOrDefault(obstacleId);
+            return GF.Config.GetTable<TbObstacle>()?.GetOrDefault(obstacleId);
         }
     }
 }

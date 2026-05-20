@@ -1,5 +1,6 @@
 using cfg;
 using JulyArch;
+using JulyCore;
 
 namespace CozyYard
 {
@@ -177,7 +178,7 @@ namespace CozyYard
 
         private Animal GetConfig(int animalId)
         {
-            return CfgTable.Tables?.TbAnimal.GetOrDefault(animalId);
+            return GF.Config.GetTable<TbAnimal>()?.GetOrDefault(animalId);
         }
     }
 }

@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using cfg;
 using JulyArch;
+using JulyCore;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace CozyYard
 {
@@ -15,8 +16,8 @@ namespace CozyYard
         [SerializeField] private TextMeshProUGUI _resultText;
         [SerializeField] private Transform _itemsContainer;
         [SerializeField] private GameObject _itemEntryPrefab;
-        [SerializeField] private Button _askBtn;
-        [SerializeField] private Button _closeBtn;
+        [SerializeField] private UISmartButton _askBtn;
+        [SerializeField] private UISmartButton _closeBtn;
 
         private readonly List<GameObject> _itemEntries = new();
         private int _selectedItemId;
@@ -38,7 +39,8 @@ namespace CozyYard
 
         private void OnRecipeUnlocked(RecipeUnlockedEvent e)
         {
-            if (_resultText) _resultText.text = $"妈妈教了你新配方! ({CfgHelper.GetRecipeName(e.RecipeId)})";
+            var recipeName = GF.Config.GetTable<TbRecipe>()?.GetOrDefault(e.RecipeId)?.Name ?? $"#{e.RecipeId}";
+            if (_resultText) _resultText.text = $"妈妈教了你新配方! ({recipeName})";
             Refresh();
         }
 
@@ -50,7 +52,7 @@ namespace CozyYard
             int remaining = MomAskLimit - craftQueries.MomAsksToday;
             if (_asksRemainingText) _asksRemainingText.text = $"今日剩余询问: {remaining}/{MomAskLimit}";
 
-            if (_askBtn) _askBtn.interactable = remaining > 0 && _selectedItemId > 0;
+            if (_askBtn) _askBtn.SetInteractable(remaining > 0 && _selectedItemId > 0);
 
             RefreshItemList();
         }
@@ -69,9 +71,10 @@ namespace CozyYard
                 go.SetActive(true);
 
                 var text = go.GetComponentInChildren<TextMeshProUGUI>();
-                if (text) text.text = $"{CfgHelper.GetItemName(stack.ItemId)} ×{stack.Quantity}";
+                var itemName = GF.Config.GetTable<TbItem>()?.GetOrDefault(stack.ItemId)?.Name ?? $"#{stack.ItemId}";
+                if (text) text.text = $"{itemName} ×{stack.Quantity}";
 
-                var btn = go.GetComponentInChildren<Button>();
+                var btn = go.GetComponentInChildren<UISmartButton>();
                 if (btn)
                 {
                     int itemId = stack.ItemId;
@@ -85,7 +88,8 @@ namespace CozyYard
         private void OnSelectItem(int itemId)
         {
             _selectedItemId = itemId;
-            if (_resultText) _resultText.text = $"已选择: {CfgHelper.GetItemName(itemId)}";
+            var selectedName = GF.Config.GetTable<TbItem>()?.GetOrDefault(itemId)?.Name ?? $"#{itemId}";
+            if (_resultText) _resultText.text = $"已选择: {selectedName}";
             RefreshAskButton();
         }
 
@@ -93,7 +97,7 @@ namespace CozyYard
         {
             var craftQueries = GetStore<CraftStore>();
             int remaining = MomAskLimit - craftQueries.MomAsksToday;
-            if (_askBtn) _askBtn.interactable = remaining > 0 && _selectedItemId > 0;
+            if (_askBtn) _askBtn.SetInteractable(remaining > 0 && _selectedItemId > 0);
         }
 
         private void OnAsk()
@@ -113,7 +117,7 @@ namespace CozyYard
         {
             foreach (var go in _itemEntries)
             {
-                var btn = go.GetComponentInChildren<Button>();
+                var btn = go.GetComponentInChildren<UISmartButton>();
                 if (btn) btn.onClick.RemoveAllListeners();
                 Object.Destroy(go);
             }
