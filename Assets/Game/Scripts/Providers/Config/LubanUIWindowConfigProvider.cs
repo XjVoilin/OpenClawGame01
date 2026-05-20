@@ -2,7 +2,7 @@ using cfg;
 using JulyCore;
 using JulyCore.Data.UI;
 
-namespace SpiritHealer
+namespace CozyYard
 {
     public class LubanUIWindowConfigProvider : IUIWindowConfigProvider
     {

@@ -9,7 +9,7 @@ using JulyCore.Provider.Base;
 using JulyCore.Provider.Config;
 using JulyCore.Provider.Localization;
 
-namespace SpiritHealer
+namespace CozyYard
 {
     /// <summary>
     /// 基于 Luban Language 表的多语言提供者。

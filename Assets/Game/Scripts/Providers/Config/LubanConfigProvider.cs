@@ -10,7 +10,7 @@ using JulyCore.Provider.Resource;
 using SimpleJSON;
 using UnityEngine;
 
-namespace SpiritHealer
+namespace CozyYard
 {
     public class LubanConfigProvider : ProviderBase, IConfigProvider
     {
@@ -35,6 +35,7 @@ namespace SpiritHealer
 
             _tables[typeof(Tables)] = tables;
             tables.RegisterTo(_tables);
+            CfgTable.Init(tables);
 
             Log($"Luban 配置表初始化完成，共 {Tables.TableNames.Length} 张表");
         }
