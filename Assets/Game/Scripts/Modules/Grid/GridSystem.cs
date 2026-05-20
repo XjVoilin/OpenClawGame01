@@ -6,6 +6,8 @@ namespace CozyYard
     public class GridSystem : GameSystemBase
     {
         private GridStore _store;
+        private InventorySystem _inventorySystem;
+        private TimeSystem _timeSystem;
 
         public int Width => _store.Width;
         public int Height => _store.Height;
@@ -13,6 +15,8 @@ namespace CozyYard
         protected override void OnInitialize()
         {
             _store = GetStore<GridStore>();
+            _inventorySystem = GetSystem<InventorySystem>();
+            _timeSystem = GetSystem<TimeSystem>();
         }
 
         public void InitializeNewGrid(int width, int height)
@@ -30,9 +34,27 @@ namespace CozyYard
             var cell = _store.GetCell(x, y);
             if (cell == null || cell.State != CellState.Obstacle) return false;
 
+            int obstacleId = cell.ObstacleId;
             cell.ObstacleId = 0;
             _store.SetCellState(x, y, CellState.Empty);
             Publish(new GridCellChangedEvent { GridX = x, GridY = y, NewState = CellState.Empty });
+
+            switch (obstacleId)
+            {
+                case 1:
+                    _inventorySystem.AddItem(1001, 2);
+                    _timeSystem.ConsumeTime(15);
+                    break;
+                case 2:
+                    _inventorySystem.AddItem(1002, 3);
+                    _timeSystem.ConsumeTime(30);
+                    break;
+                case 3:
+                    _inventorySystem.AddItem(1003, 5);
+                    _timeSystem.ConsumeTime(60);
+                    break;
+            }
+
             return true;
         }
 
