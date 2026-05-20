@@ -108,7 +108,18 @@ namespace CozyYard
 
         private void ProcessDailyGrowth()
         {
-            for (int i = _store.Crops.Count - 1; i >= 0; i--)
+            var weatherSystem = GetSystem<WeatherSystem>();
+            if (weatherSystem.IsRaining())
+            {
+                // Rain auto-waters all crops
+                foreach (var crop in _store.Crops)
+                {
+                    crop.WateredToday = true;
+                }
+                _store.MarkDirtyExplicit();
+            }
+
+            for (int i = _store.Crops.Count - 1; i >= 0; i--))
             {
                 var crop = (CropInstance)_store.Crops[i];
 

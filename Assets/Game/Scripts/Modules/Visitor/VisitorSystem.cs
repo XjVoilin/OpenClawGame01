@@ -80,10 +80,12 @@ namespace CozyYard
             if (CfgTable.Tables == null) return;
 
             var rng = new System.Random();
+            var weatherModifier = GetSystem<WeatherSystem>().GetVisitorChanceModifier();
 
             foreach (var visitor in CfgTable.Tables.TbVisitor.DataList)
             {
-                if (rng.Next(100) >= visitor.VisitChance) continue;
+                int adjustedChance = (int)(visitor.VisitChance * weatherModifier);
+                if (rng.Next(100) >= adjustedChance) continue;
 
                 int itemIdx = rng.Next(visitor.OrderItemIds.Count);
                 int itemId = visitor.OrderItemIds[itemIdx];

@@ -63,12 +63,14 @@ namespace CozyYard
             ctx.RegisterStore(new CraftStore());
             ctx.RegisterStore(new VisitorStore());
             ctx.RegisterStore(new MilestoneStore());
+            ctx.RegisterStore(new WeatherStore());
         }
 
         private void RegisterSystems(GameContext ctx)
         {
             ctx.RegisterSystem(new GridSystem());
             ctx.RegisterSystem(new TimeSystem());
+            ctx.RegisterSystem(new WeatherSystem());
             ctx.RegisterSystem(new InventorySystem());
             ctx.RegisterSystem(new FarmSystem());
             ctx.RegisterSystem(new BuildSystem());
@@ -92,6 +94,13 @@ namespace CozyYard
 
             var timeSystem = AppArch.Context.GetSystem<TimeSystem>();
             timeSystem.EnsureDayStarted();
+
+            var weatherSystem = AppArch.Context.GetSystem<WeatherSystem>();
+            if (weatherSystem.GetCurrentWeather() == WeatherType.Sunny && AppArch.Context.GetStore<WeatherStore>().ConsecutiveRainDays == 0)
+            {
+                // First launch or new day not yet rolled - roll initial weather
+                weatherSystem.RollDailyWeather();
+            }
 
             var craftSystem = AppArch.Context.GetSystem<CraftSystem>();
             if (AppArch.Context.GetSystem<GridSystem>().Width > 0)
