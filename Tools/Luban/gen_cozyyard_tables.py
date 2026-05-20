@@ -324,6 +324,27 @@ def create_recipe_xlsx():
     print(f"  -> {path}")
 
 
+def create_visitor_xlsx():
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "visitor"
+
+    headers  = ["##var", "id", "name", "orderItemIds", "orderQuantities", "rewardCoins", "rewardItemId", "rewardItemQty", "visitChance"]
+    comments = ["##",    "ID", "名称",  "可能要求物品ID列表", "可能要求数量列表", "奖励金币",     "奖励物品ID",    "奖励物品数量",    "来访概率(0-100)"]
+
+    rows = [
+        ["", 1, "张阿婆",  "5001,5003",   "1,2",  30, 0,    0, 40],
+        ["", 2, "李大爷",  "5002,5005",   "1,1",  20, 1001, 3, 35],
+        ["", 3, "小花",    "5004,5001",   "1,1",  25, 0,    0, 30],
+        ["", 4, "王货郎",  "4001,4003,4004", "2,2,2", 50, 3006, 2, 20],
+    ]
+
+    write_sheet(ws, headers, comments, rows)
+    path = os.path.join(DATAS_DIR, "visitor.xlsx")
+    wb.save(path)
+    print(f"  -> {path}")
+
+
 def create_language_xlsx():
     wb = Workbook()
     ws = wb.active
@@ -361,6 +382,7 @@ if __name__ == "__main__":
     create_animal_xlsx()
     create_building_xlsx()
     create_recipe_xlsx()
+    create_visitor_xlsx()
     create_uiwindow_xlsx()
     create_language_xlsx()
     create_time_xlsx()
