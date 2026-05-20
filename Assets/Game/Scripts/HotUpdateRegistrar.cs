@@ -60,6 +60,7 @@ namespace CozyYard
             ctx.RegisterStore(new FarmStore());
             ctx.RegisterStore(new BuildStore());
             ctx.RegisterStore(new AnimalStore());
+            ctx.RegisterStore(new CraftStore());
         }
 
         private void RegisterSystems(GameContext ctx)
@@ -70,6 +71,7 @@ namespace CozyYard
             ctx.RegisterSystem(new FarmSystem());
             ctx.RegisterSystem(new BuildSystem());
             ctx.RegisterSystem(new AnimalSystem());
+            ctx.RegisterSystem(new CraftSystem());
         }
 
         public async UniTask OnGameLaunch()
@@ -86,6 +88,12 @@ namespace CozyYard
 
             var timeSystem = AppArch.Context.GetSystem<TimeSystem>();
             timeSystem.EnsureDayStarted();
+
+            var craftSystem = AppArch.Context.GetSystem<CraftSystem>();
+            if (AppArch.Context.GetSystem<GridSystem>().Width > 0)
+            {
+                craftSystem.UnlockStarterRecipes();
+            }
 
             GF.UI.Open(UIWindowId.GameHUD);
         }
