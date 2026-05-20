@@ -56,12 +56,14 @@ namespace CozyYard
         {
             ctx.RegisterStore(new GridStore());
             ctx.RegisterStore(new TimeStore());
+            ctx.RegisterStore(new InventoryStore());
         }
 
         private void RegisterSystems(GameContext ctx)
         {
             ctx.RegisterSystem(new GridSystem());
             ctx.RegisterSystem(new TimeSystem());
+            ctx.RegisterSystem(new InventorySystem());
         }
 
         public async UniTask OnGameLaunch()
