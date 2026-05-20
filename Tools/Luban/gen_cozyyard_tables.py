@@ -235,6 +235,33 @@ def create_season_xlsx():
     print(f"  -> {path}")
 
 
+def create_building_xlsx():
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "building"
+
+    headers  = ["##var", "id", "name", "category", "sizeX", "sizeY", "materials", "materialQtys", "buildTime", "prerequisiteId", "level"]
+    comments = ["##",    "ID", "名称",  "类别",      "宽",    "高",    "材料ID列表", "材料数量列表",   "建造时间(分钟)", "前置建筑ID", "等级"]
+
+    rows = [
+        ["", 1,  "茅草屋",   "House",      2, 2, "1003",      "20",     120, 0,  1],
+        ["", 2,  "土砖房",   "House",      3, 3, "1003,1002", "30,20",  180, 1,  2],
+        ["", 10, "野外篝火", "Production", 1, 1, "1003,1002", "5,3",    30,  0,  1],
+        ["", 11, "土灶",     "Production", 1, 1, "1002,1003", "10,8",   60,  1,  2],
+        ["", 20, "简易竹架", "Production", 1, 1, "1003",      "8",      30,  0,  1],
+        ["", 30, "石磨",     "Production", 1, 1, "1002",      "15",     60,  0,  1],
+        ["", 40, "露天围栏", "Livestock",  2, 2, "1003",      "12",     45,  0,  1],
+        ["", 50, "围栏",     "Decoration", 1, 1, "1003",      "3",      10,  0,  1],
+        ["", 60, "饲料槽",   "Functional", 1, 1, "1003,1002", "5,3",    20,  0,  1],
+        ["", 70, "仓库",     "Functional", 2, 2, "1003,1002", "15,10",  90,  0,  1],
+    ]
+
+    write_sheet(ws, headers, comments, rows)
+    path = os.path.join(DATAS_DIR, "building.xlsx")
+    wb.save(path)
+    print(f"  -> {path}")
+
+
 def create_language_xlsx():
     wb = Workbook()
     ws = wb.active
@@ -269,6 +296,7 @@ if __name__ == "__main__":
     create_obstacle_xlsx()
     create_item_xlsx()
     create_crop_xlsx()
+    create_building_xlsx()
     create_uiwindow_xlsx()
     create_language_xlsx()
     create_time_xlsx()
