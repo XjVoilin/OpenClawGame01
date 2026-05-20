@@ -1,8 +1,42 @@
-.idea
-Library
-Logs
-Temp
-UserSettings
-*.sln
-obj
+# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+MemoryCaptures/
+/[Aa]ssets/Plugins/Editor/JetBrains*
+
+# IDE
+.vs/
+.vscode/
+.idea/
 *.csproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Bundles (generated)
+Bundles/
+
+# Luban generated
+Assets/Game/Res/Configs/
+Assets/Game/Scripts/Generated/
+
+# Cursor
+.cursor/
