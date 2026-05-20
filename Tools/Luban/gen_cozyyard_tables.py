@@ -40,12 +40,13 @@ def auto_width(ws):
         ws.column_dimensions[col_letter].width = min(max_len + 4, 30)
 
 
-def write_sheet(ws, headers, comments, rows):
+def write_sheet(ws, headers, types, comments, rows):
     ws.append(["##var"] + headers[1:])
+    ws.append(["##type"] + types[1:])
     ws.append(["##"] + comments[1:])
     for row in rows:
         ws.append(row)
-    style_meta_rows(ws, len(headers), num_meta_rows=2)
+    style_meta_rows(ws, len(headers), num_meta_rows=3)
     auto_width(ws)
 
 
@@ -59,22 +60,22 @@ def create_tables_xlsx():
     ws.append(cols)
 
     tables = [
-        ["", "TbItem",       "Item",       "false", "item.xlsx",       "map", "id", "", "物品总表",     "", ""],
-        ["", "TbCrop",       "Crop",       "false", "crop.xlsx",       "map", "id", "", "作物配置表",   "", ""],
-        ["", "TbTree",       "Tree",       "false", "tree.xlsx",       "map", "id", "", "树木配置表",   "", ""],
-        ["", "TbAnimal",     "Animal",     "false", "animal.xlsx",     "map", "id", "", "动物配置表",   "", ""],
-        ["", "TbBuilding",   "Building",   "false", "building.xlsx",   "map", "id", "", "建筑配置表",   "", ""],
-        ["", "TbRecipe",     "Recipe",     "false", "recipe.xlsx",     "map", "id", "", "制作配方表",   "", ""],
-        ["", "TbVisitor",    "Visitor",    "false", "visitor.xlsx",    "map", "id", "", "来客配置表",   "", ""],
-        ["", "TbOrder",      "Order",      "false", "order.xlsx",      "map", "id", "", "订单模板表",   "", ""],
-        ["", "TbMilestone",  "Milestone",  "false", "milestone.xlsx",  "map", "id", "", "里程碑表",     "", ""],
-        ["", "TbSeason",     "Season",     "false", "season.xlsx",     "map", "id", "", "季节表",       "", ""],
-        ["", "TbTime",       "TimeCfg",    "false", "time.xlsx",       "map", "id", "", "时间配置表",   "", ""],
-        ["", "TbExpansion",  "Expansion",  "false", "expansion.xlsx",  "map", "id", "", "扩建区域表",   "", ""],
-        ["", "TbObstacle",   "Obstacle",   "false", "obstacle.xlsx",   "map", "id", "", "障碍物表",     "", ""],
-        ["", "TbShop",       "ShopItem",   "false", "shop.xlsx",       "map", "id", "", "商店商品表",   "", ""],
-        ["", "TbUIWindow",   "UIWindow",   "false", "uiwindow.xlsx",   "map", "id", "", "UI窗口表",     "", ""],
-        ["", "TbLanguage",   "Language",   "false", "language.xlsx",   "map", "key", "", "多语言表",    "", ""],
+        ["", "TbItem",       "Item",       "true", "item.xlsx",       "map", "id", "", "物品总表",     "", ""],
+        ["", "TbCrop",       "Crop",       "true", "crop.xlsx",       "map", "id", "", "作物配置表",   "", ""],
+        ["", "TbTree",       "Tree",       "true", "tree.xlsx",       "map", "id", "", "树木配置表",   "", ""],
+        ["", "TbAnimal",     "Animal",     "true", "animal.xlsx",     "map", "id", "", "动物配置表",   "", ""],
+        ["", "TbBuilding",   "Building",   "true", "building.xlsx",   "map", "id", "", "建筑配置表",   "", ""],
+        ["", "TbRecipe",     "Recipe",     "true", "recipe.xlsx",     "map", "id", "", "制作配方表",   "", ""],
+        ["", "TbVisitor",    "Visitor",    "true", "visitor.xlsx",    "map", "id", "", "来客配置表",   "", ""],
+        ["", "TbOrder",      "Order",      "true", "order.xlsx",      "map", "id", "", "订单模板表",   "", ""],
+        ["", "TbMilestone",  "Milestone",  "true", "milestone.xlsx",  "map", "id", "", "里程碑表",     "", ""],
+        ["", "TbSeason",     "Season",     "true", "season.xlsx",     "map", "id", "", "季节表",       "", ""],
+        ["", "TbTime",       "TimeCfg",    "true", "time.xlsx",       "map", "id", "", "时间配置表",   "", ""],
+        ["", "TbExpansion",  "Expansion",  "true", "expansion.xlsx",  "map", "id", "", "扩建区域表",   "", ""],
+        ["", "TbObstacle",   "Obstacle",   "true", "obstacle.xlsx",   "map", "id", "", "障碍物表",     "", ""],
+        ["", "TbShop",       "ShopItem",   "true", "shop.xlsx",       "map", "id", "", "商店商品表",   "", ""],
+        ["", "TbUIWindow",   "UIWindow",   "true", "uiwindow.xlsx",   "map", "id", "", "UI窗口表",     "", ""],
+        ["", "TbLanguage",   "Language",   "true", "language.xlsx",   "map", "key", "", "多语言表",    "", ""],
     ]
 
     for t in tables:
@@ -98,6 +99,7 @@ def create_obstacle_xlsx():
     ws.title = "obstacle"
 
     headers  = ["##var", "id", "name",   "clearTime", "dropItemId", "dropQuantity"]
+    types    = ["##type", "int", "string", "int",       "int",        "int"]
     comments = ["##",    "ID", "名称",    "清除耗时(分钟)", "掉落物品ID", "掉落数量"]
 
     rows = [
@@ -106,7 +108,7 @@ def create_obstacle_xlsx():
         ["", 3, "树桩",  60, 1003, 5],
     ]
 
-    write_sheet(ws, headers, comments, rows)
+    write_sheet(ws, headers, types, comments, rows)
     path = os.path.join(DATAS_DIR, "obstacle.xlsx")
     wb.save(path)
     print(f"  -> {path}")
@@ -118,6 +120,7 @@ def create_item_xlsx():
     ws.title = "item"
 
     headers  = ["##var", "id",   "name",    "type",  "stackLimit", "desc"]
+    types    = ["##type", "int", "string",  "string", "int",        "string"]
     comments = ["##",    "ID",   "名称",     "类型",   "堆叠上限",    "描述"]
 
     rows = [
@@ -153,7 +156,7 @@ def create_item_xlsx():
         ["", 9001, "黑暗料理", "Material", 10, "实验失败的产物"],
     ]
 
-    write_sheet(ws, headers, comments, rows)
+    write_sheet(ws, headers, types, comments, rows)
     path = os.path.join(DATAS_DIR, "item.xlsx")
     wb.save(path)
     print(f"  -> {path}")
@@ -165,6 +168,7 @@ def create_crop_xlsx():
     ws.title = "crop"
 
     headers  = ["##var", "id", "name", "season", "growthDays", "harvestWindow", "seedItemId", "produceItemId", "produceQuantity"]
+    types    = ["##type", "int", "string", "int", "int", "int", "int", "int", "int"]
     comments = ["##",    "ID", "名称",  "适宜季节(0春1夏2秋3冬)", "生长天数", "收获窗口(天)", "种子物品ID", "产出物品ID", "产出数量"]
 
     rows = [
@@ -175,7 +179,7 @@ def create_crop_xlsx():
         ["", 5, "辣椒", 2, 5, 4, 2005, 3005, 3],
     ]
 
-    write_sheet(ws, headers, comments, rows)
+    write_sheet(ws, headers, types, comments, rows)
     path = os.path.join(DATAS_DIR, "crop.xlsx")
     wb.save(path)
     print(f"  -> {path}")
@@ -187,6 +191,7 @@ def create_uiwindow_xlsx():
     ws.title = "uiwindow"
 
     headers  = ["##var", "id", "desc", "windowName", "isNeedBlackMask", "isClickBlankQuit", "enterAnimType", "exitAnimType", "isIgnoreSafeArea", "uiLayer"]
+    types    = ["##type", "int", "string", "string", "bool", "bool", "int", "int", "bool", "int"]
     comments = ["##",    "ID", "描述",  "窗口名称",    "需要黑色遮罩",     "点击空白关闭",       "进入动画",       "退出动画",       "忽略安全区域",      "UI层级"]
 
     rows = [
@@ -202,7 +207,7 @@ def create_uiwindow_xlsx():
         ["", 1010, "设置",         "SettingsWindow",    True,  True,  1, 1, False, 2],
     ]
 
-    write_sheet(ws, headers, comments, rows)
+    write_sheet(ws, headers, types, comments, rows)
     path = os.path.join(DATAS_DIR, "uiwindow.xlsx")
     wb.save(path)
     print(f"  -> {path}")
@@ -214,6 +219,7 @@ def create_time_xlsx():
     ws.title = "time"
 
     headers  = ["##var", "id", "phaseName", "startMinute", "lightIntensity", "lightColor"]
+    types    = ["##type", "int", "string", "int", "float", "string"]
     comments = ["##",    "ID", "时段名称",    "开始分钟",     "光照强度(0-1)",    "光照颜色(hex)"]
 
     rows = [
@@ -225,7 +231,7 @@ def create_time_xlsx():
         ["", 6, "Night",     1260, 0.2, "4060A0"],
     ]
 
-    write_sheet(ws, headers, comments, rows)
+    write_sheet(ws, headers, types, comments, rows)
     path = os.path.join(DATAS_DIR, "time.xlsx")
     wb.save(path)
     print(f"  -> {path}")
@@ -237,6 +243,7 @@ def create_season_xlsx():
     ws.title = "season"
 
     headers  = ["##var", "id", "name",   "days", "tempModifier"]
+    types    = ["##type", "int", "string", "int", "float"]
     comments = ["##",    "ID", "季节名称", "天数",  "温度修正"]
 
     rows = [
@@ -246,7 +253,7 @@ def create_season_xlsx():
         ["", 3, "冬", 10, 0.5],
     ]
 
-    write_sheet(ws, headers, comments, rows)
+    write_sheet(ws, headers, types, comments, rows)
     path = os.path.join(DATAS_DIR, "season.xlsx")
     wb.save(path)
     print(f"  -> {path}")
@@ -258,6 +265,7 @@ def create_animal_xlsx():
     ws.title = "animal"
 
     headers  = ["##var", "id", "name", "type", "produceItemId", "produceCycleDays", "requiredBuildingId", "feedItemId", "feedQuantity"]
+    types    = ["##type", "int", "string", "string", "int", "int", "int", "int", "int"]
     comments = ["##",    "ID", "名称",  "类型(Poultry/Aquatic/Pet)", "产出物品ID", "产出周期(天)", "需要设施ID", "饲料物品ID", "每次喂食量"]
 
     rows = [
@@ -265,7 +273,7 @@ def create_animal_xlsx():
         ["", 2, "猫", "Pet",     0,    0, 0,  0,    0],
     ]
 
-    write_sheet(ws, headers, comments, rows)
+    write_sheet(ws, headers, types, comments, rows)
     path = os.path.join(DATAS_DIR, "animal.xlsx")
     wb.save(path)
     print(f"  -> {path}")
@@ -277,6 +285,7 @@ def create_building_xlsx():
     ws.title = "building"
 
     headers  = ["##var", "id", "name", "category", "sizeX", "sizeY", "materials", "materialQtys", "buildTime", "prerequisiteId", "level"]
+    types    = ["##type", "int", "string", "string", "int", "int", "(list#sep=,),int", "(list#sep=,),int", "int", "int", "int"]
     comments = ["##",    "ID", "名称",  "类别",      "宽",    "高",    "材料ID列表", "材料数量列表",   "建造时间(分钟)", "前置建筑ID", "等级"]
 
     rows = [
@@ -292,7 +301,7 @@ def create_building_xlsx():
         ["", 70, "仓库",     "Functional", 2, 2, "1003,1002", "15,10",  90,  0,  1],
     ]
 
-    write_sheet(ws, headers, comments, rows)
+    write_sheet(ws, headers, types, comments, rows)
     path = os.path.join(DATAS_DIR, "building.xlsx")
     wb.save(path)
     print(f"  -> {path}")
@@ -304,6 +313,7 @@ def create_recipe_xlsx():
     ws.title = "recipe"
 
     headers  = ["##var", "id", "name", "requiredBuildingId", "inputItemIds", "inputQuantities", "outputItemId", "outputQuantity", "craftMinutes"]
+    types    = ["##type", "int", "string", "int", "(list#sep=,),int", "(list#sep=,),int", "int", "int", "int"]
     comments = ["##",    "ID", "名称",  "需要设施ID",          "输入物品ID列表", "输入数量列表",     "输出物品ID",    "输出数量",       "制作时间(分钟)"]
 
     rows = [
@@ -318,7 +328,7 @@ def create_recipe_xlsx():
         ["", 9,  "柿饼",       20, "3007",      "3",   5005, 2, 180],
     ]
 
-    write_sheet(ws, headers, comments, rows)
+    write_sheet(ws, headers, types, comments, rows)
     path = os.path.join(DATAS_DIR, "recipe.xlsx")
     wb.save(path)
     print(f"  -> {path}")
@@ -330,6 +340,7 @@ def create_visitor_xlsx():
     ws.title = "visitor"
 
     headers  = ["##var", "id", "name", "orderItemIds", "orderQuantities", "rewardCoins", "rewardItemId", "rewardItemQty", "visitChance"]
+    types    = ["##type", "int", "string", "(list#sep=,),int", "(list#sep=,),int", "int", "int", "int", "int"]
     comments = ["##",    "ID", "名称",  "可能要求物品ID列表", "可能要求数量列表", "奖励金币",     "奖励物品ID",    "奖励物品数量",    "来访概率(0-100)"]
 
     rows = [
@@ -339,7 +350,7 @@ def create_visitor_xlsx():
         ["", 4, "王货郎",  "4001,4003,4004", "2,2,2", 50, 3006, 2, 20],
     ]
 
-    write_sheet(ws, headers, comments, rows)
+    write_sheet(ws, headers, types, comments, rows)
     path = os.path.join(DATAS_DIR, "visitor.xlsx")
     wb.save(path)
     print(f"  -> {path}")
@@ -351,6 +362,7 @@ def create_milestone_xlsx():
     ws.title = "milestone"
 
     headers  = ["##var", "id", "name", "description", "conditionType", "conditionTarget", "conditionCount", "rewardType", "rewardId", "rewardQty"]
+    types    = ["##type", "int", "string", "string", "string", "int", "int", "string", "int", "int"]
     comments = ["##",    "ID", "名称",  "描述",          "条件类型",       "条件目标ID",      "条件数量",       "奖励类型",    "奖励ID",   "奖励数量"]
 
     # conditionType: HarvestCrop, BuildBuilding, AdoptAnimal, UnlockRecipe, CraftItem, FulfillOrder, ExpansionLevel, PlantCrop
@@ -369,8 +381,91 @@ def create_milestone_xlsx():
         ["", 10, "远近闻名",   "完成5笔订单",         "FulfillOrder",  0,  5,  "RecipeUnlock", 3,   1],
     ]
 
-    write_sheet(ws, headers, comments, rows)
+    write_sheet(ws, headers, types, comments, rows)
     path = os.path.join(DATAS_DIR, "milestone.xlsx")
+    wb.save(path)
+    print(f"  -> {path}")
+
+
+def create_tree_xlsx():
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "tree"
+
+    headers  = ["##var", "id", "name", "growthDays", "produceItemId", "produceCycleDays", "season"]
+    types    = ["##type", "int", "string", "int", "int", "int", "string"]
+    comments = ["##",    "ID", "名称",  "成长天数",    "产出物品ID",     "产出周期天",        "季节"]
+
+    rows = [
+        ["", 1, "桂花树", 10, 3006, 3, "Autumn"],
+        ["", 2, "柿子树", 10, 3007, 4, "Autumn"],
+    ]
+
+    write_sheet(ws, headers, types, comments, rows)
+    path = os.path.join(DATAS_DIR, "tree.xlsx")
+    wb.save(path)
+    print(f"  -> {path}")
+
+
+def create_order_xlsx():
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "order"
+
+    headers  = ["##var", "id", "visitorId", "itemId", "quantity", "rewardCoins", "rewardItemId", "rewardItemQty"]
+    types    = ["##type", "int", "int", "int", "int", "int", "int", "int"]
+    comments = ["##",    "ID", "来客ID",     "物品ID", "数量",      "奖励金币",     "奖励物品ID",    "奖励物品数量"]
+
+    rows = [
+        ["", 1, 1, 5001, 1, 30, 0, 0],
+        ["", 2, 1, 5003, 2, 30, 0, 0],
+        ["", 3, 2, 5002, 1, 20, 1001, 3],
+        ["", 4, 3, 5004, 1, 25, 0, 0],
+    ]
+
+    write_sheet(ws, headers, types, comments, rows)
+    path = os.path.join(DATAS_DIR, "order.xlsx")
+    wb.save(path)
+    print(f"  -> {path}")
+
+
+def create_expansion_xlsx():
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "expansion"
+
+    headers  = ["##var", "id", "level", "addWidth", "addHeight", "requiredMilestoneId"]
+    types    = ["##type", "int", "int", "int", "int", "int"]
+    comments = ["##",    "ID", "等级",   "增加宽度",  "增加高度",   "需要里程碑ID"]
+
+    rows = [
+        ["", 1, 1, 2, 2, 3],
+        ["", 2, 2, 2, 2, 7],
+    ]
+
+    write_sheet(ws, headers, types, comments, rows)
+    path = os.path.join(DATAS_DIR, "expansion.xlsx")
+    wb.save(path)
+    print(f"  -> {path}")
+
+
+def create_shop_xlsx():
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "shop"
+
+    headers  = ["##var", "id", "itemId", "price", "stock"]
+    types    = ["##type", "int", "int", "int", "int"]
+    comments = ["##",    "ID", "物品ID", "价格",   "库存(-1无限)"]
+
+    rows = [
+        ["", 1, 2001, 20, -1],
+        ["", 2, 2002, 25, -1],
+        ["", 3, 2003, 30, -1],
+    ]
+
+    write_sheet(ws, headers, types, comments, rows)
+    path = os.path.join(DATAS_DIR, "shop.xlsx")
     wb.save(path)
     print(f"  -> {path}")
 
@@ -381,6 +476,7 @@ def create_language_xlsx():
     ws.title = "language"
 
     headers  = ["##var", "key", "cn"]
+    types    = ["##type", "string", "string"]
     comments = ["##",    "键名", "中文"]
 
     rows = [
@@ -396,10 +492,53 @@ def create_language_xlsx():
         ["", "phase_night",   "夜晚"],
     ]
 
-    write_sheet(ws, headers, comments, rows)
+    write_sheet(ws, headers, types, comments, rows)
     path = os.path.join(DATAS_DIR, "language.xlsx")
     wb.save(path)
     print(f"  -> {path}")
+
+
+def generate_tables_ext():
+    """Generate TablesExt.cs partial for LubanConfigProvider."""
+    import re
+
+    tables_path = os.path.join(
+        os.path.dirname(__file__), "..", "..", "Assets", "Game", "Scripts", "Generated", "Configs", "Tables.cs"
+    )
+    out_path = os.path.join(os.path.dirname(tables_path), "TablesExt.cs")
+    if not os.path.exists(tables_path):
+        print(f"  skip TablesExt: {tables_path} not found")
+        return
+
+    content = open(tables_path, encoding="utf-8").read()
+    props = []
+    for match in re.finditer(r"public\s+(\w+)\s+(\w+)\s+\{get;", content):
+        props.append((match.group(1), match.group(2)))
+
+    keys = re.findall(r'loader\("(\w+)"\)', content)
+    names = ", ".join(f'"{k}"' for k in keys[: len(props)])
+
+    lines = [
+        "// <auto-generated/>",
+        "using System;",
+        "using System.Collections.Generic;",
+        "",
+        "namespace cfg",
+        "{",
+        "    public partial class Tables",
+        "    {",
+        f"        public static readonly string[] TableNames = {{ {names} }};",
+        "",
+        "        public void RegisterTo(Dictionary<Type, object> registry)",
+        "        {",
+    ]
+    for type_name, prop_name in props:
+        lines.append(f"            registry[typeof({type_name})] = {prop_name};")
+    lines.extend(["        }", "    }", "}", ""])
+
+    with open(out_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
+    print(f"  -> {out_path}")
 
 
 if __name__ == "__main__":
@@ -418,4 +557,9 @@ if __name__ == "__main__":
     create_time_xlsx()
     create_season_xlsx()
     create_milestone_xlsx()
+    create_tree_xlsx()
+    create_order_xlsx()
+    create_expansion_xlsx()
+    create_shop_xlsx()
+    generate_tables_ext()
     print("Done!")
