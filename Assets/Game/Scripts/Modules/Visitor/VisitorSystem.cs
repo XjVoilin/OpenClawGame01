@@ -1,3 +1,4 @@
+using cfg;
 using JulyArch;
 
 namespace CozyYard
@@ -18,25 +19,6 @@ namespace CozyYard
     {
         private VisitorStore _store;
         private InventorySystem _inventorySystem;
-
-        private struct VisitorConfig
-        {
-            public int Id;
-            public string Name;
-            public int[] OrderItemIds;
-            public int[] OrderQuantities;
-            public int RewardCoins;
-            public int RewardItemId;
-            public int RewardItemQty;
-            public int VisitChance;
-        }
-
-        private static readonly VisitorConfig[] Visitors = {
-            new() { Id=1, Name="张阿婆", OrderItemIds=new[]{5001,5003}, OrderQuantities=new[]{1,2}, RewardCoins=30, RewardItemId=0, RewardItemQty=0, VisitChance=40 },
-            new() { Id=2, Name="李大爷", OrderItemIds=new[]{5002,5005}, OrderQuantities=new[]{1,1}, RewardCoins=20, RewardItemId=1001, RewardItemQty=3, VisitChance=35 },
-            new() { Id=3, Name="小花", OrderItemIds=new[]{5004,5001}, OrderQuantities=new[]{1,1}, RewardCoins=25, RewardItemId=0, RewardItemQty=0, VisitChance=30 },
-            new() { Id=4, Name="王货郎", OrderItemIds=new[]{4001,4003,4004}, OrderQuantities=new[]{2,2,2}, RewardCoins=50, RewardItemId=3006, RewardItemQty=2, VisitChance=20 },
-        };
 
         protected override void OnInitialize()
         {
@@ -95,30 +77,30 @@ namespace CozyYard
             _store.ClearOrders();
 
             if (!_store.IsGateOpen) return;
+            if (CfgTable.Tables == null) return;
 
             var rng = new System.Random();
 
-            for (int i = 0; i < Visitors.Length; i++)
+            foreach (var visitor in CfgTable.Tables.TbVisitor.DataList)
             {
-                var v = Visitors[i];
-                if (rng.Next(100) >= v.VisitChance) continue;
+                if (rng.Next(100) >= visitor.VisitChance) continue;
 
-                int itemIdx = rng.Next(v.OrderItemIds.Length);
-                int itemId = v.OrderItemIds[itemIdx];
-                int qty = v.OrderQuantities[itemIdx];
+                int itemIdx = rng.Next(visitor.OrderItemIds.Count);
+                int itemId = visitor.OrderItemIds[itemIdx];
+                int qty = visitor.OrderQuantities[itemIdx];
 
                 var order = new ActiveOrder
                 {
-                    VisitorId = v.Id,
+                    VisitorId = visitor.Id,
                     RequestedItemId = itemId,
                     RequestedQuantity = qty,
-                    RewardCoins = v.RewardCoins,
-                    RewardItemId = v.RewardItemId,
-                    RewardItemQty = v.RewardItemQty
+                    RewardCoins = visitor.RewardCoins,
+                    RewardItemId = visitor.RewardItemId,
+                    RewardItemQty = visitor.RewardItemQty
                 };
 
                 _store.AddOrder(order);
-                Publish(new VisitorArrivedEvent { VisitorId = v.Id, RequestedItemId = itemId, RequestedQuantity = qty });
+                Publish(new VisitorArrivedEvent { VisitorId = visitor.Id, RequestedItemId = itemId, RequestedQuantity = qty });
             }
         }
     }

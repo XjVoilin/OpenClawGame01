@@ -1,3 +1,4 @@
+using cfg;
 using JulyArch;
 
 namespace CozyYard
@@ -27,29 +28,6 @@ namespace CozyYard
         private BuildSystem _buildSystem;
         private TimeSystem _timeSystem;
 
-        private struct RecipeConfig
-        {
-            public int Id;
-            public int RequiredBuildingId;
-            public int[] InputItemIds;
-            public int[] InputQuantities;
-            public int OutputItemId;
-            public int OutputQuantity;
-            public int CraftMinutes;
-        }
-
-        private static readonly RecipeConfig[] Recipes = {
-            new() { Id=1, RequiredBuildingId=20, InputItemIds=new[]{3006}, InputQuantities=new[]{3}, OutputItemId=4001, OutputQuantity=2, CraftMinutes=120 },
-            new() { Id=2, RequiredBuildingId=30, InputItemIds=new[]{3003}, InputQuantities=new[]{2}, OutputItemId=4002, OutputQuantity=2, CraftMinutes=60 },
-            new() { Id=3, RequiredBuildingId=10, InputItemIds=new[]{4001,4002}, InputQuantities=new[]{2,2}, OutputItemId=5001, OutputQuantity=1, CraftMinutes=90 },
-            new() { Id=4, RequiredBuildingId=10, InputItemIds=new[]{3101,3005}, InputQuantities=new[]{1,1}, OutputItemId=5002, OutputQuantity=1, CraftMinutes=30 },
-            new() { Id=5, RequiredBuildingId=10, InputItemIds=new[]{3001}, InputQuantities=new[]{2}, OutputItemId=5003, OutputQuantity=1, CraftMinutes=20 },
-            new() { Id=6, RequiredBuildingId=20, InputItemIds=new[]{3002}, InputQuantities=new[]{2}, OutputItemId=4003, OutputQuantity=2, CraftMinutes=120 },
-            new() { Id=7, RequiredBuildingId=20, InputItemIds=new[]{3004}, InputQuantities=new[]{3}, OutputItemId=4004, OutputQuantity=2, CraftMinutes=120 },
-            new() { Id=8, RequiredBuildingId=10, InputItemIds=new[]{4004}, InputQuantities=new[]{2}, OutputItemId=5004, OutputQuantity=1, CraftMinutes=30 },
-            new() { Id=9, RequiredBuildingId=20, InputItemIds=new[]{3007}, InputQuantities=new[]{3}, OutputItemId=5005, OutputQuantity=2, CraftMinutes=180 },
-        };
-
         protected override void OnInitialize()
         {
             _store = GetStore<CraftStore>();
@@ -67,11 +45,11 @@ namespace CozyYard
             var cfg = GetRecipe(recipeId);
             if (cfg == null) return false;
 
-            if (!_buildSystem.HasBuilding(cfg.Value.RequiredBuildingId)) return false;
+            if (!_buildSystem.HasBuilding(cfg.RequiredBuildingId)) return false;
 
-            for (int i = 0; i < cfg.Value.InputItemIds.Length; i++)
+            for (int i = 0; i < cfg.InputItemIds.Count; i++)
             {
-                if (!_inventorySystem.HasItem(cfg.Value.InputItemIds[i], cfg.Value.InputQuantities[i])) return false;
+                if (!_inventorySystem.HasItem(cfg.InputItemIds[i], cfg.InputQuantities[i])) return false;
             }
 
             return true;
@@ -84,18 +62,16 @@ namespace CozyYard
             var cfg = GetRecipe(recipeId);
             if (cfg == null) return false;
 
-            if (!_inventorySystem.ConsumeItems(cfg.Value.InputItemIds, cfg.Value.InputQuantities)) return false;
+            if (!_inventorySystem.ConsumeItems(cfg.InputItemIds.ToArray(), cfg.InputQuantities.ToArray())) return false;
 
             _store.AddJob(new CraftingJob
             {
                 RecipeId = recipeId,
                 BuildingUniqueId = 0,
-                RemainingMinutes = cfg.Value.CraftMinutes
+                RemainingMinutes = cfg.CraftMinutes
             });
 
-            _timeSystem.ConsumeTime(cfg.Value.CraftMinutes);
-
-            // For simplicity, complete immediately (time consumed represents game time passing)
+            _timeSystem.ConsumeTime(cfg.CraftMinutes);
             CompleteCraft(recipeId);
 
             Publish(new CraftStartedEvent { RecipeId = recipeId });
@@ -106,51 +82,48 @@ namespace CozyYard
         public bool AskMom(int itemIdHint)
         {
             if (_store.MomAsksToday >= 1) return false;
+            if (CfgTable.Tables == null) return false;
 
             _store.IncrementMomAsks();
 
-            // Find a recipe that uses this item as input and hasn't been unlocked
-            for (int i = 0; i < Recipes.Length; i++)
+            foreach (var recipe in CfgTable.Tables.TbRecipe.DataList)
             {
-                if (_store.IsRecipeUnlocked(Recipes[i].Id)) continue;
-                for (int j = 0; j < Recipes[i].InputItemIds.Length; j++)
+                if (_store.IsRecipeUnlocked(recipe.Id)) continue;
+                for (int j = 0; j < recipe.InputItemIds.Count; j++)
                 {
-                    if (Recipes[i].InputItemIds[j] == itemIdHint)
+                    if (recipe.InputItemIds[j] == itemIdHint)
                     {
-                        UnlockRecipe(Recipes[i].Id);
+                        UnlockRecipe(recipe.Id);
                         return true;
                     }
                 }
             }
 
-            // Mom doesn't know a recipe for this
             return false;
         }
 
         /// <summary>Experiment: try combining items freely.</summary>
         public bool Experiment(int[] itemIds, int[] quantities)
         {
-            // Check if combination matches any recipe
-            for (int i = 0; i < Recipes.Length; i++)
+            if (CfgTable.Tables == null) return false;
+
+            foreach (var recipe in CfgTable.Tables.TbRecipe.DataList)
             {
-                if (MatchesRecipe(Recipes[i], itemIds, quantities))
+                if (MatchesRecipe(recipe, itemIds, quantities))
                 {
-                    // Consume materials
                     if (!_inventorySystem.ConsumeItems(itemIds, quantities)) return false;
 
-                    // Unlock and produce
-                    UnlockRecipe(Recipes[i].Id);
-                    _inventorySystem.AddItem(Recipes[i].OutputItemId, Recipes[i].OutputQuantity);
-                    _timeSystem.ConsumeTime(Recipes[i].CraftMinutes);
+                    UnlockRecipe(recipe.Id);
+                    _inventorySystem.AddItem(recipe.OutputItemId, recipe.OutputQuantity);
+                    _timeSystem.ConsumeTime(recipe.CraftMinutes);
 
-                    Publish(new CraftCompletedEvent { RecipeId = Recipes[i].Id, OutputItemId = Recipes[i].OutputItemId });
+                    Publish(new CraftCompletedEvent { RecipeId = recipe.Id, OutputItemId = recipe.OutputItemId });
                     return true;
                 }
             }
 
-            // Failed experiment - consume materials, give junk
             _inventorySystem.ConsumeItems(itemIds, quantities);
-            _inventorySystem.AddItem(9001, 1); // 黑暗料理
+            _inventorySystem.AddItem(9001, 1);
             _timeSystem.ConsumeTime(30);
             Publish(new ExperimentFailedEvent());
             return false;
@@ -165,9 +138,9 @@ namespace CozyYard
         /// <summary>Grant starter recipes on first play.</summary>
         public void UnlockStarterRecipes()
         {
-            UnlockRecipe(5); // 清炒白菜
-            UnlockRecipe(1); // 桂花干
-            UnlockRecipe(6); // 萝卜干
+            UnlockRecipe(5);
+            UnlockRecipe(1);
+            UnlockRecipe(6);
         }
 
         private void CompleteCraft(int recipeId)
@@ -175,9 +148,8 @@ namespace CozyYard
             var cfg = GetRecipe(recipeId);
             if (cfg == null) return;
 
-            _inventorySystem.AddItem(cfg.Value.OutputItemId, cfg.Value.OutputQuantity);
+            _inventorySystem.AddItem(cfg.OutputItemId, cfg.OutputQuantity);
 
-            // Remove job
             for (int i = _store.ActiveJobs.Count - 1; i >= 0; i--)
             {
                 if (((CraftingJob)_store.ActiveJobs[i]).RecipeId == recipeId)
@@ -187,7 +159,7 @@ namespace CozyYard
                 }
             }
 
-            Publish(new CraftCompletedEvent { RecipeId = recipeId, OutputItemId = cfg.Value.OutputItemId });
+            Publish(new CraftCompletedEvent { RecipeId = recipeId, OutputItemId = cfg.OutputItemId });
         }
 
         private void OnDayChanged(DayChangedEvent e)
@@ -195,10 +167,10 @@ namespace CozyYard
             _store.ResetMomAsks();
         }
 
-        private bool MatchesRecipe(RecipeConfig recipe, int[] itemIds, int[] quantities)
+        private static bool MatchesRecipe(Recipe recipe, int[] itemIds, int[] quantities)
         {
-            if (itemIds.Length != recipe.InputItemIds.Length) return false;
-            for (int i = 0; i < recipe.InputItemIds.Length; i++)
+            if (itemIds.Length != recipe.InputItemIds.Count) return false;
+            for (int i = 0; i < recipe.InputItemIds.Count; i++)
             {
                 bool found = false;
                 for (int j = 0; j < itemIds.Length; j++)
@@ -214,13 +186,9 @@ namespace CozyYard
             return true;
         }
 
-        private RecipeConfig? GetRecipe(int recipeId)
+        private Recipe GetRecipe(int recipeId)
         {
-            for (int i = 0; i < Recipes.Length; i++)
-            {
-                if (Recipes[i].Id == recipeId) return Recipes[i];
-            }
-            return null;
+            return CfgTable.Tables?.TbRecipe.GetOrDefault(recipeId);
         }
     }
 }

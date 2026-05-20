@@ -1,3 +1,4 @@
+using cfg;
 using JulyArch;
 using UnityEngine;
 
@@ -14,7 +15,6 @@ namespace CozyYard
         private const float BaseGameMinutesPerRealSecond = 0.8f;
         private const int DayStartMinute = 360;
         private const int DayEndMinute = 1440;
-        private static readonly int[] SeasonDays = { 15, 15, 15, 10 };
 
         public float TimeScale
         {
@@ -107,7 +107,7 @@ namespace CozyYard
             _store.AdvanceDay();
 
             int dayInSeason = _store.DayInSeason + 1;
-            int currentSeasonDays = SeasonDays[(int)_store.CurrentSeason];
+            int currentSeasonDays = GetSeasonDays(_store.CurrentSeason);
 
             if (dayInSeason > currentSeasonDays)
             {
@@ -143,6 +143,12 @@ namespace CozyYard
                 OldPhase = TimePhase.Night,
                 NewPhase = TimePhase.Dawn
             });
+        }
+
+        private int GetSeasonDays(Season season)
+        {
+            var cfg = CfgTable.Tables?.TbSeason.GetOrDefault((int)season);
+            return cfg?.Days ?? 15;
         }
     }
 }

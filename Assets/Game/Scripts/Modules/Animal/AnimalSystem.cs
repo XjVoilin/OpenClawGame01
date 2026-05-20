@@ -1,3 +1,4 @@
+using cfg;
 using JulyArch;
 
 namespace CozyYard
@@ -26,22 +27,6 @@ namespace CozyYard
         private InventorySystem _inventorySystem;
         private BuildSystem _buildSystem;
 
-        private struct AnimalConfig
-        {
-            public int Id;
-            public AnimalType Type;
-            public int ProduceItemId;
-            public int ProduceCycleDays;
-            public int RequiredBuildingId;
-            public int FeedItemId;
-            public int FeedQuantity;
-        }
-
-        private static readonly AnimalConfig[] Configs = {
-            new() { Id = 1, Type = AnimalType.Poultry, ProduceItemId = 3101, ProduceCycleDays = 2, RequiredBuildingId = 40, FeedItemId = 1001, FeedQuantity = 2 },
-            new() { Id = 2, Type = AnimalType.Pet, ProduceItemId = 0, ProduceCycleDays = 0, RequiredBuildingId = 0, FeedItemId = 0, FeedQuantity = 0 },
-        };
-
         protected override void OnInitialize()
         {
             _store = GetStore<AnimalStore>();
@@ -56,7 +41,7 @@ namespace CozyYard
             var cfg = GetConfig(animalId);
             if (cfg == null) return false;
 
-            if (cfg.Value.RequiredBuildingId > 0 && !_buildSystem.HasBuilding(cfg.Value.RequiredBuildingId))
+            if (cfg.RequiredBuildingId > 0 && !_buildSystem.HasBuilding(cfg.RequiredBuildingId))
                 return false;
 
             return true;
@@ -83,12 +68,12 @@ namespace CozyYard
             foreach (var animal in _store.Animals)
             {
                 var cfg = GetConfig(animal.AnimalId);
-                if (cfg == null || cfg.Value.Type != AnimalType.Poultry) continue;
+                if (cfg == null || !IsPoultry(cfg)) continue;
                 if (animal.FedToday) continue;
 
-                if (_inventorySystem.HasItem(cfg.Value.FeedItemId, cfg.Value.FeedQuantity))
+                if (_inventorySystem.HasItem(cfg.FeedItemId, cfg.FeedQuantity))
                 {
-                    _inventorySystem.RemoveItem(cfg.Value.FeedItemId, cfg.Value.FeedQuantity);
+                    _inventorySystem.RemoveItem(cfg.FeedItemId, cfg.FeedQuantity);
                     animal.FedToday = true;
                     anyFed = true;
                 }
@@ -105,12 +90,12 @@ namespace CozyYard
         public bool FeedAnimal(AnimalInstance animal)
         {
             var cfg = GetConfig(animal.AnimalId);
-            if (cfg == null || cfg.Value.Type != AnimalType.Poultry) return false;
+            if (cfg == null || !IsPoultry(cfg)) return false;
             if (animal.FedToday) return false;
 
-            if (!_inventorySystem.HasItem(cfg.Value.FeedItemId, cfg.Value.FeedQuantity)) return false;
+            if (!_inventorySystem.HasItem(cfg.FeedItemId, cfg.FeedQuantity)) return false;
 
-            _inventorySystem.RemoveItem(cfg.Value.FeedItemId, cfg.Value.FeedQuantity);
+            _inventorySystem.RemoveItem(cfg.FeedItemId, cfg.FeedQuantity);
             animal.FedToday = true;
             _store.MarkDirtyExplicit();
 
@@ -133,11 +118,11 @@ namespace CozyYard
                 var cfg = GetConfig(animal.AnimalId);
                 if (cfg == null) continue;
 
-                if (cfg.Value.Type == AnimalType.Poultry)
+                if (IsPoultry(cfg))
                 {
-                    ProcessPoultry(animal, cfg.Value);
+                    ProcessPoultry(animal, cfg);
                 }
-                else if (cfg.Value.Type == AnimalType.Pet)
+                else if (IsPet(cfg))
                 {
                     ProcessPet(animal, random);
                 }
@@ -146,7 +131,7 @@ namespace CozyYard
             _store.MarkDirtyExplicit();
         }
 
-        private void ProcessPoultry(AnimalInstance animal, AnimalConfig cfg)
+        private void ProcessPoultry(AnimalInstance animal, Animal cfg)
         {
             if (!animal.FedToday)
             {
@@ -185,13 +170,13 @@ namespace CozyYard
             }
         }
 
-        private AnimalConfig? GetConfig(int animalId)
+        private static bool IsPoultry(Animal cfg) => cfg.Type == nameof(AnimalType.Poultry);
+
+        private static bool IsPet(Animal cfg) => cfg.Type == nameof(AnimalType.Pet);
+
+        private Animal GetConfig(int animalId)
         {
-            for (int i = 0; i < Configs.Length; i++)
-            {
-                if (Configs[i].Id == animalId) return Configs[i];
-            }
-            return null;
+            return CfgTable.Tables?.TbAnimal.GetOrDefault(animalId);
         }
     }
 }

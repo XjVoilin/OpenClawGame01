@@ -1,3 +1,4 @@
+using cfg;
 using JulyArch;
 using UnityEngine;
 
@@ -39,20 +40,11 @@ namespace CozyYard
             _store.SetCellState(x, y, CellState.Empty);
             Publish(new GridCellChangedEvent { GridX = x, GridY = y, NewState = CellState.Empty });
 
-            switch (obstacleId)
+            var cfg = GetObstacleConfig(obstacleId);
+            if (cfg != null)
             {
-                case 1:
-                    _inventorySystem.AddItem(1001, 2);
-                    _timeSystem.ConsumeTime(15);
-                    break;
-                case 2:
-                    _inventorySystem.AddItem(1002, 3);
-                    _timeSystem.ConsumeTime(30);
-                    break;
-                case 3:
-                    _inventorySystem.AddItem(1003, 5);
-                    _timeSystem.ConsumeTime(60);
-                    break;
+                _inventorySystem.AddItem(cfg.DropItemId, cfg.DropQuantity);
+                _timeSystem.ConsumeTime(cfg.ClearTime);
             }
 
             return true;
@@ -143,6 +135,11 @@ namespace CozyYard
                     }
                 }
             }
+        }
+
+        private Obstacle GetObstacleConfig(int obstacleId)
+        {
+            return CfgTable.Tables?.TbObstacle.GetOrDefault(obstacleId);
         }
     }
 }

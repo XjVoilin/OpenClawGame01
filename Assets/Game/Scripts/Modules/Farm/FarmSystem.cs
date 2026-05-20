@@ -1,3 +1,4 @@
+using cfg;
 using JulyArch;
 
 namespace CozyYard
@@ -8,11 +9,6 @@ namespace CozyYard
         private GridSystem _gridSystem;
         private InventorySystem _inventorySystem;
         private TimeSystem _timeSystem;
-
-        private static readonly int[] CropGrowthDays = { 0, 3, 5, 7, 5, 5 };
-        private static readonly int[] CropHarvestWindow = { 0, 4, 4, 3, 5, 4 };
-        private static readonly int[] CropProduceId = { 0, 3001, 3002, 3003, 3004, 3005 };
-        private static readonly int[] CropProduceQty = { 0, 2, 2, 3, 2, 3 };
 
         protected override void OnInitialize()
         {
@@ -84,15 +80,15 @@ namespace CozyYard
             var crop = _store.GetCropAt(x, y);
             if (crop == null || crop.Stage != CropGrowthStage.Mature) return false;
 
-            int produceId = GetProduceId(crop.CropId);
-            int produceQty = GetProduceQty(crop.CropId);
+            var cfg = GetCropConfig(crop.CropId);
+            if (cfg == null) return false;
 
-            if (!_inventorySystem.AddItem(produceId, produceQty)) return false;
+            if (!_inventorySystem.AddItem(cfg.ProduceItemId, cfg.ProduceQuantity)) return false;
 
             _store.RemoveCrop(crop);
             _timeSystem.ConsumeTime(10);
 
-            Publish(new CropHarvestedEvent { CropId = crop.CropId, Quantity = produceQty });
+            Publish(new CropHarvestedEvent { CropId = crop.CropId, Quantity = cfg.ProduceQuantity });
             return true;
         }
 
@@ -162,28 +158,19 @@ namespace CozyYard
             _store.MarkDirtyExplicit();
         }
 
+        private Crop GetCropConfig(int cropId)
+        {
+            return CfgTable.Tables?.TbCrop.GetOrDefault(cropId);
+        }
+
         private int GetGrowthDays(int cropId)
         {
-            if (cropId >= 0 && cropId < CropGrowthDays.Length) return CropGrowthDays[cropId];
-            return 5;
+            return GetCropConfig(cropId)?.GrowthDays ?? 5;
         }
 
         private int GetHarvestWindow(int cropId)
         {
-            if (cropId >= 0 && cropId < CropHarvestWindow.Length) return CropHarvestWindow[cropId];
-            return 4;
-        }
-
-        private int GetProduceId(int cropId)
-        {
-            if (cropId >= 0 && cropId < CropProduceId.Length) return CropProduceId[cropId];
-            return 3001;
-        }
-
-        private int GetProduceQty(int cropId)
-        {
-            if (cropId >= 0 && cropId < CropProduceQty.Length) return CropProduceQty[cropId];
-            return 1;
+            return GetCropConfig(cropId)?.HarvestWindow ?? 4;
         }
     }
 }

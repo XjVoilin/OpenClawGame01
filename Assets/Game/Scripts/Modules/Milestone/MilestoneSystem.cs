@@ -1,3 +1,4 @@
+using cfg;
 using JulyArch;
 
 namespace CozyYard
@@ -8,30 +9,6 @@ namespace CozyYard
         private InventorySystem _inventorySystem;
         private CraftSystem _craftSystem;
         private GridSystem _gridSystem;
-
-        private struct MilestoneConfig
-        {
-            public int Id;
-            public string ConditionType;
-            public int ConditionTarget;
-            public int ConditionCount;
-            public string RewardType;
-            public int RewardId;
-            public int RewardQty;
-        }
-
-        private static readonly MilestoneConfig[] Configs = {
-            new() { Id=1,  ConditionType="PlantCrop",     ConditionTarget=0, ConditionCount=1,  RewardType="Coins",       RewardId=0,    RewardQty=50 },
-            new() { Id=2,  ConditionType="HarvestCrop",   ConditionTarget=0, ConditionCount=1,  RewardType="Coins",       RewardId=0,    RewardQty=100 },
-            new() { Id=3,  ConditionType="BuildBuilding", ConditionTarget=1, ConditionCount=1,  RewardType="Expansion",   RewardId=0,    RewardQty=1 },
-            new() { Id=4,  ConditionType="AdoptAnimal",   ConditionTarget=0, ConditionCount=1,  RewardType="Item",        RewardId=1001, RewardQty=10 },
-            new() { Id=5,  ConditionType="CraftItem",     ConditionTarget=0, ConditionCount=1,  RewardType="Coins",       RewardId=0,    RewardQty=80 },
-            new() { Id=6,  ConditionType="FulfillOrder",  ConditionTarget=0, ConditionCount=1,  RewardType="Coins",       RewardId=0,    RewardQty=60 },
-            new() { Id=7,  ConditionType="BuildBuilding", ConditionTarget=0, ConditionCount=3,  RewardType="Expansion",   RewardId=0,    RewardQty=1 },
-            new() { Id=8,  ConditionType="HarvestCrop",   ConditionTarget=0, ConditionCount=10, RewardType="Item",        RewardId=3006, RewardQty=5 },
-            new() { Id=9,  ConditionType="UnlockRecipe",  ConditionTarget=0, ConditionCount=5,  RewardType="Coins",       RewardId=0,    RewardQty=200 },
-            new() { Id=10, ConditionType="FulfillOrder",  ConditionTarget=0, ConditionCount=5,  RewardType="RecipeUnlock", RewardId=3,   RewardQty=1 },
-        };
 
         protected override void OnInitialize()
         {
@@ -59,9 +36,10 @@ namespace CozyYard
 
         private void IncrementCondition(string conditionType, int targetId)
         {
-            for (int i = 0; i < Configs.Length; i++)
+            if (CfgTable.Tables == null) return;
+
+            foreach (var cfg in CfgTable.Tables.TbMilestone.DataList)
             {
-                var cfg = Configs[i];
                 if (cfg.ConditionType != conditionType) continue;
                 if (cfg.ConditionTarget != 0 && cfg.ConditionTarget != targetId) continue;
 
@@ -78,7 +56,7 @@ namespace CozyYard
             }
         }
 
-        private void CompleteMilestone(MilestoneConfig cfg, MilestoneProgress progress)
+        private void CompleteMilestone(Milestone cfg, MilestoneProgress progress)
         {
             progress.Completed = true;
             _store.MarkDirtyExplicit();
@@ -88,7 +66,7 @@ namespace CozyYard
             Publish(new MilestoneAchievedEvent { MilestoneId = cfg.Id });
         }
 
-        private void GrantReward(MilestoneConfig cfg)
+        private void GrantReward(Milestone cfg)
         {
             switch (cfg.RewardType)
             {
