@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "visitorId": 1,
+    "itemId": 5001,
+    "quantity": 1,
+    "rewardCoins": 30,
+    "rewardItemId": 0,
+    "rewardItemQty": 0
+  },
+  {
+    "id": 2,
+    "visitorId": 1,
+    "itemId": 5003,
+    "quantity": 2,
+    "rewardCoins": 30,
+    "rewardItemId": 0,
+    "rewardItemQty": 0
+  },
+  {
+    "id": 3,
+    "visitorId": 2,
+    "itemId": 5002,
+    "quantity": 1,
+    "rewardCoins": 20,
+    "rewardItemId": 1001,
+    "rewardItemQty": 3
+  },
+  {
+    "id": 4,
+    "visitorId": 3,
+    "itemId": 5004,
+    "quantity": 1,
+    "rewardCoins": 25,
+    "rewardItemId": 0,
+    "rewardItemQty": 0
+  }
+]

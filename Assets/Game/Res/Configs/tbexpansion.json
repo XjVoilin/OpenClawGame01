@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "level": 1,
+    "addWidth": 2,
+    "addHeight": 2,
+    "requiredMilestoneId": 3
+  },
+  {
+    "id": 2,
+    "level": 2,
+    "addWidth": 2,
+    "addHeight": 2,
+    "requiredMilestoneId": 7
+  }
+]

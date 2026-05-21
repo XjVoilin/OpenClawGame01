@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1,
+    "nameKey": "milestone_1",
+    "descKey": "milestone_1_desc",
+    "conditionType": "PlantCrop",
+    "conditionTarget": 0,
+    "conditionCount": 1,
+    "rewardType": "Coins",
+    "rewardId": 0,
+    "rewardQty": 50
+  },
+  {
+    "id": 2,
+    "nameKey": "milestone_2",
+    "descKey": "milestone_2_desc",
+    "conditionType": "HarvestCrop",
+    "conditionTarget": 0,
+    "conditionCount": 1,
+    "rewardType": "Coins",
+    "rewardId": 0,
+    "rewardQty": 100
+  },
+  {
+    "id": 3,
+    "nameKey": "milestone_3",
+    "descKey": "milestone_3_desc",
+    "conditionType": "BuildBuilding",
+    "conditionTarget": 1,
+    "conditionCount": 1,
+    "rewardType": "Expansion",
+    "rewardId": 0,
+    "rewardQty": 1
+  },
+  {
+    "id": 4,
+    "nameKey": "milestone_4",
+    "descKey": "milestone_4_desc",
+    "conditionType": "AdoptAnimal",
+    "conditionTarget": 0,
+    "conditionCount": 1,
+    "rewardType": "Item",
+    "rewardId": 1001,
+    "rewardQty": 10
+  },
+  {
+    "id": 5,
+    "nameKey": "milestone_5",
+    "descKey": "milestone_5_desc",
+    "conditionType": "CraftItem",
+    "conditionTarget": 0,
+    "conditionCount": 1,
+    "rewardType": "Coins",
+    "rewardId": 0,
+    "rewardQty": 80
+  },
+  {
+    "id": 6,
+    "nameKey": "milestone_6",
+    "descKey": "milestone_6_desc",
+    "conditionType": "FulfillOrder",
+    "conditionTarget": 0,
+    "conditionCount": 1,
+    "rewardType": "Coins",
+    "rewardId": 0,
+    "rewardQty": 60
+  },
+  {
+    "id": 7,
+    "nameKey": "milestone_7",
+    "descKey": "milestone_7_desc",
+    "conditionType": "BuildBuilding",
+    "conditionTarget": 0,
+    "conditionCount": 3,
+    "rewardType": "Expansion",
+    "rewardId": 0,
+    "rewardQty": 1
+  },
+  {
+    "id": 8,
+    "nameKey": "milestone_8",
+    "descKey": "milestone_8_desc",
+    "conditionType": "HarvestCrop",
+    "conditionTarget": 0,
+    "conditionCount": 10,
+    "rewardType": "Item",
+    "rewardId": 3006,
+    "rewardQty": 5
+  },
+  {
+    "id": 9,
+    "nameKey": "milestone_9",
+    "descKey": "milestone_9_desc",
+    "conditionType": "UnlockRecipe",
+    "conditionTarget": 0,
+    "conditionCount": 5,
+    "rewardType": "Coins",
+    "rewardId": 0,
+    "rewardQty": 200
+  },
+  {
+    "id": 10,
+    "nameKey": "milestone_10",
+    "descKey": "milestone_10_desc",
+    "conditionType": "FulfillOrder",
+    "conditionTarget": 0,
+    "conditionCount": 5,
+    "rewardType": "RecipeUnlock",
+    "rewardId": 3,
+    "rewardQty": 1
+  }
+]

@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "nameKey": "tree_1",
+    "growthDays": 10,
+    "produceItemId": 3006,
+    "produceCycleDays": 3,
+    "season": "Autumn"
+  },
+  {
+    "id": 2,
+    "nameKey": "tree_2",
+    "growthDays": 10,
+    "produceItemId": 3007,
+    "produceCycleDays": 4,
+    "season": "Autumn"
+  }
+]

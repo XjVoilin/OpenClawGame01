@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "nameKey": "visitor_1",
+    "orderItemIds": [
+      5001,
+      5003
+    ],
+    "orderQuantities": [
+      1,
+      2
+    ],
+    "rewardCoins": 30,
+    "rewardItemId": 0,
+    "rewardItemQty": 0,
+    "visitChance": 40
+  },
+  {
+    "id": 2,
+    "nameKey": "visitor_2",
+    "orderItemIds": [
+      5002,
+      5005
+    ],
+    "orderQuantities": [
+      1,
+      1
+    ],
+    "rewardCoins": 20,
+    "rewardItemId": 1001,
+    "rewardItemQty": 3,
+    "visitChance": 35
+  },
+  {
+    "id": 3,
+    "nameKey": "visitor_3",
+    "orderItemIds": [
+      5004,
+      5001
+    ],
+    "orderQuantities": [
+      1,
+      1
+    ],
+    "rewardCoins": 25,
+    "rewardItemId": 0,
+    "rewardItemQty": 0,
+    "visitChance": 30
+  },
+  {
+    "id": 4,
+    "nameKey": "visitor_4",
+    "orderItemIds": [
+      4001,
+      4003,
+      4004
+    ],
+    "orderQuantities": [
+      2,
+      2,
+      2
+    ],
+    "rewardCoins": 50,
+    "rewardItemId": 3006,
+    "rewardItemQty": 2,
+    "visitChance": 20
+  }
+]

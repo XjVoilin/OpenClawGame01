@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "itemId": 2001,
+    "price": 20,
+    "stock": -1
+  },
+  {
+    "id": 2,
+    "itemId": 2002,
+    "price": 25,
+    "stock": -1
+  },
+  {
+    "id": 3,
+    "itemId": 2003,
+    "price": 30,
+    "stock": -1
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": 0,
+    "nameKey": "season_spring",
+    "days": 15,
+    "tempModifier": 1
+  },
+  {
+    "id": 1,
+    "nameKey": "season_summer",
+    "days": 15,
+    "tempModifier": 1.2
+  },
+  {
+    "id": 2,
+    "nameKey": "season_autumn",
+    "days": 15,
+    "tempModifier": 1
+  },
+  {
+    "id": 3,
+    "nameKey": "season_winter",
+    "days": 10,
+    "tempModifier": 0.5
+  }
+]

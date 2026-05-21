@@ -33,10 +33,4 @@ Thumbs.db
 
 # Bundles (generated)
 Bundles/
-
-# Luban generated
-Assets/Game/Res/Configs/
-Assets/Game/Scripts/Generated/
-
-# Cursor
-.cursor/
+Bundles

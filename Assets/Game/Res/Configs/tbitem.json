@@ -1,0 +1,184 @@
+[
+  {
+    "id": 1001,
+    "nameKey": "item_1001",
+    "type": "Material",
+    "stackLimit": 99,
+    "descKey": "item_1001_desc"
+  },
+  {
+    "id": 1002,
+    "nameKey": "item_1002",
+    "type": "Material",
+    "stackLimit": 99,
+    "descKey": "item_1002_desc"
+  },
+  {
+    "id": 1003,
+    "nameKey": "item_1003",
+    "type": "Material",
+    "stackLimit": 99,
+    "descKey": "item_1003_desc"
+  },
+  {
+    "id": 2001,
+    "nameKey": "item_2001",
+    "type": "Seed",
+    "stackLimit": 50,
+    "descKey": "item_2001_desc"
+  },
+  {
+    "id": 2002,
+    "nameKey": "item_2002",
+    "type": "Seed",
+    "stackLimit": 50,
+    "descKey": "item_2002_desc"
+  },
+  {
+    "id": 2003,
+    "nameKey": "item_2003",
+    "type": "Seed",
+    "stackLimit": 50,
+    "descKey": "item_2003_desc"
+  },
+  {
+    "id": 2004,
+    "nameKey": "item_2004",
+    "type": "Seed",
+    "stackLimit": 50,
+    "descKey": "item_2004_desc"
+  },
+  {
+    "id": 2005,
+    "nameKey": "item_2005",
+    "type": "Seed",
+    "stackLimit": 50,
+    "descKey": "item_2005_desc"
+  },
+  {
+    "id": 3001,
+    "nameKey": "item_3001",
+    "type": "Product",
+    "stackLimit": 50,
+    "descKey": "item_3001_desc"
+  },
+  {
+    "id": 3002,
+    "nameKey": "item_3002",
+    "type": "Product",
+    "stackLimit": 50,
+    "descKey": "item_3002_desc"
+  },
+  {
+    "id": 3003,
+    "nameKey": "item_3003",
+    "type": "Product",
+    "stackLimit": 50,
+    "descKey": "item_3003_desc"
+  },
+  {
+    "id": 3004,
+    "nameKey": "item_3004",
+    "type": "Product",
+    "stackLimit": 50,
+    "descKey": "item_3004_desc"
+  },
+  {
+    "id": 3005,
+    "nameKey": "item_3005",
+    "type": "Product",
+    "stackLimit": 50,
+    "descKey": "item_3005_desc"
+  },
+  {
+    "id": 3101,
+    "nameKey": "item_3101",
+    "type": "Product",
+    "stackLimit": 50,
+    "descKey": "item_3101_desc"
+  },
+  {
+    "id": 3006,
+    "nameKey": "item_3006",
+    "type": "Product",
+    "stackLimit": 50,
+    "descKey": "item_3006_desc"
+  },
+  {
+    "id": 3007,
+    "nameKey": "item_3007",
+    "type": "Product",
+    "stackLimit": 50,
+    "descKey": "item_3007_desc"
+  },
+  {
+    "id": 4001,
+    "nameKey": "item_4001",
+    "type": "Material",
+    "stackLimit": 50,
+    "descKey": "item_4001_desc"
+  },
+  {
+    "id": 4002,
+    "nameKey": "item_4002",
+    "type": "Material",
+    "stackLimit": 50,
+    "descKey": "item_4002_desc"
+  },
+  {
+    "id": 4003,
+    "nameKey": "item_4003",
+    "type": "Material",
+    "stackLimit": 50,
+    "descKey": "item_4003_desc"
+  },
+  {
+    "id": 4004,
+    "nameKey": "item_4004",
+    "type": "Material",
+    "stackLimit": 50,
+    "descKey": "item_4004_desc"
+  },
+  {
+    "id": 5001,
+    "nameKey": "item_5001",
+    "type": "Product",
+    "stackLimit": 20,
+    "descKey": "item_5001_desc"
+  },
+  {
+    "id": 5002,
+    "nameKey": "item_5002",
+    "type": "Product",
+    "stackLimit": 20,
+    "descKey": "item_5002_desc"
+  },
+  {
+    "id": 5003,
+    "nameKey": "item_5003",
+    "type": "Product",
+    "stackLimit": 20,
+    "descKey": "item_5003_desc"
+  },
+  {
+    "id": 5004,
+    "nameKey": "item_5004",
+    "type": "Product",
+    "stackLimit": 20,
+    "descKey": "item_5004_desc"
+  },
+  {
+    "id": 5005,
+    "nameKey": "item_5005",
+    "type": "Product",
+    "stackLimit": 20,
+    "descKey": "item_5005_desc"
+  },
+  {
+    "id": 9001,
+    "nameKey": "item_9001",
+    "type": "Material",
+    "stackLimit": 10,
+    "descKey": "item_9001_desc"
+  }
+]

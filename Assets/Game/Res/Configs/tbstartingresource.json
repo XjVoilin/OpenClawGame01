@@ -1,0 +1,26 @@
+[
+  {
+    "itemId": 1003,
+    "quantity": 30
+  },
+  {
+    "itemId": 1002,
+    "quantity": 15
+  },
+  {
+    "itemId": 1001,
+    "quantity": 10
+  },
+  {
+    "itemId": 2001,
+    "quantity": 5
+  },
+  {
+    "itemId": 2002,
+    "quantity": 5
+  },
+  {
+    "itemId": 0,
+    "quantity": 100
+  }
+]

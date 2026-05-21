@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "season": "Spring",
+    "sunny": 30,
+    "cloudy": 30,
+    "lightRain": 25,
+    "heavyRain": 10,
+    "windy": 5
+  },
+  {
+    "id": 2,
+    "season": "Summer",
+    "sunny": 45,
+    "cloudy": 20,
+    "lightRain": 15,
+    "heavyRain": 10,
+    "windy": 10
+  },
+  {
+    "id": 3,
+    "season": "Autumn",
+    "sunny": 20,
+    "cloudy": 25,
+    "lightRain": 30,
+    "heavyRain": 15,
+    "windy": 10
+  },
+  {
+    "id": 4,
+    "season": "Winter",
+    "sunny": 25,
+    "cloudy": 35,
+    "lightRain": 15,
+    "heavyRain": 5,
+    "windy": 20
+  }
+]

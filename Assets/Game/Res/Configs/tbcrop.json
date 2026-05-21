@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "nameKey": "crop_1",
+    "season": 2,
+    "growthDays": 3,
+    "harvestWindow": 4,
+    "seedItemId": 2001,
+    "produceItemId": 3001,
+    "produceQuantity": 2
+  },
+  {
+    "id": 2,
+    "nameKey": "crop_2",
+    "season": 2,
+    "growthDays": 5,
+    "harvestWindow": 4,
+    "seedItemId": 2002,
+    "produceItemId": 3002,
+    "produceQuantity": 2
+  },
+  {
+    "id": 3,
+    "nameKey": "crop_3",
+    "season": 2,
+    "growthDays": 7,
+    "harvestWindow": 3,
+    "seedItemId": 2003,
+    "produceItemId": 3003,
+    "produceQuantity": 3
+  },
+  {
+    "id": 4,
+    "nameKey": "crop_4",
+    "season": 2,
+    "growthDays": 5,
+    "harvestWindow": 5,
+    "seedItemId": 2004,
+    "produceItemId": 3004,
+    "produceQuantity": 2
+  },
+  {
+    "id": 5,
+    "nameKey": "crop_5",
+    "season": 2,
+    "growthDays": 5,
+    "harvestWindow": 4,
+    "seedItemId": 2005,
+    "produceItemId": 3005,
+    "produceQuantity": 3
+  }
+]

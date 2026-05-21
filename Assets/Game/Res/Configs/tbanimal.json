@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "nameKey": "animal_1",
+    "type": "Poultry",
+    "produceItemId": 3101,
+    "produceCycleDays": 2,
+    "requiredBuildingId": 40,
+    "feedItemId": 1001,
+    "feedQuantity": 2
+  },
+  {
+    "id": 2,
+    "nameKey": "animal_2",
+    "type": "Pet",
+    "produceItemId": 0,
+    "produceCycleDays": 0,
+    "requiredBuildingId": 0,
+    "feedItemId": 0,
+    "feedQuantity": 0
+  }
+]

@@ -1,0 +1,172 @@
+[
+  {
+    "id": 1,
+    "nameKey": "building_1",
+    "category": "House",
+    "sizeX": 2,
+    "sizeY": 2,
+    "materials": [
+      1003
+    ],
+    "materialQtys": [
+      20
+    ],
+    "buildTime": 120,
+    "prerequisiteId": 0,
+    "level": 1
+  },
+  {
+    "id": 2,
+    "nameKey": "building_2",
+    "category": "House",
+    "sizeX": 3,
+    "sizeY": 3,
+    "materials": [
+      1003,
+      1002
+    ],
+    "materialQtys": [
+      30,
+      20
+    ],
+    "buildTime": 180,
+    "prerequisiteId": 1,
+    "level": 2
+  },
+  {
+    "id": 10,
+    "nameKey": "building_10",
+    "category": "Production",
+    "sizeX": 1,
+    "sizeY": 1,
+    "materials": [
+      1003,
+      1002
+    ],
+    "materialQtys": [
+      5,
+      3
+    ],
+    "buildTime": 30,
+    "prerequisiteId": 0,
+    "level": 1
+  },
+  {
+    "id": 11,
+    "nameKey": "building_11",
+    "category": "Production",
+    "sizeX": 1,
+    "sizeY": 1,
+    "materials": [
+      1002,
+      1003
+    ],
+    "materialQtys": [
+      10,
+      8
+    ],
+    "buildTime": 60,
+    "prerequisiteId": 1,
+    "level": 2
+  },
+  {
+    "id": 20,
+    "nameKey": "building_20",
+    "category": "Production",
+    "sizeX": 1,
+    "sizeY": 1,
+    "materials": [
+      1003
+    ],
+    "materialQtys": [
+      8
+    ],
+    "buildTime": 30,
+    "prerequisiteId": 0,
+    "level": 1
+  },
+  {
+    "id": 30,
+    "nameKey": "building_30",
+    "category": "Production",
+    "sizeX": 1,
+    "sizeY": 1,
+    "materials": [
+      1002
+    ],
+    "materialQtys": [
+      15
+    ],
+    "buildTime": 60,
+    "prerequisiteId": 0,
+    "level": 1
+  },
+  {
+    "id": 40,
+    "nameKey": "building_40",
+    "category": "Livestock",
+    "sizeX": 2,
+    "sizeY": 2,
+    "materials": [
+      1003
+    ],
+    "materialQtys": [
+      12
+    ],
+    "buildTime": 45,
+    "prerequisiteId": 0,
+    "level": 1
+  },
+  {
+    "id": 50,
+    "nameKey": "building_50",
+    "category": "Decoration",
+    "sizeX": 1,
+    "sizeY": 1,
+    "materials": [
+      1003
+    ],
+    "materialQtys": [
+      3
+    ],
+    "buildTime": 10,
+    "prerequisiteId": 0,
+    "level": 1
+  },
+  {
+    "id": 60,
+    "nameKey": "building_60",
+    "category": "Functional",
+    "sizeX": 1,
+    "sizeY": 1,
+    "materials": [
+      1003,
+      1002
+    ],
+    "materialQtys": [
+      5,
+      3
+    ],
+    "buildTime": 20,
+    "prerequisiteId": 0,
+    "level": 1
+  },
+  {
+    "id": 70,
+    "nameKey": "building_70",
+    "category": "Functional",
+    "sizeX": 2,
+    "sizeY": 2,
+    "materials": [
+      1003,
+      1002
+    ],
+    "materialQtys": [
+      15,
+      10
+    ],
+    "buildTime": 90,
+    "prerequisiteId": 0,
+    "level": 1
+  }
+]

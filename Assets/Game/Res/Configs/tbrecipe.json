@@ -1,0 +1,132 @@
+[
+  {
+    "id": 1,
+    "nameKey": "recipe_1",
+    "requiredBuildingId": 20,
+    "inputItemIds": [
+      3006
+    ],
+    "inputQuantities": [
+      3
+    ],
+    "outputItemId": 4001,
+    "outputQuantity": 2,
+    "craftMinutes": 120
+  },
+  {
+    "id": 2,
+    "nameKey": "recipe_2",
+    "requiredBuildingId": 30,
+    "inputItemIds": [
+      3003
+    ],
+    "inputQuantities": [
+      2
+    ],
+    "outputItemId": 4002,
+    "outputQuantity": 2,
+    "craftMinutes": 60
+  },
+  {
+    "id": 3,
+    "nameKey": "recipe_3",
+    "requiredBuildingId": 10,
+    "inputItemIds": [
+      4001,
+      4002
+    ],
+    "inputQuantities": [
+      2,
+      2
+    ],
+    "outputItemId": 5001,
+    "outputQuantity": 1,
+    "craftMinutes": 90
+  },
+  {
+    "id": 4,
+    "nameKey": "recipe_4",
+    "requiredBuildingId": 10,
+    "inputItemIds": [
+      3101,
+      3005
+    ],
+    "inputQuantities": [
+      1,
+      1
+    ],
+    "outputItemId": 5002,
+    "outputQuantity": 1,
+    "craftMinutes": 30
+  },
+  {
+    "id": 5,
+    "nameKey": "recipe_5",
+    "requiredBuildingId": 10,
+    "inputItemIds": [
+      3001
+    ],
+    "inputQuantities": [
+      2
+    ],
+    "outputItemId": 5003,
+    "outputQuantity": 1,
+    "craftMinutes": 20
+  },
+  {
+    "id": 6,
+    "nameKey": "recipe_6",
+    "requiredBuildingId": 20,
+    "inputItemIds": [
+      3002
+    ],
+    "inputQuantities": [
+      2
+    ],
+    "outputItemId": 4003,
+    "outputQuantity": 2,
+    "craftMinutes": 120
+  },
+  {
+    "id": 7,
+    "nameKey": "recipe_7",
+    "requiredBuildingId": 20,
+    "inputItemIds": [
+      3004
+    ],
+    "inputQuantities": [
+      3
+    ],
+    "outputItemId": 4004,
+    "outputQuantity": 2,
+    "craftMinutes": 120
+  },
+  {
+    "id": 8,
+    "nameKey": "recipe_8",
+    "requiredBuildingId": 10,
+    "inputItemIds": [
+      4004
+    ],
+    "inputQuantities": [
+      2
+    ],
+    "outputItemId": 5004,
+    "outputQuantity": 1,
+    "craftMinutes": 30
+  },
+  {
+    "id": 9,
+    "nameKey": "recipe_9",
+    "requiredBuildingId": 20,
+    "inputItemIds": [
+      3007
+    ],
+    "inputQuantities": [
+      3
+    ],
+    "outputItemId": 5005,
+    "outputQuantity": 2,
+    "craftMinutes": 180
+  }
+]

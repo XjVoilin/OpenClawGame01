@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "nameKey": "obstacle_1",
+    "clearTime": 15,
+    "dropItemId": 1001,
+    "dropQuantity": 2
+  },
+  {
+    "id": 2,
+    "nameKey": "obstacle_2",
+    "clearTime": 30,
+    "dropItemId": 1002,
+    "dropQuantity": 3
+  },
+  {
+    "id": 3,
+    "nameKey": "obstacle_3",
+    "clearTime": 60,
+    "dropItemId": 1003,
+    "dropQuantity": 5
+  }
+]
