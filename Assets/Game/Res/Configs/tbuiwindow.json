@@ -108,5 +108,27 @@
     "exitAnimType": 3,
     "isIgnoreSafeArea": false,
     "uiLayer": 200
+  },
+  {
+    "id": 1011,
+    "desc": "时间HUD",
+    "windowName": "TimeHUD",
+    "isNeedBlackMask": false,
+    "isClickBlankQuit": false,
+    "enterAnimType": 0,
+    "exitAnimType": 0,
+    "isIgnoreSafeArea": true,
+    "uiLayer": 100
+  },
+  {
+    "id": 1012,
+    "desc": "天气HUD",
+    "windowName": "WeatherHUD",
+    "isNeedBlackMask": false,
+    "isClickBlankQuit": false,
+    "enterAnimType": 0,
+    "exitAnimType": 0,
+    "isIgnoreSafeArea": true,
+    "uiLayer": 100
   }
 ]

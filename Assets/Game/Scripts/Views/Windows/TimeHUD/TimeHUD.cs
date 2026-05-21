@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace CozyYard
 {
-    public class TimeHUDView : GameUIView
+    public class TimeHUD : GameUIView
     {
         [SerializeField] private TextMeshProUGUI _dayText;
         [SerializeField] private TextMeshProUGUI _seasonText;

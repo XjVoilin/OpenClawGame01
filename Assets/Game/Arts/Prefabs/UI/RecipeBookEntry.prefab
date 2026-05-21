@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7897671016748576822}
   - component: {fileID: 5351454229368783472}
   - component: {fileID: 693757280502602320}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: RecipeBookEntry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: 3760125193590180222}
   - component: {fileID: 8510424147264849229}
   - component: {fileID: 4062518055477261230}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}

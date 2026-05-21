@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8097144923086538650}
   - component: {fileID: 4757146840057160243}
   - component: {fileID: 4544641042032499741}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +159,7 @@ GameObject:
   - component: {fileID: 1324789724931002585}
   - component: {fileID: 7471834805745590248}
   - component: {fileID: 2229368359382620905}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: InfoText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -295,7 +295,7 @@ GameObject:
   - component: {fileID: 4159675810542102996}
   - component: {fileID: 3127917672018286748}
   - component: {fileID: 4006904774795531911}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BuildEntry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -414,7 +414,7 @@ GameObject:
   - component: {fileID: 6822660738813650434}
   - component: {fileID: 6864794693372170969}
   - component: {fileID: 3118461211064910190}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: BuildBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}

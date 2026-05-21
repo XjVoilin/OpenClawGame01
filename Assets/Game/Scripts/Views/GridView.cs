@@ -64,14 +64,27 @@ namespace CozyYard
 
         private static Sprite CreateColoredSprite(Color color)
         {
-            var tex = new Texture2D(32, 32);
-            var pixels = new Color[32 * 32];
-            for (int i = 0; i < pixels.Length; i++)
-                pixels[i] = color;
+            const int width = 64;
+            const int height = 32;
+            var tex = new Texture2D(width, height);
+            var pixels = new Color[width * height];
+            
+            float halfW = width * 0.5f;
+            float halfH = height * 0.5f;
+            for (int py = 0; py < height; py++)
+            {
+                for (int px = 0; px < width; px++)
+                {
+                    float nx = Mathf.Abs(px - halfW + 0.5f) / halfW;
+                    float ny = Mathf.Abs(py - halfH + 0.5f) / halfH;
+                    pixels[py * width + px] = (nx + ny <= 1f) ? color : Color.clear;
+                }
+            }
             tex.SetPixels(pixels);
             tex.Apply();
             tex.filterMode = FilterMode.Point;
-            return Sprite.Create(tex, new Rect(0, 0, 32, 32), new Vector2(0.5f, 0.5f), 32);
+            float ppu = width / IsometricUtils.TileWidth;
+            return Sprite.Create(tex, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), ppu);
         }
 
         private void Update()

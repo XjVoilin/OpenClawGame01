@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8972822907279215430}
   - component: {fileID: 7365262779044230683}
   - component: {fileID: 6122338902607518888}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: InfoText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 5715939278633545478}
   - component: {fileID: 635509591167267012}
   - component: {fileID: 9198484958750034488}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: PhoneItemEntry
   m_TagString: Untagged
   m_Icon: {fileID: 0}

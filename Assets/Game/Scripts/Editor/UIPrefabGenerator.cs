@@ -137,7 +137,7 @@ namespace CozyYard.Editor
             var speed3Btn = AddNativeButton(speedBar, "Speed3Btn", "×3", new Vector2(56, 36), 16);
             var endDayBtn = AddNativeButton(speedBar, "EndDayBtn", "结束", new Vector2(72, 36), 16);
 
-            var hud = root.AddComponent<TimeHUDView>();
+            var hud = root.AddComponent<TimeHUD>();
             Bind(hud, "_dayText", dayText);
             Bind(hud, "_seasonText", seasonText);
             Bind(hud, "_timeText", timeText);
@@ -173,7 +173,7 @@ namespace CozyYard.Editor
             SetSize(weatherText.gameObject, 160, 36);
             weatherText.alignment = TextAlignmentOptions.Left;
 
-            var hud = root.AddComponent<WeatherHUDView>();
+            var hud = root.AddComponent<WeatherHUD>();
             Bind(hud, "_weatherText", weatherText);
             Bind(hud, "_weatherIcon", weatherIcon);
 
@@ -483,6 +483,7 @@ namespace CozyYard.Editor
         private static InventorySlotEntry CreateItemSlotPrefab()
         {
             var go = new GameObject("InventorySlotEntry", typeof(RectTransform), typeof(Image));
+            go.layer = LayerMask.NameToLayer("UI");
             SetSize(go, 120, 50);
 
             var bg = go.GetComponent<Image>();
@@ -505,6 +506,7 @@ namespace CozyYard.Editor
         private static BuildEntry CreateBuildEntryPrefab()
         {
             var go = new GameObject("BuildEntry", typeof(RectTransform), typeof(Image));
+            go.layer = LayerMask.NameToLayer("UI");
             SetSize(go, 0, 56);
 
             var bg = go.GetComponent<Image>();
@@ -531,6 +533,7 @@ namespace CozyYard.Editor
         private static CraftEntry CreateCraftEntryPrefab()
         {
             var go = new GameObject("CraftEntry", typeof(RectTransform), typeof(Image));
+            go.layer = LayerMask.NameToLayer("UI");
             SetSize(go, 0, 80);
 
             var bg = go.GetComponent<Image>();
@@ -557,6 +560,7 @@ namespace CozyYard.Editor
         private static VisitorEntry CreateVisitorEntryPrefab()
         {
             var go = new GameObject("VisitorEntry", typeof(RectTransform), typeof(Image));
+            go.layer = LayerMask.NameToLayer("UI");
             SetSize(go, 0, 90);
 
             var bg = go.GetComponent<Image>();
@@ -585,6 +589,7 @@ namespace CozyYard.Editor
         private static MilestoneEntry CreateMilestoneEntryPrefab()
         {
             var go = new GameObject("MilestoneEntry", typeof(RectTransform), typeof(Image));
+            go.layer = LayerMask.NameToLayer("UI");
             SetSize(go, 0, 72);
 
             var bg = go.GetComponent<Image>();
@@ -607,6 +612,7 @@ namespace CozyYard.Editor
         private static RecipeBookEntry CreateRecipeBookEntryPrefab()
         {
             var go = new GameObject("RecipeBookEntry", typeof(RectTransform), typeof(Image));
+            go.layer = LayerMask.NameToLayer("UI");
             SetSize(go, 0, 72);
 
             var bg = go.GetComponent<Image>();
@@ -629,6 +635,7 @@ namespace CozyYard.Editor
         private static PhoneItemEntry CreatePhoneItemEntryPrefab()
         {
             var go = new GameObject("PhoneItemEntry", typeof(RectTransform), typeof(Image));
+            go.layer = LayerMask.NameToLayer("UI");
             SetSize(go, 0, 44);
 
             var bg = go.GetComponent<Image>();
@@ -678,6 +685,7 @@ namespace CozyYard.Editor
         private static GameObject CreatePanelRoot(string name, Vector2 size)
         {
             var go = new GameObject(name, typeof(RectTransform), typeof(CanvasGroup));
+            go.layer = LayerMask.NameToLayer("UI");
             var rt = go.GetComponent<RectTransform>();
             rt.sizeDelta = size;
             rt.anchorMin = new Vector2(0.5f, 0.5f);
@@ -705,6 +713,7 @@ namespace CozyYard.Editor
         private static GameObject AddChild(GameObject parent, string name)
         {
             var go = new GameObject(name, typeof(RectTransform));
+            go.layer = parent.layer;
             go.transform.SetParent(parent.transform, false);
             return go;
         }
@@ -761,6 +770,7 @@ namespace CozyYard.Editor
             int fontSize = 22, string locKey = null)
         {
             var go = new GameObject(name, typeof(RectTransform), typeof(Image), typeof(UISmartButton));
+            go.layer = parent.layer;
             go.transform.SetParent(parent.transform, false);
             go.GetComponent<RectTransform>().sizeDelta = size;
 
@@ -783,6 +793,7 @@ namespace CozyYard.Editor
             int fontSize = 22, string locKey = null)
         {
             var go = new GameObject(name, typeof(RectTransform), typeof(Image), typeof(UISmartButton), typeof(UISmartButtonGray));
+            go.layer = parent.layer;
             go.transform.SetParent(parent.transform, false);
             go.GetComponent<RectTransform>().sizeDelta = size;
 
@@ -805,6 +816,7 @@ namespace CozyYard.Editor
             int fontSize = 22, string locKey = null)
         {
             var go = new GameObject(name, typeof(RectTransform), typeof(Image), typeof(Button));
+            go.layer = parent.layer;
             go.transform.SetParent(parent.transform, false);
             go.GetComponent<RectTransform>().sizeDelta = size;
 

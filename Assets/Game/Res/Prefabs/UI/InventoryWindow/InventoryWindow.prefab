@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6415431262692946733}
   - component: {fileID: 8929208714017391675}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ScrollArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 4453129079433474748}
   - component: {fileID: 2993011946504609398}
   - component: {fileID: 7032512142599763083}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,7 +225,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5226900073248087386}
   - component: {fileID: 8858895133009575087}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Viewport
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -278,7 +278,7 @@ GameObject:
   - component: {fileID: 8369997941761632172}
   - component: {fileID: 5797691303309547784}
   - component: {fileID: 3376502323169736104}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -425,7 +425,7 @@ GameObject:
   - component: {fileID: 7906353273427418802}
   - component: {fileID: 6037543711037304930}
   - component: {fileID: 8199465894957354124}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: InventoryWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -495,7 +495,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6593928785906416035}
   - component: {fileID: 8591633744138583643}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: StatusBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -560,7 +560,7 @@ GameObject:
   - component: {fileID: 3466878272582693838}
   - component: {fileID: 8287569417975484246}
   - component: {fileID: 4575901918278208369}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CoinsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -694,7 +694,7 @@ GameObject:
   - component: {fileID: 1938132984362089433}
   - component: {fileID: 478007390129916787}
   - component: {fileID: 7452252433144760157}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: ItemsContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -769,7 +769,7 @@ GameObject:
   - component: {fileID: 5098745099972595266}
   - component: {fileID: 461110889420214478}
   - component: {fileID: 8713976608433852815}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CapacityText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -903,7 +903,7 @@ GameObject:
   - component: {fileID: 3772440025040139612}
   - component: {fileID: 1339727515188389419}
   - component: {fileID: 5265347956276611898}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Bg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -979,7 +979,7 @@ GameObject:
   - component: {fileID: 5745049959699151996}
   - component: {fileID: 3195346033827448437}
   - component: {fileID: 6575250378243842790}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: CloseBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}

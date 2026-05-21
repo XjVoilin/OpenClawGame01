@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace CozyYard
 {
-    public class WeatherHUDView : GameUIView
+    public class WeatherHUD : GameUIView
     {
         [SerializeField] private TextMeshProUGUI _weatherText;
         [SerializeField] private TextMeshProUGUI _weatherIcon;
