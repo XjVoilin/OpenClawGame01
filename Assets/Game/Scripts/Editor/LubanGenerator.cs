@@ -307,9 +307,9 @@ namespace CozyYard.Editor
 
         private static bool GenerateModule(string module)
         {
-            var jsonOut = $"Assets/Game/Res/Configs/{module}";
-            var codeOut = $"Assets/Game/Scripts/Generated/Configs/{module}";
-            var topModule = $"cfg.{module}";
+            const string jsonOut = "Assets/Game/Res/Configs";
+            const string codeOut = "Assets/Game/Scripts/Generated/Configs";
+            const string topModule = "cfg";
             var dataDir = $"{DatasDir}/{module}";
 
             var schemaFiles = BuildSchemaFilesModular(module);

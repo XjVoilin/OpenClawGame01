@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using cfg;
-using JulyArch;
 using JulyCore;
 using TMPro;
 using UnityEngine;
@@ -10,12 +9,12 @@ namespace CozyYard
     public class InventoryWindow : GameUIView
     {
         [SerializeField] private Transform _itemsContainer;
-        [SerializeField] private GameObject _itemSlotPrefab;
+        [SerializeField] private InventorySlotEntry _itemSlotPrefab;
         [SerializeField] private TextMeshProUGUI _capacityText;
         [SerializeField] private TextMeshProUGUI _coinsText;
         [SerializeField] private UISmartButton _closeBtn;
 
-        private readonly List<GameObject> _slotInstances = new();
+        private readonly List<InventorySlotEntry> _slotInstances = new();
 
         protected override void OnViewEnable()
         {
@@ -45,29 +44,23 @@ namespace CozyYard
             {
                 if (_itemSlotPrefab == null || _itemsContainer == null) break;
 
-                var go = Object.Instantiate(_itemSlotPrefab, _itemsContainer);
-                go.SetActive(true);
+                var slot = Object.Instantiate(_itemSlotPrefab, _itemsContainer);
+                slot.gameObject.SetActive(true);
 
-                var nameText = go.GetComponentInChildren<TextMeshProUGUI>();
-                var itemName = GF.Config.GetTable<TbItem>()?.GetOrDefault(stack.ItemId)?.Name ?? $"#{stack.ItemId}";
-                if (nameText) nameText.text = $"{itemName} ×{stack.Quantity}";
+                var nameKey = GF.Config.GetTable<TbItem>()?.GetOrDefault(stack.ItemId)?.NameKey ?? $"#{stack.ItemId}";
+                slot.Setup($"{GF.Localization.Get(nameKey)} ×{stack.Quantity}");
 
-                _slotInstances.Add(go);
+                _slotInstances.Add(slot);
             }
         }
 
         private void ClearSlots()
         {
-            foreach (var go in _slotInstances)
-            {
-                Object.Destroy(go);
-            }
+            foreach (var slot in _slotInstances)
+                Object.Destroy(slot.gameObject);
             _slotInstances.Clear();
         }
 
-        private void OnClose()
-        {
-            CloseWindow();
-        }
+        private void OnClose() => CloseWindow();
     }
 }

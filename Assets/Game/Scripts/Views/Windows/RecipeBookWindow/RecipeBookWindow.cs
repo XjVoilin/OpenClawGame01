@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using cfg;
 using JulyCore;
-using TMPro;
 using UnityEngine;
 
 namespace CozyYard
@@ -9,10 +8,10 @@ namespace CozyYard
     public class RecipeBookWindow : GameUIView
     {
         [SerializeField] private Transform _listContainer;
-        [SerializeField] private GameObject _entryPrefab;
+        [SerializeField] private RecipeBookEntry _entryPrefab;
         [SerializeField] private UISmartButton _closeBtn;
 
-        private readonly List<GameObject> _entries = new();
+        private readonly List<RecipeBookEntry> _entries = new();
 
         protected override void OnViewEnable()
         {
@@ -38,25 +37,21 @@ namespace CozyYard
 
             foreach (int recipeId in craftStore.UnlockedRecipeIds)
             {
-                var go = Object.Instantiate(_entryPrefab, _listContainer);
-                go.SetActive(true);
+                var entry = Object.Instantiate(_entryPrefab, _listContainer);
+                entry.gameObject.SetActive(true);
 
-                var text = go.GetComponentInChildren<TextMeshProUGUI>();
-                if (text)
-                {
-                    var recipe = GF.Config.GetTable<TbRecipe>()?.GetOrDefault(recipeId);
-                    string name = recipe?.Name ?? $"#{recipeId}";
-                    text.text = $"{name}";
-                }
+                var recipe = GF.Config.GetTable<TbRecipe>()?.GetOrDefault(recipeId);
+                string nameKey = recipe?.NameKey ?? $"#{recipeId}";
+                entry.Setup(GF.Localization.Get(nameKey));
 
-                _entries.Add(go);
+                _entries.Add(entry);
             }
         }
 
         private void ClearEntries()
         {
-            foreach (var go in _entries)
-                Object.Destroy(go);
+            foreach (var entry in _entries)
+                Object.Destroy(entry.gameObject);
             _entries.Clear();
         }
 

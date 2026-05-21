@@ -61,7 +61,7 @@ namespace CozyYard
         private void RefreshGate()
         {
             var q = this.GetStore<VisitorStore>();
-            if (_gateText) _gateText.text = q.IsGateOpen ? "大门: 开" : "大门: 关";
+            if (_gateText) _gateText.text = q.IsGateOpen ? GF.Localization.Get("gate_open") : GF.Localization.Get("gate_close");
         }
 
         private void RefreshVisitorBadge()

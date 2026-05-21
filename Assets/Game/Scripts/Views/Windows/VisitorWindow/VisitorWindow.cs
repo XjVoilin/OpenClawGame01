@@ -9,12 +9,12 @@ namespace CozyYard
     public class VisitorWindow : GameUIView
     {
         [SerializeField] private Transform _listContainer;
-        [SerializeField] private GameObject _entryPrefab;
+        [SerializeField] private VisitorEntry _entryPrefab;
         [SerializeField] private UISmartButton _gateToggleBtn;
         [SerializeField] private TextMeshProUGUI _gateText;
         [SerializeField] private UISmartButton _closeBtn;
 
-        private readonly List<GameObject> _entries = new();
+        private readonly List<VisitorEntry> _entries = new();
 
         protected override void OnViewEnable()
         {
@@ -49,50 +49,40 @@ namespace CozyYard
 
             foreach (var order in visitorStore.TodayOrders)
             {
-                var go = Object.Instantiate(_entryPrefab, _listContainer);
-                go.SetActive(true);
+                var entry = Object.Instantiate(_entryPrefab, _listContainer);
+                entry.gameObject.SetActive(true);
 
-                string visitorName = GF.Config.GetTable<TbVisitor>()?.GetOrDefault(order.VisitorId)?.Name ?? $"#{order.VisitorId}";
-                string itemName = GF.Config.GetTable<TbItem>()?.GetOrDefault(order.RequestedItemId)?.Name ?? $"#{order.RequestedItemId}";
+                string visitorNameKey = GF.Config.GetTable<TbVisitor>()?.GetOrDefault(order.VisitorId)?.NameKey ?? $"#{order.VisitorId}";
+                string itemNameKey = GF.Config.GetTable<TbItem>()?.GetOrDefault(order.RequestedItemId)?.NameKey ?? $"#{order.RequestedItemId}";
                 string reward = FormatReward(order);
 
-                var texts = go.GetComponentsInChildren<TextMeshProUGUI>();
-                if (texts.Length > 0)
-                {
-                    texts[0].text = $"{visitorName}\n需要: {itemName}×{order.RequestedQuantity}\n奖励: {reward}";
-                }
+                string info = $"{GF.Localization.Get(visitorNameKey)}\n{GF.Localization.Get("need")} {GF.Localization.Get(itemNameKey)}×{order.RequestedQuantity}\n{GF.Localization.Get("reward")} {reward}";
 
-                var buttons = go.GetComponentsInChildren<UISmartButton>();
-                if (buttons.Length >= 2)
-                {
-                    var orderCopy = order;
-                    buttons[0].onClick.AddListener(() => visitorSystem.FulfillOrder(orderCopy));
-                    buttons[1].onClick.AddListener(() => visitorSystem.DismissVisitor(orderCopy));
-                }
-                else if (buttons.Length == 1)
-                {
-                    var orderCopy = order;
-                    buttons[0].onClick.AddListener(() => visitorSystem.FulfillOrder(orderCopy));
-                }
+                var orderCopy = order;
+                entry.Setup(
+                    info,
+                    () => visitorSystem.FulfillOrder(orderCopy),
+                    () => visitorSystem.DismissVisitor(orderCopy)
+                );
 
-                _entries.Add(go);
+                _entries.Add(entry);
             }
         }
 
         private static string FormatReward(ActiveOrder order)
         {
             var parts = new List<string>();
-            if (order.RewardCoins > 0) parts.Add($"{order.RewardCoins} 金币");
+            if (order.RewardCoins > 0) parts.Add($"{order.RewardCoins} {GF.Localization.Get("coins")}");
             if (order.RewardItemId > 0 && order.RewardItemQty > 0)
             {
-                var config =  GF.Config.GetTable<TbItem>()?.GetOrDefault(order.RewardItemId);
+                var config = GF.Config.GetTable<TbItem>()?.GetOrDefault(order.RewardItemId);
                 if (config != null)
                 {
-                    parts.Add($"{config.Name}×{order.RewardItemQty}");
+                    parts.Add($"{GF.Localization.Get(config.NameKey)}×{order.RewardItemQty}");
                 }
             }
 
-            return parts.Count > 0 ? string.Join(", ", parts) : "无";
+            return parts.Count > 0 ? string.Join(", ", parts) : GF.Localization.Get("none");
         }
 
         private void OnGateToggle()
@@ -104,16 +94,15 @@ namespace CozyYard
         private void RefreshGate()
         {
             var q = GetStore<VisitorStore>();
-            if (_gateText) _gateText.text = q.IsGateOpen ? "大门: 开" : "大门: 关";
+            if (_gateText) _gateText.text = q.IsGateOpen ? GF.Localization.Get("gate_open") : GF.Localization.Get("gate_close");
         }
 
         private void ClearEntries()
         {
-            foreach (var go in _entries)
+            foreach (var entry in _entries)
             {
-                foreach (var btn in go.GetComponentsInChildren<UISmartButton>())
-                    btn.onClick.RemoveAllListeners();
-                Object.Destroy(go);
+                entry.Cleanup();
+                Object.Destroy(entry.gameObject);
             }
             _entries.Clear();
         }

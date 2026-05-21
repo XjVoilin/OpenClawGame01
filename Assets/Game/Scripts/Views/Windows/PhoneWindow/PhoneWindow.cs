@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using cfg;
-using JulyArch;
 using JulyCore;
 using TMPro;
 using UnityEngine;
@@ -15,11 +14,11 @@ namespace CozyYard
         [SerializeField] private TextMeshProUGUI _asksRemainingText;
         [SerializeField] private TextMeshProUGUI _resultText;
         [SerializeField] private Transform _itemsContainer;
-        [SerializeField] private GameObject _itemEntryPrefab;
-        [SerializeField] private UISmartButton _askBtn;
+        [SerializeField] private PhoneItemEntry _itemEntryPrefab;
+        [SerializeField] private UISmartButtonGray _askBtn;
         [SerializeField] private UISmartButton _closeBtn;
 
-        private readonly List<GameObject> _itemEntries = new();
+        private readonly List<PhoneItemEntry> _itemEntries = new();
         private int _selectedItemId;
 
         protected override void OnViewEnable()
@@ -39,18 +38,18 @@ namespace CozyYard
 
         private void OnRecipeUnlocked(RecipeUnlockedEvent e)
         {
-            var recipeName = GF.Config.GetTable<TbRecipe>()?.GetOrDefault(e.RecipeId)?.Name ?? $"#{e.RecipeId}";
-            if (_resultText) _resultText.text = $"妈妈教了你新配方! ({recipeName})";
+            var nameKey = GF.Config.GetTable<TbRecipe>()?.GetOrDefault(e.RecipeId)?.NameKey ?? $"#{e.RecipeId}";
+            if (_resultText) _resultText.text = string.Format(GF.Localization.Get("mom_new_recipe"), GF.Localization.Get(nameKey));
             Refresh();
         }
 
         private void Refresh()
         {
-            if (_hintText) _hintText.text = "告诉妈妈你有什么材料，她可能知道配方";
+            if (_hintText) _hintText.text = GF.Localization.Get("mom_hint");
 
             var craftQueries = GetStore<CraftStore>();
             int remaining = MomAskLimit - craftQueries.MomAsksToday;
-            if (_asksRemainingText) _asksRemainingText.text = $"今日剩余询问: {remaining}/{MomAskLimit}";
+            if (_asksRemainingText) _asksRemainingText.text = string.Format(GF.Localization.Get("asks_remaining"), remaining, MomAskLimit);
 
             if (_askBtn) _askBtn.SetInteractable(remaining > 0 && _selectedItemId > 0);
 
@@ -67,29 +66,25 @@ namespace CozyYard
 
             foreach (var stack in inventoryQueries.Items)
             {
-                var go = Instantiate(_itemEntryPrefab, _itemsContainer);
-                go.SetActive(true);
+                var entry = Object.Instantiate(_itemEntryPrefab, _itemsContainer);
+                entry.gameObject.SetActive(true);
 
-                var text = go.GetComponentInChildren<TextMeshProUGUI>();
-                var itemName = GF.Config.GetTable<TbItem>()?.GetOrDefault(stack.ItemId)?.Name ?? $"#{stack.ItemId}";
-                if (text) text.text = $"{itemName} ×{stack.Quantity}";
+                var nameKey = GF.Config.GetTable<TbItem>()?.GetOrDefault(stack.ItemId)?.NameKey ?? $"#{stack.ItemId}";
+                int itemId = stack.ItemId;
+                entry.Setup(
+                    $"{GF.Localization.Get(nameKey)} ×{stack.Quantity}",
+                    () => OnSelectItem(itemId)
+                );
 
-                var btn = go.GetComponentInChildren<UISmartButton>();
-                if (btn)
-                {
-                    int itemId = stack.ItemId;
-                    btn.onClick.AddListener(() => OnSelectItem(itemId));
-                }
-
-                _itemEntries.Add(go);
+                _itemEntries.Add(entry);
             }
         }
 
         private void OnSelectItem(int itemId)
         {
             _selectedItemId = itemId;
-            var selectedName = GF.Config.GetTable<TbItem>()?.GetOrDefault(itemId)?.Name ?? $"#{itemId}";
-            if (_resultText) _resultText.text = $"已选择: {selectedName}";
+            var nameKey = GF.Config.GetTable<TbItem>()?.GetOrDefault(itemId)?.NameKey ?? $"#{itemId}";
+            if (_resultText) _resultText.text = string.Format(GF.Localization.Get("selected"), GF.Localization.Get(nameKey));
             RefreshAskButton();
         }
 
@@ -108,18 +103,17 @@ namespace CozyYard
             bool success = craftSystem.AskMom(_selectedItemId);
 
             if (!success && _resultText)
-                _resultText.text = "妈妈也不知道这个能做什么…";
+                _resultText.text = GF.Localization.Get("mom_unknown");
 
             Refresh();
         }
 
         private void ClearItemEntries()
         {
-            foreach (var go in _itemEntries)
+            foreach (var entry in _itemEntries)
             {
-                var btn = go.GetComponentInChildren<UISmartButton>();
-                if (btn) btn.onClick.RemoveAllListeners();
-                Object.Destroy(go);
+                entry.Cleanup();
+                Object.Destroy(entry.gameObject);
             }
             _itemEntries.Clear();
         }

@@ -26,7 +26,7 @@ namespace CozyYard.Aot
             ctx.RegisterModule<SaveModule>();
             ctx.RegisterModule<ConfigModule>();
 
-            var gameContext = new GameContext();
+            var gameContext = new ArchContext();
             AppArch.Context = gameContext;
 
             var registrar = FindRegistrar();

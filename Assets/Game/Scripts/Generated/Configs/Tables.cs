@@ -82,6 +82,10 @@ public partial class Tables
     /// 天气配置表
     /// </summary>
     public TbWeather TbWeather {get; }
+    /// <summary>
+    /// 初始资源表
+    /// </summary>
+    public TbStartingResource TbStartingResource {get; }
 
     public Tables(System.Func<string, JSONNode> loader)
     {
@@ -102,6 +106,7 @@ public partial class Tables
         TbUIWindow = new TbUIWindow(loader("tbuiwindow"));
         TbLanguage = new TbLanguage(loader("tblanguage"));
         TbWeather = new TbWeather(loader("tbweather"));
+        TbStartingResource = new TbStartingResource(loader("tbstartingresource"));
         ResolveRef();
     }
     
@@ -124,6 +129,7 @@ public partial class Tables
         TbUIWindow.ResolveRef(this);
         TbLanguage.ResolveRef(this);
         TbWeather.ResolveRef(this);
+        TbStartingResource.ResolveRef(this);
     }
 }
 

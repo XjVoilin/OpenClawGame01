@@ -12,7 +12,7 @@ namespace CozyYard
     /// </summary>
     public abstract class GameUIView : UIBase, ICanGetStore, ICanEvent, ICanGetSystem
     {
-        public IGameContext GetArchitecture() => AppArch.Context;
+        public IArchContext GetArchitecture() => AppArch.Context;
 
         protected override void OnBeforeOpen()
         {

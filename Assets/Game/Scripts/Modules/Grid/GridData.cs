@@ -17,8 +17,8 @@ namespace CozyYard
     [Serializable]
     public class GridData : ISaveData
     {
-        public int Width = 12;
-        public int Height = 12;
+        public int Width;
+        public int Height;
         public List<GridCellData> Cells = new();
 
         public SaveImportance Importance => SaveImportance.Normal;

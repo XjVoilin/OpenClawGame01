@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using cfg;
 using JulyCore;
-using TMPro;
 using UnityEngine;
 
 namespace CozyYard
@@ -9,10 +8,10 @@ namespace CozyYard
     public class CraftWindow : GameUIView
     {
         [SerializeField] private Transform _listContainer;
-        [SerializeField] private GameObject _entryPrefab;
+        [SerializeField] private CraftEntry _entryPrefab;
         [SerializeField] private UISmartButton _closeBtn;
 
-        private readonly List<GameObject> _entries = new();
+        private readonly List<CraftEntry> _entries = new();
 
         protected override void OnViewEnable()
         {
@@ -41,27 +40,21 @@ namespace CozyYard
 
             foreach (int recipeId in craftStore.UnlockedRecipeIds)
             {
-                var go = Object.Instantiate(_entryPrefab, _listContainer);
-                go.SetActive(true);
+                var entry = Object.Instantiate(_entryPrefab, _listContainer);
+                entry.gameObject.SetActive(true);
 
-                var texts = go.GetComponentsInChildren<TextMeshProUGUI>();
-                if (texts.Length > 0)
-                {
-                    var recipe = GF.Config.GetTable<TbRecipe>()?.GetOrDefault(recipeId);
-                    string name = recipe?.Name ?? $"#{recipeId}";
-                    texts[0].text = $"{name}";
-                }
+                var recipe = GF.Config.GetTable<TbRecipe>()?.GetOrDefault(recipeId);
+                string nameKey = recipe?.NameKey ?? $"#{recipeId}";
+                bool canCraft = craftSystem.CanCraft(recipeId);
+                int id = recipeId;
 
-                var craftBtn = go.GetComponentInChildren<UISmartButton>();
-                if (craftBtn)
-                {
-                    bool canCraft = craftSystem.CanCraft(recipeId);
-                    craftBtn.SetInteractable(canCraft);
-                    int id = recipeId;
-                    craftBtn.onClick.AddListener(() => OnCraft(craftSystem, id));
-                }
+                entry.Setup(
+                    GF.Localization.Get(nameKey),
+                    canCraft,
+                    () => OnCraft(craftSystem, id)
+                );
 
-                _entries.Add(go);
+                _entries.Add(entry);
             }
         }
 
@@ -73,11 +66,10 @@ namespace CozyYard
 
         private void ClearEntries()
         {
-            foreach (var go in _entries)
+            foreach (var entry in _entries)
             {
-                var btn = go.GetComponentInChildren<UISmartButton>();
-                if (btn) btn.onClick.RemoveAllListeners();
-                Object.Destroy(go);
+                entry.Cleanup();
+                Object.Destroy(entry.gameObject);
             }
             _entries.Clear();
         }

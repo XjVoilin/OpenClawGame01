@@ -14,12 +14,15 @@ namespace CozyYard.Editor
     public static class UIPrefabGenerator
     {
         private const string PrefabRoot = "Assets/Game/Res/Prefabs/UI";
+        private const string ArtPrefabRoot = "Assets/Game/Arts/Prefabs/UI";
         private static readonly Vector2 LandscapeSize = new(1920, 1080);
 
         [MenuItem("CozyYard/生成所有 UI 预制体", false, 200)]
         public static void GenerateAll()
         {
             GenerateGameHUD();
+            GenerateTimeHUD();
+            GenerateWeatherHUD();
             GenerateInventoryWindow();
             GenerateBuildWindow();
             GenerateCraftWindow();
@@ -40,7 +43,6 @@ namespace CozyYard.Editor
 
         private static void GenerateGameHUD()
         {
-            if (PrefabExists("GameHUD", "GameHUD")) return;
 
             var root = CreatePanelRoot("GameHUD", LandscapeSize);
             StretchToParent(root);
@@ -51,11 +53,11 @@ namespace CozyYard.Editor
                 new Vector2(-320, -90), new Vector2(-20, -20));
             AddVerticalLayout(topRight, 8, TextAnchor.UpperRight);
 
-            var gateText = AddText(topRight, "GateText", "大门: 开", 22);
+            var gateText = AddText(topRight, "GateText", "大门: 开", 22, "gate_open");
             SetSize(gateText.gameObject, 280, 36);
             gateText.alignment = TextAlignmentOptions.Right;
 
-            var gateToggleBtn = AddButton(topRight, "GateToggleBtn", "切换大门", new Vector2(160, 44), 20);
+            var gateToggleBtn = AddButton(topRight, "GateToggleBtn", "切换大门", new Vector2(160, 44), 20, "gate_toggle");
 
             // ── 来客角标（访客按钮上显示） ──
             var visitorBadgeText = AddText(root, "VisitorBadgeText", "1", 18);
@@ -69,13 +71,13 @@ namespace CozyYard.Editor
                 new Vector2(40, 20), new Vector2(-40, 100));
             AddHorizontalLayout(bottomBar, 20, TextAnchor.MiddleCenter);
 
-            var inventoryBtn = AddButton(bottomBar, "InventoryBtn", "背包", new Vector2(120, 56), 20);
-            var buildBtn = AddButton(bottomBar, "BuildBtn", "建造", new Vector2(120, 56), 20);
-            var craftBtn = AddButton(bottomBar, "CraftBtn", "制作", new Vector2(120, 56), 20);
-            var visitorBtn = AddButton(bottomBar, "VisitorBtn", "来客", new Vector2(120, 56), 20);
-            var milestoneBtn = AddButton(bottomBar, "MilestoneBtn", "里程碑", new Vector2(120, 56), 20);
-            var recipeBookBtn = AddButton(bottomBar, "RecipeBookBtn", "配方本", new Vector2(120, 56), 20);
-            var phoneBtn = AddButton(bottomBar, "PhoneBtn", "问妈", new Vector2(120, 56), 20);
+            var inventoryBtn = AddButton(bottomBar, "InventoryBtn", "背包", new Vector2(120, 56), 20, "btn_inventory");
+            var buildBtn = AddButton(bottomBar, "BuildBtn", "建造", new Vector2(120, 56), 20, "btn_build");
+            var craftBtn = AddButton(bottomBar, "CraftBtn", "制作", new Vector2(120, 56), 20, "btn_craft");
+            var visitorBtn = AddButton(bottomBar, "VisitorBtn", "来客", new Vector2(120, 56), 20, "btn_visitor");
+            var milestoneBtn = AddButton(bottomBar, "MilestoneBtn", "里程碑", new Vector2(120, 56), 20, "btn_milestone");
+            var recipeBookBtn = AddButton(bottomBar, "RecipeBookBtn", "配方本", new Vector2(120, 56), 20, "btn_recipe_book");
+            var phoneBtn = AddButton(bottomBar, "PhoneBtn", "问妈", new Vector2(120, 56), 20, "btn_phone");
 
             var hud = root.AddComponent<GameHUD>();
             Bind(hud, "_inventoryBtn", inventoryBtn);
@@ -93,17 +95,102 @@ namespace CozyYard.Editor
         }
 
         // ══════════════════════════════════════════════
+        //  TimeHUD — 时间信息显示 (常驻, 左上角)
+        // ══════════════════════════════════════════════
+
+        private static void GenerateTimeHUD()
+        {
+            var root = CreatePanelRoot("TimeHUD", LandscapeSize);
+            StretchToParent(root);
+
+            // ── 左上角容器 ──
+            var container = AddChild(root, "Container");
+            SetAnchors(container, new Vector2(0, 1), new Vector2(0, 1),
+                new Vector2(20, -160), new Vector2(320, -20));
+            AddVerticalLayout(container, 4, TextAnchor.UpperLeft);
+
+            var dayText = AddText(container, "DayText", "第 1 天", 22, "day_format");
+            SetSize(dayText.gameObject, 280, 32);
+            dayText.alignment = TextAlignmentOptions.Left;
+
+            var seasonText = AddText(container, "SeasonText", "春", 20, "season_spring");
+            SetSize(seasonText.gameObject, 280, 28);
+            seasonText.alignment = TextAlignmentOptions.Left;
+
+            var timeText = AddText(container, "TimeText", "06:00", 26);
+            SetSize(timeText.gameObject, 280, 34);
+            timeText.alignment = TextAlignmentOptions.Left;
+
+            var phaseText = AddText(container, "PhaseText", "清晨", 18, "phase_dawn");
+            SetSize(phaseText.gameObject, 280, 26);
+            phaseText.alignment = TextAlignmentOptions.Left;
+            phaseText.color = new Color(0.8f, 0.8f, 0.6f);
+
+            // ── 速度控制按钮 ──
+            var speedBar = AddChild(root, "SpeedBar");
+            SetAnchors(speedBar, new Vector2(0, 1), new Vector2(0, 1),
+                new Vector2(20, -210), new Vector2(320, -165));
+            AddHorizontalLayout(speedBar, 8, TextAnchor.MiddleLeft);
+
+            var speed1Btn = AddNativeButton(speedBar, "Speed1Btn", "×1", new Vector2(56, 36), 16);
+            var speed2Btn = AddNativeButton(speedBar, "Speed2Btn", "×2", new Vector2(56, 36), 16);
+            var speed3Btn = AddNativeButton(speedBar, "Speed3Btn", "×3", new Vector2(56, 36), 16);
+            var endDayBtn = AddNativeButton(speedBar, "EndDayBtn", "结束", new Vector2(72, 36), 16);
+
+            var hud = root.AddComponent<TimeHUDView>();
+            Bind(hud, "_dayText", dayText);
+            Bind(hud, "_seasonText", seasonText);
+            Bind(hud, "_timeText", timeText);
+            Bind(hud, "_phaseText", phaseText);
+            Bind(hud, "_speed1Btn", speed1Btn);
+            Bind(hud, "_speed2Btn", speed2Btn);
+            Bind(hud, "_speed3Btn", speed3Btn);
+            Bind(hud, "_endDayBtn", endDayBtn);
+
+            SavePrefab(root, "TimeHUD", "TimeHUD");
+        }
+
+        // ══════════════════════════════════════════════
+        //  WeatherHUD — 天气信息显示 (常驻, 左上偏右)
+        // ══════════════════════════════════════════════
+
+        private static void GenerateWeatherHUD()
+        {
+            var root = CreatePanelRoot("WeatherHUD", LandscapeSize);
+            StretchToParent(root);
+
+            // ── 天气显示区 (左上角, TimeHUD 下方) ──
+            var container = AddChild(root, "Container");
+            SetAnchors(container, new Vector2(0, 1), new Vector2(0, 1),
+                new Vector2(20, -260), new Vector2(250, -215));
+            AddHorizontalLayout(container, 8, TextAnchor.MiddleLeft);
+
+            var weatherIcon = AddText(container, "WeatherIcon", "☀", 28);
+            SetSize(weatherIcon.gameObject, 40, 40);
+            weatherIcon.alignment = TextAlignmentOptions.Center;
+
+            var weatherText = AddText(container, "WeatherText", "晴天", 20, "weather_sunny");
+            SetSize(weatherText.gameObject, 160, 36);
+            weatherText.alignment = TextAlignmentOptions.Left;
+
+            var hud = root.AddComponent<WeatherHUDView>();
+            Bind(hud, "_weatherText", weatherText);
+            Bind(hud, "_weatherIcon", weatherIcon);
+
+            SavePrefab(root, "WeatherHUD", "WeatherHUD");
+        }
+
+        // ══════════════════════════════════════════════
         //  InventoryWindow — 背包
         // ══════════════════════════════════════════════
 
         private static void GenerateInventoryWindow()
         {
-            if (PrefabExists("InventoryWindow", "InventoryWindow")) return;
 
             var root = CreatePanelRoot("InventoryWindow", new Vector2(600, 500));
             AddBg(root);
 
-            var title = AddText(root, "Title", "背  包", 28);
+            var title = AddText(root, "Title", "背  包", 28, "title_inventory");
             SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
                 new Vector2(0, -50), new Vector2(0, -8));
 
@@ -132,9 +219,9 @@ namespace CozyYard.Editor
             grid.constraintCount = 4;
             grid.childAlignment = TextAnchor.UpperLeft;
 
-            var itemSlotPrefab = CreateItemSlot(itemsContainerGo);
+            var itemSlotPrefab = CreateItemSlotPrefab();
 
-            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20);
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20, "btn_close");
             SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
                 new Vector2(-70, 12), new Vector2(70, 56));
 
@@ -154,12 +241,11 @@ namespace CozyYard.Editor
 
         private static void GenerateBuildWindow()
         {
-            if (PrefabExists("BuildWindow", "BuildWindow")) return;
 
             var root = CreatePanelRoot("BuildWindow", new Vector2(500, 600));
             AddBg(root);
 
-            var title = AddText(root, "Title", "建  造", 28);
+            var title = AddText(root, "Title", "建  造", 28, "title_build");
             SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
                 new Vector2(0, -50), new Vector2(0, -8));
 
@@ -168,9 +254,9 @@ namespace CozyYard.Editor
                 new Vector2(16, 60), new Vector2(-16, -58));
             var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
 
-            var entryPrefab = CreateBuildEntry(listContainer.gameObject);
+            var entryPrefab = CreateBuildEntryPrefab();
 
-            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20);
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20, "btn_close");
             SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
                 new Vector2(-70, 12), new Vector2(70, 56));
 
@@ -188,12 +274,11 @@ namespace CozyYard.Editor
 
         private static void GenerateCraftWindow()
         {
-            if (PrefabExists("CraftWindow", "CraftWindow")) return;
 
             var root = CreatePanelRoot("CraftWindow", new Vector2(560, 620));
             AddBg(root);
 
-            var title = AddText(root, "Title", "制  作", 28);
+            var title = AddText(root, "Title", "制  作", 28, "title_craft");
             SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
                 new Vector2(0, -50), new Vector2(0, -8));
 
@@ -202,9 +287,9 @@ namespace CozyYard.Editor
                 new Vector2(16, 60), new Vector2(-16, -58));
             var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
 
-            var entryPrefab = CreateCraftEntry(listContainer.gameObject);
+            var entryPrefab = CreateCraftEntryPrefab();
 
-            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20);
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20, "btn_close");
             SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
                 new Vector2(-70, 12), new Vector2(70, 56));
 
@@ -222,12 +307,11 @@ namespace CozyYard.Editor
 
         private static void GenerateVisitorWindow()
         {
-            if (PrefabExists("VisitorWindow", "VisitorWindow")) return;
 
             var root = CreatePanelRoot("VisitorWindow", new Vector2(640, 580));
             AddBg(root);
 
-            var title = AddText(root, "Title", "来  客", 28);
+            var title = AddText(root, "Title", "来  客", 28, "title_visitor");
             SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
                 new Vector2(0, -50), new Vector2(0, -8));
 
@@ -236,19 +320,19 @@ namespace CozyYard.Editor
                 new Vector2(20, -95), new Vector2(-20, -55));
             AddHorizontalLayout(gateRow, 16, TextAnchor.MiddleLeft);
 
-            var gateText = AddText(gateRow, "GateText", "大门: 开", 20);
+            var gateText = AddText(gateRow, "GateText", "大门: 开", 20, "gate_open");
             SetSize(gateText.gameObject, 180, 36);
             gateText.alignment = TextAlignmentOptions.Left;
-            var gateToggleBtn = AddButton(gateRow, "GateToggleBtn", "切换大门", new Vector2(140, 40), 18);
+            var gateToggleBtn = AddButton(gateRow, "GateToggleBtn", "切换大门", new Vector2(140, 40), 18, "gate_toggle");
 
             var scrollArea = AddChild(root, "ScrollArea");
             SetAnchors(scrollArea, new Vector2(0, 0), new Vector2(1, 1),
                 new Vector2(16, 60), new Vector2(-16, -100));
             var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
 
-            var entryPrefab = CreateVisitorEntry(listContainer.gameObject);
+            var entryPrefab = CreateVisitorEntryPrefab();
 
-            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20);
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20, "btn_close");
             SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
                 new Vector2(-70, 12), new Vector2(70, 56));
 
@@ -268,16 +352,15 @@ namespace CozyYard.Editor
 
         private static void GenerateMilestoneWindow()
         {
-            if (PrefabExists("MilestoneWindow", "MilestoneWindow")) return;
 
             var root = CreatePanelRoot("MilestoneWindow", new Vector2(560, 620));
             AddBg(root);
 
-            var title = AddText(root, "Title", "里程碑", 28);
+            var title = AddText(root, "Title", "里程碑", 28, "title_milestone");
             SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
                 new Vector2(0, -50), new Vector2(0, -8));
 
-            var expansionText = AddText(root, "ExpansionText", "扩建等级: 0", 20);
+            var expansionText = AddText(root, "ExpansionText", "扩建等级: 0", 20, "expansion_level");
             SetAnchors(expansionText.gameObject, new Vector2(0, 1), new Vector2(1, 1),
                 new Vector2(20, -95), new Vector2(-20, -58));
             expansionText.alignment = TextAlignmentOptions.Left;
@@ -287,9 +370,9 @@ namespace CozyYard.Editor
                 new Vector2(16, 60), new Vector2(-16, -100));
             var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
 
-            var entryPrefab = CreateMilestoneEntry(listContainer.gameObject);
+            var entryPrefab = CreateMilestoneEntryPrefab();
 
-            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20);
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20, "btn_close");
             SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
                 new Vector2(-70, 12), new Vector2(70, 56));
 
@@ -308,12 +391,11 @@ namespace CozyYard.Editor
 
         private static void GenerateRecipeBookWindow()
         {
-            if (PrefabExists("RecipeBookWindow", "RecipeBookWindow")) return;
 
             var root = CreatePanelRoot("RecipeBookWindow", new Vector2(560, 620));
             AddBg(root);
 
-            var title = AddText(root, "Title", "配方本", 28);
+            var title = AddText(root, "Title", "配方本", 28, "title_recipe_book");
             SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
                 new Vector2(0, -50), new Vector2(0, -8));
 
@@ -322,9 +404,9 @@ namespace CozyYard.Editor
                 new Vector2(16, 60), new Vector2(-16, -58));
             var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
 
-            var entryPrefab = CreateRecipeBookEntry(listContainer.gameObject);
+            var entryPrefab = CreateRecipeBookEntryPrefab();
 
-            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20);
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20, "btn_close");
             SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
                 new Vector2(-70, 12), new Vector2(70, 56));
 
@@ -342,16 +424,15 @@ namespace CozyYard.Editor
 
         private static void GeneratePhoneWindow()
         {
-            if (PrefabExists("PhoneWindow", "PhoneWindow")) return;
 
             var root = CreatePanelRoot("PhoneWindow", new Vector2(560, 620));
             AddBg(root);
 
-            var title = AddText(root, "Title", "问  妈", 28);
+            var title = AddText(root, "Title", "问  妈", 28, "title_phone");
             SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
                 new Vector2(0, -50), new Vector2(0, -8));
 
-            var hintText = AddText(root, "HintText", "告诉妈妈你有什么材料，她可能知道配方", 18);
+            var hintText = AddText(root, "HintText", "告诉妈妈你有什么材料，她可能知道配方", 18, "mom_hint");
             SetAnchors(hintText.gameObject, new Vector2(0, 1), new Vector2(1, 1),
                 new Vector2(20, -95), new Vector2(-20, -58));
             hintText.alignment = TextAlignmentOptions.Left;
@@ -367,7 +448,7 @@ namespace CozyYard.Editor
                 new Vector2(16, 120), new Vector2(-16, -140));
             var itemsContainer = CreateScrollContent(scrollArea, "ItemsContainer", out _);
 
-            var itemEntryPrefab = CreatePhoneItemEntry(itemsContainer.gameObject);
+            var itemEntryPrefab = CreatePhoneItemEntryPrefab();
 
             var resultText = AddText(root, "ResultText", "", 18);
             SetAnchors(resultText.gameObject, new Vector2(0, 0), new Vector2(1, 0),
@@ -380,8 +461,8 @@ namespace CozyYard.Editor
                 new Vector2(20, 12), new Vector2(-20, 60));
             AddHorizontalLayout(btnArea, 20, TextAnchor.MiddleCenter);
 
-            var askBtn = AddButton(btnArea, "AskBtn", "询问妈妈", new Vector2(160, 44), 20);
-            var closeBtn = AddButton(btnArea, "CloseBtn", "关  闭", new Vector2(140, 44), 20);
+            var askBtn = AddGrayButton(btnArea, "AskBtn", "询问妈妈", new Vector2(160, 44), 20, "ask_mom");
+            var closeBtn = AddButton(btnArea, "CloseBtn", "关  闭", new Vector2(140, 44), 20, "btn_close");
 
             var panel = root.AddComponent<PhoneWindow>();
             Bind(panel, "_hintText", hintText);
@@ -399,10 +480,9 @@ namespace CozyYard.Editor
         //  Entry Prefabs
         // ══════════════════════════════════════════════
 
-        private static GameObject CreateItemSlot(GameObject parent)
+        private static InventorySlotEntry CreateItemSlotPrefab()
         {
-            var go = new GameObject("ItemSlotPrefab", typeof(RectTransform), typeof(Image));
-            go.transform.SetParent(parent.transform, false);
+            var go = new GameObject("InventorySlotEntry", typeof(RectTransform), typeof(Image));
             SetSize(go, 120, 50);
 
             var bg = go.GetComponent<Image>();
@@ -415,14 +495,16 @@ namespace CozyYard.Editor
             text.color = Color.white;
             text.alignment = TextAlignmentOptions.Center;
 
+            var mono = go.AddComponent<InventorySlotEntry>();
+            Bind(mono, "_nameText", text);
+
             go.SetActive(false);
-            return go;
+            return SaveArtPrefab(go, "InventorySlotEntry").GetComponent<InventorySlotEntry>();
         }
 
-        private static GameObject CreateBuildEntry(GameObject parent)
+        private static BuildEntry CreateBuildEntryPrefab()
         {
-            var go = new GameObject("EntryPrefab", typeof(RectTransform), typeof(Image));
-            go.transform.SetParent(parent.transform, false);
+            var go = new GameObject("BuildEntry", typeof(RectTransform), typeof(Image));
             SetSize(go, 0, 56);
 
             var bg = go.GetComponent<Image>();
@@ -432,20 +514,23 @@ namespace CozyYard.Editor
             var hlg = go.GetComponent<HorizontalLayoutGroup>();
             hlg.padding = new RectOffset(12, 12, 6, 6);
 
-            var infoText = AddText(go, "InfoText", "茅草屋 (#1003×20)", 18);
+            var infoText = AddText(go, "InfoText", "", 18);
             infoText.alignment = TextAlignmentOptions.Left;
             SetSize(infoText.gameObject, 280, 44);
 
-            AddButton(go, "BuildBtn", "建造", new Vector2(90, 40), 18);
+            var buildBtn = AddGrayButton(go, "BuildBtn", "建造", new Vector2(90, 40), 18, "btn_build_action");
+
+            var mono = go.AddComponent<BuildEntry>();
+            Bind(mono, "_nameText", infoText);
+            Bind(mono, "_buildBtn", buildBtn);
 
             go.SetActive(false);
-            return go;
+            return SaveArtPrefab(go, "BuildEntry").GetComponent<BuildEntry>();
         }
 
-        private static GameObject CreateCraftEntry(GameObject parent)
+        private static CraftEntry CreateCraftEntryPrefab()
         {
-            var go = new GameObject("EntryPrefab", typeof(RectTransform), typeof(Image));
-            go.transform.SetParent(parent.transform, false);
+            var go = new GameObject("CraftEntry", typeof(RectTransform), typeof(Image));
             SetSize(go, 0, 80);
 
             var bg = go.GetComponent<Image>();
@@ -455,20 +540,23 @@ namespace CozyYard.Editor
             var hlg = go.GetComponent<HorizontalLayoutGroup>();
             hlg.padding = new RectOffset(12, 12, 6, 6);
 
-            var infoText = AddText(go, "InfoText", "桂花干\n材料: #3006×3\n产出: #4001×2", 16);
+            var infoText = AddText(go, "InfoText", "", 16);
             infoText.alignment = TextAlignmentOptions.Left;
             SetSize(infoText.gameObject, 340, 68);
 
-            AddButton(go, "CraftBtn", "制作", new Vector2(90, 40), 18);
+            var craftBtn = AddGrayButton(go, "CraftBtn", "制作", new Vector2(90, 40), 18, "btn_craft_action");
+
+            var mono = go.AddComponent<CraftEntry>();
+            Bind(mono, "_nameText", infoText);
+            Bind(mono, "_craftBtn", craftBtn);
 
             go.SetActive(false);
-            return go;
+            return SaveArtPrefab(go, "CraftEntry").GetComponent<CraftEntry>();
         }
 
-        private static GameObject CreateVisitorEntry(GameObject parent)
+        private static VisitorEntry CreateVisitorEntryPrefab()
         {
-            var go = new GameObject("EntryPrefab", typeof(RectTransform), typeof(Image));
-            go.transform.SetParent(parent.transform, false);
+            var go = new GameObject("VisitorEntry", typeof(RectTransform), typeof(Image));
             SetSize(go, 0, 90);
 
             var bg = go.GetComponent<Image>();
@@ -478,21 +566,25 @@ namespace CozyYard.Editor
             var hlg = go.GetComponent<HorizontalLayoutGroup>();
             hlg.padding = new RectOffset(12, 12, 6, 6);
 
-            var infoText = AddText(go, "InfoText", "张阿婆\n需要: #5001×1\n奖励: 30 金币", 16);
+            var infoText = AddText(go, "InfoText", "", 16);
             infoText.alignment = TextAlignmentOptions.Left;
             SetSize(infoText.gameObject, 300, 78);
 
-            AddButton(go, "FulfillBtn", "交付", new Vector2(80, 40), 18);
-            AddButton(go, "DismissBtn", "送走", new Vector2(80, 40), 18);
+            var fulfillBtn = AddButton(go, "FulfillBtn", "交付", new Vector2(80, 40), 18, "deliver");
+            var dismissBtn = AddButton(go, "DismissBtn", "送走", new Vector2(80, 40), 18, "dismiss");
+
+            var mono = go.AddComponent<VisitorEntry>();
+            Bind(mono, "_infoText", infoText);
+            Bind(mono, "_fulfillBtn", fulfillBtn);
+            Bind(mono, "_dismissBtn", dismissBtn);
 
             go.SetActive(false);
-            return go;
+            return SaveArtPrefab(go, "VisitorEntry").GetComponent<VisitorEntry>();
         }
 
-        private static GameObject CreateMilestoneEntry(GameObject parent)
+        private static MilestoneEntry CreateMilestoneEntryPrefab()
         {
-            var go = new GameObject("EntryPrefab", typeof(RectTransform), typeof(Image));
-            go.transform.SetParent(parent.transform, false);
+            var go = new GameObject("MilestoneEntry", typeof(RectTransform), typeof(Image));
             SetSize(go, 0, 72);
 
             var bg = go.GetComponent<Image>();
@@ -500,19 +592,21 @@ namespace CozyYard.Editor
 
             var textGo = AddFullStretchChild(go, "Text", new RectOffset(12, 12, 6, 6));
             var text = textGo.AddComponent<TextMeshProUGUI>();
-            text.text = "初次播种\n播种第一株作物\n进度: 0/1";
+            text.text = "";
             text.fontSize = 16;
             text.color = Color.white;
             text.alignment = TextAlignmentOptions.Left;
 
+            var mono = go.AddComponent<MilestoneEntry>();
+            Bind(mono, "_infoText", text);
+
             go.SetActive(false);
-            return go;
+            return SaveArtPrefab(go, "MilestoneEntry").GetComponent<MilestoneEntry>();
         }
 
-        private static GameObject CreateRecipeBookEntry(GameObject parent)
+        private static RecipeBookEntry CreateRecipeBookEntryPrefab()
         {
-            var go = new GameObject("EntryPrefab", typeof(RectTransform), typeof(Image));
-            go.transform.SetParent(parent.transform, false);
+            var go = new GameObject("RecipeBookEntry", typeof(RectTransform), typeof(Image));
             SetSize(go, 0, 72);
 
             var bg = go.GetComponent<Image>();
@@ -520,19 +614,21 @@ namespace CozyYard.Editor
 
             var textGo = AddFullStretchChild(go, "Text", new RectOffset(12, 12, 6, 6));
             var text = textGo.AddComponent<TextMeshProUGUI>();
-            text.text = "桂花干\n材料: #3006×3\n产出: #4001×2";
+            text.text = "";
             text.fontSize = 16;
             text.color = Color.white;
             text.alignment = TextAlignmentOptions.Left;
 
+            var mono = go.AddComponent<RecipeBookEntry>();
+            Bind(mono, "_nameText", text);
+
             go.SetActive(false);
-            return go;
+            return SaveArtPrefab(go, "RecipeBookEntry").GetComponent<RecipeBookEntry>();
         }
 
-        private static GameObject CreatePhoneItemEntry(GameObject parent)
+        private static PhoneItemEntry CreatePhoneItemEntryPrefab()
         {
-            var go = new GameObject("ItemEntryPrefab", typeof(RectTransform), typeof(Image));
-            go.transform.SetParent(parent.transform, false);
+            var go = new GameObject("PhoneItemEntry", typeof(RectTransform), typeof(Image));
             SetSize(go, 0, 44);
 
             var bg = go.GetComponent<Image>();
@@ -542,14 +638,18 @@ namespace CozyYard.Editor
             var hlg = go.GetComponent<HorizontalLayoutGroup>();
             hlg.padding = new RectOffset(10, 10, 4, 4);
 
-            var infoText = AddText(go, "InfoText", "#1001 ×5", 16);
+            var infoText = AddText(go, "InfoText", "", 16);
             infoText.alignment = TextAlignmentOptions.Left;
             SetSize(infoText.gameObject, 320, 36);
 
-            go.AddComponent<UISmartButton>();
+            var selectBtn = go.AddComponent<UISmartButton>();
+
+            var mono = go.AddComponent<PhoneItemEntry>();
+            Bind(mono, "_nameText", infoText);
+            Bind(mono, "_selectBtn", selectBtn);
 
             go.SetActive(false);
-            return go;
+            return SaveArtPrefab(go, "PhoneItemEntry").GetComponent<PhoneItemEntry>();
         }
 
         // ══════════════════════════════════════════════
@@ -643,7 +743,8 @@ namespace CozyYard.Editor
             go.GetComponent<RectTransform>().sizeDelta = new Vector2(w, h);
         }
 
-        private static TextMeshProUGUI AddText(GameObject parent, string name, string text, int fontSize = 22)
+        private static TextMeshProUGUI AddText(GameObject parent, string name, string text, int fontSize = 22,
+            string locKey = null)
         {
             var go = AddChild(parent, name);
             var tmp = go.AddComponent<TextMeshProUGUI>();
@@ -651,10 +752,13 @@ namespace CozyYard.Editor
             tmp.fontSize = fontSize;
             tmp.color = Color.white;
             tmp.alignment = TextAlignmentOptions.Center;
+            if (!string.IsNullOrEmpty(locKey))
+                BindLocKey(go, locKey);
             return tmp;
         }
 
-        private static UISmartButton AddButton(GameObject parent, string name, string label, Vector2 size, int fontSize = 22)
+        private static UISmartButton AddButton(GameObject parent, string name, string label, Vector2 size,
+            int fontSize = 22, string locKey = null)
         {
             var go = new GameObject(name, typeof(RectTransform), typeof(Image), typeof(UISmartButton));
             go.transform.SetParent(parent.transform, false);
@@ -669,8 +773,71 @@ namespace CozyYard.Editor
             tmp.fontSize = fontSize;
             tmp.color = Color.white;
             tmp.alignment = TextAlignmentOptions.Center;
+            if (!string.IsNullOrEmpty(locKey))
+                BindLocKey(textGo, locKey);
 
             return go.GetComponent<UISmartButton>();
+        }
+
+        private static UISmartButtonGray AddGrayButton(GameObject parent, string name, string label, Vector2 size,
+            int fontSize = 22, string locKey = null)
+        {
+            var go = new GameObject(name, typeof(RectTransform), typeof(Image), typeof(UISmartButton), typeof(UISmartButtonGray));
+            go.transform.SetParent(parent.transform, false);
+            go.GetComponent<RectTransform>().sizeDelta = size;
+
+            var img = go.GetComponent<Image>();
+            img.color = new Color(0.22f, 0.22f, 0.28f);
+
+            var textGo = AddFullStretchChild(go, "Text");
+            var tmp = textGo.AddComponent<TextMeshProUGUI>();
+            tmp.text = label;
+            tmp.fontSize = fontSize;
+            tmp.color = Color.white;
+            tmp.alignment = TextAlignmentOptions.Center;
+            if (!string.IsNullOrEmpty(locKey))
+                BindLocKey(textGo, locKey);
+
+            return go.GetComponent<UISmartButtonGray>();
+        }
+
+        private static Button AddNativeButton(GameObject parent, string name, string label, Vector2 size,
+            int fontSize = 22, string locKey = null)
+        {
+            var go = new GameObject(name, typeof(RectTransform), typeof(Image), typeof(Button));
+            go.transform.SetParent(parent.transform, false);
+            go.GetComponent<RectTransform>().sizeDelta = size;
+
+            var img = go.GetComponent<Image>();
+            img.color = new Color(0.28f, 0.28f, 0.35f);
+
+            var textGo = AddFullStretchChild(go, "Text");
+            var tmp = textGo.AddComponent<TextMeshProUGUI>();
+            tmp.text = label;
+            tmp.fontSize = fontSize;
+            tmp.color = Color.white;
+            tmp.alignment = TextAlignmentOptions.Center;
+            if (!string.IsNullOrEmpty(locKey))
+                BindLocKey(textGo, locKey);
+
+            return go.GetComponent<Button>();
+        }
+
+        private static void BindLocKey(GameObject go, string key)
+        {
+            var loc = go.AddComponent<UILocalizedText>();
+            Bind(loc, "_key", key);
+        }
+
+        private static void Bind(Object target, string field, string value)
+        {
+            var so = new SerializedObject(target);
+            var prop = so.FindProperty(field);
+            if (prop != null)
+            {
+                prop.stringValue = value;
+                so.ApplyModifiedPropertiesWithoutUndo();
+            }
         }
 
         private static void AddHorizontalLayout(GameObject go, int spacing, TextAnchor align)
@@ -695,11 +862,6 @@ namespace CozyYard.Editor
             vlg.childForceExpandHeight = false;
         }
 
-        private static bool PrefabExists(string folder, string name)
-        {
-            return File.Exists($"{PrefabRoot}/{folder}/{name}.prefab");
-        }
-
         private static void SavePrefab(GameObject go, string folder, string name)
         {
             var dir = $"{PrefabRoot}/{folder}";
@@ -713,6 +875,21 @@ namespace CozyYard.Editor
             PrefabUtility.SaveAsPrefabAsset(go, path);
             Object.DestroyImmediate(go);
             Debug.Log($"[UIPrefabGenerator] -> {path}");
+        }
+
+        private static GameObject SaveArtPrefab(GameObject go, string name)
+        {
+            if (!Directory.Exists(ArtPrefabRoot))
+            {
+                Directory.CreateDirectory(ArtPrefabRoot);
+                AssetDatabase.Refresh();
+            }
+
+            var path = $"{ArtPrefabRoot}/{name}.prefab";
+            var saved = PrefabUtility.SaveAsPrefabAsset(go, path);
+            Object.DestroyImmediate(go);
+            Debug.Log($"[UIPrefabGenerator] (art) -> {path}");
+            return saved;
         }
 
         private static void Bind(Object target, string field, Object value)

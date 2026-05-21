@@ -9,6 +9,11 @@ using JulyCore.Provider.Save;
 using JulyCore.Provider.UI;
 using JulyCore.Provider.Audio;
 using JulyCore.Provider.Pool;
+using JulyGame.Activity;
+using JulyGame.Task;
+using JulyGame.RedDot;
+using JulyGame.Guide;
+using JulyGame.ABTest;
 #if JULYGF_DEBUG
 using JulyCore.Provider.GM;
 #endif
@@ -17,9 +22,9 @@ namespace CozyYard
 {
     public class HotUpdateRegistrar : IHotUpdateRegistrar, IAppArch
     {
-        public IGameContext GetArchitecture() => AppArch.Context;
+        public IArchContext GetArchitecture() => AppArch.Context;
 
-        public void Register(GameContext ctx)
+        public void Register(ArchContext ctx)
         {
             RegisterProviders();
             RegisterStores(ctx);
@@ -52,8 +57,16 @@ namespace CozyYard
         }
 #endif
 
-        private void RegisterStores(GameContext ctx)
+        private void RegisterStores(ArchContext ctx)
         {
+            // JulyGame 通用业务 Store
+            ctx.RegisterStore(new ActivityStore());
+            ctx.RegisterStore(new TaskStore());
+            ctx.RegisterStore(new RedDotStore());
+            ctx.RegisterStore(new GuideStore());
+            ctx.RegisterStore(new ABTestStore());
+
+            // 项目业务 Store
             ctx.RegisterStore(new GridStore());
             ctx.RegisterStore(new TimeStore());
             ctx.RegisterStore(new InventoryStore());
@@ -66,8 +79,16 @@ namespace CozyYard
             ctx.RegisterStore(new WeatherStore());
         }
 
-        private void RegisterSystems(GameContext ctx)
+        private void RegisterSystems(ArchContext ctx)
         {
+            // JulyGame 通用业务 System
+            ctx.RegisterSystem(new ActivitySystem());
+            ctx.RegisterSystem(new TaskSystem());
+            ctx.RegisterSystem(new RedDotSystem());
+            ctx.RegisterSystem(new GuideSystem());
+            ctx.RegisterSystem(new ABTestSystem());
+
+            // 项目业务 System
             ctx.RegisterSystem(new GridSystem());
             ctx.RegisterSystem(new TimeSystem());
             ctx.RegisterSystem(new WeatherSystem());
@@ -78,13 +99,13 @@ namespace CozyYard
             ctx.RegisterSystem(new CraftSystem());
             ctx.RegisterSystem(new VisitorSystem());
             ctx.RegisterSystem(new MilestoneSystem());
+            ctx.RegisterSystem(new SceneFlowSystem());
         }
 
         public async UniTask OnGameLaunch()
         {
             ConfigureUI();
             await GF.Scene.SwitchAsync("Main");
-            GF.UI.Open(UIWindowId.GameHUD);
         }
 
         private static void ConfigureUI()

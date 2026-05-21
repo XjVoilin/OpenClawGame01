@@ -1,19 +1,17 @@
-using JulyArch;
+using JulyCore;
 using TMPro;
 using UnityEngine;
 
 namespace CozyYard
 {
-    public class WeatherHUDView : GameView
+    public class WeatherHUDView : GameUIView
     {
         [SerializeField] private TextMeshProUGUI _weatherText;
         [SerializeField] private TextMeshProUGUI _weatherIcon;
 
-        public override IGameContext GetArchitecture() => AppArch.Context;
-
         protected override void OnViewEnable()
         {
-            this.Subscribe<WeatherChangedEvent>(OnWeatherChanged);
+            Subscribe<WeatherChangedEvent>(OnWeatherChanged);
             Refresh();
         }
 
@@ -21,18 +19,18 @@ namespace CozyYard
 
         private void Refresh()
         {
-            var weather = this.GetSystem<WeatherSystem>().GetCurrentWeather();
+            var weather = GetSystem<WeatherSystem>().GetCurrentWeather();
             if (_weatherText) _weatherText.text = GetWeatherName(weather);
             if (_weatherIcon) _weatherIcon.text = GetWeatherIcon(weather);
         }
 
         private static string GetWeatherName(WeatherType w) => w switch
         {
-            WeatherType.Sunny => "晴天",
-            WeatherType.Cloudy => "多云",
-            WeatherType.LightRain => "小雨",
-            WeatherType.HeavyRain => "大雨",
-            WeatherType.Windy => "大风",
+            WeatherType.Sunny => GF.Localization.Get("weather_sunny"),
+            WeatherType.Cloudy => GF.Localization.Get("weather_cloudy"),
+            WeatherType.LightRain => GF.Localization.Get("weather_light_rain"),
+            WeatherType.HeavyRain => GF.Localization.Get("weather_heavy_rain"),
+            WeatherType.Windy => GF.Localization.Get("weather_windy"),
             _ => "?"
         };
 

@@ -38,5 +38,597 @@
   {
     "key": "phase_night",
     "cn": "夜晚"
+  },
+  {
+    "key": "weather_sunny",
+    "cn": "晴天"
+  },
+  {
+    "key": "weather_cloudy",
+    "cn": "多云"
+  },
+  {
+    "key": "weather_light_rain",
+    "cn": "小雨"
+  },
+  {
+    "key": "weather_heavy_rain",
+    "cn": "大雨"
+  },
+  {
+    "key": "weather_windy",
+    "cn": "大风"
+  },
+  {
+    "key": "day_format",
+    "cn": "第 {0} 天"
+  },
+  {
+    "key": "gate_open",
+    "cn": "大门: 开"
+  },
+  {
+    "key": "gate_close",
+    "cn": "大门: 关"
+  },
+  {
+    "key": "gate_toggle",
+    "cn": "切换大门"
+  },
+  {
+    "key": "need",
+    "cn": "需要:"
+  },
+  {
+    "key": "reward",
+    "cn": "奖励:"
+  },
+  {
+    "key": "coins",
+    "cn": "金币"
+  },
+  {
+    "key": "none",
+    "cn": "无"
+  },
+  {
+    "key": "deliver",
+    "cn": "交付"
+  },
+  {
+    "key": "dismiss",
+    "cn": "送走"
+  },
+  {
+    "key": "mom_new_recipe",
+    "cn": "妈妈教了你新配方! ({0})"
+  },
+  {
+    "key": "mom_hint",
+    "cn": "告诉妈妈你有什么材料，她可能知道配方"
+  },
+  {
+    "key": "asks_remaining",
+    "cn": "今日剩余询问: {0}/{1}"
+  },
+  {
+    "key": "selected",
+    "cn": "已选择: {0}"
+  },
+  {
+    "key": "mom_unknown",
+    "cn": "妈妈也不知道这个能做什么…"
+  },
+  {
+    "key": "ask_mom",
+    "cn": "询问妈妈"
+  },
+  {
+    "key": "expansion_level",
+    "cn": "扩建等级: {0}"
+  },
+  {
+    "key": "completed",
+    "cn": "已完成"
+  },
+  {
+    "key": "progress",
+    "cn": "进度: {0}"
+  },
+  {
+    "key": "title_inventory",
+    "cn": "背  包"
+  },
+  {
+    "key": "title_build",
+    "cn": "建  造"
+  },
+  {
+    "key": "title_craft",
+    "cn": "制  作"
+  },
+  {
+    "key": "title_visitor",
+    "cn": "来  客"
+  },
+  {
+    "key": "title_milestone",
+    "cn": "里程碑"
+  },
+  {
+    "key": "title_recipe_book",
+    "cn": "配方本"
+  },
+  {
+    "key": "title_phone",
+    "cn": "问  妈"
+  },
+  {
+    "key": "btn_inventory",
+    "cn": "背包"
+  },
+  {
+    "key": "btn_build",
+    "cn": "建造"
+  },
+  {
+    "key": "btn_craft",
+    "cn": "制作"
+  },
+  {
+    "key": "btn_visitor",
+    "cn": "来客"
+  },
+  {
+    "key": "btn_milestone",
+    "cn": "里程碑"
+  },
+  {
+    "key": "btn_recipe_book",
+    "cn": "配方本"
+  },
+  {
+    "key": "btn_phone",
+    "cn": "问妈"
+  },
+  {
+    "key": "btn_close",
+    "cn": "关  闭"
+  },
+  {
+    "key": "btn_build_action",
+    "cn": "建造"
+  },
+  {
+    "key": "btn_craft_action",
+    "cn": "制作"
+  },
+  {
+    "key": "obstacle_1",
+    "cn": "杂草"
+  },
+  {
+    "key": "obstacle_2",
+    "cn": "石头"
+  },
+  {
+    "key": "obstacle_3",
+    "cn": "树桩"
+  },
+  {
+    "key": "item_1001",
+    "cn": "杂草纤维"
+  },
+  {
+    "key": "item_1001_desc",
+    "cn": "清除杂草获得"
+  },
+  {
+    "key": "item_1002",
+    "cn": "石头"
+  },
+  {
+    "key": "item_1002_desc",
+    "cn": "清除石块获得"
+  },
+  {
+    "key": "item_1003",
+    "cn": "木材"
+  },
+  {
+    "key": "item_1003_desc",
+    "cn": "清除树桩获得"
+  },
+  {
+    "key": "item_2001",
+    "cn": "白菜种子"
+  },
+  {
+    "key": "item_2001_desc",
+    "cn": "种植白菜"
+  },
+  {
+    "key": "item_2002",
+    "cn": "萝卜种子"
+  },
+  {
+    "key": "item_2002_desc",
+    "cn": "种植萝卜"
+  },
+  {
+    "key": "item_2003",
+    "cn": "糯米种子"
+  },
+  {
+    "key": "item_2003_desc",
+    "cn": "种植糯米"
+  },
+  {
+    "key": "item_2004",
+    "cn": "菊花种子"
+  },
+  {
+    "key": "item_2004_desc",
+    "cn": "种植菊花"
+  },
+  {
+    "key": "item_2005",
+    "cn": "辣椒种子"
+  },
+  {
+    "key": "item_2005_desc",
+    "cn": "种植辣椒"
+  },
+  {
+    "key": "item_3001",
+    "cn": "白菜"
+  },
+  {
+    "key": "item_3001_desc",
+    "cn": "新鲜白菜"
+  },
+  {
+    "key": "item_3002",
+    "cn": "萝卜"
+  },
+  {
+    "key": "item_3002_desc",
+    "cn": "新鲜萝卜"
+  },
+  {
+    "key": "item_3003",
+    "cn": "糯米"
+  },
+  {
+    "key": "item_3003_desc",
+    "cn": "饱满的糯米"
+  },
+  {
+    "key": "item_3004",
+    "cn": "菊花"
+  },
+  {
+    "key": "item_3004_desc",
+    "cn": "新鲜菊花"
+  },
+  {
+    "key": "item_3005",
+    "cn": "辣椒"
+  },
+  {
+    "key": "item_3005_desc",
+    "cn": "新鲜辣椒"
+  },
+  {
+    "key": "item_3101",
+    "cn": "鸡蛋"
+  },
+  {
+    "key": "item_3101_desc",
+    "cn": "新鲜鸡蛋"
+  },
+  {
+    "key": "item_3006",
+    "cn": "桂花"
+  },
+  {
+    "key": "item_3006_desc",
+    "cn": "秋天采集"
+  },
+  {
+    "key": "item_3007",
+    "cn": "柿子"
+  },
+  {
+    "key": "item_3007_desc",
+    "cn": "秋天采集"
+  },
+  {
+    "key": "item_4001",
+    "cn": "桂花干"
+  },
+  {
+    "key": "item_4001_desc",
+    "cn": "晾晒桂花制得"
+  },
+  {
+    "key": "item_4002",
+    "cn": "糯米粉"
+  },
+  {
+    "key": "item_4002_desc",
+    "cn": "石磨糯米制得"
+  },
+  {
+    "key": "item_4003",
+    "cn": "萝卜干"
+  },
+  {
+    "key": "item_4003_desc",
+    "cn": "晾晒萝卜制得"
+  },
+  {
+    "key": "item_4004",
+    "cn": "菊花干"
+  },
+  {
+    "key": "item_4004_desc",
+    "cn": "晾晒菊花制得"
+  },
+  {
+    "key": "item_5001",
+    "cn": "桂花糕"
+  },
+  {
+    "key": "item_5001_desc",
+    "cn": "香甜的桂花糕"
+  },
+  {
+    "key": "item_5002",
+    "cn": "辣炒蛋"
+  },
+  {
+    "key": "item_5002_desc",
+    "cn": "简单美味"
+  },
+  {
+    "key": "item_5003",
+    "cn": "清炒白菜"
+  },
+  {
+    "key": "item_5003_desc",
+    "cn": "清淡爽口"
+  },
+  {
+    "key": "item_5004",
+    "cn": "菊花茶"
+  },
+  {
+    "key": "item_5004_desc",
+    "cn": "清香提神"
+  },
+  {
+    "key": "item_5005",
+    "cn": "柿饼"
+  },
+  {
+    "key": "item_5005_desc",
+    "cn": "甜糯柿饼"
+  },
+  {
+    "key": "item_9001",
+    "cn": "黑暗料理"
+  },
+  {
+    "key": "item_9001_desc",
+    "cn": "实验失败的产物"
+  },
+  {
+    "key": "crop_1",
+    "cn": "白菜"
+  },
+  {
+    "key": "crop_2",
+    "cn": "萝卜"
+  },
+  {
+    "key": "crop_3",
+    "cn": "糯米"
+  },
+  {
+    "key": "crop_4",
+    "cn": "菊花"
+  },
+  {
+    "key": "crop_5",
+    "cn": "辣椒"
+  },
+  {
+    "key": "animal_1",
+    "cn": "鸡"
+  },
+  {
+    "key": "animal_2",
+    "cn": "猫"
+  },
+  {
+    "key": "building_1",
+    "cn": "茅草屋"
+  },
+  {
+    "key": "building_2",
+    "cn": "土砖房"
+  },
+  {
+    "key": "building_10",
+    "cn": "野外篝火"
+  },
+  {
+    "key": "building_11",
+    "cn": "土灶"
+  },
+  {
+    "key": "building_20",
+    "cn": "简易竹架"
+  },
+  {
+    "key": "building_30",
+    "cn": "石磨"
+  },
+  {
+    "key": "building_40",
+    "cn": "露天围栏"
+  },
+  {
+    "key": "building_50",
+    "cn": "围栏"
+  },
+  {
+    "key": "building_60",
+    "cn": "饲料槽"
+  },
+  {
+    "key": "building_70",
+    "cn": "仓库"
+  },
+  {
+    "key": "recipe_1",
+    "cn": "桂花干"
+  },
+  {
+    "key": "recipe_2",
+    "cn": "糯米粉"
+  },
+  {
+    "key": "recipe_3",
+    "cn": "桂花糕"
+  },
+  {
+    "key": "recipe_4",
+    "cn": "辣炒蛋"
+  },
+  {
+    "key": "recipe_5",
+    "cn": "清炒白菜"
+  },
+  {
+    "key": "recipe_6",
+    "cn": "萝卜干"
+  },
+  {
+    "key": "recipe_7",
+    "cn": "菊花干"
+  },
+  {
+    "key": "recipe_8",
+    "cn": "菊花茶"
+  },
+  {
+    "key": "recipe_9",
+    "cn": "柿饼"
+  },
+  {
+    "key": "visitor_1",
+    "cn": "张阿婆"
+  },
+  {
+    "key": "visitor_2",
+    "cn": "李大爷"
+  },
+  {
+    "key": "visitor_3",
+    "cn": "小花"
+  },
+  {
+    "key": "visitor_4",
+    "cn": "王货郎"
+  },
+  {
+    "key": "milestone_1",
+    "cn": "初次播种"
+  },
+  {
+    "key": "milestone_1_desc",
+    "cn": "种下第一棵作物"
+  },
+  {
+    "key": "milestone_2",
+    "cn": "初次收获"
+  },
+  {
+    "key": "milestone_2_desc",
+    "cn": "收获第一棵作物"
+  },
+  {
+    "key": "milestone_3",
+    "cn": "安家落户"
+  },
+  {
+    "key": "milestone_3_desc",
+    "cn": "建造第一座房屋"
+  },
+  {
+    "key": "milestone_4",
+    "cn": "养鸡达人"
+  },
+  {
+    "key": "milestone_4_desc",
+    "cn": "收养第一只动物"
+  },
+  {
+    "key": "milestone_5",
+    "cn": "初学厨艺"
+  },
+  {
+    "key": "milestone_5_desc",
+    "cn": "制作第一道料理"
+  },
+  {
+    "key": "milestone_6",
+    "cn": "远亲近邻"
+  },
+  {
+    "key": "milestone_6_desc",
+    "cn": "完成第一笔订单"
+  },
+  {
+    "key": "milestone_7",
+    "cn": "小有规模"
+  },
+  {
+    "key": "milestone_7_desc",
+    "cn": "建造3座设施"
+  },
+  {
+    "key": "milestone_8",
+    "cn": "丰收之秋"
+  },
+  {
+    "key": "milestone_8_desc",
+    "cn": "收获10次作物"
+  },
+  {
+    "key": "milestone_9",
+    "cn": "食谱收藏家"
+  },
+  {
+    "key": "milestone_9_desc",
+    "cn": "解锁5个配方"
+  },
+  {
+    "key": "milestone_10",
+    "cn": "远近闻名"
+  },
+  {
+    "key": "milestone_10_desc",
+    "cn": "完成5笔订单"
+  },
+  {
+    "key": "tree_1",
+    "cn": "桂花树"
+  },
+  {
+    "key": "tree_2",
+    "cn": "柿子树"
   }
 ]

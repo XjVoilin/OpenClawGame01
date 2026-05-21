@@ -1,4 +1,6 @@
+using cfg;
 using JulyArch;
+using JulyCore;
 
 namespace CozyYard
 {
@@ -10,6 +12,26 @@ namespace CozyYard
         protected override void OnInitialize()
         {
             _store = GetStore<InventoryStore>();
+        }
+
+        protected override void OnStart()
+        {
+            if (_store.Items.Count == 0 && _store.Coins == 0)
+                GrantStartingResources();
+        }
+
+        private void GrantStartingResources()
+        {
+            var table = GF.Config.GetTable<TbStartingResource>();
+            if (table == null) return;
+
+            foreach (var entry in table.DataList)
+            {
+                if (entry.ItemId == 0)
+                    _store.AddCoins(entry.Quantity);
+                else
+                    _store.AddItem(entry.ItemId, entry.Quantity);
+            }
         }
 
         public bool AddItem(int itemId, int quantity = 1)

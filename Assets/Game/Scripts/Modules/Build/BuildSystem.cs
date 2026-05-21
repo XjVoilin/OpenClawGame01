@@ -1,5 +1,6 @@
 using cfg;
 using JulyArch;
+using JulyCore;
 
 namespace CozyYard
 {
@@ -23,10 +24,16 @@ namespace CozyYard
 
         public bool CanBuild(int buildingId, int x, int y)
         {
-            var cfg = GetConfig(buildingId);
-            if (cfg == null) return false;
+            if (!CanAfford(buildingId)) return false;
 
-            if (!_gridSystem.CanPlaceAt(x, y, cfg.SizeX, cfg.SizeY)) return false;
+            var cfg = GF.Config.GetTable<TbBuilding>().Get(buildingId);
+            return _gridSystem.CanPlaceAt(x, y, cfg.SizeX, cfg.SizeY);
+        }
+
+        public bool CanAfford(int buildingId)
+        {
+            var cfg = GF.Config.GetTable<TbBuilding>().Get(buildingId);
+            if (cfg == null) return false;
 
             if (cfg.PrerequisiteId > 0 && !_store.HasBuilding(cfg.PrerequisiteId)) return false;
 
@@ -40,7 +47,7 @@ namespace CozyYard
 
         public bool Build(int buildingId, int x, int y)
         {
-            var cfg = GetConfig(buildingId);
+            var cfg = GF.Config.GetTable<TbBuilding>().Get(buildingId);
             if (cfg == null) return false;
 
             if (!CanBuild(buildingId, x, y)) return false;
@@ -60,7 +67,7 @@ namespace CozyYard
             var building = _store.GetBuildingAt(x, y);
             if (building == null) return false;
 
-            var cfg = GetConfig(building.BuildingId);
+            var cfg = GF.Config.GetTable<TbBuilding>().Get(building.BuildingId);
             _store.RemoveBuilding(building.UniqueId);
             _gridSystem.RemoveOccupant(building.GridX, building.GridY, building.SizeX, building.SizeY);
 
@@ -82,10 +89,5 @@ namespace CozyYard
 
         public BuildingInstance GetBuildingAt(int x, int y) => _store.GetBuildingAt(x, y);
         public bool HasBuilding(int buildingId) => _store.HasBuilding(buildingId);
-
-        private Building GetConfig(int buildingId)
-        {
-            return CfgTable.Tables?.TbBuilding.GetOrDefault(buildingId);
-        }
     }
 }

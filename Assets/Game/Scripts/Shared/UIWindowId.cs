@@ -12,5 +12,7 @@ namespace CozyYard
         public const int PhoneWindow = 1008;
         public const int ShopWindow = 1009;
         public const int SettingsWindow = 1010;
+        public const int TimeHUD = 1011;
+        public const int WeatherHUD = 1012;
     }
 }

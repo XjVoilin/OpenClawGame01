@@ -24,7 +24,7 @@ namespace CozyYard
         private Color _targetColor;
         private float _targetIntensity;
 
-        public override IGameContext GetArchitecture() => AppArch.Context;
+        public override IArchContext GetArchitecture() => AppArch.Context;
 
         protected override void OnViewEnable()
         {

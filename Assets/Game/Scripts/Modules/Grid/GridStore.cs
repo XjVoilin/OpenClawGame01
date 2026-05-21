@@ -10,7 +10,9 @@ namespace CozyYard
         public GridCellData GetCell(int x, int y)
         {
             if (!IsInBounds(x, y)) return null;
-            return Data.Cells[y * Data.Width + x];
+            int index = y * Data.Width + x;
+            if (index >= Data.Cells.Count) return null;
+            return Data.Cells[index];
         }
 
         public bool IsInBounds(int x, int y)

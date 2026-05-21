@@ -9,11 +9,11 @@ namespace CozyYard
     public class MilestoneWindow : GameUIView
     {
         [SerializeField] private Transform _listContainer;
-        [SerializeField] private GameObject _entryPrefab;
+        [SerializeField] private MilestoneEntry _entryPrefab;
         [SerializeField] private TextMeshProUGUI _expansionText;
         [SerializeField] private UISmartButton _closeBtn;
 
-        private readonly List<GameObject> _entries = new();
+        private readonly List<MilestoneEntry> _entries = new();
 
         protected override void OnViewEnable()
         {
@@ -35,7 +35,7 @@ namespace CozyYard
             ClearEntries();
 
             var milestoneStore = GetStore<MilestoneStore>();
-            if (_expansionText) _expansionText.text = $"扩建等级: {milestoneStore.ExpansionLevel}";
+            if (_expansionText) _expansionText.text = string.Format(GF.Localization.Get("expansion_level"), milestoneStore.ExpansionLevel);
 
             if (_entryPrefab == null || _listContainer == null) return;
 
@@ -44,25 +44,27 @@ namespace CozyYard
 
             foreach (var (id, cfg) in tbMilestone.DataMap)
             {
-                var go = Object.Instantiate(_entryPrefab, _listContainer);
-                go.SetActive(true);
+                var entry = Object.Instantiate(_entryPrefab, _listContainer);
+                entry.gameObject.SetActive(true);
 
                 var progress = milestoneStore.GetProgress(id);
                 int current = progress?.CurrentCount ?? 0;
                 bool completed = progress?.Completed ?? false;
-                string status = completed ? "已完成" : $"{current}/{cfg.ConditionCount}";
+                string status = completed
+                    ? GF.Localization.Get("completed")
+                    : string.Format(GF.Localization.Get("progress"), $"{current}/{cfg.ConditionCount}");
 
-                var text = go.GetComponentInChildren<TextMeshProUGUI>();
-                if (text) text.text = $"{cfg.Name}\n{cfg.Description}\n进度: {status}";
+                string info = $"{GF.Localization.Get(cfg.NameKey)}\n{GF.Localization.Get(cfg.DescKey)}\n{status}";
+                entry.Setup(info);
 
-                _entries.Add(go);
+                _entries.Add(entry);
             }
         }
 
         private void ClearEntries()
         {
-            foreach (var go in _entries)
-                Object.Destroy(go);
+            foreach (var entry in _entries)
+                Object.Destroy(entry.gameObject);
             _entries.Clear();
         }
 

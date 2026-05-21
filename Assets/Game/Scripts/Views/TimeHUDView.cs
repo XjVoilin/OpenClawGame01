@@ -1,11 +1,11 @@
-using JulyArch;
+using JulyCore;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace CozyYard
 {
-    public class TimeHUDView : GameView
+    public class TimeHUDView : GameUIView
     {
         [SerializeField] private TextMeshProUGUI _dayText;
         [SerializeField] private TextMeshProUGUI _seasonText;
@@ -20,15 +20,13 @@ namespace CozyYard
 
         private TimeSystem _timeSystem;
 
-        public override IGameContext GetArchitecture() => AppArch.Context;
-
         protected override void OnViewEnable()
         {
-            _timeSystem = this.GetSystem<TimeSystem>();
+            _timeSystem = GetSystem<TimeSystem>();
 
-            this.Subscribe<PhaseChangedEvent>(OnPhaseChanged);
-            this.Subscribe<DayChangedEvent>(OnDayChanged);
-            this.Subscribe<SeasonChangedEvent>(OnSeasonChanged);
+            Subscribe<PhaseChangedEvent>(OnPhaseChanged);
+            Subscribe<DayChangedEvent>(OnDayChanged);
+            Subscribe<SeasonChangedEvent>(OnSeasonChanged);
 
             if (_speed1Btn) _speed1Btn.onClick.AddListener(() => _timeSystem.SetSpeed(1));
             if (_speed2Btn) _speed2Btn.onClick.AddListener(() => _timeSystem.SetSpeed(2));
@@ -63,35 +61,35 @@ namespace CozyYard
 
         private void RefreshTime()
         {
-            var q = this.GetStore<TimeStore>();
+            var q = GetStore<TimeStore>();
             if (_timeText) _timeText.text = $"{q.Hour:D2}:{q.Minute:D2}";
             if (_phaseText) _phaseText.text = GetPhaseName(q.CurrentPhase);
         }
 
         private void RefreshDay()
         {
-            var q = this.GetStore<TimeStore>();
-            if (_dayText) _dayText.text = $"第 {q.Day} 天";
+            var q = GetStore<TimeStore>();
+            if (_dayText) _dayText.text = string.Format(GF.Localization.Get("day_format"), q.Day);
             if (_seasonText) _seasonText.text = GetSeasonName(q.CurrentSeason);
         }
 
         private static string GetSeasonName(Season s) => s switch
         {
-            Season.Spring => "春",
-            Season.Summer => "夏",
-            Season.Autumn => "秋",
-            Season.Winter => "冬",
+            Season.Spring => GF.Localization.Get("season_spring"),
+            Season.Summer => GF.Localization.Get("season_summer"),
+            Season.Autumn => GF.Localization.Get("season_autumn"),
+            Season.Winter => GF.Localization.Get("season_winter"),
             _ => "?"
         };
 
         private static string GetPhaseName(TimePhase p) => p switch
         {
-            TimePhase.Dawn => "清晨",
-            TimePhase.Morning => "上午",
-            TimePhase.Noon => "正午",
-            TimePhase.Afternoon => "下午",
-            TimePhase.Evening => "傍晚",
-            TimePhase.Night => "夜晚",
+            TimePhase.Dawn => GF.Localization.Get("phase_dawn"),
+            TimePhase.Morning => GF.Localization.Get("phase_morning"),
+            TimePhase.Noon => GF.Localization.Get("phase_noon"),
+            TimePhase.Afternoon => GF.Localization.Get("phase_afternoon"),
+            TimePhase.Evening => GF.Localization.Get("phase_evening"),
+            TimePhase.Night => GF.Localization.Get("phase_night"),
             _ => "?"
         };
     }

@@ -44,4 +44,13 @@ namespace CozyYard
         public WeatherType NewWeather;
         public WeatherType PreviousWeather;
     }
+
+    /// <summary>请求进入建筑放置模式</summary>
+    public struct EnterPlacementModeEvent
+    {
+        public int BuildingId;
+    }
+
+    /// <summary>放置模式被取消</summary>
+    public struct PlacementCancelledEvent { }
 }

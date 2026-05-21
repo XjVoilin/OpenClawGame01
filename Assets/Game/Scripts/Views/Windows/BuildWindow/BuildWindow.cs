@@ -1,25 +1,22 @@
 using System.Collections.Generic;
 using cfg;
 using JulyCore;
-using TMPro;
 using UnityEngine;
 
 namespace CozyYard
 {
     public class BuildWindow : GameUIView
     {
-        private const int TestGridX = 0;
-        private const int TestGridY = 0;
-
         [SerializeField] private Transform _listContainer;
-        [SerializeField] private GameObject _entryPrefab;
+        [SerializeField] private BuildEntry _entryPrefab;
         [SerializeField] private UISmartButton _closeBtn;
 
-        private readonly List<GameObject> _entries = new();
+        private readonly List<BuildEntry> _entries = new();
 
         protected override void OnViewEnable()
         {
             Subscribe<BuildingPlacedEvent>(OnBuildingPlaced);
+            Subscribe<PlacementCancelledEvent>(OnPlacementCancelled);
             if (_closeBtn) _closeBtn.onClick.AddListener(OnClose);
             Refresh();
         }
@@ -31,6 +28,7 @@ namespace CozyYard
         }
 
         private void OnBuildingPlaced(BuildingPlacedEvent e) => Refresh();
+        private void OnPlacementCancelled(PlacementCancelledEvent e) => Refresh();
 
         private void Refresh()
         {
@@ -43,41 +41,36 @@ namespace CozyYard
 
             foreach (var (id, cfg) in tbBuilding.DataMap)
             {
-                var go = Object.Instantiate(_entryPrefab, _listContainer);
-                go.SetActive(true);
+                var entry = Object.Instantiate(_entryPrefab, _listContainer);
+                entry.gameObject.SetActive(true);
 
-                var texts = go.GetComponentsInChildren<TextMeshProUGUI>();
-                if (texts.Length > 0)
-                {
-                    texts[0].text = $"{cfg.Name}";
-                }
+                bool canAfford = buildSystem.CanAfford(id);
+                int buildingId = id;
+                entry.Setup(
+                    GF.Localization.Get(cfg.NameKey),
+                    canAfford,
+                    () => OnBuild(buildingId)
+                );
 
-                var buildBtn = go.GetComponentInChildren<UISmartButton>();
-                if (buildBtn)
-                {
-                    bool canBuild = buildSystem.CanBuild(id, TestGridX, TestGridY);
-                    buildBtn.SetInteractable(canBuild);
-                    int buildingId = id;
-                    buildBtn.onClick.AddListener(() => OnBuild(buildSystem, buildingId));
-                }
-
-                _entries.Add(go);
+                _entries.Add(entry);
             }
         }
 
-        private void OnBuild(BuildSystem buildSystem, int buildingId)
+        private void OnBuild(int buildingId)
         {
-            buildSystem.Build(buildingId, TestGridX, TestGridY);
-            Refresh();
+            var buildSystem = GetSystem<BuildSystem>();
+            if (!buildSystem.CanAfford(buildingId)) return;
+
+            Publish(new EnterPlacementModeEvent { BuildingId = buildingId });
+            CloseWindow();
         }
 
         private void ClearEntries()
         {
-            foreach (var go in _entries)
+            foreach (var entry in _entries)
             {
-                var btn = go.GetComponentInChildren<UISmartButton>();
-                if (btn) btn.onClick.RemoveAllListeners();
-                Object.Destroy(go);
+                entry.Cleanup();
+                Object.Destroy(entry.gameObject);
             }
             _entries.Clear();
         }

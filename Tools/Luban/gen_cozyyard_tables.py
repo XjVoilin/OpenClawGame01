@@ -6,7 +6,7 @@ import os
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 
-DATAS_DIR = os.path.join(os.path.dirname(__file__), "DataTables", "Datas", "CozyYard")
+DATAS_DIR = os.path.join(os.path.dirname(__file__), "DataTables", "Datas")
 
 HEADER_FONT = Font(bold=True, size=11)
 META_FILL = PatternFill(start_color="D9E1F2", end_color="D9E1F2", fill_type="solid")
@@ -60,23 +60,24 @@ def create_tables_xlsx():
     ws.append(cols)
 
     tables = [
-        ["", "TbItem",       "Item",       "true", "item.xlsx",       "map", "id", "", "物品总表",     "", ""],
-        ["", "TbCrop",       "Crop",       "true", "crop.xlsx",       "map", "id", "", "作物配置表",   "", ""],
-        ["", "TbTree",       "Tree",       "true", "tree.xlsx",       "map", "id", "", "树木配置表",   "", ""],
-        ["", "TbAnimal",     "Animal",     "true", "animal.xlsx",     "map", "id", "", "动物配置表",   "", ""],
-        ["", "TbBuilding",   "Building",   "true", "building.xlsx",   "map", "id", "", "建筑配置表",   "", ""],
-        ["", "TbRecipe",     "Recipe",     "true", "recipe.xlsx",     "map", "id", "", "制作配方表",   "", ""],
-        ["", "TbVisitor",    "Visitor",    "true", "visitor.xlsx",    "map", "id", "", "来客配置表",   "", ""],
-        ["", "TbOrder",      "Order",      "true", "order.xlsx",      "map", "id", "", "订单模板表",   "", ""],
-        ["", "TbMilestone",  "Milestone",  "true", "milestone.xlsx",  "map", "id", "", "里程碑表",     "", ""],
-        ["", "TbSeason",     "Season",     "true", "season.xlsx",     "map", "id", "", "季节表",       "", ""],
-        ["", "TbTime",       "TimeCfg",    "true", "time.xlsx",       "map", "id", "", "时间配置表",   "", ""],
-        ["", "TbExpansion",  "Expansion",  "true", "expansion.xlsx",  "map", "id", "", "扩建区域表",   "", ""],
-        ["", "TbObstacle",   "Obstacle",   "true", "obstacle.xlsx",   "map", "id", "", "障碍物表",     "", ""],
-        ["", "TbShop",       "ShopItem",   "true", "shop.xlsx",       "map", "id", "", "商店商品表",   "", ""],
-        ["", "TbUIWindow",   "UIWindow",   "true", "uiwindow.xlsx",   "map", "id", "", "UI窗口表",     "", ""],
-        ["", "TbLanguage",   "Language",   "true", "language.xlsx",   "map", "key", "", "多语言表",    "", ""],
-        ["", "TbWeather",    "Weather",    "true", "weather.xlsx",    "map", "id", "", "天气配置表",   "", ""],
+        ["", "TbItem",       "Item",       "true", "物品_Item.xlsx",       "map", "id", "", "物品总表",     "", ""],
+        ["", "TbCrop",       "Crop",       "true", "作物_Crop.xlsx",       "map", "id", "", "作物配置表",   "", ""],
+        ["", "TbTree",       "Tree",       "true", "树木_Tree.xlsx",       "map", "id", "", "树木配置表",   "", ""],
+        ["", "TbAnimal",     "Animal",     "true", "动物_Animal.xlsx",     "map", "id", "", "动物配置表",   "", ""],
+        ["", "TbBuilding",   "Building",   "true", "建筑_Building.xlsx",   "map", "id", "", "建筑配置表",   "", ""],
+        ["", "TbRecipe",     "Recipe",     "true", "配方_Recipe.xlsx",     "map", "id", "", "制作配方表",   "", ""],
+        ["", "TbVisitor",    "Visitor",    "true", "来客_Visitor.xlsx",    "map", "id", "", "来客配置表",   "", ""],
+        ["", "TbOrder",      "Order",      "true", "订单_Order.xlsx",      "map", "id", "", "订单模板表",   "", ""],
+        ["", "TbMilestone",  "Milestone",  "true", "里程碑_Milestone.xlsx",  "map", "id", "", "里程碑表",     "", ""],
+        ["", "TbSeason",     "Season",     "true", "季节_Season.xlsx",     "map", "id", "", "季节表",       "", ""],
+        ["", "TbTime",       "TimeCfg",    "true", "时间_Time.xlsx",       "map", "id", "", "时间配置表",   "", ""],
+        ["", "TbExpansion",  "Expansion",  "true", "扩建_Expansion.xlsx",  "map", "id", "", "扩建区域表",   "", ""],
+        ["", "TbObstacle",   "Obstacle",   "true", "障碍物_Obstacle.xlsx",   "map", "id", "", "障碍物表",     "", ""],
+        ["", "TbShop",       "ShopItem",   "true", "商店_Shop.xlsx",       "map", "id", "", "商店商品表",   "", ""],
+        ["", "TbUIWindow",   "UIWindow",   "true", "UI窗口_UIWindow.xlsx",   "map", "id", "", "UI窗口表",     "", ""],
+        ["", "TbLanguage",   "Language",   "true", "多语言_Language.xlsx",   "map", "key", "", "多语言表",    "", ""],
+        ["", "TbWeather",    "Weather",    "true", "天气_Weather.xlsx",    "map", "id", "", "天气配置表",   "", ""],
+        ["", "TbStartingResource", "StartingResource", "true", "初始资源_StartingResource.xlsx", "list", "", "", "初始资源表", "", ""],
     ]
 
     for t in tables:
@@ -99,18 +100,18 @@ def create_obstacle_xlsx():
     ws = wb.active
     ws.title = "obstacle"
 
-    headers  = ["##var", "id", "name",   "clearTime", "dropItemId", "dropQuantity"]
+    headers  = ["##var", "id", "nameKey",   "clearTime", "dropItemId", "dropQuantity"]
     types    = ["##type", "int", "string", "int",       "int",        "int"]
-    comments = ["##",    "ID", "名称",    "清除耗时(分钟)", "掉落物品ID", "掉落数量"]
+    comments = ["##",    "ID", "名称key",    "清除耗时(分钟)", "掉落物品ID", "掉落数量"]
 
     rows = [
-        ["", 1, "杂草",  15, 1001, 2],
-        ["", 2, "石头",  30, 1002, 3],
-        ["", 3, "树桩",  60, 1003, 5],
+        ["", 1, "obstacle_1",  15, 1001, 2],
+        ["", 2, "obstacle_2",  30, 1002, 3],
+        ["", 3, "obstacle_3",  60, 1003, 5],
     ]
 
     write_sheet(ws, headers, types, comments, rows)
-    path = os.path.join(DATAS_DIR, "obstacle.xlsx")
+    path = os.path.join(DATAS_DIR, "障碍物_Obstacle.xlsx")
     wb.save(path)
     print(f"  -> {path}")
 
@@ -120,45 +121,45 @@ def create_item_xlsx():
     ws = wb.active
     ws.title = "item"
 
-    headers  = ["##var", "id",   "name",    "type",  "stackLimit", "desc"]
+    headers  = ["##var", "id",   "nameKey",    "type",  "stackLimit", "descKey"]
     types    = ["##type", "int", "string",  "string", "int",        "string"]
-    comments = ["##",    "ID",   "名称",     "类型",   "堆叠上限",    "描述"]
+    comments = ["##",    "ID",   "名称key",     "类型",   "堆叠上限",    "描述key"]
 
     rows = [
-        ["", 1001, "杂草纤维", "Material", 99, "清除杂草获得"],
-        ["", 1002, "石头",     "Material", 99, "清除石块获得"],
-        ["", 1003, "木材",     "Material", 99, "清除树桩获得"],
-        ["", 2001, "白菜种子", "Seed", 50, "种植白菜"],
-        ["", 2002, "萝卜种子", "Seed", 50, "种植萝卜"],
-        ["", 2003, "糯米种子", "Seed", 50, "种植糯米"],
-        ["", 2004, "菊花种子", "Seed", 50, "种植菊花"],
-        ["", 2005, "辣椒种子", "Seed", 50, "种植辣椒"],
-        ["", 3001, "白菜",   "Product", 50, "新鲜白菜"],
-        ["", 3002, "萝卜",   "Product", 50, "新鲜萝卜"],
-        ["", 3003, "糯米",   "Product", 50, "饱满的糯米"],
-        ["", 3004, "菊花",   "Product", 50, "新鲜菊花"],
-        ["", 3005, "辣椒",   "Product", 50, "新鲜辣椒"],
-        ["", 3101, "鸡蛋",   "Product", 50, "新鲜鸡蛋"],
+        ["", 1001, "item_1001", "Material", 99, "item_1001_desc"],
+        ["", 1002, "item_1002", "Material", 99, "item_1002_desc"],
+        ["", 1003, "item_1003", "Material", 99, "item_1003_desc"],
+        ["", 2001, "item_2001", "Seed", 50, "item_2001_desc"],
+        ["", 2002, "item_2002", "Seed", 50, "item_2002_desc"],
+        ["", 2003, "item_2003", "Seed", 50, "item_2003_desc"],
+        ["", 2004, "item_2004", "Seed", 50, "item_2004_desc"],
+        ["", 2005, "item_2005", "Seed", 50, "item_2005_desc"],
+        ["", 3001, "item_3001", "Product", 50, "item_3001_desc"],
+        ["", 3002, "item_3002", "Product", 50, "item_3002_desc"],
+        ["", 3003, "item_3003", "Product", 50, "item_3003_desc"],
+        ["", 3004, "item_3004", "Product", 50, "item_3004_desc"],
+        ["", 3005, "item_3005", "Product", 50, "item_3005_desc"],
+        ["", 3101, "item_3101", "Product", 50, "item_3101_desc"],
         # Tree produce
-        ["", 3006, "桂花",   "Product", 50, "秋天采集"],
-        ["", 3007, "柿子",   "Product", 50, "秋天采集"],
+        ["", 3006, "item_3006", "Product", 50, "item_3006_desc"],
+        ["", 3007, "item_3007", "Product", 50, "item_3007_desc"],
         # Intermediate materials
-        ["", 4001, "桂花干", "Material", 50, "晾晒桂花制得"],
-        ["", 4002, "糯米粉", "Material", 50, "石磨糯米制得"],
-        ["", 4003, "萝卜干", "Material", 50, "晾晒萝卜制得"],
-        ["", 4004, "菊花干", "Material", 50, "晾晒菊花制得"],
+        ["", 4001, "item_4001", "Material", 50, "item_4001_desc"],
+        ["", 4002, "item_4002", "Material", 50, "item_4002_desc"],
+        ["", 4003, "item_4003", "Material", 50, "item_4003_desc"],
+        ["", 4004, "item_4004", "Material", 50, "item_4004_desc"],
         # Final products
-        ["", 5001, "桂花糕", "Product", 20, "香甜的桂花糕"],
-        ["", 5002, "辣炒蛋", "Product", 20, "简单美味"],
-        ["", 5003, "清炒白菜", "Product", 20, "清淡爽口"],
-        ["", 5004, "菊花茶", "Product", 20, "清香提神"],
-        ["", 5005, "柿饼",   "Product", 20, "甜糯柿饼"],
+        ["", 5001, "item_5001", "Product", 20, "item_5001_desc"],
+        ["", 5002, "item_5002", "Product", 20, "item_5002_desc"],
+        ["", 5003, "item_5003", "Product", 20, "item_5003_desc"],
+        ["", 5004, "item_5004", "Product", 20, "item_5004_desc"],
+        ["", 5005, "item_5005", "Product", 20, "item_5005_desc"],
         # Junk
-        ["", 9001, "黑暗料理", "Material", 10, "实验失败的产物"],
+        ["", 9001, "item_9001", "Material", 10, "item_9001_desc"],
     ]
 
     write_sheet(ws, headers, types, comments, rows)
-    path = os.path.join(DATAS_DIR, "item.xlsx")
+    path = os.path.join(DATAS_DIR, "物品_Item.xlsx")
     wb.save(path)
     print(f"  -> {path}")
 
@@ -168,20 +169,20 @@ def create_crop_xlsx():
     ws = wb.active
     ws.title = "crop"
 
-    headers  = ["##var", "id", "name", "season", "growthDays", "harvestWindow", "seedItemId", "produceItemId", "produceQuantity"]
+    headers  = ["##var", "id", "nameKey", "season", "growthDays", "harvestWindow", "seedItemId", "produceItemId", "produceQuantity"]
     types    = ["##type", "int", "string", "int", "int", "int", "int", "int", "int"]
-    comments = ["##",    "ID", "名称",  "适宜季节(0春1夏2秋3冬)", "生长天数", "收获窗口(天)", "种子物品ID", "产出物品ID", "产出数量"]
+    comments = ["##",    "ID", "名称key",  "适宜季节(0春1夏2秋3冬)", "生长天数", "收获窗口(天)", "种子物品ID", "产出物品ID", "产出数量"]
 
     rows = [
-        ["", 1, "白菜", 2, 3, 4, 2001, 3001, 2],
-        ["", 2, "萝卜", 2, 5, 4, 2002, 3002, 2],
-        ["", 3, "糯米", 2, 7, 3, 2003, 3003, 3],
-        ["", 4, "菊花", 2, 5, 5, 2004, 3004, 2],
-        ["", 5, "辣椒", 2, 5, 4, 2005, 3005, 3],
+        ["", 1, "crop_1", 2, 3, 4, 2001, 3001, 2],
+        ["", 2, "crop_2", 2, 5, 4, 2002, 3002, 2],
+        ["", 3, "crop_3", 2, 7, 3, 2003, 3003, 3],
+        ["", 4, "crop_4", 2, 5, 5, 2004, 3004, 2],
+        ["", 5, "crop_5", 2, 5, 4, 2005, 3005, 3],
     ]
 
     write_sheet(ws, headers, types, comments, rows)
-    path = os.path.join(DATAS_DIR, "crop.xlsx")
+    path = os.path.join(DATAS_DIR, "作物_Crop.xlsx")
     wb.save(path)
     print(f"  -> {path}")
 
@@ -206,10 +207,12 @@ def create_uiwindow_xlsx():
         ["", 1008, "问妈",         "PhoneWindow",       True,  True,  3, 3, False, 200],
         ["", 1009, "货郎商店",     "ShopWindow",        True,  True,  3, 3, False, 200],
         ["", 1010, "设置",         "SettingsWindow",    True,  True,  3, 3, False, 200],
+        ["", 1011, "时间HUD",      "TimeHUD",           False, False, 0, 0, True,  100],
+        ["", 1012, "天气HUD",      "WeatherHUD",        False, False, 0, 0, True,  100],
     ]
 
     write_sheet(ws, headers, types, comments, rows)
-    path = os.path.join(DATAS_DIR, "uiwindow.xlsx")
+    path = os.path.join(DATAS_DIR, "UI窗口_UIWindow.xlsx")
     wb.save(path)
     print(f"  -> {path}")
 
@@ -233,7 +236,7 @@ def create_time_xlsx():
     ]
 
     write_sheet(ws, headers, types, comments, rows)
-    path = os.path.join(DATAS_DIR, "time.xlsx")
+    path = os.path.join(DATAS_DIR, "时间_Time.xlsx")
     wb.save(path)
     print(f"  -> {path}")
 
@@ -243,19 +246,19 @@ def create_season_xlsx():
     ws = wb.active
     ws.title = "season"
 
-    headers  = ["##var", "id", "name",   "days", "tempModifier"]
+    headers  = ["##var", "id", "nameKey",   "days", "tempModifier"]
     types    = ["##type", "int", "string", "int", "float"]
-    comments = ["##",    "ID", "季节名称", "天数",  "温度修正"]
+    comments = ["##",    "ID", "季节名称key", "天数",  "温度修正"]
 
     rows = [
-        ["", 0, "春", 15, 1.0],
-        ["", 1, "夏", 15, 1.2],
-        ["", 2, "秋", 15, 1.0],
-        ["", 3, "冬", 10, 0.5],
+        ["", 0, "season_spring", 15, 1.0],
+        ["", 1, "season_summer", 15, 1.2],
+        ["", 2, "season_autumn", 15, 1.0],
+        ["", 3, "season_winter", 10, 0.5],
     ]
 
     write_sheet(ws, headers, types, comments, rows)
-    path = os.path.join(DATAS_DIR, "season.xlsx")
+    path = os.path.join(DATAS_DIR, "季节_Season.xlsx")
     wb.save(path)
     print(f"  -> {path}")
 
@@ -265,17 +268,17 @@ def create_animal_xlsx():
     ws = wb.active
     ws.title = "animal"
 
-    headers  = ["##var", "id", "name", "type", "produceItemId", "produceCycleDays", "requiredBuildingId", "feedItemId", "feedQuantity"]
+    headers  = ["##var", "id", "nameKey", "type", "produceItemId", "produceCycleDays", "requiredBuildingId", "feedItemId", "feedQuantity"]
     types    = ["##type", "int", "string", "string", "int", "int", "int", "int", "int"]
-    comments = ["##",    "ID", "名称",  "类型(Poultry/Aquatic/Pet)", "产出物品ID", "产出周期(天)", "需要设施ID", "饲料物品ID", "每次喂食量"]
+    comments = ["##",    "ID", "名称key",  "类型(Poultry/Aquatic/Pet)", "产出物品ID", "产出周期(天)", "需要设施ID", "饲料物品ID", "每次喂食量"]
 
     rows = [
-        ["", 1, "鸡", "Poultry", 3101, 2, 40, 1001, 2],
-        ["", 2, "猫", "Pet",     0,    0, 0,  0,    0],
+        ["", 1, "animal_1", "Poultry", 3101, 2, 40, 1001, 2],
+        ["", 2, "animal_2", "Pet",     0,    0, 0,  0,    0],
     ]
 
     write_sheet(ws, headers, types, comments, rows)
-    path = os.path.join(DATAS_DIR, "animal.xlsx")
+    path = os.path.join(DATAS_DIR, "动物_Animal.xlsx")
     wb.save(path)
     print(f"  -> {path}")
 
@@ -285,25 +288,25 @@ def create_building_xlsx():
     ws = wb.active
     ws.title = "building"
 
-    headers  = ["##var", "id", "name", "category", "sizeX", "sizeY", "materials", "materialQtys", "buildTime", "prerequisiteId", "level"]
+    headers  = ["##var", "id", "nameKey", "category", "sizeX", "sizeY", "materials", "materialQtys", "buildTime", "prerequisiteId", "level"]
     types    = ["##type", "int", "string", "string", "int", "int", "(list#sep=,),int", "(list#sep=,),int", "int", "int", "int"]
-    comments = ["##",    "ID", "名称",  "类别",      "宽",    "高",    "材料ID列表", "材料数量列表",   "建造时间(分钟)", "前置建筑ID", "等级"]
+    comments = ["##",    "ID", "名称key",  "类别",      "宽",    "高",    "材料ID列表", "材料数量列表",   "建造时间(分钟)", "前置建筑ID", "等级"]
 
     rows = [
-        ["", 1,  "茅草屋",   "House",      2, 2, "1003",      "20",     120, 0,  1],
-        ["", 2,  "土砖房",   "House",      3, 3, "1003,1002", "30,20",  180, 1,  2],
-        ["", 10, "野外篝火", "Production", 1, 1, "1003,1002", "5,3",    30,  0,  1],
-        ["", 11, "土灶",     "Production", 1, 1, "1002,1003", "10,8",   60,  1,  2],
-        ["", 20, "简易竹架", "Production", 1, 1, "1003",      "8",      30,  0,  1],
-        ["", 30, "石磨",     "Production", 1, 1, "1002",      "15",     60,  0,  1],
-        ["", 40, "露天围栏", "Livestock",  2, 2, "1003",      "12",     45,  0,  1],
-        ["", 50, "围栏",     "Decoration", 1, 1, "1003",      "3",      10,  0,  1],
-        ["", 60, "饲料槽",   "Functional", 1, 1, "1003,1002", "5,3",    20,  0,  1],
-        ["", 70, "仓库",     "Functional", 2, 2, "1003,1002", "15,10",  90,  0,  1],
+        ["", 1,  "building_1",   "House",      2, 2, "1003",      "20",     120, 0,  1],
+        ["", 2,  "building_2",   "House",      3, 3, "1003,1002", "30,20",  180, 1,  2],
+        ["", 10, "building_10",  "Production", 1, 1, "1003,1002", "5,3",    30,  0,  1],
+        ["", 11, "building_11",  "Production", 1, 1, "1002,1003", "10,8",   60,  1,  2],
+        ["", 20, "building_20",  "Production", 1, 1, "1003",      "8",      30,  0,  1],
+        ["", 30, "building_30",  "Production", 1, 1, "1002",      "15",     60,  0,  1],
+        ["", 40, "building_40",  "Livestock",  2, 2, "1003",      "12",     45,  0,  1],
+        ["", 50, "building_50",  "Decoration", 1, 1, "1003",      "3",      10,  0,  1],
+        ["", 60, "building_60",  "Functional", 1, 1, "1003,1002", "5,3",    20,  0,  1],
+        ["", 70, "building_70",  "Functional", 2, 2, "1003,1002", "15,10",  90,  0,  1],
     ]
 
     write_sheet(ws, headers, types, comments, rows)
-    path = os.path.join(DATAS_DIR, "building.xlsx")
+    path = os.path.join(DATAS_DIR, "建筑_Building.xlsx")
     wb.save(path)
     print(f"  -> {path}")
 
@@ -313,24 +316,24 @@ def create_recipe_xlsx():
     ws = wb.active
     ws.title = "recipe"
 
-    headers  = ["##var", "id", "name", "requiredBuildingId", "inputItemIds", "inputQuantities", "outputItemId", "outputQuantity", "craftMinutes"]
+    headers  = ["##var", "id", "nameKey", "requiredBuildingId", "inputItemIds", "inputQuantities", "outputItemId", "outputQuantity", "craftMinutes"]
     types    = ["##type", "int", "string", "int", "(list#sep=,),int", "(list#sep=,),int", "int", "int", "int"]
-    comments = ["##",    "ID", "名称",  "需要设施ID",          "输入物品ID列表", "输入数量列表",     "输出物品ID",    "输出数量",       "制作时间(分钟)"]
+    comments = ["##",    "ID", "名称key",  "需要设施ID",          "输入物品ID列表", "输入数量列表",     "输出物品ID",    "输出数量",       "制作时间(分钟)"]
 
     rows = [
-        ["", 1,  "桂花干",     20, "3006",      "3",   4001, 2, 120],
-        ["", 2,  "糯米粉",     30, "3003",      "2",   4002, 2, 60],
-        ["", 3,  "桂花糕",     10, "4001,4002", "2,2", 5001, 1, 90],
-        ["", 4,  "辣炒蛋",     10, "3101,3005", "1,1", 5002, 1, 30],
-        ["", 5,  "清炒白菜",   10, "3001",      "2",   5003, 1, 20],
-        ["", 6,  "萝卜干",     20, "3002",      "2",   4003, 2, 120],
-        ["", 7,  "菊花干",     20, "3004",      "3",   4004, 2, 120],
-        ["", 8,  "菊花茶",     10, "4004",      "2",   5004, 1, 30],
-        ["", 9,  "柿饼",       20, "3007",      "3",   5005, 2, 180],
+        ["", 1,  "recipe_1",  20, "3006",      "3",   4001, 2, 120],
+        ["", 2,  "recipe_2",  30, "3003",      "2",   4002, 2, 60],
+        ["", 3,  "recipe_3",  10, "4001,4002", "2,2", 5001, 1, 90],
+        ["", 4,  "recipe_4",  10, "3101,3005", "1,1", 5002, 1, 30],
+        ["", 5,  "recipe_5",  10, "3001",      "2",   5003, 1, 20],
+        ["", 6,  "recipe_6",  20, "3002",      "2",   4003, 2, 120],
+        ["", 7,  "recipe_7",  20, "3004",      "3",   4004, 2, 120],
+        ["", 8,  "recipe_8",  10, "4004",      "2",   5004, 1, 30],
+        ["", 9,  "recipe_9",  20, "3007",      "3",   5005, 2, 180],
     ]
 
     write_sheet(ws, headers, types, comments, rows)
-    path = os.path.join(DATAS_DIR, "recipe.xlsx")
+    path = os.path.join(DATAS_DIR, "配方_Recipe.xlsx")
     wb.save(path)
     print(f"  -> {path}")
 
@@ -340,19 +343,19 @@ def create_visitor_xlsx():
     ws = wb.active
     ws.title = "visitor"
 
-    headers  = ["##var", "id", "name", "orderItemIds", "orderQuantities", "rewardCoins", "rewardItemId", "rewardItemQty", "visitChance"]
+    headers  = ["##var", "id", "nameKey", "orderItemIds", "orderQuantities", "rewardCoins", "rewardItemId", "rewardItemQty", "visitChance"]
     types    = ["##type", "int", "string", "(list#sep=,),int", "(list#sep=,),int", "int", "int", "int", "int"]
-    comments = ["##",    "ID", "名称",  "可能要求物品ID列表", "可能要求数量列表", "奖励金币",     "奖励物品ID",    "奖励物品数量",    "来访概率(0-100)"]
+    comments = ["##",    "ID", "名称key",  "可能要求物品ID列表", "可能要求数量列表", "奖励金币",     "奖励物品ID",    "奖励物品数量",    "来访概率(0-100)"]
 
     rows = [
-        ["", 1, "张阿婆",  "5001,5003",   "1,2",  30, 0,    0, 40],
-        ["", 2, "李大爷",  "5002,5005",   "1,1",  20, 1001, 3, 35],
-        ["", 3, "小花",    "5004,5001",   "1,1",  25, 0,    0, 30],
-        ["", 4, "王货郎",  "4001,4003,4004", "2,2,2", 50, 3006, 2, 20],
+        ["", 1, "visitor_1",  "5001,5003",   "1,2",  30, 0,    0, 40],
+        ["", 2, "visitor_2",  "5002,5005",   "1,1",  20, 1001, 3, 35],
+        ["", 3, "visitor_3",  "5004,5001",   "1,1",  25, 0,    0, 30],
+        ["", 4, "visitor_4",  "4001,4003,4004", "2,2,2", 50, 3006, 2, 20],
     ]
 
     write_sheet(ws, headers, types, comments, rows)
-    path = os.path.join(DATAS_DIR, "visitor.xlsx")
+    path = os.path.join(DATAS_DIR, "来客_Visitor.xlsx")
     wb.save(path)
     print(f"  -> {path}")
 
@@ -362,28 +365,28 @@ def create_milestone_xlsx():
     ws = wb.active
     ws.title = "milestone"
 
-    headers  = ["##var", "id", "name", "description", "conditionType", "conditionTarget", "conditionCount", "rewardType", "rewardId", "rewardQty"]
+    headers  = ["##var", "id", "nameKey", "descKey", "conditionType", "conditionTarget", "conditionCount", "rewardType", "rewardId", "rewardQty"]
     types    = ["##type", "int", "string", "string", "string", "int", "int", "string", "int", "int"]
-    comments = ["##",    "ID", "名称",  "描述",          "条件类型",       "条件目标ID",      "条件数量",       "奖励类型",    "奖励ID",   "奖励数量"]
+    comments = ["##",    "ID", "名称key",  "描述key",          "条件类型",       "条件目标ID",      "条件数量",       "奖励类型",    "奖励ID",   "奖励数量"]
 
     # conditionType: HarvestCrop, BuildBuilding, AdoptAnimal, UnlockRecipe, CraftItem, FulfillOrder, ExpansionLevel, PlantCrop
     # rewardType: Coins, Item, RecipeUnlock, Expansion
 
     rows = [
-        ["", 1,  "初次播种",   "种下第一棵作物",       "PlantCrop",      0,  1,  "Coins",       0,    50],
-        ["", 2,  "初次收获",   "收获第一棵作物",       "HarvestCrop",    0,  1,  "Coins",       0,    100],
-        ["", 3,  "安家落户",   "建造第一座房屋",       "BuildBuilding",  1,  1,  "Expansion",   0,    1],
-        ["", 4,  "养鸡达人",   "收养第一只动物",       "AdoptAnimal",    0,  1,  "Item",        1001, 10],
-        ["", 5,  "初学厨艺",   "制作第一道料理",       "CraftItem",      0,  1,  "Coins",       0,    80],
-        ["", 6,  "远亲近邻",   "完成第一笔订单",       "FulfillOrder",   0,  1,  "Coins",       0,    60],
-        ["", 7,  "小有规模",   "建造3座设施",         "BuildBuilding",  0,  3,  "Expansion",   0,    1],
-        ["", 8,  "丰收之秋",   "收获10次作物",        "HarvestCrop",    0,  10, "Item",        3006, 5],
-        ["", 9,  "食谱收藏家", "解锁5个配方",         "UnlockRecipe",   0,  5,  "Coins",       0,    200],
-        ["", 10, "远近闻名",   "完成5笔订单",         "FulfillOrder",  0,  5,  "RecipeUnlock", 3,   1],
+        ["", 1,  "milestone_1",   "milestone_1_desc",  "PlantCrop",      0,  1,  "Coins",       0,    50],
+        ["", 2,  "milestone_2",   "milestone_2_desc",  "HarvestCrop",    0,  1,  "Coins",       0,    100],
+        ["", 3,  "milestone_3",   "milestone_3_desc",  "BuildBuilding",  1,  1,  "Expansion",   0,    1],
+        ["", 4,  "milestone_4",   "milestone_4_desc",  "AdoptAnimal",    0,  1,  "Item",        1001, 10],
+        ["", 5,  "milestone_5",   "milestone_5_desc",  "CraftItem",      0,  1,  "Coins",       0,    80],
+        ["", 6,  "milestone_6",   "milestone_6_desc",  "FulfillOrder",   0,  1,  "Coins",       0,    60],
+        ["", 7,  "milestone_7",   "milestone_7_desc",  "BuildBuilding",  0,  3,  "Expansion",   0,    1],
+        ["", 8,  "milestone_8",   "milestone_8_desc",  "HarvestCrop",    0,  10, "Item",        3006, 5],
+        ["", 9,  "milestone_9",   "milestone_9_desc",  "UnlockRecipe",   0,  5,  "Coins",       0,    200],
+        ["", 10, "milestone_10",  "milestone_10_desc", "FulfillOrder",   0,  5,  "RecipeUnlock", 3,   1],
     ]
 
     write_sheet(ws, headers, types, comments, rows)
-    path = os.path.join(DATAS_DIR, "milestone.xlsx")
+    path = os.path.join(DATAS_DIR, "里程碑_Milestone.xlsx")
     wb.save(path)
     print(f"  -> {path}")
 
@@ -393,17 +396,17 @@ def create_tree_xlsx():
     ws = wb.active
     ws.title = "tree"
 
-    headers  = ["##var", "id", "name", "growthDays", "produceItemId", "produceCycleDays", "season"]
+    headers  = ["##var", "id", "nameKey", "growthDays", "produceItemId", "produceCycleDays", "season"]
     types    = ["##type", "int", "string", "int", "int", "int", "string"]
-    comments = ["##",    "ID", "名称",  "成长天数",    "产出物品ID",     "产出周期天",        "季节"]
+    comments = ["##",    "ID", "名称key",  "成长天数",    "产出物品ID",     "产出周期天",        "季节"]
 
     rows = [
-        ["", 1, "桂花树", 10, 3006, 3, "Autumn"],
-        ["", 2, "柿子树", 10, 3007, 4, "Autumn"],
+        ["", 1, "tree_1", 10, 3006, 3, "Autumn"],
+        ["", 2, "tree_2", 10, 3007, 4, "Autumn"],
     ]
 
     write_sheet(ws, headers, types, comments, rows)
-    path = os.path.join(DATAS_DIR, "tree.xlsx")
+    path = os.path.join(DATAS_DIR, "树木_Tree.xlsx")
     wb.save(path)
     print(f"  -> {path}")
 
@@ -425,7 +428,7 @@ def create_order_xlsx():
     ]
 
     write_sheet(ws, headers, types, comments, rows)
-    path = os.path.join(DATAS_DIR, "order.xlsx")
+    path = os.path.join(DATAS_DIR, "订单_Order.xlsx")
     wb.save(path)
     print(f"  -> {path}")
 
@@ -445,7 +448,7 @@ def create_expansion_xlsx():
     ]
 
     write_sheet(ws, headers, types, comments, rows)
-    path = os.path.join(DATAS_DIR, "expansion.xlsx")
+    path = os.path.join(DATAS_DIR, "扩建_Expansion.xlsx")
     wb.save(path)
     print(f"  -> {path}")
 
@@ -466,7 +469,7 @@ def create_shop_xlsx():
     ]
 
     write_sheet(ws, headers, types, comments, rows)
-    path = os.path.join(DATAS_DIR, "shop.xlsx")
+    path = os.path.join(DATAS_DIR, "商店_Shop.xlsx")
     wb.save(path)
     print(f"  -> {path}")
 
@@ -488,7 +491,7 @@ def create_weather_xlsx():
     ]
 
     write_sheet(ws, headers, types, comments, rows)
-    path = os.path.join(DATAS_DIR, "weather.xlsx")
+    path = os.path.join(DATAS_DIR, "天气_Weather.xlsx")
     wb.save(path)
     print(f"  -> {path}")
 
@@ -503,20 +506,207 @@ def create_language_xlsx():
     comments = ["##",    "键名", "中文"]
 
     rows = [
+        # --- 季节 ---
         ["", "season_spring", "春"],
         ["", "season_summer", "夏"],
         ["", "season_autumn", "秋"],
         ["", "season_winter", "冬"],
-        ["", "phase_dawn",    "清晨"],
-        ["", "phase_morning", "上午"],
-        ["", "phase_noon",    "正午"],
+        # --- 时段 ---
+        ["", "phase_dawn",      "清晨"],
+        ["", "phase_morning",   "上午"],
+        ["", "phase_noon",      "正午"],
         ["", "phase_afternoon", "下午"],
-        ["", "phase_evening", "傍晚"],
-        ["", "phase_night",   "夜晚"],
+        ["", "phase_evening",   "傍晚"],
+        ["", "phase_night",     "夜晚"],
+        # --- 天气 ---
+        ["", "weather_sunny",      "晴天"],
+        ["", "weather_cloudy",     "多云"],
+        ["", "weather_light_rain", "小雨"],
+        ["", "weather_heavy_rain", "大雨"],
+        ["", "weather_windy",      "大风"],
+        # --- UI 通用 ---
+        ["", "day_format",         "第 {0} 天"],
+        ["", "gate_open",          "大门: 开"],
+        ["", "gate_close",         "大门: 关"],
+        ["", "gate_toggle",        "切换大门"],
+        ["", "need",               "需要:"],
+        ["", "reward",             "奖励:"],
+        ["", "coins",              "金币"],
+        ["", "none",               "无"],
+        ["", "deliver",            "交付"],
+        ["", "dismiss",            "送走"],
+        ["", "mom_new_recipe",     "妈妈教了你新配方! ({0})"],
+        ["", "mom_hint",           "告诉妈妈你有什么材料，她可能知道配方"],
+        ["", "asks_remaining",     "今日剩余询问: {0}/{1}"],
+        ["", "selected",           "已选择: {0}"],
+        ["", "mom_unknown",        "妈妈也不知道这个能做什么…"],
+        ["", "ask_mom",            "询问妈妈"],
+        ["", "expansion_level",    "扩建等级: {0}"],
+        ["", "completed",          "已完成"],
+        ["", "progress",           "进度: {0}"],
+        # --- 窗口标题 ---
+        ["", "title_inventory",    "背  包"],
+        ["", "title_build",        "建  造"],
+        ["", "title_craft",        "制  作"],
+        ["", "title_visitor",      "来  客"],
+        ["", "title_milestone",    "里程碑"],
+        ["", "title_recipe_book",  "配方本"],
+        ["", "title_phone",        "问  妈"],
+        # --- 按钮 ---
+        ["", "btn_inventory",      "背包"],
+        ["", "btn_build",          "建造"],
+        ["", "btn_craft",          "制作"],
+        ["", "btn_visitor",        "来客"],
+        ["", "btn_milestone",      "里程碑"],
+        ["", "btn_recipe_book",    "配方本"],
+        ["", "btn_phone",          "问妈"],
+        ["", "btn_close",          "关  闭"],
+        ["", "btn_build_action",   "建造"],
+        ["", "btn_craft_action",   "制作"],
+        # --- 障碍物 ---
+        ["", "obstacle_1",   "杂草"],
+        ["", "obstacle_2",   "石头"],
+        ["", "obstacle_3",   "树桩"],
+        # --- 物品 ---
+        ["", "item_1001",      "杂草纤维"],
+        ["", "item_1001_desc", "清除杂草获得"],
+        ["", "item_1002",      "石头"],
+        ["", "item_1002_desc", "清除石块获得"],
+        ["", "item_1003",      "木材"],
+        ["", "item_1003_desc", "清除树桩获得"],
+        ["", "item_2001",      "白菜种子"],
+        ["", "item_2001_desc", "种植白菜"],
+        ["", "item_2002",      "萝卜种子"],
+        ["", "item_2002_desc", "种植萝卜"],
+        ["", "item_2003",      "糯米种子"],
+        ["", "item_2003_desc", "种植糯米"],
+        ["", "item_2004",      "菊花种子"],
+        ["", "item_2004_desc", "种植菊花"],
+        ["", "item_2005",      "辣椒种子"],
+        ["", "item_2005_desc", "种植辣椒"],
+        ["", "item_3001",      "白菜"],
+        ["", "item_3001_desc", "新鲜白菜"],
+        ["", "item_3002",      "萝卜"],
+        ["", "item_3002_desc", "新鲜萝卜"],
+        ["", "item_3003",      "糯米"],
+        ["", "item_3003_desc", "饱满的糯米"],
+        ["", "item_3004",      "菊花"],
+        ["", "item_3004_desc", "新鲜菊花"],
+        ["", "item_3005",      "辣椒"],
+        ["", "item_3005_desc", "新鲜辣椒"],
+        ["", "item_3101",      "鸡蛋"],
+        ["", "item_3101_desc", "新鲜鸡蛋"],
+        ["", "item_3006",      "桂花"],
+        ["", "item_3006_desc", "秋天采集"],
+        ["", "item_3007",      "柿子"],
+        ["", "item_3007_desc", "秋天采集"],
+        ["", "item_4001",      "桂花干"],
+        ["", "item_4001_desc", "晾晒桂花制得"],
+        ["", "item_4002",      "糯米粉"],
+        ["", "item_4002_desc", "石磨糯米制得"],
+        ["", "item_4003",      "萝卜干"],
+        ["", "item_4003_desc", "晾晒萝卜制得"],
+        ["", "item_4004",      "菊花干"],
+        ["", "item_4004_desc", "晾晒菊花制得"],
+        ["", "item_5001",      "桂花糕"],
+        ["", "item_5001_desc", "香甜的桂花糕"],
+        ["", "item_5002",      "辣炒蛋"],
+        ["", "item_5002_desc", "简单美味"],
+        ["", "item_5003",      "清炒白菜"],
+        ["", "item_5003_desc", "清淡爽口"],
+        ["", "item_5004",      "菊花茶"],
+        ["", "item_5004_desc", "清香提神"],
+        ["", "item_5005",      "柿饼"],
+        ["", "item_5005_desc", "甜糯柿饼"],
+        ["", "item_9001",      "黑暗料理"],
+        ["", "item_9001_desc", "实验失败的产物"],
+        # --- 作物 ---
+        ["", "crop_1", "白菜"],
+        ["", "crop_2", "萝卜"],
+        ["", "crop_3", "糯米"],
+        ["", "crop_4", "菊花"],
+        ["", "crop_5", "辣椒"],
+        # --- 动物 ---
+        ["", "animal_1", "鸡"],
+        ["", "animal_2", "猫"],
+        # --- 建筑 ---
+        ["", "building_1",  "茅草屋"],
+        ["", "building_2",  "土砖房"],
+        ["", "building_10", "野外篝火"],
+        ["", "building_11", "土灶"],
+        ["", "building_20", "简易竹架"],
+        ["", "building_30", "石磨"],
+        ["", "building_40", "露天围栏"],
+        ["", "building_50", "围栏"],
+        ["", "building_60", "饲料槽"],
+        ["", "building_70", "仓库"],
+        # --- 配方 ---
+        ["", "recipe_1", "桂花干"],
+        ["", "recipe_2", "糯米粉"],
+        ["", "recipe_3", "桂花糕"],
+        ["", "recipe_4", "辣炒蛋"],
+        ["", "recipe_5", "清炒白菜"],
+        ["", "recipe_6", "萝卜干"],
+        ["", "recipe_7", "菊花干"],
+        ["", "recipe_8", "菊花茶"],
+        ["", "recipe_9", "柿饼"],
+        # --- 来客 ---
+        ["", "visitor_1", "张阿婆"],
+        ["", "visitor_2", "李大爷"],
+        ["", "visitor_3", "小花"],
+        ["", "visitor_4", "王货郎"],
+        # --- 里程碑 ---
+        ["", "milestone_1",       "初次播种"],
+        ["", "milestone_1_desc",  "种下第一棵作物"],
+        ["", "milestone_2",       "初次收获"],
+        ["", "milestone_2_desc",  "收获第一棵作物"],
+        ["", "milestone_3",       "安家落户"],
+        ["", "milestone_3_desc",  "建造第一座房屋"],
+        ["", "milestone_4",       "养鸡达人"],
+        ["", "milestone_4_desc",  "收养第一只动物"],
+        ["", "milestone_5",       "初学厨艺"],
+        ["", "milestone_5_desc",  "制作第一道料理"],
+        ["", "milestone_6",       "远亲近邻"],
+        ["", "milestone_6_desc",  "完成第一笔订单"],
+        ["", "milestone_7",       "小有规模"],
+        ["", "milestone_7_desc",  "建造3座设施"],
+        ["", "milestone_8",       "丰收之秋"],
+        ["", "milestone_8_desc",  "收获10次作物"],
+        ["", "milestone_9",       "食谱收藏家"],
+        ["", "milestone_9_desc",  "解锁5个配方"],
+        ["", "milestone_10",      "远近闻名"],
+        ["", "milestone_10_desc", "完成5笔订单"],
+        # --- 树木 ---
+        ["", "tree_1", "桂花树"],
+        ["", "tree_2", "柿子树"],
     ]
 
     write_sheet(ws, headers, types, comments, rows)
-    path = os.path.join(DATAS_DIR, "language.xlsx")
+    path = os.path.join(DATAS_DIR, "多语言_Language.xlsx")
+    wb.save(path)
+    print(f"  -> {path}")
+
+
+def create_starting_resource_xlsx():
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "starting_resource"
+
+    headers  = ["##var", "itemId", "quantity"]
+    types    = ["##type", "int", "int"]
+    comments = ["##",    "物品ID(0表示金币)", "数量"]
+
+    rows = [
+        ["", 1003, 30],   # 木材
+        ["", 1002, 15],   # 石头
+        ["", 1001, 10],   # 杂草纤维
+        ["", 2001, 5],    # 白菜种子
+        ["", 2002, 5],    # 萝卜种子
+        ["", 0,    100],  # 金币
+    ]
+
+    write_sheet(ws, headers, types, comments, rows)
+    path = os.path.join(DATAS_DIR, "初始资源_StartingResource.xlsx")
     wb.save(path)
     print(f"  -> {path}")
 
@@ -585,5 +775,6 @@ if __name__ == "__main__":
     create_expansion_xlsx()
     create_shop_xlsx()
     create_weather_xlsx()
+    create_starting_resource_xlsx()
     generate_tables_ext()
     print("Done!")
