@@ -60,13 +60,6 @@ namespace CozyYard
 
         private void RegisterStores()
         {
-            // JulyGame 通用业务 Store
-            GameArch.Context.RegisterStore(new ActivityStore());
-            GameArch.Context.RegisterStore(new TaskStore());
-            GameArch.Context.RegisterStore(new RedDotStore());
-            GameArch.Context.RegisterStore(new GuideStore());
-            GameArch.Context.RegisterStore(new ABTestStore());
-
             // 项目业务 Store
             GameArch.Context.RegisterStore(new GridStore());
             GameArch.Context.RegisterStore(new TimeStore());
@@ -82,13 +75,6 @@ namespace CozyYard
 
         private void RegisterSystems()
         {
-            // JulyGame 通用业务 System
-            GameArch.Context.RegisterSystem(new ActivitySystem());
-            GameArch.Context.RegisterSystem(new TaskSystem());
-            GameArch.Context.RegisterSystem(new RedDotSystem());
-            GameArch.Context.RegisterSystem(new GuideSystem());
-            GameArch.Context.RegisterSystem(new ABTestSystem());
-
             // 项目业务 System
             GameArch.Context.RegisterSystem(new GridSystem());
             GameArch.Context.RegisterSystem(new TimeSystem());
