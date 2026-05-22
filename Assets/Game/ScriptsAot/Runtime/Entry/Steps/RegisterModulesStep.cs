@@ -9,6 +9,7 @@ using JulyCore.Module.Resource;
 using JulyCore.Module.Save;
 using JulyCore.Module.Scene;
 using JulyCore.Module.UI;
+using JulyGame;
 
 namespace CozyYard.Aot
 {
@@ -26,14 +27,13 @@ namespace CozyYard.Aot
             ctx.RegisterModule<SaveModule>();
             ctx.RegisterModule<ConfigModule>();
 
-            var gameContext = new ArchContext();
-            AppArch.Context = gameContext;
+            GameArch.Create();
 
             var registrar = FindRegistrar();
             if (registrar != null)
-                registrar.Register(gameContext);
+                registrar.Register();
 
-            ctx.Registry.Register(gameContext);
+            ctx.Registry.Register(GameArch.Context);
             if (registrar != null)
                 ctx.Registry.Register(registrar);
 

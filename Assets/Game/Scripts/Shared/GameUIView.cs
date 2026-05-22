@@ -1,6 +1,7 @@
 using System;
 using JulyArch;
 using JulyCore.Provider.UI;
+using JulyGame;
 using UnityEngine;
 
 namespace CozyYard
@@ -12,7 +13,7 @@ namespace CozyYard
     /// </summary>
     public abstract class GameUIView : UIBase, ICanGetStore, ICanEvent, ICanGetSystem
     {
-        public IArchContext GetArchitecture() => AppArch.Context;
+        public IArchContext GetArchitecture() => GameArch.Context;
 
         protected override void OnBeforeOpen()
         {

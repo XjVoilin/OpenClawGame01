@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using cfg;
 using JulyArch;
 using JulyCore;
+using JulyGame;
 using TMPro;
 using UnityEngine;
 
@@ -31,7 +32,7 @@ namespace CozyYard
         private bool _inPlacementMode;
         private int _placementBuildingId;
 
-        public override IArchContext GetArchitecture() => AppArch.Context;
+        public override IArchContext GetArchitecture() => GameArch.Context;
 
         protected override void OnViewEnable()
         {

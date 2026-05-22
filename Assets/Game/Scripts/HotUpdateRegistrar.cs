@@ -9,6 +9,7 @@ using JulyCore.Provider.Save;
 using JulyCore.Provider.UI;
 using JulyCore.Provider.Audio;
 using JulyCore.Provider.Pool;
+using JulyGame;
 using JulyGame.Activity;
 using JulyGame.Task;
 using JulyGame.RedDot;
@@ -20,15 +21,15 @@ using JulyCore.Provider.GM;
 
 namespace CozyYard
 {
-    public class HotUpdateRegistrar : IHotUpdateRegistrar, IAppArch
+    public class HotUpdateRegistrar : IHotUpdateRegistrar, IArchNode
     {
-        public IArchContext GetArchitecture() => AppArch.Context;
+        public IArchContext GetArchitecture() => GameArch.Context;
 
-        public void Register(ArchContext ctx)
+        public void Register()
         {
             RegisterProviders();
-            RegisterStores(ctx);
-            RegisterSystems(ctx);
+            RegisterStores();
+            RegisterSystems();
         }
 
         private void RegisterProviders()
@@ -57,49 +58,49 @@ namespace CozyYard
         }
 #endif
 
-        private void RegisterStores(ArchContext ctx)
+        private void RegisterStores()
         {
             // JulyGame 通用业务 Store
-            ctx.RegisterStore(new ActivityStore());
-            ctx.RegisterStore(new TaskStore());
-            ctx.RegisterStore(new RedDotStore());
-            ctx.RegisterStore(new GuideStore());
-            ctx.RegisterStore(new ABTestStore());
+            GameArch.Context.RegisterStore(new ActivityStore());
+            GameArch.Context.RegisterStore(new TaskStore());
+            GameArch.Context.RegisterStore(new RedDotStore());
+            GameArch.Context.RegisterStore(new GuideStore());
+            GameArch.Context.RegisterStore(new ABTestStore());
 
             // 项目业务 Store
-            ctx.RegisterStore(new GridStore());
-            ctx.RegisterStore(new TimeStore());
-            ctx.RegisterStore(new InventoryStore());
-            ctx.RegisterStore(new FarmStore());
-            ctx.RegisterStore(new BuildStore());
-            ctx.RegisterStore(new AnimalStore());
-            ctx.RegisterStore(new CraftStore());
-            ctx.RegisterStore(new VisitorStore());
-            ctx.RegisterStore(new MilestoneStore());
-            ctx.RegisterStore(new WeatherStore());
+            GameArch.Context.RegisterStore(new GridStore());
+            GameArch.Context.RegisterStore(new TimeStore());
+            GameArch.Context.RegisterStore(new InventoryStore());
+            GameArch.Context.RegisterStore(new FarmStore());
+            GameArch.Context.RegisterStore(new BuildStore());
+            GameArch.Context.RegisterStore(new AnimalStore());
+            GameArch.Context.RegisterStore(new CraftStore());
+            GameArch.Context.RegisterStore(new VisitorStore());
+            GameArch.Context.RegisterStore(new MilestoneStore());
+            GameArch.Context.RegisterStore(new WeatherStore());
         }
 
-        private void RegisterSystems(ArchContext ctx)
+        private void RegisterSystems()
         {
             // JulyGame 通用业务 System
-            ctx.RegisterSystem(new ActivitySystem());
-            ctx.RegisterSystem(new TaskSystem());
-            ctx.RegisterSystem(new RedDotSystem());
-            ctx.RegisterSystem(new GuideSystem());
-            ctx.RegisterSystem(new ABTestSystem());
+            GameArch.Context.RegisterSystem(new ActivitySystem());
+            GameArch.Context.RegisterSystem(new TaskSystem());
+            GameArch.Context.RegisterSystem(new RedDotSystem());
+            GameArch.Context.RegisterSystem(new GuideSystem());
+            GameArch.Context.RegisterSystem(new ABTestSystem());
 
             // 项目业务 System
-            ctx.RegisterSystem(new GridSystem());
-            ctx.RegisterSystem(new TimeSystem());
-            ctx.RegisterSystem(new WeatherSystem());
-            ctx.RegisterSystem(new InventorySystem());
-            ctx.RegisterSystem(new FarmSystem());
-            ctx.RegisterSystem(new BuildSystem());
-            ctx.RegisterSystem(new AnimalSystem());
-            ctx.RegisterSystem(new CraftSystem());
-            ctx.RegisterSystem(new VisitorSystem());
-            ctx.RegisterSystem(new MilestoneSystem());
-            ctx.RegisterSystem(new SceneFlowSystem());
+            GameArch.Context.RegisterSystem(new GridSystem());
+            GameArch.Context.RegisterSystem(new TimeSystem());
+            GameArch.Context.RegisterSystem(new WeatherSystem());
+            GameArch.Context.RegisterSystem(new InventorySystem());
+            GameArch.Context.RegisterSystem(new FarmSystem());
+            GameArch.Context.RegisterSystem(new BuildSystem());
+            GameArch.Context.RegisterSystem(new AnimalSystem());
+            GameArch.Context.RegisterSystem(new CraftSystem());
+            GameArch.Context.RegisterSystem(new VisitorSystem());
+            GameArch.Context.RegisterSystem(new MilestoneSystem());
+            GameArch.Context.RegisterSystem(new SceneFlowSystem());
         }
 
         public async UniTask OnGameLaunch()

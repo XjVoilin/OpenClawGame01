@@ -24,22 +24,22 @@
       }
     },
     "com.july.arch": {
-      "version": "https://github.com/XjVoilin/JulyArch.git#v1.0.25",
+      "version": "https://github.com/XjVoilin/JulyArch.git#v1.0.26",
       "depth": 0,
       "source": "git",
       "dependencies": {
         "com.july.events": "1.0.0"
       },
-      "hash": "bad5dc001394269045e193b759d70a7773785878"
+      "hash": "017c7b09dccb3298fd8a21e861bce63351779661"
     },
     "com.july.core": {
-      "version": "https://github.com/XjVoilin/JulyCore.git#v1.0.74",
+      "version": "https://github.com/XjVoilin/JulyCore.git#v1.0.76",
       "depth": 0,
       "source": "git",
       "dependencies": {
         "com.july.events": "1.0.0"
       },
-      "hash": "47d046c0b53a6a7c3ceae50ab0cb21098c16ec17"
+      "hash": "6e664229616f669fe716d46bf0584d1868514e47"
     },
     "com.july.events": {
       "version": "https://github.com/XjVoilin/JulyEvents.git#v1.0.0",
@@ -49,7 +49,7 @@
       "hash": "3d3f19944dd5b2bc92ea495777c50d2cd6fe63f9"
     },
     "com.july.game": {
-      "version": "https://github.com/XjVoilin/JulyGame.git#v1.0.0",
+      "version": "https://github.com/XjVoilin/JulyGame.git#v1.0.1",
       "depth": 0,
       "source": "git",
       "dependencies": {
@@ -57,7 +57,7 @@
         "com.july.core": "1.0.73",
         "com.july.events": "1.0.0"
       },
-      "hash": "ddab92a74ef1ade5c7794d45b76b9ac40f51bb35"
+      "hash": "200b7dd00c87da9ebae84b92d52d51a7a4d2b186"
     },
     "com.july.toolkit": {
       "version": "https://github.com/XjVoilin/JulyToolkit.git#v1.0.10",

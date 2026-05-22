@@ -1,4 +1,5 @@
 using JulyArch;
+using JulyGame;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -24,7 +25,7 @@ namespace CozyYard
         private Color _targetColor;
         private float _targetIntensity;
 
-        public override IArchContext GetArchitecture() => AppArch.Context;
+        public override IArchContext GetArchitecture() => GameArch.Context;
 
         protected override void OnViewEnable()
         {
