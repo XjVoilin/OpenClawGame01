@@ -85,6 +85,7 @@ namespace CozyYard
             GameArch.Context.RegisterSystem(new AnimalSystem());
             GameArch.Context.RegisterSystem(new CraftSystem());
             GameArch.Context.RegisterSystem(new VisitorSystem());
+            GameArch.Context.RegisterSystem(new ShopSystem());
             GameArch.Context.RegisterSystem(new MilestoneSystem());
             GameArch.Context.RegisterSystem(new SceneFlowSystem());
         }

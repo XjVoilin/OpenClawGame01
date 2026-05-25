@@ -13,6 +13,7 @@ namespace CozyYard
         [SerializeField] private UISmartButton _milestoneBtn;
         [SerializeField] private UISmartButton _recipeBookBtn;
         [SerializeField] private UISmartButton _phoneBtn;
+        [SerializeField] private UISmartButton _shopBtn;
         [SerializeField] private UISmartButton _gateToggleBtn;
         [SerializeField] private TextMeshProUGUI _gateText;
         [SerializeField] private TextMeshProUGUI _visitorBadgeText;
@@ -30,6 +31,7 @@ namespace CozyYard
             if (_milestoneBtn) _milestoneBtn.onClick.AddListener(() => GF.UI.Open(UIWindowId.MilestoneWindow));
             if (_recipeBookBtn) _recipeBookBtn.onClick.AddListener(() => GF.UI.Open(UIWindowId.RecipeBookWindow));
             if (_phoneBtn) _phoneBtn.onClick.AddListener(() => GF.UI.Open(UIWindowId.PhoneWindow));
+            if (_shopBtn) _shopBtn.onClick.AddListener(() => GF.UI.Open(UIWindowId.ShopWindow));
             if (_gateToggleBtn) _gateToggleBtn.onClick.AddListener(OnGateToggle);
 
             RefreshGate();
@@ -45,6 +47,7 @@ namespace CozyYard
             if (_milestoneBtn) _milestoneBtn.onClick.RemoveAllListeners();
             if (_recipeBookBtn) _recipeBookBtn.onClick.RemoveAllListeners();
             if (_phoneBtn) _phoneBtn.onClick.RemoveAllListeners();
+            if (_shopBtn) _shopBtn.onClick.RemoveAllListeners();
             if (_gateToggleBtn) _gateToggleBtn.onClick.RemoveAllListeners();
         }
 

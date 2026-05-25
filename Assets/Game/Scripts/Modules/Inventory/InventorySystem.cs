@@ -12,6 +12,33 @@ namespace CozyYard
         protected override void OnInitialize()
         {
             _store = GetStore<InventoryStore>();
+            this.Subscribe<DiscardItemEvent>(OnDiscardItem);
+            this.Subscribe<UseItemEvent>(OnUseItem);
+        }
+
+        private void OnDiscardItem(DiscardItemEvent e)
+        {
+            RemoveItem(e.ItemId, e.Quantity);
+        }
+
+        private void OnUseItem(UseItemEvent e)
+        {
+            var itemCfg = GF.Config.GetTable<TbItem>()?.GetOrDefault(e.ItemId);
+            if (itemCfg == null) return;
+
+            if (itemCfg.Type == "Seed")
+            {
+                var tbCrop = GF.Config.GetTable<TbCrop>();
+                if (tbCrop == null) return;
+                foreach (var crop in tbCrop.DataList)
+                {
+                    if (crop.SeedItemId == e.ItemId)
+                    {
+                        Publish(new EnterPlantingModeEvent { SeedItemId = e.ItemId, CropId = crop.Id });
+                        return;
+                    }
+                }
+            }
         }
 
         protected override void OnStart()

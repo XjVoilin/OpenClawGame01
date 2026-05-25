@@ -90,7 +90,7 @@ namespace CozyYard
             _store.RemoveCrop(crop);
             _timeSystem.ConsumeTime(10);
 
-            Publish(new CropHarvestedEvent { CropId = crop.CropId, Quantity = cfg.ProduceQuantity });
+            Publish(new CropHarvestedEvent { CropId = crop.CropId, Quantity = cfg.ProduceQuantity, GridX = x, GridY = y });
             return true;
         }
 
@@ -99,8 +99,10 @@ namespace CozyYard
             var crop = _store.GetCropAt(x, y);
             if (crop == null || crop.Stage != CropGrowthStage.Withered) return;
 
+            int cropId = crop.CropId;
             _store.RemoveCrop(crop);
             _timeSystem.ConsumeTime(5);
+            Publish(new CropHarvestedEvent { CropId = cropId, Quantity = 0, GridX = x, GridY = y });
         }
 
         private void OnDayChanged(DayChangedEvent e)

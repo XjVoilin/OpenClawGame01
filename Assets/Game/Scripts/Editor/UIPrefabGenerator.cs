@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using System.IO;
 using JulyCore;
+using JulyToolkit;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -30,6 +31,7 @@ namespace CozyYard.Editor
             GenerateMilestoneWindow();
             GenerateRecipeBookWindow();
             GeneratePhoneWindow();
+            GenerateShopWindow();
             AssetDatabase.Refresh();
             Debug.Log("[UIPrefabGenerator] CozyYard UI 预制体已生成完毕 (1920×1080 横屏)");
         }
@@ -78,6 +80,7 @@ namespace CozyYard.Editor
             var milestoneBtn = AddButton(bottomBar, "MilestoneBtn", "里程碑", new Vector2(120, 56), 20, "btn_milestone");
             var recipeBookBtn = AddButton(bottomBar, "RecipeBookBtn", "配方本", new Vector2(120, 56), 20, "btn_recipe_book");
             var phoneBtn = AddButton(bottomBar, "PhoneBtn", "问妈", new Vector2(120, 56), 20, "btn_phone");
+            var shopBtn = AddButton(bottomBar, "ShopBtn", "商店", new Vector2(120, 56), 20, "btn_shop");
 
             var hud = root.AddComponent<GameHUD>();
             Bind(hud, "_inventoryBtn", inventoryBtn);
@@ -87,6 +90,7 @@ namespace CozyYard.Editor
             Bind(hud, "_milestoneBtn", milestoneBtn);
             Bind(hud, "_recipeBookBtn", recipeBookBtn);
             Bind(hud, "_phoneBtn", phoneBtn);
+            Bind(hud, "_shopBtn", shopBtn);
             Bind(hud, "_gateToggleBtn", gateToggleBtn);
             Bind(hud, "_gateText", gateText);
             Bind(hud, "_visitorBadgeText", visitorBadgeText);
@@ -198,53 +202,162 @@ namespace CozyYard.Editor
 
         private static void GenerateInventoryWindow()
         {
-
-            var root = CreatePanelRoot("InventoryWindow", new Vector2(960, 760));
+            // 窗口宽度: 5列 * 120 + 4间距 * 8 + padding 24*2 + 边距 24*2 = 728 → 取 840
+            var root = CreatePanelRoot("InventoryWindow", new Vector2(840, 900));
             AddBg(root);
 
-            var title = AddText(root, "Title", "背  包", 40, "title_inventory");
+            // ── 标题 ──
+            var title = AddText(root, "Title", "背  包", 36, "title_inventory");
             SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(0, -72), new Vector2(0, -12));
+                new Vector2(0, -56), new Vector2(0, -12));
 
+            // ── 状态栏 (容量 + 金币) ──
             var statusBar = AddChild(root, "StatusBar");
             SetAnchors(statusBar, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(32, -130), new Vector2(-32, -80));
-            AddHorizontalLayout(statusBar, 40, TextAnchor.MiddleLeft);
+                new Vector2(24, -100), new Vector2(-24, -60));
+            AddHorizontalLayout(statusBar, 24, TextAnchor.MiddleLeft);
 
-            var capacityText = AddText(statusBar, "CapacityText", "0/20", 28);
-            SetSize(capacityText.gameObject, 240, 48);
+            var capacityText = AddText(statusBar, "CapacityText", "0/30", 24);
+            SetSize(capacityText.gameObject, 160, 36);
             capacityText.alignment = TextAlignmentOptions.Left;
-            var coinsText = AddText(statusBar, "CoinsText", "0", 28);
-            SetSize(coinsText.gameObject, 240, 48);
+            var coinsText = AddText(statusBar, "CoinsText", "0", 24);
+            SetSize(coinsText.gameObject, 160, 36);
             coinsText.alignment = TextAlignmentOptions.Left;
             coinsText.color = new Color(1f, 0.85f, 0.3f);
 
+            // ── 分类标签页 (UIToggleGroup) ──
+            var tabBar = AddChild(root, "CategoryTabs");
+            SetAnchors(tabBar, new Vector2(0, 1), new Vector2(1, 1),
+                new Vector2(24, -148), new Vector2(-24, -104));
+            AddHorizontalLayout(tabBar, 4, TextAnchor.MiddleLeft);
+
+            var toggleGroup = tabBar.AddComponent<UIToggleGroup>();
+            var tabNames = new[] { "全部", "材料", "种子", "产品" };
+            var tabLocKeys = new[] { "tab_all", "tab_material", "tab_seed", "tab_product" };
+            var toggleItems = new UIToggleItem[tabNames.Length];
+
+            for (int i = 0; i < tabNames.Length; i++)
+            {
+                toggleItems[i] = CreateToggleTab(tabBar, tabNames[i], tabLocKeys[i], i);
+            }
+
+            var toggleGroupSo = new SerializedObject(toggleGroup);
+            var itemsProp = toggleGroupSo.FindProperty("m_Items");
+            itemsProp.arraySize = tabNames.Length;
+            for (int i = 0; i < tabNames.Length; i++)
+                itemsProp.GetArrayElementAtIndex(i).objectReferenceValue = toggleItems[i];
+            toggleGroupSo.FindProperty("m_SelectedIndex").intValue = 0;
+            toggleGroupSo.ApplyModifiedPropertiesWithoutUndo();
+
+            // ── 格子区域 (ScrollRect + GridLayout) ──
+            // 可用内宽: 840 - 24*2 = 792; 格子 120*5 + 间距 8*4 + padding 12*2 = 656 → 居中有少量余量
             var scrollArea = AddChild(root, "ScrollArea");
             SetAnchors(scrollArea, new Vector2(0, 0), new Vector2(1, 1),
-                new Vector2(32, 90), new Vector2(-32, -140));
+                new Vector2(24, 220), new Vector2(-24, -156));
             var itemsContainerGo = CreateScrollContent(scrollArea, "ItemsContainer", out _).gameObject;
             Object.DestroyImmediate(itemsContainerGo.GetComponent<VerticalLayoutGroup>());
             var grid = itemsContainerGo.AddComponent<GridLayoutGroup>();
-            grid.cellSize = new Vector2(200, 72);
-            grid.spacing = new Vector2(12, 12);
+            grid.cellSize = new Vector2(120, 120);
+            grid.spacing = new Vector2(8, 8);
             grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-            grid.constraintCount = 4;
+            grid.constraintCount = 5;
             grid.childAlignment = TextAnchor.UpperLeft;
+            grid.padding = new RectOffset(12, 12, 8, 8);
 
             var itemSlotPrefab = CreateItemSlotPrefab();
 
-            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(200, 64), 28, "btn_close");
-            SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
-                new Vector2(-100, 16), new Vector2(100, 80));
+            // ── 底部详情面板 ──
+            var detailPanel = AddChild(root, "DetailPanel");
+            SetAnchors(detailPanel, new Vector2(0, 0), new Vector2(1, 0),
+                new Vector2(24, 64), new Vector2(-24, 212));
+            var detailBg = detailPanel.AddComponent<Image>();
+            detailBg.color = new Color(0.14f, 0.14f, 0.18f, 0.9f);
 
+            var detailIcon = AddChild(detailPanel, "DetailIcon");
+            SetAnchors(detailIcon, new Vector2(0, 0.5f), new Vector2(0, 0.5f),
+                new Vector2(16, -36), new Vector2(88, 36));
+            var detailIconImg = detailIcon.AddComponent<Image>();
+            detailIconImg.color = new Color(0.6f, 0.6f, 0.6f);
+
+            var detailName = AddText(detailPanel, "DetailName", "物品名称", 26);
+            SetAnchors(detailName.gameObject, new Vector2(0, 1), new Vector2(1, 1),
+                new Vector2(100, -44), new Vector2(-16, -8));
+            detailName.alignment = TextAlignmentOptions.Left;
+
+            var detailDesc = AddText(detailPanel, "DetailDesc", "物品描述...", 20);
+            SetAnchors(detailDesc.gameObject, new Vector2(0, 0), new Vector2(1, 1),
+                new Vector2(100, 8), new Vector2(-140, -48));
+            detailDesc.alignment = TextAlignmentOptions.TopLeft;
+            detailDesc.color = new Color(0.75f, 0.75f, 0.75f);
+
+            var useBtn = AddButton(detailPanel, "UseBtn", "使用", new Vector2(100, 40), 20, "btn_use");
+            SetAnchors(useBtn.gameObject, new Vector2(1, 0), new Vector2(1, 0),
+                new Vector2(-228, 12), new Vector2(-132, 52));
+
+            var discardBtn = AddButton(detailPanel, "DiscardBtn", "丢弃", new Vector2(100, 40), 20, "btn_discard");
+            SetAnchors(discardBtn.gameObject, new Vector2(1, 0), new Vector2(1, 0),
+                new Vector2(-120, 12), new Vector2(-24, 52));
+
+            // ── 关闭按钮 ──
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(180, 48), 24, "btn_close");
+            SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
+                new Vector2(-90, 10), new Vector2(90, 58));
+
+            // ── 绑定到 InventoryWindow 组件 ──
             var panel = root.AddComponent<InventoryWindow>();
             Bind(panel, "_itemsContainer", itemsContainerGo.transform);
             Bind(panel, "_itemSlotPrefab", itemSlotPrefab);
             Bind(panel, "_capacityText", capacityText);
             Bind(panel, "_coinsText", coinsText);
             Bind(panel, "_closeBtn", closeBtn);
+            Bind(panel, "_categoryTabs", toggleGroup);
+            Bind(panel, "_detailPanel", (Object)detailPanel);
+            Bind(panel, "_detailIcon", detailIconImg);
+            Bind(panel, "_detailName", detailName);
+            Bind(panel, "_detailDesc", detailDesc);
+            Bind(panel, "_useBtn", useBtn);
+            Bind(panel, "_discardBtn", discardBtn);
 
             SavePrefab(root, "InventoryWindow", "InventoryWindow");
+        }
+
+        private static UIToggleItem CreateToggleTab(GameObject parent, string label, string locKey, int index)
+        {
+            var go = new GameObject($"Tab_{index}", typeof(RectTransform));
+            go.layer = parent.layer;
+            go.transform.SetParent(parent.transform, false);
+            SetSize(go, 120, 40);
+
+            var emptyGraphic = go.AddComponent<UIEmptyGraphic>();
+            emptyGraphic.raycastTarget = true;
+
+            var normal = AddFullStretchChild(go, "Normal");
+            var normalImg = normal.AddComponent<Image>();
+            normalImg.color = new Color(0.22f, 0.22f, 0.28f, 0.9f);
+            normalImg.raycastTarget = false;
+            var normalText = AddText(normal, "Text", label, 22, locKey);
+            normalText.color = new Color(0.7f, 0.7f, 0.7f);
+            SetAnchors(normalText.gameObject, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
+
+            var selected = AddFullStretchChild(go, "Selected");
+            var selectedImg = selected.AddComponent<Image>();
+            selectedImg.color = new Color(0.3f, 0.55f, 0.9f, 0.95f);
+            selectedImg.raycastTarget = false;
+            var selectedText = AddText(selected, "Text", label, 22, locKey);
+            selectedText.color = Color.white;
+            SetAnchors(selectedText.gameObject, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
+
+            selected.SetActive(index == 0);
+
+            var item = go.AddComponent<UIToggleItem>();
+            item.targetGraphic = emptyGraphic;
+
+            var itemSo = new SerializedObject(item);
+            itemSo.FindProperty("m_Normal").objectReferenceValue = normal;
+            itemSo.FindProperty("m_Selected").objectReferenceValue = selected;
+            itemSo.ApplyModifiedPropertiesWithoutUndo();
+
+            return item;
         }
 
         // ══════════════════════════════════════════════
@@ -489,6 +602,45 @@ namespace CozyYard.Editor
         }
 
         // ══════════════════════════════════════════════
+        //  ShopWindow — 商店
+        // ══════════════════════════════════════════════
+
+        private static void GenerateShopWindow()
+        {
+            var root = CreatePanelRoot("ShopWindow", new Vector2(880, 780));
+            AddBg(root);
+
+            var title = AddText(root, "Title", "商  店", 36, "title_shop");
+            SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
+                new Vector2(0, -72), new Vector2(0, -12));
+
+            var coinsRow = AddChild(root, "CoinsRow");
+            SetAnchors(coinsRow, new Vector2(0, 1), new Vector2(1, 1),
+                new Vector2(32, -125), new Vector2(-32, -82));
+            var coinsText = AddText(coinsRow, "CoinsText", "铜板: 0", 28, "coins");
+            coinsText.alignment = TextAlignmentOptions.Left;
+
+            var scrollArea = AddChild(root, "ScrollArea");
+            SetAnchors(scrollArea, new Vector2(0, 0), new Vector2(1, 1),
+                new Vector2(24, 90), new Vector2(-24, -135));
+            var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
+
+            var entryPrefab = CreateShopEntryPrefab();
+
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(200, 64), 26, "btn_close");
+            SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
+                new Vector2(-100, 16), new Vector2(100, 80));
+
+            var panel = root.AddComponent<ShopWindow>();
+            Bind(panel, "_listContainer", listContainer);
+            Bind(panel, "_entryPrefab", entryPrefab);
+            Bind(panel, "_coinsText", coinsText);
+            Bind(panel, "_closeBtn", closeBtn);
+
+            SavePrefab(root, "ShopWindow", "ShopWindow");
+        }
+
+        // ══════════════════════════════════════════════
         //  Entry Prefabs
         // ══════════════════════════════════════════════
 
@@ -496,20 +648,64 @@ namespace CozyYard.Editor
         {
             var go = new GameObject("InventorySlotEntry", typeof(RectTransform), typeof(Image));
             go.layer = LayerMask.NameToLayer("UI");
-            SetSize(go, 200, 72);
+            SetSize(go, 120, 120);
 
             var bg = go.GetComponent<Image>();
-            bg.color = new Color(0.18f, 0.18f, 0.22f, 0.85f);
+            bg.color = new Color(0.16f, 0.16f, 0.2f, 0.9f);
 
-            var textGo = AddFullStretchChild(go, "Text", new RectOffset(10, 10, 6, 6));
-            var text = textGo.AddComponent<TextMeshProUGUI>();
-            text.text = "#1001 x5";
-            text.fontSize = 24;
-            text.color = Color.white;
-            text.alignment = TextAlignmentOptions.Center;
+            // FilledRoot: icon + quantity
+            var filledRoot = AddChild(go, "FilledRoot");
+            SetAnchors(filledRoot, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
 
-            var mono = go.AddComponent<InventorySlotEntry>();
-            Bind(mono, "_nameText", text);
+            var iconGo = AddChild(filledRoot, "Icon");
+            SetAnchors(iconGo, new Vector2(0.5f, 0.5f), new Vector2(0.5f, 0.5f),
+                new Vector2(-38, -38), new Vector2(38, 38));
+            var iconImg = iconGo.AddComponent<Image>();
+            iconImg.color = new Color(0.6f, 0.6f, 0.6f);
+
+            var qtyGo = AddChild(filledRoot, "Quantity");
+            SetAnchors(qtyGo, new Vector2(1, 0), new Vector2(1, 0),
+                new Vector2(-44, 2), new Vector2(-2, 26));
+            var qtyText = qtyGo.AddComponent<TextMeshProUGUI>();
+            qtyText.text = "99";
+            qtyText.fontSize = 18;
+            qtyText.color = Color.white;
+            qtyText.alignment = TextAlignmentOptions.BottomRight;
+
+            // EmptyRoot
+            var emptyRoot = AddChild(go, "EmptyRoot");
+            SetAnchors(emptyRoot, Vector2.zero, Vector2.one,
+                new Vector2(4, 4), new Vector2(-4, -4));
+            var emptyImg = emptyRoot.AddComponent<Image>();
+            emptyImg.color = new Color(0.12f, 0.12f, 0.15f, 0.5f);
+            emptyRoot.SetActive(false);
+
+            // SelectedFrame
+            var selectedFrame = AddChild(go, "SelectedFrame");
+            SetAnchors(selectedFrame, Vector2.zero, Vector2.one,
+                new Vector2(-2, -2), new Vector2(2, 2));
+            var frameImg = selectedFrame.AddComponent<Image>();
+            frameImg.color = new Color(1f, 0.85f, 0.3f, 0.9f);
+            frameImg.raycastTarget = false;
+            var frameMask = AddFullStretchChild(selectedFrame, "Inner", new RectOffset(3, 3, 3, 3));
+            var frameMaskImg = frameMask.AddComponent<Image>();
+            frameMaskImg.color = new Color(0.16f, 0.16f, 0.2f, 0.9f);
+            frameMaskImg.raycastTarget = false;
+            selectedFrame.SetActive(false);
+
+            // UIItemSlot component
+            var slot = go.AddComponent<UIItemSlot>();
+            var slotSo = new SerializedObject(slot);
+            slotSo.FindProperty("_icon").objectReferenceValue = iconImg;
+            slotSo.FindProperty("_quantityText").objectReferenceValue = qtyText;
+            slotSo.FindProperty("_selectedFrame").objectReferenceValue = selectedFrame;
+            slotSo.FindProperty("_emptyRoot").objectReferenceValue = emptyRoot;
+            slotSo.FindProperty("_filledRoot").objectReferenceValue = filledRoot;
+            slotSo.ApplyModifiedPropertiesWithoutUndo();
+
+            // InventorySlotEntry wrapper
+            var entry = go.AddComponent<InventorySlotEntry>();
+            Bind(entry, "_slot", slot);
 
             go.SetActive(false);
             return SaveArtPrefab(go, "InventorySlotEntry").GetComponent<InventorySlotEntry>();
@@ -567,6 +763,39 @@ namespace CozyYard.Editor
 
             go.SetActive(false);
             return SaveArtPrefab(go, "CraftEntry").GetComponent<CraftEntry>();
+        }
+
+        private static ShopEntry CreateShopEntryPrefab()
+        {
+            var go = new GameObject("ShopEntry", typeof(RectTransform), typeof(Image));
+            go.layer = LayerMask.NameToLayer("UI");
+            SetSize(go, 0, 90);
+
+            var bg = go.GetComponent<Image>();
+            bg.color = new Color(0.18f, 0.18f, 0.22f, 0.85f);
+
+            AddHorizontalLayout(go, 14, TextAnchor.MiddleLeft);
+            var hlg = go.GetComponent<HorizontalLayoutGroup>();
+            hlg.padding = new RectOffset(20, 20, 8, 8);
+
+            var nameText = AddText(go, "NameText", "", 26);
+            nameText.alignment = TextAlignmentOptions.Left;
+            SetSize(nameText.gameObject, 380, 74);
+
+            var priceText = AddText(go, "PriceText", "0", 24);
+            priceText.alignment = TextAlignmentOptions.Center;
+            priceText.color = new Color(1f, 0.85f, 0.3f);
+            SetSize(priceText.gameObject, 120, 74);
+
+            var buyBtn = AddGrayButton(go, "BuyBtn", "购买", new Vector2(120, 56), 24, "btn_buy");
+
+            var mono = go.AddComponent<ShopEntry>();
+            Bind(mono, "_nameText", nameText);
+            Bind(mono, "_priceText", priceText);
+            Bind(mono, "_buyBtn", buyBtn);
+
+            go.SetActive(false);
+            return SaveArtPrefab(go, "ShopEntry").GetComponent<ShopEntry>();
         }
 
         private static VisitorEntry CreateVisitorEntryPrefab()

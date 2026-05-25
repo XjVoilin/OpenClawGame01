@@ -31,6 +31,18 @@ namespace CozyYard
         private readonly List<GameObject> _placementHighlights = new();
         private readonly Dictionary<int, GameObject> _buildingObjects = new();
 
+        private readonly Dictionary<Vector2Int, SpriteRenderer> _cropRenderers = new();
+
+        private static readonly Color CropSeedColor = new(0.4f, 0.55f, 0.3f, 0.8f);
+        private static readonly Color CropSproutColor = new(0.3f, 0.7f, 0.3f, 0.9f);
+        private static readonly Color CropGrowingColor = new(0.2f, 0.8f, 0.2f, 1f);
+        private static readonly Color CropMatureColor = new(1f, 0.85f, 0.1f, 1f);
+        private static readonly Color CropWitheredColor = new(0.4f, 0.3f, 0.2f, 0.8f);
+
+        private bool _inPlantingMode;
+        private int _plantingSeedItemId;
+        private int _plantingCropId;
+
         private bool _inPlacementMode;
         private int _placementBuildingId;
         private int _placementSizeX;
@@ -47,6 +59,13 @@ namespace CozyYard
             this.Subscribe<BuildingPlacedEvent>(OnBuildingPlaced);
             this.Subscribe<BuildingRemovedEvent>(OnBuildingRemoved);
             this.Subscribe<EnterPlacementModeEvent>(OnEnterPlacementMode);
+            this.Subscribe<CropPlantedEvent>(OnCropPlanted);
+            this.Subscribe<CropGrowthEvent>(OnCropGrowth);
+            this.Subscribe<CropWateredEvent>(OnCropWatered);
+            this.Subscribe<CropReadyEvent>(OnCropReady);
+            this.Subscribe<CropWitheredEvent>(OnCropWithered);
+            this.Subscribe<CropHarvestedEvent>(OnCropHarvested);
+            this.Subscribe<EnterPlantingModeEvent>(OnEnterPlantingMode);
             LoadAndRenderAsync().Forget();
         }
 
@@ -55,6 +74,7 @@ namespace CozyYard
             await LoadTileSpritesAsync();
             RenderGrid();
             RenderExistingBuildings();
+            RenderExistingCrops();
             CreateHighlight();
         }
 
@@ -73,14 +93,25 @@ namespace CozyYard
 
             if (_inPlacementMode)
                 UpdatePlacementMode();
+            else if (_inPlantingMode)
+                UpdatePlantingMode();
             else
                 UpdateNormalMode();
         }
 
         #region Placement Mode
 
+        private void OnEnterPlantingMode(EnterPlantingModeEvent evt)
+        {
+            _inPlantingMode = true;
+            _plantingSeedItemId = evt.SeedItemId;
+            _plantingCropId = evt.CropId;
+            _inPlacementMode = false;
+        }
+
         private void OnEnterPlacementMode(EnterPlacementModeEvent evt)
         {
+            _inPlantingMode = false;
             _inPlacementMode = true;
             _placementBuildingId = evt.BuildingId;
 
@@ -167,6 +198,64 @@ namespace CozyYard
 
         #endregion
 
+        #region Planting Mode
+
+        private static readonly Color PlantableColor = new(0.3f, 0.9f, 0.5f, 0.6f);
+
+        private void UpdatePlantingMode()
+        {
+            if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Escape))
+            {
+                _inPlantingMode = false;
+                _highlightObj.SetActive(false);
+                return;
+            }
+
+            if (Camera.main == null) return;
+
+            var mouseScreen = Input.mousePosition;
+            mouseScreen.z = -Camera.main.transform.position.z;
+            var mouseWorld = Camera.main.ScreenToWorldPoint(mouseScreen);
+            var gridPos = IsometricUtils.WorldToGrid(new Vector2(mouseWorld.x, mouseWorld.y));
+
+            if (_gridSystem.IsInBounds(gridPos.x, gridPos.y))
+            {
+                var cell = _gridSystem.GetCell(gridPos.x, gridPos.y);
+                bool isSoilReady = cell != null && cell.State == CellState.Soil && _farmSystem.GetCropAt(gridPos.x, gridPos.y) == null;
+                bool canTillAndPlant = cell != null && cell.State == CellState.Empty;
+                bool canPlant = isSoilReady || canTillAndPlant;
+
+                _highlightObj.SetActive(true);
+                var worldPos = IsometricUtils.GridToWorld(gridPos.x, gridPos.y);
+                _highlightObj.transform.localPosition = new Vector3(worldPos.x, worldPos.y, 0);
+                _highlightRenderer.color = canPlant ? PlantableColor : InvalidPlacementColor;
+
+                if (Input.GetMouseButtonDown(0) && canPlant)
+                {
+                    var invSystem = this.GetSystem<InventorySystem>();
+                    if (invSystem.HasItem(_plantingSeedItemId, 1))
+                    {
+                        if (canTillAndPlant)
+                            _farmSystem.TillSoil(gridPos.x, gridPos.y);
+
+                        _farmSystem.PlantCrop(gridPos.x, gridPos.y, _plantingCropId, _plantingSeedItemId);
+
+                        if (!invSystem.HasItem(_plantingSeedItemId, 1))
+                        {
+                            _inPlantingMode = false;
+                            _highlightObj.SetActive(false);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                _highlightObj.SetActive(false);
+            }
+        }
+
+        #endregion
+
         #region Normal Mode
 
         private void UpdateNormalMode()
@@ -213,7 +302,7 @@ namespace CozyYard
                     var crop = _farmSystem.GetCropAt(x, y);
                     if (crop == null)
                     {
-                        _farmSystem.PlantCrop(x, y, 1, 2001);
+                        GF.UI.Open(UIWindowId.InventoryWindow);
                     }
                     else if (crop.Stage == CropGrowthStage.Mature)
                     {
@@ -314,6 +403,107 @@ namespace CozyYard
                 CellState.Unexplored => _obstacleTileSprite != null ? _obstacleTileSprite : _emptyTileSprite,
                 _ => _emptyTileSprite
             };
+        }
+
+        #endregion
+
+        #region Crop Visuals
+
+        private void RenderExistingCrops()
+        {
+            var farmStore = this.GetStore<FarmStore>();
+            foreach (var crop in farmStore.Crops)
+                CreateOrUpdateCropVisual(crop.GridX, crop.GridY, crop.Stage);
+        }
+
+        private void CreateOrUpdateCropVisual(int x, int y, CropGrowthStage stage)
+        {
+            var key = new Vector2Int(x, y);
+            if (!_cropRenderers.TryGetValue(key, out var sr))
+            {
+                var worldPos = IsometricUtils.GridToWorld(x, y);
+                var go = new GameObject($"Crop_{x}_{y}");
+                go.transform.SetParent(_tilesParent != null ? _tilesParent : transform);
+                go.transform.localPosition = new Vector3(worldPos.x, worldPos.y, 0);
+
+                sr = go.AddComponent<SpriteRenderer>();
+                sr.sprite = _soilTileSprite;
+                sr.sortingOrder = IsometricUtils.GetSortingOrder(x, y) + 5;
+                _cropRenderers[key] = sr;
+            }
+
+            float scale = stage switch
+            {
+                CropGrowthStage.Seed => 0.3f,
+                CropGrowthStage.Sprout => 0.5f,
+                CropGrowthStage.Growing => 0.7f,
+                CropGrowthStage.Mature => 0.9f,
+                CropGrowthStage.Withered => 0.6f,
+                _ => 0.3f
+            };
+
+            sr.color = GetCropColor(stage);
+            sr.transform.localScale = new Vector3(scale, scale, 1f);
+            sr.gameObject.SetActive(true);
+        }
+
+        private void RemoveCropVisual(int x, int y)
+        {
+            var key = new Vector2Int(x, y);
+            if (_cropRenderers.TryGetValue(key, out var sr))
+            {
+                if (sr != null && sr.gameObject != null)
+                    Destroy(sr.gameObject);
+                _cropRenderers.Remove(key);
+            }
+        }
+
+        private static Color GetCropColor(CropGrowthStage stage)
+        {
+            return stage switch
+            {
+                CropGrowthStage.Seed => CropSeedColor,
+                CropGrowthStage.Sprout => CropSproutColor,
+                CropGrowthStage.Growing => CropGrowingColor,
+                CropGrowthStage.Mature => CropMatureColor,
+                CropGrowthStage.Withered => CropWitheredColor,
+                _ => CropSeedColor
+            };
+        }
+
+        private void OnCropPlanted(CropPlantedEvent evt)
+        {
+            CreateOrUpdateCropVisual(evt.GridX, evt.GridY, CropGrowthStage.Seed);
+        }
+
+        private void OnCropGrowth(CropGrowthEvent evt)
+        {
+            CreateOrUpdateCropVisual(evt.GridX, evt.GridY, evt.NewStage);
+        }
+
+        private void OnCropWatered(CropWateredEvent evt)
+        {
+            var key = new Vector2Int(evt.GridX, evt.GridY);
+            if (_cropRenderers.TryGetValue(key, out var sr) && sr != null)
+            {
+                var c = sr.color;
+                sr.color = new Color(c.r * 0.7f, c.g * 0.85f, c.b * 1.2f, c.a);
+            }
+        }
+
+        private void OnCropReady(CropReadyEvent evt)
+        {
+            CreateOrUpdateCropVisual(evt.GridX, evt.GridY, CropGrowthStage.Mature);
+        }
+
+        private void OnCropWithered(CropWitheredEvent evt)
+        {
+            CreateOrUpdateCropVisual(evt.GridX, evt.GridY, CropGrowthStage.Withered);
+        }
+
+        private void OnCropHarvested(CropHarvestedEvent evt)
+        {
+            RemoveCropVisual(evt.GridX, evt.GridY);
         }
 
         #endregion

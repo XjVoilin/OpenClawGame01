@@ -25,7 +25,7 @@ namespace CozyYard
         protected override void OnStart()
         {
             if (_store.Width == 0)
-                InitializeNewGrid(12, 12);
+                InitializeNewGrid(24, 24);
         }
 
         public void InitializeNewGrid(int width, int height)
@@ -116,7 +116,7 @@ namespace CozyYard
 
             int cx = _store.Width / 2;
             int cy = _store.Height / 2;
-            const int clearRadius = 3;
+            const int clearRadius = 5;
 
             // 先清出中心区域
             for (int dx = -clearRadius; dx < clearRadius; dx++)

@@ -30,6 +30,12 @@ namespace CozyYard
             this.Subscribe<DayChangedEvent>(OnDayChanged);
         }
 
+        protected override void OnStart()
+        {
+            if (_store.TodayOrders.Count == 0)
+                GenerateDailyVisitors();
+        }
+
         public void ToggleGate()
         {
             _store.SetGateOpen(!_store.IsGateOpen);

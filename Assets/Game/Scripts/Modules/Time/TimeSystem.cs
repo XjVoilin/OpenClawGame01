@@ -1,6 +1,8 @@
 using cfg;
+using Cysharp.Threading.Tasks;
 using JulyArch;
 using JulyCore;
+using JulyCore.Data.Save;
 using UnityEngine;
 
 namespace CozyYard
@@ -150,6 +152,8 @@ namespace CozyYard
                 OldPhase = TimePhase.Night,
                 NewPhase = TimePhase.Dawn
             });
+
+            GF.Save.TriggerSaveAsync(SaveSignal.High).Forget();
         }
 
         private int GetSeasonDays(Season season)
