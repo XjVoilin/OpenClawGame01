@@ -112,35 +112,42 @@ namespace CozyYard
         {
             var random = new System.Random(42);
             int totalCells = _store.Width * _store.Height;
-            int obstacleCount = Mathf.RoundToInt(totalCells * 0.4f);
-
-            int placed = 0;
-            while (placed < obstacleCount)
-            {
-                int x = random.Next(0, _store.Width);
-                int y = random.Next(0, _store.Height);
-                var cell = _store.GetCell(x, y);
-                if (cell.State == CellState.Unexplored)
-                {
-                    cell.State = CellState.Obstacle;
-                    cell.ObstacleId = random.Next(1, 4);
-                    placed++;
-                }
-            }
+            int obstacleCount = Mathf.RoundToInt(totalCells * 0.3f);
 
             int cx = _store.Width / 2;
             int cy = _store.Height / 2;
-            for (int dx = -1; dx <= 1; dx++)
+            const int clearRadius = 3;
+
+            // 先清出中心区域
+            for (int dx = -clearRadius; dx < clearRadius; dx++)
             {
-                for (int dy = -1; dy <= 1; dy++)
+                for (int dy = -clearRadius; dy < clearRadius; dy++)
                 {
                     int nx = cx + dx;
                     int ny = cy + dy;
                     if (_store.IsInBounds(nx, ny))
                     {
                         _store.SetCellState(nx, ny, CellState.Empty);
-                        _store.GetCell(nx, ny).ObstacleId = 0;
                     }
+                }
+            }
+
+            // 在中心区域外生成障碍物
+            int placed = 0;
+            while (placed < obstacleCount)
+            {
+                int x = random.Next(0, _store.Width);
+                int y = random.Next(0, _store.Height);
+                if (x >= cx - clearRadius && x < cx + clearRadius
+                    && y >= cy - clearRadius && y < cy + clearRadius)
+                    continue;
+
+                var cell = _store.GetCell(x, y);
+                if (cell.State == CellState.Unexplored)
+                {
+                    cell.State = CellState.Obstacle;
+                    cell.ObstacleId = random.Next(1, 4);
+                    placed++;
                 }
             }
         }

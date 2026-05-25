@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using cfg;
+using Cysharp.Threading.Tasks;
 using JulyArch;
 using JulyCore;
 using JulyGame;
@@ -10,11 +11,11 @@ namespace CozyYard
 {
     public class GridView : GameView
     {
-        [SerializeField] private Sprite _emptyTileSprite;
-        [SerializeField] private Sprite _obstacleTileSprite;
-        [SerializeField] private Sprite _soilTileSprite;
-        [SerializeField] private Sprite _buildingTileSprite;
-        [SerializeField] private Sprite _highlightSprite;
+        private Sprite _emptyTileSprite;
+        private Sprite _obstacleTileSprite;
+        private Sprite _soilTileSprite;
+        private Sprite _buildingTileSprite;
+        private Sprite _highlightSprite;
         [SerializeField] private Transform _tilesParent;
 
         private static readonly Color ValidPlacementColor = new(0.2f, 0.9f, 0.2f, 0.6f);
@@ -27,16 +28,18 @@ namespace CozyYard
         private SpriteRenderer[,] _tileRenderers;
         private GameObject _highlightObj;
         private SpriteRenderer _highlightRenderer;
+        private readonly List<GameObject> _placementHighlights = new();
         private readonly Dictionary<int, GameObject> _buildingObjects = new();
 
         private bool _inPlacementMode;
         private int _placementBuildingId;
+        private int _placementSizeX;
+        private int _placementSizeY;
 
         public override IArchContext GetArchitecture() => GameArch.Context;
 
         protected override void OnViewEnable()
         {
-            EnsurePlaceholderSprites();
             _gridSystem = this.GetSystem<GridSystem>();
             _farmSystem = this.GetSystem<FarmSystem>();
             _buildSystem = this.GetSystem<BuildSystem>();
@@ -44,52 +47,30 @@ namespace CozyYard
             this.Subscribe<BuildingPlacedEvent>(OnBuildingPlaced);
             this.Subscribe<BuildingRemovedEvent>(OnBuildingRemoved);
             this.Subscribe<EnterPlacementModeEvent>(OnEnterPlacementMode);
+            LoadAndRenderAsync().Forget();
+        }
+
+        private async UniTaskVoid LoadAndRenderAsync()
+        {
+            await LoadTileSpritesAsync();
             RenderGrid();
             RenderExistingBuildings();
             CreateHighlight();
         }
 
-        private void EnsurePlaceholderSprites()
+        private async UniTask LoadTileSpritesAsync()
         {
-            if (_emptyTileSprite == null)
-                _emptyTileSprite = CreateColoredSprite(new Color(0.6f, 0.85f, 0.45f));
-            if (_obstacleTileSprite == null)
-                _obstacleTileSprite = CreateColoredSprite(new Color(0.4f, 0.3f, 0.25f));
-            if (_soilTileSprite == null)
-                _soilTileSprite = CreateColoredSprite(new Color(0.55f, 0.35f, 0.2f));
-            if (_buildingTileSprite == null)
-                _buildingTileSprite = CreateColoredSprite(new Color(0.85f, 0.65f, 0.3f));
-            if (_highlightSprite == null)
-                _highlightSprite = CreateColoredSprite(Color.white);
-        }
-
-        private static Sprite CreateColoredSprite(Color color)
-        {
-            const int width = 64;
-            const int height = 32;
-            var tex = new Texture2D(width, height);
-            var pixels = new Color[width * height];
-            
-            float halfW = width * 0.5f;
-            float halfH = height * 0.5f;
-            for (int py = 0; py < height; py++)
-            {
-                for (int px = 0; px < width; px++)
-                {
-                    float nx = Mathf.Abs(px - halfW + 0.5f) / halfW;
-                    float ny = Mathf.Abs(py - halfH + 0.5f) / halfH;
-                    pixels[py * width + px] = (nx + ny <= 1f) ? color : Color.clear;
-                }
-            }
-            tex.SetPixels(pixels);
-            tex.Apply();
-            tex.filterMode = FilterMode.Point;
-            float ppu = width / IsometricUtils.TileWidth;
-            return Sprite.Create(tex, new Rect(0, 0, width, height), new Vector2(0.5f, 0.5f), ppu);
+            _emptyTileSprite = await GF.Resource.LoadAsync<Sprite>("Tile_Empty");
+            _obstacleTileSprite = await GF.Resource.LoadAsync<Sprite>("Tile_Obstacle");
+            _soilTileSprite = await GF.Resource.LoadAsync<Sprite>("Tile_Soil");
+            _buildingTileSprite = await GF.Resource.LoadAsync<Sprite>("Tile_Building");
+            _highlightSprite = await GF.Resource.LoadAsync<Sprite>("Tile_Highlight");
         }
 
         private void Update()
         {
+            if (_highlightObj == null) return;
+
             if (_inPlacementMode)
                 UpdatePlacementMode();
             else
@@ -102,12 +83,19 @@ namespace CozyYard
         {
             _inPlacementMode = true;
             _placementBuildingId = evt.BuildingId;
+
+            var cfg = GF.Config.GetTable<TbBuilding>()?.GetOrDefault(evt.BuildingId);
+            _placementSizeX = cfg != null ? cfg.SizeX : 1;
+            _placementSizeY = cfg != null ? cfg.SizeY : 1;
+
+            EnsurePlacementHighlights(_placementSizeX * _placementSizeY);
         }
 
         private void CancelPlacement()
         {
             _inPlacementMode = false;
             _placementBuildingId = 0;
+            HidePlacementHighlights();
             _highlightObj.SetActive(false);
             _highlightRenderer.color = NormalHighlightColor;
             this.GetArchitecture().Event.Publish(new PlacementCancelledEvent());
@@ -123,29 +111,57 @@ namespace CozyYard
 
             if (Camera.main == null) return;
 
-            var mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var mouseScreen = Input.mousePosition;
+            mouseScreen.z = -Camera.main.transform.position.z;
+            var mouseWorld = Camera.main.ScreenToWorldPoint(mouseScreen);
             var gridPos = IsometricUtils.WorldToGrid(new Vector2(mouseWorld.x, mouseWorld.y));
 
             if (_gridSystem.IsInBounds(gridPos.x, gridPos.y))
             {
-                _highlightObj.SetActive(true);
-                var worldPos = IsometricUtils.GridToWorld(gridPos.x, gridPos.y);
-                _highlightObj.transform.localPosition = new Vector3(worldPos.x, worldPos.y, 0);
-
                 bool canPlace = _buildSystem.CanBuild(_placementBuildingId, gridPos.x, gridPos.y);
-                _highlightRenderer.color = canPlace ? ValidPlacementColor : InvalidPlacementColor;
+                Color color = canPlace ? ValidPlacementColor : InvalidPlacementColor;
+
+                int idx = 0;
+                for (int dx = 0; dx < _placementSizeX; dx++)
+                {
+                    for (int dy = 0; dy < _placementSizeY; dy++)
+                    {
+                        if (idx < _placementHighlights.Count)
+                        {
+                            var h = _placementHighlights[idx];
+                            int cx = gridPos.x + dx;
+                            int cy = gridPos.y + dy;
+                            if (_gridSystem.IsInBounds(cx, cy))
+                            {
+                                h.SetActive(true);
+                                var wp = IsometricUtils.GridToWorld(cx, cy);
+                                h.transform.localPosition = new Vector3(wp.x, wp.y, 0);
+                                h.GetComponent<SpriteRenderer>().color = color;
+                            }
+                            else
+                            {
+                                h.SetActive(false);
+                            }
+                        }
+                        idx++;
+                    }
+                }
+                for (; idx < _placementHighlights.Count; idx++)
+                    _placementHighlights[idx].SetActive(false);
+
+                _highlightObj.SetActive(false);
 
                 if (Input.GetMouseButtonDown(0) && canPlace)
                 {
                     _buildSystem.Build(_placementBuildingId, gridPos.x, gridPos.y);
                     _inPlacementMode = false;
                     _placementBuildingId = 0;
-                    _highlightRenderer.color = NormalHighlightColor;
+                    HidePlacementHighlights();
                 }
             }
             else
             {
-                _highlightObj.SetActive(false);
+                HidePlacementHighlights();
             }
         }
 
@@ -157,7 +173,9 @@ namespace CozyYard
         {
             if (Camera.main == null) return;
 
-            var mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var mouseScreen = Input.mousePosition;
+            mouseScreen.z = -Camera.main.transform.position.z;
+            var mouseWorld = Camera.main.ScreenToWorldPoint(mouseScreen);
             var gridPos = IsometricUtils.WorldToGrid(new Vector2(mouseWorld.x, mouseWorld.y));
 
             if (_gridSystem.IsInBounds(gridPos.x, gridPos.y))
@@ -256,6 +274,26 @@ namespace CozyYard
             _highlightObj.SetActive(false);
         }
 
+        private void EnsurePlacementHighlights(int count)
+        {
+            while (_placementHighlights.Count < count)
+            {
+                var go = new GameObject($"PlacementHighlight_{_placementHighlights.Count}");
+                go.transform.SetParent(transform);
+                var sr = go.AddComponent<SpriteRenderer>();
+                sr.sprite = _highlightSprite;
+                sr.sortingOrder = 9998;
+                go.SetActive(false);
+                _placementHighlights.Add(go);
+            }
+        }
+
+        private void HidePlacementHighlights()
+        {
+            foreach (var h in _placementHighlights)
+                h.SetActive(false);
+        }
+
         private void OnCellChanged(GridCellChangedEvent evt)
         {
             if (_tileRenderers != null 
@@ -324,30 +362,56 @@ namespace CozyYard
         {
             if (_buildingObjects.ContainsKey(building.UniqueId)) return;
 
-            float centerX = building.GridX + (building.SizeX - 1) * 0.5f;
-            float centerY = building.GridY + (building.SizeY - 1) * 0.5f;
-            var worldPos = IsometricUtils.GridToWorld((int)centerX, (int)centerY);
+            var parent = new GameObject($"Building_{building.UniqueId}");
+            parent.transform.SetParent(_tilesParent != null ? _tilesParent : transform);
+            parent.transform.localPosition = Vector3.zero;
 
-            var go = new GameObject($"Building_{building.UniqueId}");
-            go.transform.SetParent(_tilesParent != null ? _tilesParent : transform);
-            go.transform.localPosition = new Vector3(worldPos.x, worldPos.y, 0);
+            int baseSortOrder = IsometricUtils.GetSortingOrder(building.GridX, building.GridY) + 10;
+            Sprite tileSprite = _buildingTileSprite != null ? _buildingTileSprite : _emptyTileSprite;
 
-            var sr = go.AddComponent<SpriteRenderer>();
-            sr.sprite = _buildingTileSprite != null ? _buildingTileSprite : _emptyTileSprite;
-            sr.sortingOrder = IsometricUtils.GetSortingOrder(building.GridX, building.GridY) + 10;
-            sr.color = new Color(0.8f, 0.6f, 0.3f);
+            for (int dx = 0; dx < building.SizeX; dx++)
+            {
+                for (int dy = 0; dy < building.SizeY; dy++)
+                {
+                    var wp = IsometricUtils.GridToWorld(building.GridX + dx, building.GridY + dy);
+                    var tileGo = new GameObject($"Tile_{dx}_{dy}");
+                    tileGo.transform.SetParent(parent.transform);
+                    tileGo.transform.localPosition = new Vector3(wp.x, wp.y, 0);
+
+                    var sr = tileGo.AddComponent<SpriteRenderer>();
+                    sr.sprite = tileSprite;
+                    sr.sortingOrder = baseSortOrder;
+                    sr.color = new Color(0.8f, 0.6f, 0.3f);
+                }
+            }
+
+            var cfg = GF.Config.GetTable<TbBuilding>()?.GetOrDefault(building.BuildingId);
+            float labelCenterX = building.GridX + (building.SizeX - 1) * 0.5f;
+            float labelCenterY = building.GridY + (building.SizeY - 1) * 0.5f;
+            var labelWorldPos = new Vector2(
+                (labelCenterX - labelCenterY) * IsometricUtils.TileWidth * 0.5f,
+                -(labelCenterX + labelCenterY) * IsometricUtils.TileHeight * 0.5f
+            );
+
+            float labelWidth = Mathf.Max(building.SizeX, building.SizeY) * IsometricUtils.TileWidth * 0.45f;
+            float labelHeight = IsometricUtils.TileHeight * 0.4f;
 
             var labelGo = new GameObject("Label");
-            labelGo.transform.SetParent(go.transform);
-            labelGo.transform.localPosition = new Vector3(0, 0.3f, 0);
-            var tmp = labelGo.AddComponent<TextMeshPro>();
-            var cfg = GF.Config.GetTable<TbBuilding>()?.GetOrDefault(building.BuildingId);
-            tmp.text = cfg != null ? GF.Localization.Get(cfg.NameKey) : $"#{building.BuildingId}";
-            tmp.fontSize = 3;
-            tmp.alignment = TextAlignmentOptions.Center;
-            tmp.sortingOrder = sr.sortingOrder + 1;
+            labelGo.transform.SetParent(parent.transform);
+            labelGo.transform.localPosition = new Vector3(labelWorldPos.x, labelWorldPos.y, 0);
+            var rt = labelGo.AddComponent<RectTransform>();
+            rt.sizeDelta = new Vector2(labelWidth, labelHeight);
 
-            _buildingObjects[building.UniqueId] = go;
+            var tmp = labelGo.AddComponent<TextMeshPro>();
+            tmp.text = cfg != null ? GF.Localization.Get(cfg.NameKey) : $"#{building.BuildingId}";
+            tmp.enableAutoSizing = true;
+            tmp.fontSizeMin = 1f;
+            tmp.fontSizeMax = 4f;
+            tmp.alignment = TextAlignmentOptions.Center;
+            tmp.overflowMode = TextOverflowModes.Ellipsis;
+            tmp.sortingOrder = baseSortOrder + 1;
+
+            _buildingObjects[building.UniqueId] = parent;
         }
 
         #endregion

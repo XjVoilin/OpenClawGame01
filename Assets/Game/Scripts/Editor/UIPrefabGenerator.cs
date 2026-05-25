@@ -106,36 +106,44 @@ namespace CozyYard.Editor
             // ── 左上角容器 ──
             var container = AddChild(root, "Container");
             SetAnchors(container, new Vector2(0, 1), new Vector2(0, 1),
-                new Vector2(20, -160), new Vector2(320, -20));
-            AddVerticalLayout(container, 4, TextAnchor.UpperLeft);
+                new Vector2(20, -200), new Vector2(380, -20));
+            var containerBg = container.AddComponent<Image>();
+            containerBg.color = new Color(0.05f, 0.05f, 0.08f, 0.7f);
+            AddVerticalLayout(container, 6, TextAnchor.UpperLeft);
+            var containerLayout = container.GetComponent<VerticalLayoutGroup>();
+            containerLayout.padding = new RectOffset(12, 12, 10, 10);
 
-            var dayText = AddText(container, "DayText", "第 1 天", 22, "day_format");
-            SetSize(dayText.gameObject, 280, 32);
+            var dayText = AddText(container, "DayText", "第 1 天", 30, "day_format");
+            SetSize(dayText.gameObject, 340, 42);
             dayText.alignment = TextAlignmentOptions.Left;
 
-            var seasonText = AddText(container, "SeasonText", "春", 20, "season_spring");
-            SetSize(seasonText.gameObject, 280, 28);
+            var seasonText = AddText(container, "SeasonText", "春", 26, "season_spring");
+            SetSize(seasonText.gameObject, 340, 36);
             seasonText.alignment = TextAlignmentOptions.Left;
 
-            var timeText = AddText(container, "TimeText", "06:00", 26);
-            SetSize(timeText.gameObject, 280, 34);
+            var timeText = AddText(container, "TimeText", "06:00", 34);
+            SetSize(timeText.gameObject, 340, 46);
             timeText.alignment = TextAlignmentOptions.Left;
 
-            var phaseText = AddText(container, "PhaseText", "清晨", 18, "phase_dawn");
-            SetSize(phaseText.gameObject, 280, 26);
+            var phaseText = AddText(container, "PhaseText", "清晨", 24, "phase_dawn");
+            SetSize(phaseText.gameObject, 340, 34);
             phaseText.alignment = TextAlignmentOptions.Left;
             phaseText.color = new Color(0.8f, 0.8f, 0.6f);
 
             // ── 速度控制按钮 ──
             var speedBar = AddChild(root, "SpeedBar");
             SetAnchors(speedBar, new Vector2(0, 1), new Vector2(0, 1),
-                new Vector2(20, -210), new Vector2(320, -165));
-            AddHorizontalLayout(speedBar, 8, TextAnchor.MiddleLeft);
+                new Vector2(20, -260), new Vector2(380, -205));
+            var speedBarBg = speedBar.AddComponent<Image>();
+            speedBarBg.color = new Color(0.05f, 0.05f, 0.08f, 0.7f);
+            AddHorizontalLayout(speedBar, 10, TextAnchor.MiddleLeft);
+            var speedBarLayout = speedBar.GetComponent<HorizontalLayoutGroup>();
+            speedBarLayout.padding = new RectOffset(10, 10, 4, 4);
 
-            var speed1Btn = AddNativeButton(speedBar, "Speed1Btn", "×1", new Vector2(56, 36), 16);
-            var speed2Btn = AddNativeButton(speedBar, "Speed2Btn", "×2", new Vector2(56, 36), 16);
-            var speed3Btn = AddNativeButton(speedBar, "Speed3Btn", "×3", new Vector2(56, 36), 16);
-            var endDayBtn = AddNativeButton(speedBar, "EndDayBtn", "结束", new Vector2(72, 36), 16);
+            var speed1Btn = AddNativeButton(speedBar, "Speed1Btn", "×1", new Vector2(72, 48), 22);
+            var speed2Btn = AddNativeButton(speedBar, "Speed2Btn", "×2", new Vector2(72, 48), 22);
+            var speed3Btn = AddNativeButton(speedBar, "Speed3Btn", "×3", new Vector2(72, 48), 22);
+            var endDayBtn = AddNativeButton(speedBar, "EndDayBtn", "结束", new Vector2(96, 48), 22);
 
             var hud = root.AddComponent<TimeHUD>();
             Bind(hud, "_dayText", dayText);
@@ -162,15 +170,19 @@ namespace CozyYard.Editor
             // ── 天气显示区 (左上角, TimeHUD 下方) ──
             var container = AddChild(root, "Container");
             SetAnchors(container, new Vector2(0, 1), new Vector2(0, 1),
-                new Vector2(20, -260), new Vector2(250, -215));
-            AddHorizontalLayout(container, 8, TextAnchor.MiddleLeft);
+                new Vector2(20, -320), new Vector2(320, -265));
+            var weatherBg = container.AddComponent<Image>();
+            weatherBg.color = new Color(0.05f, 0.05f, 0.08f, 0.7f);
+            AddHorizontalLayout(container, 10, TextAnchor.MiddleLeft);
+            var weatherLayout = container.GetComponent<HorizontalLayoutGroup>();
+            weatherLayout.padding = new RectOffset(10, 10, 4, 4);
 
-            var weatherIcon = AddText(container, "WeatherIcon", "☀", 28);
-            SetSize(weatherIcon.gameObject, 40, 40);
+            var weatherIcon = AddText(container, "WeatherIcon", "☀", 36);
+            SetSize(weatherIcon.gameObject, 52, 52);
             weatherIcon.alignment = TextAlignmentOptions.Center;
 
-            var weatherText = AddText(container, "WeatherText", "晴天", 20, "weather_sunny");
-            SetSize(weatherText.gameObject, 160, 36);
+            var weatherText = AddText(container, "WeatherText", "晴天", 28, "weather_sunny");
+            SetSize(weatherText.gameObject, 220, 48);
             weatherText.alignment = TextAlignmentOptions.Left;
 
             var hud = root.AddComponent<WeatherHUD>();
@@ -187,43 +199,43 @@ namespace CozyYard.Editor
         private static void GenerateInventoryWindow()
         {
 
-            var root = CreatePanelRoot("InventoryWindow", new Vector2(600, 500));
+            var root = CreatePanelRoot("InventoryWindow", new Vector2(960, 760));
             AddBg(root);
 
-            var title = AddText(root, "Title", "背  包", 28, "title_inventory");
+            var title = AddText(root, "Title", "背  包", 40, "title_inventory");
             SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(0, -50), new Vector2(0, -8));
+                new Vector2(0, -72), new Vector2(0, -12));
 
             var statusBar = AddChild(root, "StatusBar");
             SetAnchors(statusBar, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(20, -95), new Vector2(-20, -55));
-            AddHorizontalLayout(statusBar, 30, TextAnchor.MiddleLeft);
+                new Vector2(32, -130), new Vector2(-32, -80));
+            AddHorizontalLayout(statusBar, 40, TextAnchor.MiddleLeft);
 
-            var capacityText = AddText(statusBar, "CapacityText", "0/20", 20);
-            SetSize(capacityText.gameObject, 160, 36);
+            var capacityText = AddText(statusBar, "CapacityText", "0/20", 28);
+            SetSize(capacityText.gameObject, 240, 48);
             capacityText.alignment = TextAlignmentOptions.Left;
-            var coinsText = AddText(statusBar, "CoinsText", "0", 20);
-            SetSize(coinsText.gameObject, 160, 36);
+            var coinsText = AddText(statusBar, "CoinsText", "0", 28);
+            SetSize(coinsText.gameObject, 240, 48);
             coinsText.alignment = TextAlignmentOptions.Left;
             coinsText.color = new Color(1f, 0.85f, 0.3f);
 
             var scrollArea = AddChild(root, "ScrollArea");
             SetAnchors(scrollArea, new Vector2(0, 0), new Vector2(1, 1),
-                new Vector2(20, 60), new Vector2(-20, -100));
+                new Vector2(32, 90), new Vector2(-32, -140));
             var itemsContainerGo = CreateScrollContent(scrollArea, "ItemsContainer", out _).gameObject;
             Object.DestroyImmediate(itemsContainerGo.GetComponent<VerticalLayoutGroup>());
             var grid = itemsContainerGo.AddComponent<GridLayoutGroup>();
-            grid.cellSize = new Vector2(120, 50);
-            grid.spacing = new Vector2(8, 8);
+            grid.cellSize = new Vector2(200, 72);
+            grid.spacing = new Vector2(12, 12);
             grid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
             grid.constraintCount = 4;
             grid.childAlignment = TextAnchor.UpperLeft;
 
             var itemSlotPrefab = CreateItemSlotPrefab();
 
-            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20, "btn_close");
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(200, 64), 28, "btn_close");
             SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
-                new Vector2(-70, 12), new Vector2(70, 56));
+                new Vector2(-100, 16), new Vector2(100, 80));
 
             var panel = root.AddComponent<InventoryWindow>();
             Bind(panel, "_itemsContainer", itemsContainerGo.transform);
@@ -242,23 +254,23 @@ namespace CozyYard.Editor
         private static void GenerateBuildWindow()
         {
 
-            var root = CreatePanelRoot("BuildWindow", new Vector2(500, 600));
+            var root = CreatePanelRoot("BuildWindow", new Vector2(800, 880));
             AddBg(root);
 
-            var title = AddText(root, "Title", "建  造", 28, "title_build");
+            var title = AddText(root, "Title", "建  造", 36, "title_build");
             SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(0, -50), new Vector2(0, -8));
+                new Vector2(0, -72), new Vector2(0, -12));
 
             var scrollArea = AddChild(root, "ScrollArea");
             SetAnchors(scrollArea, new Vector2(0, 0), new Vector2(1, 1),
-                new Vector2(16, 60), new Vector2(-16, -58));
+                new Vector2(24, 90), new Vector2(-24, -80));
             var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
 
             var entryPrefab = CreateBuildEntryPrefab();
 
-            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20, "btn_close");
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(200, 64), 26, "btn_close");
             SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
-                new Vector2(-70, 12), new Vector2(70, 56));
+                new Vector2(-100, 16), new Vector2(100, 80));
 
             var panel = root.AddComponent<BuildWindow>();
             Bind(panel, "_listContainer", listContainer);
@@ -275,23 +287,23 @@ namespace CozyYard.Editor
         private static void GenerateCraftWindow()
         {
 
-            var root = CreatePanelRoot("CraftWindow", new Vector2(560, 620));
+            var root = CreatePanelRoot("CraftWindow", new Vector2(880, 900));
             AddBg(root);
 
-            var title = AddText(root, "Title", "制  作", 28, "title_craft");
+            var title = AddText(root, "Title", "制  作", 36, "title_craft");
             SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(0, -50), new Vector2(0, -8));
+                new Vector2(0, -72), new Vector2(0, -12));
 
             var scrollArea = AddChild(root, "ScrollArea");
             SetAnchors(scrollArea, new Vector2(0, 0), new Vector2(1, 1),
-                new Vector2(16, 60), new Vector2(-16, -58));
+                new Vector2(24, 90), new Vector2(-24, -80));
             var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
 
             var entryPrefab = CreateCraftEntryPrefab();
 
-            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20, "btn_close");
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(200, 64), 26, "btn_close");
             SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
-                new Vector2(-70, 12), new Vector2(70, 56));
+                new Vector2(-100, 16), new Vector2(100, 80));
 
             var panel = root.AddComponent<CraftWindow>();
             Bind(panel, "_listContainer", listContainer);
@@ -308,33 +320,33 @@ namespace CozyYard.Editor
         private static void GenerateVisitorWindow()
         {
 
-            var root = CreatePanelRoot("VisitorWindow", new Vector2(640, 580));
+            var root = CreatePanelRoot("VisitorWindow", new Vector2(960, 860));
             AddBg(root);
 
-            var title = AddText(root, "Title", "来  客", 28, "title_visitor");
+            var title = AddText(root, "Title", "来  客", 36, "title_visitor");
             SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(0, -50), new Vector2(0, -8));
+                new Vector2(0, -72), new Vector2(0, -12));
 
             var gateRow = AddChild(root, "GateRow");
             SetAnchors(gateRow, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(20, -95), new Vector2(-20, -55));
-            AddHorizontalLayout(gateRow, 16, TextAnchor.MiddleLeft);
+                new Vector2(32, -135), new Vector2(-32, -80));
+            AddHorizontalLayout(gateRow, 24, TextAnchor.MiddleLeft);
 
-            var gateText = AddText(gateRow, "GateText", "大门: 开", 20, "gate_open");
-            SetSize(gateText.gameObject, 180, 36);
+            var gateText = AddText(gateRow, "GateText", "大门: 开", 28, "gate_open");
+            SetSize(gateText.gameObject, 280, 52);
             gateText.alignment = TextAlignmentOptions.Left;
-            var gateToggleBtn = AddButton(gateRow, "GateToggleBtn", "切换大门", new Vector2(140, 40), 18, "gate_toggle");
+            var gateToggleBtn = AddButton(gateRow, "GateToggleBtn", "切换大门", new Vector2(200, 60), 26, "gate_toggle");
 
             var scrollArea = AddChild(root, "ScrollArea");
             SetAnchors(scrollArea, new Vector2(0, 0), new Vector2(1, 1),
-                new Vector2(16, 60), new Vector2(-16, -100));
+                new Vector2(24, 90), new Vector2(-24, -145));
             var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
 
             var entryPrefab = CreateVisitorEntryPrefab();
 
-            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20, "btn_close");
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(200, 64), 26, "btn_close");
             SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
-                new Vector2(-70, 12), new Vector2(70, 56));
+                new Vector2(-100, 16), new Vector2(100, 80));
 
             var panel = root.AddComponent<VisitorWindow>();
             Bind(panel, "_listContainer", listContainer);
@@ -353,28 +365,28 @@ namespace CozyYard.Editor
         private static void GenerateMilestoneWindow()
         {
 
-            var root = CreatePanelRoot("MilestoneWindow", new Vector2(560, 620));
+            var root = CreatePanelRoot("MilestoneWindow", new Vector2(880, 900));
             AddBg(root);
 
-            var title = AddText(root, "Title", "里程碑", 28, "title_milestone");
+            var title = AddText(root, "Title", "里程碑", 36, "title_milestone");
             SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(0, -50), new Vector2(0, -8));
+                new Vector2(0, -72), new Vector2(0, -12));
 
-            var expansionText = AddText(root, "ExpansionText", "扩建等级: 0", 20, "expansion_level");
+            var expansionText = AddText(root, "ExpansionText", "扩建等级: 0", 28, "expansion_level");
             SetAnchors(expansionText.gameObject, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(20, -95), new Vector2(-20, -58));
+                new Vector2(32, -135), new Vector2(-32, -82));
             expansionText.alignment = TextAlignmentOptions.Left;
 
             var scrollArea = AddChild(root, "ScrollArea");
             SetAnchors(scrollArea, new Vector2(0, 0), new Vector2(1, 1),
-                new Vector2(16, 60), new Vector2(-16, -100));
+                new Vector2(24, 90), new Vector2(-24, -145));
             var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
 
             var entryPrefab = CreateMilestoneEntryPrefab();
 
-            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20, "btn_close");
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(200, 64), 26, "btn_close");
             SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
-                new Vector2(-70, 12), new Vector2(70, 56));
+                new Vector2(-100, 16), new Vector2(100, 80));
 
             var panel = root.AddComponent<MilestoneWindow>();
             Bind(panel, "_listContainer", listContainer);
@@ -392,23 +404,23 @@ namespace CozyYard.Editor
         private static void GenerateRecipeBookWindow()
         {
 
-            var root = CreatePanelRoot("RecipeBookWindow", new Vector2(560, 620));
+            var root = CreatePanelRoot("RecipeBookWindow", new Vector2(880, 900));
             AddBg(root);
 
-            var title = AddText(root, "Title", "配方本", 28, "title_recipe_book");
+            var title = AddText(root, "Title", "配方本", 36, "title_recipe_book");
             SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(0, -50), new Vector2(0, -8));
+                new Vector2(0, -72), new Vector2(0, -12));
 
             var scrollArea = AddChild(root, "ScrollArea");
             SetAnchors(scrollArea, new Vector2(0, 0), new Vector2(1, 1),
-                new Vector2(16, 60), new Vector2(-16, -58));
+                new Vector2(24, 90), new Vector2(-24, -80));
             var listContainer = CreateScrollContent(scrollArea, "ListContainer", out _);
 
             var entryPrefab = CreateRecipeBookEntryPrefab();
 
-            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(140, 44), 20, "btn_close");
+            var closeBtn = AddButton(root, "CloseBtn", "关  闭", new Vector2(200, 64), 26, "btn_close");
             SetAnchors(closeBtn.gameObject, new Vector2(0.5f, 0), new Vector2(0.5f, 0),
-                new Vector2(-70, 12), new Vector2(70, 56));
+                new Vector2(-100, 16), new Vector2(100, 80));
 
             var panel = root.AddComponent<RecipeBookWindow>();
             Bind(panel, "_listContainer", listContainer);
@@ -425,44 +437,44 @@ namespace CozyYard.Editor
         private static void GeneratePhoneWindow()
         {
 
-            var root = CreatePanelRoot("PhoneWindow", new Vector2(560, 620));
+            var root = CreatePanelRoot("PhoneWindow", new Vector2(880, 900));
             AddBg(root);
 
-            var title = AddText(root, "Title", "问  妈", 28, "title_phone");
+            var title = AddText(root, "Title", "问  妈", 36, "title_phone");
             SetAnchors(title.gameObject, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(0, -50), new Vector2(0, -8));
+                new Vector2(0, -72), new Vector2(0, -12));
 
-            var hintText = AddText(root, "HintText", "告诉妈妈你有什么材料，她可能知道配方", 18, "mom_hint");
+            var hintText = AddText(root, "HintText", "告诉妈妈你有什么材料，她可能知道配方", 26, "mom_hint");
             SetAnchors(hintText.gameObject, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(20, -95), new Vector2(-20, -58));
+                new Vector2(32, -135), new Vector2(-32, -82));
             hintText.alignment = TextAlignmentOptions.Left;
             hintText.color = new Color(0.85f, 0.85f, 0.8f);
 
-            var asksRemainingText = AddText(root, "AsksRemainingText", "今日剩余询问: 1/1", 18);
+            var asksRemainingText = AddText(root, "AsksRemainingText", "今日剩余询问: 1/1", 26);
             SetAnchors(asksRemainingText.gameObject, new Vector2(0, 1), new Vector2(1, 1),
-                new Vector2(20, -130), new Vector2(-20, -98));
+                new Vector2(32, -185), new Vector2(-32, -140));
             asksRemainingText.alignment = TextAlignmentOptions.Left;
 
             var scrollArea = AddChild(root, "ItemScrollArea");
             SetAnchors(scrollArea, new Vector2(0, 0), new Vector2(1, 1),
-                new Vector2(16, 120), new Vector2(-16, -140));
+                new Vector2(24, 170), new Vector2(-24, -195));
             var itemsContainer = CreateScrollContent(scrollArea, "ItemsContainer", out _);
 
             var itemEntryPrefab = CreatePhoneItemEntryPrefab();
 
-            var resultText = AddText(root, "ResultText", "", 18);
+            var resultText = AddText(root, "ResultText", "", 26);
             SetAnchors(resultText.gameObject, new Vector2(0, 0), new Vector2(1, 0),
-                new Vector2(20, 68), new Vector2(-20, 108));
+                new Vector2(32, 95), new Vector2(-32, 155));
             resultText.alignment = TextAlignmentOptions.Left;
             resultText.color = new Color(0.9f, 0.9f, 0.75f);
 
             var btnArea = AddChild(root, "ButtonArea");
             SetAnchors(btnArea, new Vector2(0, 0), new Vector2(1, 0),
-                new Vector2(20, 12), new Vector2(-20, 60));
-            AddHorizontalLayout(btnArea, 20, TextAnchor.MiddleCenter);
+                new Vector2(32, 16), new Vector2(-32, 84));
+            AddHorizontalLayout(btnArea, 30, TextAnchor.MiddleCenter);
 
-            var askBtn = AddGrayButton(btnArea, "AskBtn", "询问妈妈", new Vector2(160, 44), 20, "ask_mom");
-            var closeBtn = AddButton(btnArea, "CloseBtn", "关  闭", new Vector2(140, 44), 20, "btn_close");
+            var askBtn = AddGrayButton(btnArea, "AskBtn", "询问妈妈", new Vector2(220, 64), 26, "ask_mom");
+            var closeBtn = AddButton(btnArea, "CloseBtn", "关  闭", new Vector2(200, 64), 26, "btn_close");
 
             var panel = root.AddComponent<PhoneWindow>();
             Bind(panel, "_hintText", hintText);
@@ -484,15 +496,15 @@ namespace CozyYard.Editor
         {
             var go = new GameObject("InventorySlotEntry", typeof(RectTransform), typeof(Image));
             go.layer = LayerMask.NameToLayer("UI");
-            SetSize(go, 120, 50);
+            SetSize(go, 200, 72);
 
             var bg = go.GetComponent<Image>();
             bg.color = new Color(0.18f, 0.18f, 0.22f, 0.85f);
 
-            var textGo = AddFullStretchChild(go, "Text", new RectOffset(8, 8, 4, 4));
+            var textGo = AddFullStretchChild(go, "Text", new RectOffset(10, 10, 6, 6));
             var text = textGo.AddComponent<TextMeshProUGUI>();
             text.text = "#1001 x5";
-            text.fontSize = 16;
+            text.fontSize = 24;
             text.color = Color.white;
             text.alignment = TextAlignmentOptions.Center;
 
@@ -507,20 +519,20 @@ namespace CozyYard.Editor
         {
             var go = new GameObject("BuildEntry", typeof(RectTransform), typeof(Image));
             go.layer = LayerMask.NameToLayer("UI");
-            SetSize(go, 0, 56);
+            SetSize(go, 0, 80);
 
             var bg = go.GetComponent<Image>();
             bg.color = new Color(0.18f, 0.18f, 0.22f, 0.85f);
 
-            AddHorizontalLayout(go, 12, TextAnchor.MiddleLeft);
+            AddHorizontalLayout(go, 16, TextAnchor.MiddleLeft);
             var hlg = go.GetComponent<HorizontalLayoutGroup>();
-            hlg.padding = new RectOffset(12, 12, 6, 6);
+            hlg.padding = new RectOffset(20, 20, 8, 8);
 
-            var infoText = AddText(go, "InfoText", "", 18);
+            var infoText = AddText(go, "InfoText", "", 26);
             infoText.alignment = TextAlignmentOptions.Left;
-            SetSize(infoText.gameObject, 280, 44);
+            SetSize(infoText.gameObject, 480, 64);
 
-            var buildBtn = AddGrayButton(go, "BuildBtn", "建造", new Vector2(90, 40), 18, "btn_build_action");
+            var buildBtn = AddGrayButton(go, "BuildBtn", "建造", new Vector2(140, 56), 26, "btn_build_action");
 
             var mono = go.AddComponent<BuildEntry>();
             Bind(mono, "_nameText", infoText);
@@ -534,20 +546,20 @@ namespace CozyYard.Editor
         {
             var go = new GameObject("CraftEntry", typeof(RectTransform), typeof(Image));
             go.layer = LayerMask.NameToLayer("UI");
-            SetSize(go, 0, 80);
+            SetSize(go, 0, 110);
 
             var bg = go.GetComponent<Image>();
             bg.color = new Color(0.18f, 0.18f, 0.22f, 0.85f);
 
-            AddHorizontalLayout(go, 12, TextAnchor.MiddleLeft);
+            AddHorizontalLayout(go, 16, TextAnchor.MiddleLeft);
             var hlg = go.GetComponent<HorizontalLayoutGroup>();
-            hlg.padding = new RectOffset(12, 12, 6, 6);
+            hlg.padding = new RectOffset(20, 20, 8, 8);
 
-            var infoText = AddText(go, "InfoText", "", 16);
+            var infoText = AddText(go, "InfoText", "", 24);
             infoText.alignment = TextAlignmentOptions.Left;
-            SetSize(infoText.gameObject, 340, 68);
+            SetSize(infoText.gameObject, 540, 94);
 
-            var craftBtn = AddGrayButton(go, "CraftBtn", "制作", new Vector2(90, 40), 18, "btn_craft_action");
+            var craftBtn = AddGrayButton(go, "CraftBtn", "制作", new Vector2(140, 56), 26, "btn_craft_action");
 
             var mono = go.AddComponent<CraftEntry>();
             Bind(mono, "_nameText", infoText);
@@ -561,21 +573,21 @@ namespace CozyYard.Editor
         {
             var go = new GameObject("VisitorEntry", typeof(RectTransform), typeof(Image));
             go.layer = LayerMask.NameToLayer("UI");
-            SetSize(go, 0, 90);
+            SetSize(go, 0, 120);
 
             var bg = go.GetComponent<Image>();
             bg.color = new Color(0.18f, 0.18f, 0.22f, 0.85f);
 
-            AddHorizontalLayout(go, 10, TextAnchor.MiddleLeft);
+            AddHorizontalLayout(go, 14, TextAnchor.MiddleLeft);
             var hlg = go.GetComponent<HorizontalLayoutGroup>();
-            hlg.padding = new RectOffset(12, 12, 6, 6);
+            hlg.padding = new RectOffset(20, 20, 8, 8);
 
-            var infoText = AddText(go, "InfoText", "", 16);
+            var infoText = AddText(go, "InfoText", "", 24);
             infoText.alignment = TextAlignmentOptions.Left;
-            SetSize(infoText.gameObject, 300, 78);
+            SetSize(infoText.gameObject, 480, 104);
 
-            var fulfillBtn = AddButton(go, "FulfillBtn", "交付", new Vector2(80, 40), 18, "deliver");
-            var dismissBtn = AddButton(go, "DismissBtn", "送走", new Vector2(80, 40), 18, "dismiss");
+            var fulfillBtn = AddButton(go, "FulfillBtn", "交付", new Vector2(120, 56), 24, "deliver");
+            var dismissBtn = AddButton(go, "DismissBtn", "送走", new Vector2(120, 56), 24, "dismiss");
 
             var mono = go.AddComponent<VisitorEntry>();
             Bind(mono, "_infoText", infoText);
@@ -590,15 +602,15 @@ namespace CozyYard.Editor
         {
             var go = new GameObject("MilestoneEntry", typeof(RectTransform), typeof(Image));
             go.layer = LayerMask.NameToLayer("UI");
-            SetSize(go, 0, 72);
+            SetSize(go, 0, 100);
 
             var bg = go.GetComponent<Image>();
             bg.color = new Color(0.18f, 0.18f, 0.22f, 0.85f);
 
-            var textGo = AddFullStretchChild(go, "Text", new RectOffset(12, 12, 6, 6));
+            var textGo = AddFullStretchChild(go, "Text", new RectOffset(20, 20, 10, 10));
             var text = textGo.AddComponent<TextMeshProUGUI>();
             text.text = "";
-            text.fontSize = 16;
+            text.fontSize = 24;
             text.color = Color.white;
             text.alignment = TextAlignmentOptions.Left;
 
@@ -613,15 +625,15 @@ namespace CozyYard.Editor
         {
             var go = new GameObject("RecipeBookEntry", typeof(RectTransform), typeof(Image));
             go.layer = LayerMask.NameToLayer("UI");
-            SetSize(go, 0, 72);
+            SetSize(go, 0, 100);
 
             var bg = go.GetComponent<Image>();
             bg.color = new Color(0.18f, 0.18f, 0.22f, 0.85f);
 
-            var textGo = AddFullStretchChild(go, "Text", new RectOffset(12, 12, 6, 6));
+            var textGo = AddFullStretchChild(go, "Text", new RectOffset(20, 20, 10, 10));
             var text = textGo.AddComponent<TextMeshProUGUI>();
             text.text = "";
-            text.fontSize = 16;
+            text.fontSize = 24;
             text.color = Color.white;
             text.alignment = TextAlignmentOptions.Left;
 
@@ -636,18 +648,18 @@ namespace CozyYard.Editor
         {
             var go = new GameObject("PhoneItemEntry", typeof(RectTransform), typeof(Image));
             go.layer = LayerMask.NameToLayer("UI");
-            SetSize(go, 0, 44);
+            SetSize(go, 0, 64);
 
             var bg = go.GetComponent<Image>();
             bg.color = new Color(0.18f, 0.18f, 0.22f, 0.85f);
 
-            AddHorizontalLayout(go, 8, TextAnchor.MiddleLeft);
+            AddHorizontalLayout(go, 12, TextAnchor.MiddleLeft);
             var hlg = go.GetComponent<HorizontalLayoutGroup>();
-            hlg.padding = new RectOffset(10, 10, 4, 4);
+            hlg.padding = new RectOffset(16, 16, 6, 6);
 
-            var infoText = AddText(go, "InfoText", "", 16);
+            var infoText = AddText(go, "InfoText", "", 24);
             infoText.alignment = TextAlignmentOptions.Left;
-            SetSize(infoText.gameObject, 320, 36);
+            SetSize(infoText.gameObject, 520, 52);
 
             var selectBtn = go.AddComponent<UISmartButton>();
 

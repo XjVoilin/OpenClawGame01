@@ -46,8 +46,9 @@ namespace CozyYard
 
                 bool canAfford = buildSystem.CanAfford(id);
                 int buildingId = id;
+                string displayName = $"{GF.Localization.Get(cfg.NameKey)} ({cfg.SizeX}×{cfg.SizeY})";
                 entry.Setup(
-                    GF.Localization.Get(cfg.NameKey),
+                    displayName,
                     canAfford,
                     () => OnBuild(buildingId)
                 );
