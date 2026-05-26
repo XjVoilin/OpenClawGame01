@@ -37,9 +37,6 @@ namespace CozyYard
             var resourceProvider = GF.Resolve<IResourceProvider>();
             var poolProvider = GF.Resolve<IPoolProvider>();
 
-            var saveProvider = new PlayerPrefsSaveProvider();
-            GF.RegisterProvider<ISaveProvider>(saveProvider);
-
             var configProvider = new LubanConfigProvider(resourceProvider);
             GF.RegisterProvider<IConfigProvider>(configProvider);
 

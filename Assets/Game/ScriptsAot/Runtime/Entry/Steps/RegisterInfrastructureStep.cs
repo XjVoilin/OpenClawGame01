@@ -10,6 +10,7 @@ using JulyCore.Provider.Encryption;
 using JulyCore.Provider.Fsm;
 using JulyCore.Provider.Input;
 using JulyCore.Provider.Pool;
+using JulyCore.Provider.Save;
 using JulyCore.Provider.Time;
 #if JULYGF_DEBUG
 using JulyCore.Provider.GM;
@@ -31,10 +32,14 @@ namespace CozyYard.Aot
 
             ctx.RegisterProvider<IInputProvider>(new UnityInputProvider());
             ctx.RegisterProvider<ITimeProvider>(new UnityTimeProvider());
-            ctx.RegisterProvider<ISerializeProvider>(new JsonSerializeProvider());
             ctx.RegisterProvider<IPoolProvider>(new PoolProvider());
-            ctx.RegisterProvider<IEncryptionProvider>(new NoEncryptionProvider());
             ctx.RegisterProvider<IFsmProvider>(new FsmProvider());
+            
+            var serializeProvider = new JsonSerializeProvider();
+            var encryptionProvider = new NoEncryptionProvider();
+            ctx.RegisterProvider<ISerializeProvider>(serializeProvider);
+            ctx.RegisterProvider<IEncryptionProvider>(encryptionProvider);
+            ctx.RegisterProvider<ISaveProvider>(new LocalFileSaveProvider(serializeProvider, encryptionProvider));
 
 #if JULYGF_DEBUG
             ctx.RegisterProvider<IGMProvider>(new GMProvider());
