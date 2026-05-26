@@ -1,21 +1,25 @@
-# JulyCore + JulyArch 框架使用指南
+# JulyCore + JulyArch v3 框架使用指南
 
 > OpenClaw 在设计技术方案和编写代码时必须参考此文档。
 
 ---
 
-## 一、两层框架的关系
+## 一、框架全景
 
 ```
+JulyEvents（事件基础设施）
+     ↓
 JulyCore（底层）——— 提供系统级服务（资源、UI、音频、网络、场景、存档等）
     ↓ 通过 GF 门面访问
-JulyArch（上层）——— 提供业务架构（Store-System-Mutation-Procedure-View-Event）
+JulyArch v3（上层）——— 提供业务架构（Store-System-Procedure-View-Event）
     ↓ 业务代码继承基类
-游戏项目 ——— Store 存数据、System 帧逻辑+命令、Procedure 异步编排、View 渲染+输入
+JulyToolkit（UI 工具组件）+ JulyGame（跨项目业务系统）
+    ↓
+游戏项目 ——— Store 存数据、System 编排业务、Procedure 异步长流程、View 渲染+输入
 ```
 
 **JulyCore** 管"引擎能做什么"（加载资源、播音频、发网络请求）。
-**JulyArch** 管"业务代码怎么组织"（数据放哪、逻辑写哪、UI 怎么刷新）。
+**JulyArch v3** 管"业务代码怎么组织"（数据放哪、逻辑写哪、UI 怎么刷新）。
 
 ---
 
@@ -37,15 +41,10 @@ JulyArch（上层）——— 提供业务架构（Store-System-Mutation-Procedu
 ### GF 门面（全局静态入口）
 
 ```csharp
-// 资源加载
 var handle = await GF.Resource.LoadAssetAsync<GameObject>("prefab_path");
-// UI
 await GF.UI.OpenUIFormAsync<MyPanel>();
-// 音频
 GF.Audio.PlaySound("click");
-// 场景
 await GF.Scene.LoadSceneAsync("SceneName");
-// 对象池
 var obj = GF.Pool.Spawn("poolName");
 GF.Pool.Recycle(obj);
 ```
@@ -58,50 +57,62 @@ GF.Pool.Recycle(obj);
 
 ---
 
-## 三、JulyArch 关键概念
+## 三、JulyArch v3 关键概念
+
+### 已废弃（v3 中不再存在）
+
+以下概念在 JulyArch v3 中已完全移除，代码中不应出现：
+- ~~Mutation / IMutation / IMutationContext~~ → 改用 Store 的 internal 写方法
+- ~~Query / IStoreQueries / IXxxQueries~~ → 改用 this.GetStore<XxxStore>() 直接访问 public 属性
+- ~~Mutate() 扩展方法~~ → 改用 System 直接调 store.InternalMethod()
+- ~~IStoreContract~~ → 不再需要
+- ~~Command / ICommand~~ → 不再存在
+- ~~GameContext / IGameContext~~ → 改用 ArchContext / IArchContext
 
 ### 角色总览
 
-| 角色 | 职责 | 基类 | 能做 | 不能做 |
-|---|---|---|---|---|
-| **Store** | 持有业务数据 | `StoreBase<TData>` | 自身读写、发事件 | 不调 Mutate、不调 System |
-| **System** | 帧逻辑 + 接收命令 | `GameSystemBase` | Query/Mutate/Publish/RunProcedure | **不持有 View** |
-| **Mutation** | 同步原子状态变更 | `readonly struct` 实现 `IMutation` | 通过 `ctx.GetStore<T>()` 跨 Store 写 | 不做异步、不调 System |
-| **Procedure** | 异步长流程编排 | `ProcedureBase` | Query/Mutate/Publish/await View/嵌套 Procedure | — |
-| **View** | 渲染 + 用户输入 | `GameView`（MonoBehaviour） | Subscribe 事件刷新 UI、调 System 公开方法 | 不直接改 Store（走 Mutate） |
-| **EventBus** | 同步事件广播 | — | 解耦 Store ↔ View 通信 | — |
+| 角色 | 职责 | 基类 | 能力接口 |
+|---|---|---|---|
+| **Store** | 持有数据 + 业务规则 | `StoreBase<TData>` / `SavableStoreBase<TData>` | `ICanEvent`（发布事件） |
+| **System** | 编排业务流程，驱动 Store | `GameSystemBase` | `ICanGetStore` + `ICanEvent` + `ICanGetSystem` + `ICanRunProcedure` |
+| **Procedure** | 异步长流程 | `ProcedureBase`（override `OnExecuteAsync`） | 同 System |
+| **View** | 读取数据 + 订阅事件 + 驱动 UI | `GameView` / `GameUIView` / `MiniGameView` | `ICanGetStore` + `ICanEvent` + `ICanGetSystem` |
+
+### 数据访问模式（核心变化）
+
+```csharp
+// v3：直接获取具体 Store 类，public 读 + internal 写
+var store = this.GetStore<FarmStore>();
+int water = store.WaterLevel;        // public 读
+store.SetWaterLevel(10);             // internal 写（仅同程序集 System 可调）
+```
+
+**关键规则**：
+- Store 的写方法用 `internal` 修饰 — 同程序集（System）可写，跨程序集（View/外部）只读
+- 不再有 Query<>() / Mutate<>() / Mutation 类 / IXxxStore 接口
+- ArchContext.RegisterStore 按具体类型直接注册
 
 ### 数据流
 
 ```
 [View] ——用户操作——→ [System.PublicMethod()]
                           │
-                          ├→ Mutate(...) → [Store 改数据] → Event → [View 刷新]
+                          ├→ store.InternalWrite() → this.Publish(event) → [View 刷新]
                           │
-                          └→ RunProcedure(new XxxProcedure(viewRefs))
+                          └→ this.RunProcedure(new XxxProcedure())
                                           │
-                                          ├→ await view.PlayAsync(ct)
-                                          ├→ Mutate(...)
-                                          └→ await RunProcedure(childProcedure)
+                                          ├→ store.InternalWrite()
+                                          └→ this.Publish(event)
 ```
 
-### GameContext（协调中心）
+### ArchContext（协调中心）
 
 ```csharp
-// 创建
-var ctx = new GameContext();
-
-// 注册（初始化阶段）
-ctx.RegisterStore(new MyStore());
-ctx.RegisterSystem(new MySystem());
-
-// 初始化（按顺序：Store.Load → OnReady → System.OnInit → OnStart）
+var ctx = new ArchContext();
+ctx.RegisterStore(new FarmStore());
+ctx.RegisterSystem(new FarmSystem());
 await ctx.InitializeAsync(ct);
-
-// 帧驱动（放在 MonoBehaviour.Update 中）
 ctx.Update(Time.deltaTime);
-
-// 关闭
 ctx.Shutdown();
 ```
 
@@ -112,82 +123,49 @@ ctx.Shutdown();
 ### Store（数据层）
 
 ```csharp
-// 1. 定义数据类
-public class FactoryData
+public class FarmData
 {
     public int Gold;
-    public int CurrentEra;
-    public List<MachineInstance> Machines = new();
+    public List<CropInstance> Crops = new();
 }
 
-// 2. 定义查询接口（外部只读访问）
-public interface IFactoryQueries : IStoreQueries
+public class FarmStore : StoreBase<FarmData>
 {
-    int Gold { get; }
-    int CurrentEra { get; }
-    IReadOnlyList<MachineInstance> Machines { get; }
-}
-
-// 3. 实现 Store
-public class FactoryStore : StoreBase<FactoryData>, IFactoryQueries
-{
+    // public 读属性
     public int Gold => Data.Gold;
-    public int CurrentEra => Data.CurrentEra;
-    public IReadOnlyList<MachineInstance> Machines => Data.Machines;
+    public IReadOnlyList<CropInstance> Crops => Data.Crops;
 
-    // Store 内部可以暴露写方法供 Mutation 使用
-    public void AddGold(int amount) => Data.Gold += amount;
-    public void SetEra(int era) => Data.CurrentEra = era;
+    // internal 写方法（仅同程序集 System 可调用）
+    internal void AddGold(int amount) => Data.Gold += amount;
+    internal void AddCrop(CropInstance crop) => Data.Crops.Add(crop);
+    internal void SetCropWatered(int index, bool watered) => Data.Crops[index].Watered = watered;
 }
 ```
 
-### Mutation（同步状态变更）
+### System（业务编排）
 
 ```csharp
-// 推荐 readonly struct，零 GC
-public readonly struct SellProductMutation : IMutation
+public class FarmSystem : GameSystemBase
 {
-    private readonly int _productValue;
-
-    public SellProductMutation(int productValue) => _productValue = productValue;
-
-    public MutationResult Execute(IMutationContext ctx)
-    {
-        var store = ctx.GetStore<FactoryStore>();
-        store.AddGold(_productValue);
-        // 可跨 Store 操作
-        // var otherStore = ctx.GetStore<OtherStore>();
-        return MutationResult.Success();
-    }
-}
-
-// 调用方（System / View / Procedure 都可以）
-this.Mutate(new SellProductMutation(150));
-```
-
-### System（帧逻辑 + 命令入口）
-
-```csharp
-public class ConveyorSystem : GameSystemBase, IUpdatableSystem
-{
-    private FactoryStore _factoryStore;
-
     protected override void OnInitialize()
     {
-        // 用 internal GetStore 获取（基类 protected 暴露）
-        // 通过 ArchExtensions: this.Query<IFactoryQueries>() 只读
-    }
-
-    public void OnUpdate(float deltaTime)
-    {
-        // 每帧物品流转逻辑（热路径，零 GC Alloc）
+        var store = this.GetStore<FarmStore>();
+        // 初始化逻辑
     }
 
     // 公开方法供 View 调用
-    public void PlaceMachine(Vector2Int pos, MachineType type)
+    public void WaterCrop(int cropIndex)
     {
-        // 验证 → Mutate → 可选 Publish 事件
-        this.Mutate(new PlaceMachineMutation(pos, type));
+        var store = this.GetStore<FarmStore>();
+        store.SetCropWatered(cropIndex, true);
+        this.Publish(new CropWateredEvent(cropIndex));
+    }
+
+    public void SellProduct(int productValue)
+    {
+        var store = this.GetStore<FarmStore>();
+        store.AddGold(productValue);
+        this.Publish(new GoldChangedEvent());
     }
 }
 ```
@@ -195,64 +173,56 @@ public class ConveyorSystem : GameSystemBase, IUpdatableSystem
 ### Procedure（异步长流程）
 
 ```csharp
-public class UnlockNewEraProcedure : ProcedureBase
+public class HarvestProcedure : ProcedureBase
 {
-    private readonly EraTransitionView _transitionView;
+    private readonly int _cropIndex;
 
-    // View 引用通过构造函数注入，不走框架
-    public UnlockNewEraProcedure(EraTransitionView transitionView)
+    public HarvestProcedure(int cropIndex) => _cropIndex = cropIndex;
+
+    protected override async UniTask OnExecuteAsync(CancellationToken ct)
     {
-        _transitionView = transitionView;
-    }
+        var store = this.GetStore<FarmStore>();
 
-    public override async UniTask ExecuteAsync(CancellationToken ct)
-    {
-        // 1. 播放过渡动画（await View）
-        await _transitionView.PlayEraTransition(ct);
+        // 异步操作（如播放动画、加载资源）
+        await UniTask.Delay(500, cancellationToken: ct);
 
-        // 2. 改数据
-        this.Mutate(new AdvanceEraMutation());
+        store.RemoveCrop(_cropIndex);
+        store.AddGold(50);
 
-        // 3. 发事件通知 View 刷新
-        this.Publish(new EraChangedEvent());
-
-        // 4. 可嵌套子 Procedure
-        await this.RunProcedure(new UnlockMachinesProcedure(), ct);
+        this.Publish(new CropHarvestedEvent(_cropIndex));
+        this.Publish(new GoldChangedEvent());
     }
 }
 
 // System 中触发
-public void OnEraThresholdReached(EraTransitionView view)
+public void HarvestCrop(int cropIndex)
 {
-    this.RunProcedure(new UnlockNewEraProcedure(view), _cts.Token).Forget();
+    this.RunProcedure(new HarvestProcedure(cropIndex), _cts.Token).Forget();
 }
 ```
 
 ### View（UI / 场景渲染）
 
 ```csharp
-public class FactoryHudView : GameView
+public class FarmHudView : GameUIView
 {
     [SerializeField] private Text _goldText;
 
-    public override IGameContext GetArchitecture() => FactoryContext.Instance;
-
     protected override void OnViewEnable()
     {
-        // 订阅事件刷新 UI
         this.Subscribe<GoldChangedEvent>(OnGoldChanged);
-        
+
         // 初始刷新
-        var q = this.Query<IFactoryQueries>();
-        _goldText.text = q.Gold.ToString();
+        var store = this.GetStore<FarmStore>();
+        _goldText.text = store.Gold.ToString();
     }
 
     // OnViewDisable 时 base 自动 UnsubscribeAll
 
     private void OnGoldChanged(GoldChangedEvent evt)
     {
-        var q = this.Query<IFactoryQueries>();
-        _goldText.text = q.Gold.ToString();
+        var store = this.GetStore<FarmStore>();
+        _goldText.text = store.Gold.ToString();
     }
 }
 ```
@@ -263,59 +233,54 @@ public class FactoryHudView : GameView
 
 | 规则 | 原因 |
 |---|---|
+| **Store 用 public 读 + internal 写** | View 只读，System 可写，编译期保证 |
+| **不再有 Mutation / Query** | v3 简化，Store 直接暴露方法 |
 | **System 不持有 View 引用** | 需要 await View 时拆 Procedure |
-| **Mutation 必须同步** | 保证 Store 状态原子性 |
 | **Procedure 每次 new** | 一次性实例，不复用 |
-| **View 引用走构造函数注入到 Procedure** | 框架不维护 View 注册表 |
 | **Store 是唯一数据源** | 需要被第二个类读的数据就放 Store |
 | **热路径零 GC Alloc** | OnUpdate 里不 new List/string/lambda |
 | **事件订阅在 OnViewEnable，退订靠基类 OnDisable** | GameView.OnDisable 自动 UnsubscribeAll |
 | **异步必须传 CancellationToken** | 场景切换/游戏退出时能取消 |
-| **Mutation 推荐 readonly struct** | 减少 GC，语义上强调不可变 |
 
 ---
 
-## 六、扩展方法速查（ArchExtensions）
+## 六、能力接口速查（ArchExtensions）
 
-所有 `IArchNode`（Store / System / Procedure / View 的共同标记）都可以用：
+所有实现 `IArchNode` 的角色都可以用对应能力：
 
 ```csharp
-this.Query<IXxxQueries>()           // 只读查询 Store
-this.GetSystem<XxxSystem>()         // 获取 System
-this.Mutate(new XxxMutation())      // 执行 Mutation
-this.Mutate<XxxStore>(s => s.Xxx()) // lambda Mutation（单 Store 简写）
-this.Subscribe<XxxEvent>(handler)   // 订阅事件
-this.Unsubscribe<XxxEvent>(handler) // 退订事件
-this.Publish(new XxxEvent())        // 发布事件
-this.RunProcedure(proc, ct)         // 运行 Procedure
+this.GetStore<XxxStore>()            // 获取 Store（返回具体类，public 读 + internal 写）
+this.GetSystem<XxxSystem>()          // 获取 System
+this.Subscribe<XxxEvent>(handler)    // 订阅事件
+this.Unsubscribe<XxxEvent>(handler)  // 退订事件
+this.Publish(new XxxEvent())         // 发布事件
+this.RunProcedure(proc, ct)          // 运行 Procedure
 ```
 
 ---
 
-## 七、项目结构约定（OpenClawGame01）
+## 七、项目结构约定
 
-按功能模块组织（与 GooseMarket 一致）：
+按功能模块组织：
 
 ```
 Scripts/
-├── Context/                 # 全局上下文
 ├── Shared/                  # 跨模块共享的枚举、常量、工具
 └── Modules/
-    ├── Grid/                # 网格与建造
-    │   ├── GridStore.cs
-    │   ├── GridData.cs
-    │   ├── IGridQueries.cs
-    │   ├── GridEvents.cs
-    │   ├── BuildSystem.cs
-    │   └── Mutations/
-    ├── Economy/             # 经济与交易
+    ├── Farm/
+    │   ├── FarmStore.cs
+    │   ├── FarmData.cs
+    │   ├── FarmSystem.cs
+    │   ├── FarmEvents.cs
+    │   └── Procedures/
+    ├── Inventory/
     │   ├── InventoryStore.cs
-    │   ├── EconomySystem.cs
-    │   └── Mutations/
-    └── Tech/                # 科技与时代
-        ├── TechStore.cs
-        ├── TechSystem.cs
-        └── Mutations/
+    │   ├── InventorySystem.cs
+    │   └── Procedures/
+    └── ...
+Views/
+├── Windows/                 # UI 窗口
+└── World/                   # 世界场景视图
 ```
 
-原则：每个模块下放该模块的 Store/System/Events/Mutations/Procedures，View 单独放顶层。
+原则：每个模块下放该模块的 Store/System/Events/Procedures，View 单独放顶层。
