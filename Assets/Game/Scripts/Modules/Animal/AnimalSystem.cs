@@ -163,10 +163,15 @@ namespace CozyYard
 
         private void ProcessPet(AnimalInstance animal, System.Random random)
         {
-            if (random.Next(100) < 5)
+            var gameCfg = GF.Config.GetTable<TbGameConfig>();
+            int giftChance = gameCfg?.PetGiftChance ?? 5;
+            var giftItems = gameCfg?.PetGiftItemIds;
+
+            if (giftItems == null || giftItems.Count == 0) return;
+
+            if (random.Next(100) < giftChance)
             {
-                int[] possibleGifts = { 1001, 1002, 1003 };
-                int giftId = possibleGifts[random.Next(possibleGifts.Length)];
+                int giftId = giftItems[random.Next(giftItems.Count)];
                 _inventorySystem.AddItem(giftId, 1);
                 Publish(new PetGiftEvent { AnimalId = animal.AnimalId, ItemId = giftId });
             }

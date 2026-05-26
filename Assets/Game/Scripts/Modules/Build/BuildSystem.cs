@@ -7,7 +7,7 @@ namespace CozyYard
     /// <summary>建造系统：验证并执行建筑的放置与拆除，消耗材料和时间，拆除返还部分材料。</summary>
     public class BuildSystem : GameSystemBase
     {
-        private const float RefundRatio = 0.6f;
+        private float _refundRatio;
 
         private BuildStore _store;
         private GridSystem _gridSystem;
@@ -20,6 +20,9 @@ namespace CozyYard
             _gridSystem = GetSystem<GridSystem>();
             _inventorySystem = GetSystem<InventorySystem>();
             _timeSystem = GetSystem<TimeSystem>();
+
+            var cfg = GF.Config.GetTable<TbGameConfig>();
+            _refundRatio = cfg?.BuildRefundRatio ?? 0.6f;
         }
 
         public bool CanBuild(int buildingId, int x, int y)
@@ -75,7 +78,7 @@ namespace CozyYard
             {
                 for (int i = 0; i < cfg.Materials.Count; i++)
                 {
-                    int refund = (int)(cfg.MaterialQtys[i] * RefundRatio);
+                    int refund = (int)(cfg.MaterialQtys[i] * _refundRatio);
                     if (refund > 0)
                     {
                         _inventorySystem.AddItem(cfg.Materials[i], refund);

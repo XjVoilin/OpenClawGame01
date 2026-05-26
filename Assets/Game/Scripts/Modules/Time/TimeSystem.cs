@@ -16,14 +16,15 @@ namespace CozyYard
         private float _accumulatedRealTime;
         private bool _paused;
 
-        private const float BaseGameMinutesPerRealSecond = 0.8f;
-        private const int DayStartMinute = 360;
-        private const int DayEndMinute = 1440;
+        private float _gameMinutesPerRealSecond;
+        private int _dayStartMinute;
+        private int _dayEndMinute;
+        private float _maxTimeScale;
 
         public float TimeScale
         {
             get => _timeScale;
-            set => _timeScale = Mathf.Clamp(value, 0f, 3f);
+            set => _timeScale = Mathf.Clamp(value, 0f, _maxTimeScale);
         }
 
         public bool IsPaused
@@ -35,6 +36,12 @@ namespace CozyYard
         protected override void OnInitialize()
         {
             _store = GetStore<TimeStore>();
+
+            var cfg = GF.Config.GetTable<TbGameConfig>();
+            _gameMinutesPerRealSecond = cfg?.GameMinutesPerRealSecond ?? 0.8f;
+            _dayStartMinute = cfg?.DayStartMinute ?? 360;
+            _dayEndMinute = cfg?.DayEndMinute ?? 1440;
+            _maxTimeScale = cfg?.MaxTimeScale ?? 3f;
         }
 
         protected override void OnStart()
@@ -48,11 +55,11 @@ namespace CozyYard
 
             _accumulatedRealTime += deltaTime * _timeScale;
 
-            float minutesToAdd = _accumulatedRealTime * BaseGameMinutesPerRealSecond;
+            float minutesToAdd = _accumulatedRealTime * _gameMinutesPerRealSecond;
             if (minutesToAdd >= 1f)
             {
                 int wholeMinutes = Mathf.FloorToInt(minutesToAdd);
-                _accumulatedRealTime -= wholeMinutes / BaseGameMinutesPerRealSecond;
+                _accumulatedRealTime -= wholeMinutes / _gameMinutesPerRealSecond;
                 AdvanceTime(wholeMinutes);
             }
         }
@@ -65,7 +72,7 @@ namespace CozyYard
 
         public void SetSpeed(int multiplier)
         {
-            TimeScale = Mathf.Clamp(multiplier, 1, 3);
+            TimeScale = Mathf.Clamp(multiplier, 1, (int)_maxTimeScale);
         }
 
         public void EndDay()
@@ -81,9 +88,9 @@ namespace CozyYard
 
         public void EnsureDayStarted()
         {
-            if (_store.MinuteOfDay < DayStartMinute)
+            if (_store.MinuteOfDay < _dayStartMinute)
             {
-                _store.SetMinuteOfDay(DayStartMinute);
+                _store.SetMinuteOfDay(_dayStartMinute);
             }
         }
 
@@ -92,9 +99,9 @@ namespace CozyYard
             var oldPhase = _store.CurrentPhase;
             _store.AddMinutes(minutes);
 
-            if (_store.MinuteOfDay >= DayEndMinute)
+            if (_store.MinuteOfDay >= _dayEndMinute)
             {
-                _store.SetMinuteOfDay(DayEndMinute);
+                _store.SetMinuteOfDay(_dayEndMinute);
                 var newPhase = _store.CurrentPhase;
                 if (oldPhase != newPhase)
                 {
@@ -138,7 +145,7 @@ namespace CozyYard
             }
 
             _store.SetDayInSeason(dayInSeason);
-            _store.SetMinuteOfDay(DayStartMinute);
+            _store.SetMinuteOfDay(_dayStartMinute);
             _accumulatedRealTime = 0f;
 
             Publish(new DayChangedEvent

@@ -57,6 +57,9 @@ namespace CozyYard
 
         private void RegisterStores()
         {
+            // AccountStore 必须最先注册，确保 AccountSystem.OnStart() 最先执行
+            GameArch.Context.RegisterStore(new AccountStore());
+
             // 项目业务 Store
             GameArch.Context.RegisterStore(new GridStore());
             GameArch.Context.RegisterStore(new TimeStore());
@@ -72,6 +75,9 @@ namespace CozyYard
 
         private void RegisterSystems()
         {
+            // AccountSystem 必须最先注册，确保其 OnStart() 在所有业务 System 之前执行新账号数据播种
+            GameArch.Context.RegisterSystem(new AccountSystem());
+
             // 项目业务 System
             GameArch.Context.RegisterSystem(new GridSystem());
             GameArch.Context.RegisterSystem(new TimeSystem());

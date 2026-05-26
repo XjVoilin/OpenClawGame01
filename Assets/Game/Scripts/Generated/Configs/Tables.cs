@@ -86,6 +86,10 @@ public partial class Tables
     /// 初始资源表
     /// </summary>
     public TbStartingResource TbStartingResource {get; }
+    /// <summary>
+    /// 全局游戏配置表
+    /// </summary>
+    public TbGameConfig TbGameConfig {get; }
 
     public Tables(System.Func<string, JSONNode> loader)
     {
@@ -107,6 +111,7 @@ public partial class Tables
         TbLanguage = new TbLanguage(loader("tblanguage"));
         TbWeather = new TbWeather(loader("tbweather"));
         TbStartingResource = new TbStartingResource(loader("tbstartingresource"));
+        TbGameConfig = new TbGameConfig(loader("tbgameconfig"));
         ResolveRef();
     }
     
@@ -130,6 +135,7 @@ public partial class Tables
         TbLanguage.ResolveRef(this);
         TbWeather.ResolveRef(this);
         TbStartingResource.ResolveRef(this);
+        TbGameConfig.ResolveRef(this);
     }
 }
 

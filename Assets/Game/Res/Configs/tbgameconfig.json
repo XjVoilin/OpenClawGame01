@@ -1,0 +1,34 @@
+[
+  {
+    "gridWidth": 24,
+    "gridHeight": 24,
+    "obstacleSeed": 42,
+    "obstacleRatio": 0.3,
+    "clearRadius": 5,
+    "maxObstacleId": 3,
+    "startSeasonIndex": 2,
+    "startMinuteOfDay": 360,
+    "startYear": 1,
+    "startDayInSeason": 1,
+    "inventoryCapacity": 30,
+    "starterRecipeIds": [
+      5,
+      1,
+      6
+    ],
+    "experimentFailItemId": 9001,
+    "experimentFailTime": 30,
+    "petGiftChance": 5,
+    "petGiftItemIds": [
+      1001,
+      1002,
+      1003
+    ],
+    "buildRefundRatio": 0.6,
+    "momAskLimitPerDay": 1,
+    "gameMinutesPerRealSecond": 0.8,
+    "dayStartMinute": 360,
+    "dayEndMinute": 1440,
+    "maxTimeScale": 3
+  }
+]

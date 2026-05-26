@@ -8,7 +8,7 @@ namespace CozyYard
 {
     public class PhoneWindow : GameUIView
     {
-        private const int MomAskLimit = 1;
+        private int MomAskLimit => GF.Config.GetTable<TbGameConfig>()?.MomAskLimitPerDay ?? 1;
 
         [SerializeField] private TextMeshProUGUI _hintText;
         [SerializeField] private TextMeshProUGUI _asksRemainingText;

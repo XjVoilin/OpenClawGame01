@@ -24,14 +24,19 @@ namespace CozyYard
 
         protected override void OnStart()
         {
-            if (_store.Width == 0)
-                InitializeNewGrid(24, 24);
+            if (_store.Width > 0 && !HasAnyObstacles())
+                GenerateObstacles();
         }
 
-        public void InitializeNewGrid(int width, int height)
+        private bool HasAnyObstacles()
         {
-            _store.InitializeGrid(width, height);
-            GenerateObstacles();
+            for (int i = 0; i < _store.Width * _store.Height; i++)
+            {
+                var cell = _store.GetCell(i % _store.Width, i / _store.Width);
+                if (cell != null && cell.State == CellState.Obstacle)
+                    return true;
+            }
+            return false;
         }
 
         public GridCellData GetCell(int x, int y) => _store.GetCell(x, y);
@@ -110,15 +115,19 @@ namespace CozyYard
 
         private void GenerateObstacles()
         {
-            var random = new System.Random(42);
+            var cfg = GF.Config.GetTable<TbGameConfig>();
+            int seed = cfg?.ObstacleSeed ?? 42;
+            float ratio = cfg?.ObstacleRatio ?? 0.3f;
+            int clearRadius = cfg?.ClearRadius ?? 5;
+            int maxObstacleId = cfg?.MaxObstacleId ?? 3;
+
+            var random = new System.Random(seed);
             int totalCells = _store.Width * _store.Height;
-            int obstacleCount = Mathf.RoundToInt(totalCells * 0.3f);
+            int obstacleCount = Mathf.RoundToInt(totalCells * ratio);
 
             int cx = _store.Width / 2;
             int cy = _store.Height / 2;
-            const int clearRadius = 5;
 
-            // 先清出中心区域
             for (int dx = -clearRadius; dx < clearRadius; dx++)
             {
                 for (int dy = -clearRadius; dy < clearRadius; dy++)
@@ -132,7 +141,6 @@ namespace CozyYard
                 }
             }
 
-            // 在中心区域外生成障碍物
             int placed = 0;
             while (placed < obstacleCount)
             {
@@ -146,7 +154,7 @@ namespace CozyYard
                 if (cell.State == CellState.Unexplored)
                 {
                     cell.State = CellState.Obstacle;
-                    cell.ObstacleId = random.Next(1, 4);
+                    cell.ObstacleId = random.Next(1, maxObstacleId + 1);
                     placed++;
                 }
             }

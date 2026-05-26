@@ -1,4 +1,6 @@
+using cfg;
 using JulyArch;
+using JulyCore;
 
 namespace CozyYard
 {
@@ -7,15 +9,6 @@ namespace CozyYard
     {
         private WeatherStore _store;
         private TimeStore _timeStore;
-
-        // Season weather probabilities [sunny, cloudy, lightRain, heavyRain, windy]
-        // Will be replaced by Luban TbWeather when available
-        private static readonly int[][] SeasonWeights = {
-            new[] { 30, 30, 25, 10, 5 },  // Spring
-            new[] { 45, 20, 15, 10, 10 }, // Summer
-            new[] { 20, 25, 30, 15, 10 }, // Autumn
-            new[] { 25, 35, 15, 5, 20 },  // Winter
-        };
 
         protected override void OnInitialize()
         {
@@ -34,15 +27,12 @@ namespace CozyYard
         public WeatherType GetCurrentWeather() => _store.CurrentWeather;
         public bool IsRaining() => _store.IsRaining;
 
-        /// <summary>
-        /// Roll new weather for the day based on current season.
-        /// Called at start of each new day.
-        /// </summary>
         public void RollDailyWeather()
         {
             var previousWeather = _store.CurrentWeather;
             var season = _timeStore.CurrentSeason;
-            var weights = SeasonWeights[(int)season];
+
+            int[] weights = GetSeasonWeights(season);
 
             var rng = new System.Random();
             int total = 0;
@@ -64,6 +54,16 @@ namespace CozyYard
 
             _store.SetWeather(newWeather);
             Publish(new WeatherChangedEvent { NewWeather = newWeather, PreviousWeather = previousWeather });
+        }
+
+        private static int[] GetSeasonWeights(Season season)
+        {
+            var seasonId = (int)season + 1;
+            var cfg = GF.Config.GetTable<TbWeather>()?.GetOrDefault(seasonId);
+            if (cfg != null)
+                return new[] { cfg.Sunny, cfg.Cloudy, cfg.LightRain, cfg.HeavyRain, cfg.Windy };
+
+            return new[] { 30, 25, 25, 10, 10 };
         }
 
         /// <summary>

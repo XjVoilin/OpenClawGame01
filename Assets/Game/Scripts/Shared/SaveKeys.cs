@@ -2,6 +2,7 @@ namespace CozyYard
 {
     public static class SaveKeys
     {
+        public const string AccountData = "Save_AccountData";
         public const string GridData = "Save_GridData";
         public const string TimeData = "Save_TimeData";
         public const string FarmData = "Save_FarmData";

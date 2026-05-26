@@ -14,7 +14,7 @@ namespace CozyYard
     [Serializable]
     public class InventoryData : ISaveData
     {
-        public int Capacity = 30;
+        public int Capacity;
         public List<ItemStack> Items = new();
         public int Coins;
 

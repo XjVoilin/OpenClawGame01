@@ -78,6 +78,7 @@ def create_tables_xlsx():
         ["", "TbLanguage",   "Language",   "true", "多语言_Language.xlsx",   "map", "key", "", "多语言表",    "", ""],
         ["", "TbWeather",    "Weather",    "true", "天气_Weather.xlsx",    "map", "id", "", "天气配置表",   "", ""],
         ["", "TbStartingResource", "StartingResource", "true", "初始资源_StartingResource.xlsx", "list", "", "", "初始资源表", "", ""],
+        ["", "TbGameConfig", "GameConfig", "true", "游戏配置_GameConfig.xlsx", "one", "", "", "全局游戏配置表", "", ""],
     ]
 
     for t in tables:
@@ -711,6 +712,59 @@ def create_starting_resource_xlsx():
     print(f"  -> {path}")
 
 
+def create_gameconfig_xlsx():
+    """竖表格式：每行一个字段，列为 ##var / ##type / ## / 值"""
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "gameconfig"
+
+    fields = [
+        # (字段名,            类型,              注释,                       值)
+        ("gridWidth",         "int",             "网格宽度",                  24),
+        ("gridHeight",        "int",             "网格高度",                  24),
+        ("obstacleSeed",      "int",             "障碍物随机种子",            42),
+        ("obstacleRatio",     "float",           "障碍物比例",                0.3),
+        ("clearRadius",       "int",             "中心安全区半径",            5),
+        ("maxObstacleId",     "int",             "最大障碍物ID",              3),
+        ("startSeasonIndex",  "int",             "初始季节(0春1夏2秋3冬)",    2),
+        ("startMinuteOfDay",  "int",             "初始时间(分钟)",            360),
+        ("startYear",         "int",             "初始年份",                  1),
+        ("startDayInSeason",  "int",             "初始季内天数",              1),
+        ("inventoryCapacity", "int",             "背包初始容量",              30),
+        ("starterRecipeIds",  "(list#sep=,),int", "初始配方ID列表",           "5,1,6"),
+        ("experimentFailItemId", "int",          "实验失败产出物品ID",        9001),
+        ("experimentFailTime",   "int",          "实验失败消耗时间(分钟)",    30),
+        ("petGiftChance",     "int",             "宠物礼物概率(0-100)",       5),
+        ("petGiftItemIds",    "(list#sep=,),int", "宠物可能礼物物品ID列表",   "1001,1002,1003"),
+        ("buildRefundRatio",  "float",           "拆除返还比例",              0.6),
+        ("momAskLimitPerDay", "int",             "每日问妈上限",              1),
+        ("gameMinutesPerRealSecond", "float",    "每秒游戏分钟数",            0.8),
+        ("dayStartMinute",    "int",             "一天开始(分钟)",            360),
+        ("dayEndMinute",      "int",             "一天结束(分钟)",            1440),
+        ("maxTimeScale",      "float",           "最大时间倍速",              3.0),
+    ]
+
+    ws.append(["##var#column", "##type", "##", ""])
+    for name, ftype, comment, value in fields:
+        ws.append([name, ftype, comment, value])
+
+    num_rows = len(fields) + 1
+    for row_idx in range(1, num_rows + 1):
+        fill = META_FILL if row_idx == 1 else None
+        for col_idx in range(1, 5):
+            cell = ws.cell(row=row_idx, column=col_idx)
+            cell.border = THIN_BORDER
+            if row_idx == 1:
+                cell.font = HEADER_FONT
+                cell.fill = META_FILL
+                cell.alignment = Alignment(horizontal="center")
+    auto_width(ws)
+
+    path = os.path.join(DATAS_DIR, "游戏配置_GameConfig.xlsx")
+    wb.save(path)
+    print(f"  -> {path}")
+
+
 def generate_tables_ext():
     """Generate TablesExt.cs partial for LubanConfigProvider."""
     import re
@@ -776,5 +830,6 @@ if __name__ == "__main__":
     create_shop_xlsx()
     create_weather_xlsx()
     create_starting_resource_xlsx()
+    create_gameconfig_xlsx()
     generate_tables_ext()
     print("Done!")

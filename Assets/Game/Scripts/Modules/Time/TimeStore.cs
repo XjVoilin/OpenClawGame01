@@ -45,6 +45,16 @@ namespace CozyYard
             MarkDirty();
         }
 
+        public void SetInitialTime(int seasonIndex, int minuteOfDay, int year, int dayInSeason)
+        {
+            Data.SeasonIndex = seasonIndex;
+            Data.MinuteOfDay = minuteOfDay;
+            Data.Year = year;
+            Data.Day = 1;
+            Data.DayInSeason = dayInSeason;
+            MarkDirty();
+        }
+
         public void AdvanceYear()
         {
             Data.Year++;

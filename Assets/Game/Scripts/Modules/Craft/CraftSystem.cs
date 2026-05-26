@@ -40,11 +40,7 @@ namespace CozyYard
             this.Subscribe<DayChangedEvent>(OnDayChanged);
         }
 
-        protected override void OnStart()
-        {
-            if (!_store.IsRecipeUnlocked(1))
-                UnlockStarterRecipes();
-        }
+        protected override void OnStart() { }
 
         public bool CanCraft(int recipeId)
         {
@@ -89,7 +85,9 @@ namespace CozyYard
         /// <summary>Ask mom for a recipe (once per day).</summary>
         public bool AskMom(int itemIdHint)
         {
-            if (_store.MomAsksToday >= 1) return false;
+            var gameCfg = GF.Config.GetTable<TbGameConfig>();
+            int limit = gameCfg?.MomAskLimitPerDay ?? 1;
+            if (_store.MomAsksToday >= limit) return false;
             var tbRecipe = GF.Config.GetTable<TbRecipe>();
             if (tbRecipe == null) return false;
 
@@ -132,9 +130,10 @@ namespace CozyYard
                 }
             }
 
+            var gameCfg = GF.Config.GetTable<TbGameConfig>();
             _inventorySystem.ConsumeItems(itemIds, quantities);
-            _inventorySystem.AddItem(9001, 1);
-            _timeSystem.ConsumeTime(30);
+            _inventorySystem.AddItem(gameCfg?.ExperimentFailItemId ?? 9001, 1);
+            _timeSystem.ConsumeTime(gameCfg?.ExperimentFailTime ?? 30);
             Publish(new ExperimentFailedEvent());
             return false;
         }
@@ -143,14 +142,6 @@ namespace CozyYard
         {
             _store.UnlockRecipe(recipeId);
             Publish(new RecipeUnlockedEvent { RecipeId = recipeId });
-        }
-
-        /// <summary>Grant starter recipes on first play.</summary>
-        public void UnlockStarterRecipes()
-        {
-            UnlockRecipe(5);
-            UnlockRecipe(1);
-            UnlockRecipe(6);
         }
 
         private void CompleteCraft(int recipeId)
