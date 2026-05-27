@@ -4,20 +4,47 @@
     "nameKey": "obstacle_1",
     "clearTime": 15,
     "dropItemId": 1001,
-    "dropQuantity": 2
+    "dropQuantity": 2,
+    "iconSprite": "SL_Deco_c2_r0"
   },
   {
     "id": 2,
     "nameKey": "obstacle_2",
     "clearTime": 30,
     "dropItemId": 1002,
-    "dropQuantity": 3
+    "dropQuantity": 3,
+    "iconSprite": "SL_Deco_c6_r3"
   },
   {
     "id": 3,
     "nameKey": "obstacle_3",
     "clearTime": 60,
     "dropItemId": 1003,
-    "dropQuantity": 5
+    "dropQuantity": 5,
+    "iconSprite": "SL_Tree_c4_r5"
+  },
+  {
+    "id": 4,
+    "nameKey": "obstacle_4",
+    "clearTime": 20,
+    "dropItemId": 1001,
+    "dropQuantity": 1,
+    "iconSprite": "SL_Deco_c4_r0"
+  },
+  {
+    "id": 5,
+    "nameKey": "obstacle_5",
+    "clearTime": 25,
+    "dropItemId": 1002,
+    "dropQuantity": 2,
+    "iconSprite": "SL_Deco_c8_r3"
+  },
+  {
+    "id": 6,
+    "nameKey": "obstacle_6",
+    "clearTime": 45,
+    "dropItemId": 1003,
+    "dropQuantity": 4,
+    "iconSprite": "SL_Tree_c6_r5"
   }
 ]

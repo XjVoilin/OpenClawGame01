@@ -5,7 +5,7 @@
     "obstacleSeed": 42,
     "obstacleRatio": 0.3,
     "clearRadius": 5,
-    "maxObstacleId": 3,
+    "maxObstacleId": 6,
     "startSeasonIndex": 2,
     "startMinuteOfDay": 360,
     "startYear": 1,

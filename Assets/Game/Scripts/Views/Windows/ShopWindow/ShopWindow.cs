@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using cfg;
+using Cysharp.Threading.Tasks;
 using JulyCore;
 using TMPro;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace CozyYard
             Subscribe<ShopPurchaseEvent>(OnPurchased);
             Subscribe<InventoryChangedEvent>(OnInventoryChanged);
             if (_closeBtn) _closeBtn.onClick.AddListener(OnClose);
-            Refresh();
+            RefreshAsync().Forget();
         }
 
         protected override void OnViewDisable()
@@ -29,10 +30,10 @@ namespace CozyYard
             ClearEntries();
         }
 
-        private void OnPurchased(ShopPurchaseEvent e) => Refresh();
-        private void OnInventoryChanged(InventoryChangedEvent e) => Refresh();
+        private void OnPurchased(ShopPurchaseEvent e) => RefreshAsync().Forget();
+        private void OnInventoryChanged(InventoryChangedEvent e) => RefreshAsync().Forget();
 
-        private void Refresh()
+        private async UniTaskVoid RefreshAsync()
         {
             ClearEntries();
 
@@ -57,8 +58,12 @@ namespace CozyYard
                 string itemName = itemCfg != null ? GF.Localization.Get(itemCfg.NameKey) : $"#{shopItem.ItemId}";
                 bool canAfford = playerCoins >= shopItem.Price;
 
+                Sprite icon = null;
+                if (itemCfg != null && !string.IsNullOrEmpty(itemCfg.IconSprite))
+                    icon = await SpriteLoader.LoadAsync(itemCfg.IconSprite);
+
                 int shopId = shopItem.Id;
-                entry.Setup(itemName, shopItem.Price, canAfford, () => shopSystem.TryPurchase(shopId));
+                entry.Setup(itemName, shopItem.Price, canAfford, () => shopSystem.TryPurchase(shopId), icon);
                 _entries.Add(entry);
             }
         }

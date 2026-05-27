@@ -22,6 +22,7 @@ public sealed partial class Item : Luban.BeanBase
         { if(!_buf["type"].IsString) { throw new SerializationException(); }  Type = _buf["type"]; }
         { if(!_buf["stackLimit"].IsNumber) { throw new SerializationException(); }  StackLimit = _buf["stackLimit"]; }
         { if(!_buf["descKey"].IsString) { throw new SerializationException(); }  DescKey = _buf["descKey"]; }
+        { if(!_buf["iconSprite"].IsString) { throw new SerializationException(); }  IconSprite = _buf["iconSprite"]; }
     }
 
     public static Item DeserializeItem(JSONNode _buf)
@@ -49,6 +50,10 @@ public sealed partial class Item : Luban.BeanBase
     /// 描述key
     /// </summary>
     public readonly string DescKey;
+    /// <summary>
+    /// 图标sprite名
+    /// </summary>
+    public readonly string IconSprite;
    
     public const int __ID__ = 2289459;
     public override int GetTypeId() => __ID__;
@@ -65,6 +70,7 @@ public sealed partial class Item : Luban.BeanBase
         + "type:" + Type + ","
         + "stackLimit:" + StackLimit + ","
         + "descKey:" + DescKey + ","
+        + "iconSprite:" + IconSprite + ","
         + "}";
     }
 }

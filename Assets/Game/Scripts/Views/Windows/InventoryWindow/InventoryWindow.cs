@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using cfg;
+using Cysharp.Threading.Tasks;
 using JulyCore;
 using JulyToolkit;
 using TMPro;
@@ -53,7 +54,7 @@ namespace CozyYard
             _currentCategory = 0;
             if (_categoryTabs) _categoryTabs.SetWithoutNotify(0);
 
-            Refresh();
+            RefreshAsync().Forget();
             HideDetail();
         }
 
@@ -66,17 +67,17 @@ namespace CozyYard
             ClearSlots();
         }
 
-        private void OnInventoryChanged(InventoryChangedEvent e) => Refresh();
+        private void OnInventoryChanged(InventoryChangedEvent e) => RefreshAsync().Forget();
 
         private void OnCategoryChanged(int index)
         {
             _currentCategory = index;
             _selectedSlotIndex = -1;
             HideDetail();
-            Refresh();
+            RefreshAsync().Forget();
         }
 
-        private void Refresh()
+        private async UniTaskVoid RefreshAsync()
         {
             var store = GetStore<InventoryStore>();
             var itemTable = GF.Config.GetTable<TbItem>();
@@ -95,8 +96,10 @@ namespace CozyYard
                 {
                     var stack = filteredItems[i];
                     var cfg = itemTable?.GetOrDefault(stack.ItemId);
-                    var tint = GetItemColor(cfg?.Type);
-                    slot.Setup(stack.ItemId, stack.Quantity, null, tint);
+                    Sprite icon = null;
+                    if (cfg != null && !string.IsNullOrEmpty(cfg.IconSprite))
+                        icon = await SpriteLoader.LoadAsync(cfg.IconSprite);
+                    slot.Setup(stack.ItemId, stack.Quantity, icon, icon != null ? Color.white : GetItemColor(cfg?.Type));
                     slot.SetSelected(i == _selectedSlotIndex);
                 }
                 else
@@ -169,7 +172,7 @@ namespace CozyYard
                 _slotInstances[i].SetSelected(i == _selectedSlotIndex);
         }
 
-        private void ShowDetail(int itemId)
+        private async void ShowDetail(int itemId)
         {
             var itemTable = GF.Config.GetTable<TbItem>();
             var cfg = itemTable?.GetOrDefault(itemId);
@@ -182,7 +185,18 @@ namespace CozyYard
             if (_detailPanel) _detailPanel.SetActive(true);
             if (_detailIcon)
             {
-                _detailIcon.color = GetItemColor(cfg.Type);
+                Sprite icon = null;
+                if (!string.IsNullOrEmpty(cfg.IconSprite))
+                    icon = await SpriteLoader.LoadAsync(cfg.IconSprite);
+                if (icon != null)
+                {
+                    _detailIcon.sprite = icon;
+                    _detailIcon.color = Color.white;
+                }
+                else
+                {
+                    _detailIcon.color = GetItemColor(cfg.Type);
+                }
                 _detailIcon.enabled = true;
             }
             if (_detailName) _detailName.text = GF.Localization.Get(cfg.NameKey);

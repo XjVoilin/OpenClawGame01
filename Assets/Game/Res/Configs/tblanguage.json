@@ -1,9 +1,5 @@
 [
   {
-    "key": "other",
-    "cn": "×"
-  },
-  {
     "key": "season_spring",
     "cn": "春"
   },
@@ -196,10 +192,6 @@
     "cn": "问妈"
   },
   {
-    "key": "btn_shop",
-    "cn": "商店"
-  },
-  {
     "key": "btn_close",
     "cn": "关  闭"
   },
@@ -222,6 +214,18 @@
   {
     "key": "obstacle_3",
     "cn": "树桩"
+  },
+  {
+    "key": "obstacle_4",
+    "cn": "蘑菇"
+  },
+  {
+    "key": "obstacle_5",
+    "cn": "大石头"
+  },
+  {
+    "key": "obstacle_6",
+    "cn": "大树桩"
   },
   {
     "key": "item_1001",
@@ -638,41 +642,5 @@
   {
     "key": "tree_2",
     "cn": "柿子树"
-  },
-  {
-    "key": "common_end",
-    "cn": "结束"
-  },
-  {
-    "key": "tab_all",
-    "cn": "全部"
-  },
-  {
-    "key": "tab_material",
-    "cn": "材料"
-  },
-  {
-    "key": "tab_seed",
-    "cn": "种子"
-  },
-  {
-    "key": "tab_product",
-    "cn": "产品"
-  },
-  {
-    "key": "btn_use",
-    "cn": "使用"
-  },
-  {
-    "key": "btn_discard",
-    "cn": "丢弃"
-  },
-  {
-    "key": "title_shop",
-    "cn": "商店"
-  },
-  {
-    "key": "btn_buy",
-    "cn": "购买"
   }
 ]

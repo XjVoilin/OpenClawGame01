@@ -22,6 +22,7 @@ public sealed partial class Obstacle : Luban.BeanBase
         { if(!_buf["clearTime"].IsNumber) { throw new SerializationException(); }  ClearTime = _buf["clearTime"]; }
         { if(!_buf["dropItemId"].IsNumber) { throw new SerializationException(); }  DropItemId = _buf["dropItemId"]; }
         { if(!_buf["dropQuantity"].IsNumber) { throw new SerializationException(); }  DropQuantity = _buf["dropQuantity"]; }
+        { if(!_buf["iconSprite"].IsString) { throw new SerializationException(); }  IconSprite = _buf["iconSprite"]; }
     }
 
     public static Obstacle DeserializeObstacle(JSONNode _buf)
@@ -49,6 +50,10 @@ public sealed partial class Obstacle : Luban.BeanBase
     /// 掉落数量
     /// </summary>
     public readonly int DropQuantity;
+    /// <summary>
+    /// 世界sprite名
+    /// </summary>
+    public readonly string IconSprite;
    
     public const int __ID__ = 426579631;
     public override int GetTypeId() => __ID__;
@@ -65,6 +70,7 @@ public sealed partial class Obstacle : Luban.BeanBase
         + "clearTime:" + ClearTime + ","
         + "dropItemId:" + DropItemId + ","
         + "dropQuantity:" + DropQuantity + ","
+        + "iconSprite:" + IconSprite + ","
         + "}";
     }
 }

@@ -101,14 +101,17 @@ def create_obstacle_xlsx():
     ws = wb.active
     ws.title = "obstacle"
 
-    headers  = ["##var", "id", "nameKey",   "clearTime", "dropItemId", "dropQuantity"]
-    types    = ["##type", "int", "string", "int",       "int",        "int"]
-    comments = ["##",    "ID", "名称key",    "清除耗时(分钟)", "掉落物品ID", "掉落数量"]
+    headers  = ["##var", "id", "nameKey",   "clearTime", "dropItemId", "dropQuantity", "iconSprite"]
+    types    = ["##type", "int", "string", "int",       "int",        "int",           "string"]
+    comments = ["##",    "ID", "名称key",    "清除耗时(分钟)", "掉落物品ID", "掉落数量",     "世界sprite名"]
 
     rows = [
-        ["", 1, "obstacle_1",  15, 1001, 2],
-        ["", 2, "obstacle_2",  30, 1002, 3],
-        ["", 3, "obstacle_3",  60, 1003, 5],
+        ["", 1, "obstacle_1",  15, 1001, 2, "SL_Deco_c2_r0"],   # 杂草
+        ["", 2, "obstacle_2",  30, 1002, 3, "SL_Deco_c6_r3"],   # 石头
+        ["", 3, "obstacle_3",  60, 1003, 5, "SL_Tree_c4_r5"],   # 树桩
+        ["", 4, "obstacle_4",  20, 1001, 1, "SL_Deco_c4_r0"],   # 蘑菇
+        ["", 5, "obstacle_5",  25, 1002, 2, "SL_Deco_c8_r3"],   # 大石头
+        ["", 6, "obstacle_6",  45, 1003, 4, "SL_Tree_c6_r5"],   # 大树桩
     ]
 
     write_sheet(ws, headers, types, comments, rows)
@@ -122,41 +125,44 @@ def create_item_xlsx():
     ws = wb.active
     ws.title = "item"
 
-    headers  = ["##var", "id",   "nameKey",    "type",  "stackLimit", "descKey"]
-    types    = ["##type", "int", "string",  "string", "int",        "string"]
-    comments = ["##",    "ID",   "名称key",     "类型",   "堆叠上限",    "描述key"]
+    headers  = ["##var", "id",   "nameKey",  "type",  "stackLimit", "descKey",       "iconSprite"]
+    types    = ["##type", "int", "string",  "string", "int",        "string",        "string"]
+    comments = ["##",    "ID",   "名称key",  "类型",   "堆叠上限",    "描述key",        "图标sprite名"]
 
     rows = [
-        ["", 1001, "item_1001", "Material", 99, "item_1001_desc"],
-        ["", 1002, "item_1002", "Material", 99, "item_1002_desc"],
-        ["", 1003, "item_1003", "Material", 99, "item_1003_desc"],
-        ["", 2001, "item_2001", "Seed", 50, "item_2001_desc"],
-        ["", 2002, "item_2002", "Seed", 50, "item_2002_desc"],
-        ["", 2003, "item_2003", "Seed", 50, "item_2003_desc"],
-        ["", 2004, "item_2004", "Seed", 50, "item_2004_desc"],
-        ["", 2005, "item_2005", "Seed", 50, "item_2005_desc"],
-        ["", 3001, "item_3001", "Product", 50, "item_3001_desc"],
-        ["", 3002, "item_3002", "Product", 50, "item_3002_desc"],
-        ["", 3003, "item_3003", "Product", 50, "item_3003_desc"],
-        ["", 3004, "item_3004", "Product", 50, "item_3004_desc"],
-        ["", 3005, "item_3005", "Product", 50, "item_3005_desc"],
-        ["", 3101, "item_3101", "Product", 50, "item_3101_desc"],
+        # Materials (1001-1003): 杂草纤维/石头/木材
+        ["", 1001, "item_1001", "Material", 99, "item_1001_desc", "SL_Item_c0_r0"],
+        ["", 1002, "item_1002", "Material", 99, "item_1002_desc", "SL_Item_c1_r0"],
+        ["", 1003, "item_1003", "Material", 99, "item_1003_desc", "SL_Item_c2_r0"],
+        # Seeds (2001-2005)
+        ["", 2001, "item_2001", "Seed", 50, "item_2001_desc", "SL_Item_c0_r3"],
+        ["", 2002, "item_2002", "Seed", 50, "item_2002_desc", "SL_Item_c1_r3"],
+        ["", 2003, "item_2003", "Seed", 50, "item_2003_desc", "SL_Item_c2_r3"],
+        ["", 2004, "item_2004", "Seed", 50, "item_2004_desc", "SL_Item_c3_r3"],
+        ["", 2005, "item_2005", "Seed", 50, "item_2005_desc", "SL_Item_c4_r3"],
+        # Fresh produce (3001-3005)
+        ["", 3001, "item_3001", "Product", 50, "item_3001_desc", "SL_Item_c0_r6"],
+        ["", 3002, "item_3002", "Product", 50, "item_3002_desc", "SL_Item_c1_r6"],
+        ["", 3003, "item_3003", "Product", 50, "item_3003_desc", "SL_Item_c2_r6"],
+        ["", 3004, "item_3004", "Product", 50, "item_3004_desc", "SL_Item_c3_r6"],
+        ["", 3005, "item_3005", "Product", 50, "item_3005_desc", "SL_Item_c4_r6"],
+        ["", 3101, "item_3101", "Product", 50, "item_3101_desc", "SL_Item_c5_r6"],
         # Tree produce
-        ["", 3006, "item_3006", "Product", 50, "item_3006_desc"],
-        ["", 3007, "item_3007", "Product", 50, "item_3007_desc"],
-        # Intermediate materials
-        ["", 4001, "item_4001", "Material", 50, "item_4001_desc"],
-        ["", 4002, "item_4002", "Material", 50, "item_4002_desc"],
-        ["", 4003, "item_4003", "Material", 50, "item_4003_desc"],
-        ["", 4004, "item_4004", "Material", 50, "item_4004_desc"],
-        # Final products
-        ["", 5001, "item_5001", "Product", 20, "item_5001_desc"],
-        ["", 5002, "item_5002", "Product", 20, "item_5002_desc"],
-        ["", 5003, "item_5003", "Product", 20, "item_5003_desc"],
-        ["", 5004, "item_5004", "Product", 20, "item_5004_desc"],
-        ["", 5005, "item_5005", "Product", 20, "item_5005_desc"],
+        ["", 3006, "item_3006", "Product", 50, "item_3006_desc", "SL_Item_c6_r6"],
+        ["", 3007, "item_3007", "Product", 50, "item_3007_desc", "SL_Item_c7_r6"],
+        # Intermediate materials (4001-4004)
+        ["", 4001, "item_4001", "Material", 50, "item_4001_desc", "SL_Item_c0_r9"],
+        ["", 4002, "item_4002", "Material", 50, "item_4002_desc", "SL_Item_c1_r9"],
+        ["", 4003, "item_4003", "Material", 50, "item_4003_desc", "SL_Item_c2_r9"],
+        ["", 4004, "item_4004", "Material", 50, "item_4004_desc", "SL_Item_c3_r9"],
+        # Final products (5001-5005)
+        ["", 5001, "item_5001", "Product", 20, "item_5001_desc", "SL_Item_c0_r12"],
+        ["", 5002, "item_5002", "Product", 20, "item_5002_desc", "SL_Item_c1_r12"],
+        ["", 5003, "item_5003", "Product", 20, "item_5003_desc", "SL_Item_c2_r12"],
+        ["", 5004, "item_5004", "Product", 20, "item_5004_desc", "SL_Item_c3_r12"],
+        ["", 5005, "item_5005", "Product", 20, "item_5005_desc", "SL_Item_c4_r12"],
         # Junk
-        ["", 9001, "item_9001", "Material", 10, "item_9001_desc"],
+        ["", 9001, "item_9001", "Material", 10, "item_9001_desc", "SL_Item_c7_r14"],
     ]
 
     write_sheet(ws, headers, types, comments, rows)
@@ -289,21 +295,21 @@ def create_building_xlsx():
     ws = wb.active
     ws.title = "building"
 
-    headers  = ["##var", "id", "nameKey", "category", "sizeX", "sizeY", "materials", "materialQtys", "buildTime", "prerequisiteId", "level"]
-    types    = ["##type", "int", "string", "string", "int", "int", "(list#sep=,),int", "(list#sep=,),int", "int", "int", "int"]
-    comments = ["##",    "ID", "名称key",  "类别",      "宽",    "高",    "材料ID列表", "材料数量列表",   "建造时间(分钟)", "前置建筑ID", "等级"]
+    headers  = ["##var", "id", "nameKey", "category", "sizeX", "sizeY", "materials", "materialQtys", "buildTime", "prerequisiteId", "level", "iconSprite", "worldSprite"]
+    types    = ["##type", "int", "string", "string", "int", "int", "(list#sep=,),int", "(list#sep=,),int", "int", "int", "int", "string", "string"]
+    comments = ["##",    "ID", "名称key",  "类别",      "宽",    "高",    "材料ID列表", "材料数量列表",   "建造时间(分钟)", "前置建筑ID", "等级", "UI图标sprite", "世界sprite名"]
 
     rows = [
-        ["", 1,  "building_1",   "House",      2, 2, "1003",      "20",     120, 0,  1],
-        ["", 2,  "building_2",   "House",      3, 3, "1003,1002", "30,20",  180, 1,  2],
-        ["", 10, "building_10",  "Production", 1, 1, "1003,1002", "5,3",    30,  0,  1],
-        ["", 11, "building_11",  "Production", 1, 1, "1002,1003", "10,8",   60,  1,  2],
-        ["", 20, "building_20",  "Production", 1, 1, "1003",      "8",      30,  0,  1],
-        ["", 30, "building_30",  "Production", 1, 1, "1002",      "15",     60,  0,  1],
-        ["", 40, "building_40",  "Livestock",  2, 2, "1003",      "12",     45,  0,  1],
-        ["", 50, "building_50",  "Decoration", 1, 1, "1003",      "3",      10,  0,  1],
-        ["", 60, "building_60",  "Functional", 1, 1, "1003,1002", "5,3",    20,  0,  1],
-        ["", 70, "building_70",  "Functional", 2, 2, "1003,1002", "15,10",  90,  0,  1],
+        ["", 1,  "building_1",   "House",      2, 2, "1003",      "20",     120, 0,  1, "SL_Item_c0_r1", ""],
+        ["", 2,  "building_2",   "House",      3, 3, "1003,1002", "30,20",  180, 1,  2, "SL_Item_c1_r1", ""],
+        ["", 10, "building_10",  "Production", 1, 1, "1003,1002", "5,3",    30,  0,  1, "SL_Item_c2_r1", "SL_WorkStation"],
+        ["", 11, "building_11",  "Production", 1, 1, "1002,1003", "10,8",   60,  1,  2, "SL_Item_c3_r1", "SL_WorkStation"],
+        ["", 20, "building_20",  "Production", 1, 1, "1003",      "8",      30,  0,  1, "SL_Item_c4_r1", "SL_Sign"],
+        ["", 30, "building_30",  "Production", 1, 1, "1002",      "15",     60,  0,  1, "SL_Item_c5_r1", "SL_Deco_c6_r3"],
+        ["", 40, "building_40",  "Livestock",  2, 2, "1003",      "12",     45,  0,  1, "SL_Item_c6_r1", ""],
+        ["", 50, "building_50",  "Decoration", 1, 1, "1003",      "3",      10,  0,  1, "SL_Item_c7_r1", "SL_Fence_0"],
+        ["", 60, "building_60",  "Functional", 1, 1, "1003,1002", "5,3",    20,  0,  1, "SL_Item_c0_r2", "SL_Chest"],
+        ["", 70, "building_70",  "Functional", 2, 2, "1003,1002", "15,10",  90,  0,  1, "SL_Item_c1_r2", ""],
     ]
 
     write_sheet(ws, headers, types, comments, rows)
@@ -568,6 +574,9 @@ def create_language_xlsx():
         ["", "obstacle_1",   "杂草"],
         ["", "obstacle_2",   "石头"],
         ["", "obstacle_3",   "树桩"],
+        ["", "obstacle_4",   "蘑菇"],
+        ["", "obstacle_5",   "大石头"],
+        ["", "obstacle_6",   "大树桩"],
         # --- 物品 ---
         ["", "item_1001",      "杂草纤维"],
         ["", "item_1001_desc", "清除杂草获得"],
@@ -725,7 +734,7 @@ def create_gameconfig_xlsx():
         ("obstacleSeed",      "int",             "障碍物随机种子",            42),
         ("obstacleRatio",     "float",           "障碍物比例",                0.3),
         ("clearRadius",       "int",             "中心安全区半径",            5),
-        ("maxObstacleId",     "int",             "最大障碍物ID",              3),
+        ("maxObstacleId",     "int",             "最大障碍物ID",              6),
         ("startSeasonIndex",  "int",             "初始季节(0春1夏2秋3冬)",    2),
         ("startMinuteOfDay",  "int",             "初始时间(分钟)",            360),
         ("startYear",         "int",             "初始年份",                  1),

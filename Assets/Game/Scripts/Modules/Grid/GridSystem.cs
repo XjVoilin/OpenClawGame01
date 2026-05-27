@@ -105,12 +105,12 @@ namespace CozyYard
 
         public Vector2 GridToWorldPosition(int x, int y)
         {
-            return IsometricUtils.GridToWorld(x, y);
+            return GridUtils.GridToWorld(x, y);
         }
 
         public Vector2Int WorldToGridPosition(Vector2 worldPos)
         {
-            return IsometricUtils.WorldToGrid(worldPos);
+            return GridUtils.WorldToGrid(worldPos);
         }
 
         private void GenerateObstacles()

@@ -4,181 +4,207 @@
     "nameKey": "item_1001",
     "type": "Material",
     "stackLimit": 99,
-    "descKey": "item_1001_desc"
+    "descKey": "item_1001_desc",
+    "iconSprite": "SL_Item_c0_r0"
   },
   {
     "id": 1002,
     "nameKey": "item_1002",
     "type": "Material",
     "stackLimit": 99,
-    "descKey": "item_1002_desc"
+    "descKey": "item_1002_desc",
+    "iconSprite": "SL_Item_c1_r0"
   },
   {
     "id": 1003,
     "nameKey": "item_1003",
     "type": "Material",
     "stackLimit": 99,
-    "descKey": "item_1003_desc"
+    "descKey": "item_1003_desc",
+    "iconSprite": "SL_Item_c2_r0"
   },
   {
     "id": 2001,
     "nameKey": "item_2001",
     "type": "Seed",
     "stackLimit": 50,
-    "descKey": "item_2001_desc"
+    "descKey": "item_2001_desc",
+    "iconSprite": "SL_Item_c0_r3"
   },
   {
     "id": 2002,
     "nameKey": "item_2002",
     "type": "Seed",
     "stackLimit": 50,
-    "descKey": "item_2002_desc"
+    "descKey": "item_2002_desc",
+    "iconSprite": "SL_Item_c1_r3"
   },
   {
     "id": 2003,
     "nameKey": "item_2003",
     "type": "Seed",
     "stackLimit": 50,
-    "descKey": "item_2003_desc"
+    "descKey": "item_2003_desc",
+    "iconSprite": "SL_Item_c2_r3"
   },
   {
     "id": 2004,
     "nameKey": "item_2004",
     "type": "Seed",
     "stackLimit": 50,
-    "descKey": "item_2004_desc"
+    "descKey": "item_2004_desc",
+    "iconSprite": "SL_Item_c3_r3"
   },
   {
     "id": 2005,
     "nameKey": "item_2005",
     "type": "Seed",
     "stackLimit": 50,
-    "descKey": "item_2005_desc"
+    "descKey": "item_2005_desc",
+    "iconSprite": "SL_Item_c4_r3"
   },
   {
     "id": 3001,
     "nameKey": "item_3001",
     "type": "Product",
     "stackLimit": 50,
-    "descKey": "item_3001_desc"
+    "descKey": "item_3001_desc",
+    "iconSprite": "SL_Item_c0_r6"
   },
   {
     "id": 3002,
     "nameKey": "item_3002",
     "type": "Product",
     "stackLimit": 50,
-    "descKey": "item_3002_desc"
+    "descKey": "item_3002_desc",
+    "iconSprite": "SL_Item_c1_r6"
   },
   {
     "id": 3003,
     "nameKey": "item_3003",
     "type": "Product",
     "stackLimit": 50,
-    "descKey": "item_3003_desc"
+    "descKey": "item_3003_desc",
+    "iconSprite": "SL_Item_c2_r6"
   },
   {
     "id": 3004,
     "nameKey": "item_3004",
     "type": "Product",
     "stackLimit": 50,
-    "descKey": "item_3004_desc"
+    "descKey": "item_3004_desc",
+    "iconSprite": "SL_Item_c3_r6"
   },
   {
     "id": 3005,
     "nameKey": "item_3005",
     "type": "Product",
     "stackLimit": 50,
-    "descKey": "item_3005_desc"
+    "descKey": "item_3005_desc",
+    "iconSprite": "SL_Item_c4_r6"
   },
   {
     "id": 3101,
     "nameKey": "item_3101",
     "type": "Product",
     "stackLimit": 50,
-    "descKey": "item_3101_desc"
+    "descKey": "item_3101_desc",
+    "iconSprite": "SL_Item_c5_r6"
   },
   {
     "id": 3006,
     "nameKey": "item_3006",
     "type": "Product",
     "stackLimit": 50,
-    "descKey": "item_3006_desc"
+    "descKey": "item_3006_desc",
+    "iconSprite": "SL_Item_c6_r6"
   },
   {
     "id": 3007,
     "nameKey": "item_3007",
     "type": "Product",
     "stackLimit": 50,
-    "descKey": "item_3007_desc"
+    "descKey": "item_3007_desc",
+    "iconSprite": "SL_Item_c7_r6"
   },
   {
     "id": 4001,
     "nameKey": "item_4001",
     "type": "Material",
     "stackLimit": 50,
-    "descKey": "item_4001_desc"
+    "descKey": "item_4001_desc",
+    "iconSprite": "SL_Item_c0_r9"
   },
   {
     "id": 4002,
     "nameKey": "item_4002",
     "type": "Material",
     "stackLimit": 50,
-    "descKey": "item_4002_desc"
+    "descKey": "item_4002_desc",
+    "iconSprite": "SL_Item_c1_r9"
   },
   {
     "id": 4003,
     "nameKey": "item_4003",
     "type": "Material",
     "stackLimit": 50,
-    "descKey": "item_4003_desc"
+    "descKey": "item_4003_desc",
+    "iconSprite": "SL_Item_c2_r9"
   },
   {
     "id": 4004,
     "nameKey": "item_4004",
     "type": "Material",
     "stackLimit": 50,
-    "descKey": "item_4004_desc"
+    "descKey": "item_4004_desc",
+    "iconSprite": "SL_Item_c3_r9"
   },
   {
     "id": 5001,
     "nameKey": "item_5001",
     "type": "Product",
     "stackLimit": 20,
-    "descKey": "item_5001_desc"
+    "descKey": "item_5001_desc",
+    "iconSprite": "SL_Item_c0_r12"
   },
   {
     "id": 5002,
     "nameKey": "item_5002",
     "type": "Product",
     "stackLimit": 20,
-    "descKey": "item_5002_desc"
+    "descKey": "item_5002_desc",
+    "iconSprite": "SL_Item_c1_r12"
   },
   {
     "id": 5003,
     "nameKey": "item_5003",
     "type": "Product",
     "stackLimit": 20,
-    "descKey": "item_5003_desc"
+    "descKey": "item_5003_desc",
+    "iconSprite": "SL_Item_c2_r12"
   },
   {
     "id": 5004,
     "nameKey": "item_5004",
     "type": "Product",
     "stackLimit": 20,
-    "descKey": "item_5004_desc"
+    "descKey": "item_5004_desc",
+    "iconSprite": "SL_Item_c3_r12"
   },
   {
     "id": 5005,
     "nameKey": "item_5005",
     "type": "Product",
     "stackLimit": 20,
-    "descKey": "item_5005_desc"
+    "descKey": "item_5005_desc",
+    "iconSprite": "SL_Item_c4_r12"
   },
   {
     "id": 9001,
     "nameKey": "item_9001",
     "type": "Material",
     "stackLimit": 10,
-    "descKey": "item_9001_desc"
+    "descKey": "item_9001_desc",
+    "iconSprite": "SL_Item_c7_r14"
   }
 ]

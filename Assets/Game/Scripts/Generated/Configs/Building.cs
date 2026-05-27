@@ -27,6 +27,8 @@ public sealed partial class Building : Luban.BeanBase
         { if(!_buf["buildTime"].IsNumber) { throw new SerializationException(); }  BuildTime = _buf["buildTime"]; }
         { if(!_buf["prerequisiteId"].IsNumber) { throw new SerializationException(); }  PrerequisiteId = _buf["prerequisiteId"]; }
         { if(!_buf["level"].IsNumber) { throw new SerializationException(); }  Level = _buf["level"]; }
+        { if(!_buf["iconSprite"].IsString) { throw new SerializationException(); }  IconSprite = _buf["iconSprite"]; }
+        { if(!_buf["worldSprite"].IsString) { throw new SerializationException(); }  WorldSprite = _buf["worldSprite"]; }
     }
 
     public static Building DeserializeBuilding(JSONNode _buf)
@@ -74,6 +76,14 @@ public sealed partial class Building : Luban.BeanBase
     /// 等级
     /// </summary>
     public readonly int Level;
+    /// <summary>
+    /// UI图标sprite
+    /// </summary>
+    public readonly string IconSprite;
+    /// <summary>
+    /// 世界sprite名
+    /// </summary>
+    public readonly string WorldSprite;
    
     public const int __ID__ = -1366001964;
     public override int GetTypeId() => __ID__;
@@ -95,6 +105,8 @@ public sealed partial class Building : Luban.BeanBase
         + "buildTime:" + BuildTime + ","
         + "prerequisiteId:" + PrerequisiteId + ","
         + "level:" + Level + ","
+        + "iconSprite:" + IconSprite + ","
+        + "worldSprite:" + WorldSprite + ","
         + "}";
     }
 }

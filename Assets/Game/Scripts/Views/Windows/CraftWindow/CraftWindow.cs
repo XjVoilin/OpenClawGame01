@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using cfg;
+using Cysharp.Threading.Tasks;
 using JulyCore;
 using UnityEngine;
 
@@ -18,7 +19,7 @@ namespace CozyYard
             Subscribe<CraftCompletedEvent>(OnCraftChanged);
             Subscribe<InventoryChangedEvent>(OnInventoryChanged);
             if (_closeBtn) _closeBtn.onClick.AddListener(OnClose);
-            Refresh();
+            RefreshAsync().Forget();
         }
 
         protected override void OnViewDisable()
@@ -27,16 +28,17 @@ namespace CozyYard
             ClearEntries();
         }
 
-        private void OnCraftChanged(CraftCompletedEvent e) => Refresh();
-        private void OnInventoryChanged(InventoryChangedEvent e) => Refresh();
+        private void OnCraftChanged(CraftCompletedEvent e) => RefreshAsync().Forget();
+        private void OnInventoryChanged(InventoryChangedEvent e) => RefreshAsync().Forget();
 
-        private void Refresh()
+        private async UniTaskVoid RefreshAsync()
         {
             ClearEntries();
             if (_entryPrefab == null || _listContainer == null) return;
 
             var craftStore = GetStore<CraftStore>();
             var craftSystem = GetSystem<CraftSystem>();
+            var tbItem = GF.Config.GetTable<TbItem>();
 
             foreach (int recipeId in craftStore.UnlockedRecipeIds)
             {
@@ -48,10 +50,19 @@ namespace CozyYard
                 bool canCraft = craftSystem.CanCraft(recipeId);
                 int id = recipeId;
 
+                Sprite icon = null;
+                if (recipe != null)
+                {
+                    var outputItem = tbItem?.GetOrDefault(recipe.OutputItemId);
+                    if (outputItem != null && !string.IsNullOrEmpty(outputItem.IconSprite))
+                        icon = await SpriteLoader.LoadAsync(outputItem.IconSprite);
+                }
+
                 entry.Setup(
                     GF.Localization.Get(nameKey),
                     canCraft,
-                    () => OnCraft(craftSystem, id)
+                    () => OnCraft(craftSystem, id),
+                    icon
                 );
 
                 _entries.Add(entry);
@@ -61,7 +72,7 @@ namespace CozyYard
         private void OnCraft(CraftSystem craftSystem, int recipeId)
         {
             craftSystem.StartCraft(recipeId);
-            Refresh();
+            RefreshAsync().Forget();
         }
 
         private void ClearEntries()

@@ -29,6 +29,16 @@ namespace CozyYard
 
         protected override void OnViewEnable()
         {
+            if (_globalLight == null)
+            {
+                var lightGo = new GameObject("GlobalLight2D");
+                lightGo.transform.SetParent(transform);
+                _globalLight = lightGo.AddComponent<Light2D>();
+                _globalLight.lightType = Light2D.LightType.Global;
+                _globalLight.intensity = 1f;
+                _globalLight.color = Color.white;
+            }
+
             this.Subscribe<PhaseChangedEvent>(OnPhaseChanged);
             UpdateTargetFromCurrentPhase();
             ApplyImmediate();

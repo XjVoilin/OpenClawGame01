@@ -13,7 +13,9 @@
     ],
     "buildTime": 120,
     "prerequisiteId": 0,
-    "level": 1
+    "level": 1,
+    "iconSprite": "SL_Item_c0_r1",
+    "worldSprite": ""
   },
   {
     "id": 2,
@@ -31,7 +33,9 @@
     ],
     "buildTime": 180,
     "prerequisiteId": 1,
-    "level": 2
+    "level": 2,
+    "iconSprite": "SL_Item_c1_r1",
+    "worldSprite": ""
   },
   {
     "id": 10,
@@ -49,7 +53,9 @@
     ],
     "buildTime": 30,
     "prerequisiteId": 0,
-    "level": 1
+    "level": 1,
+    "iconSprite": "SL_Item_c2_r1",
+    "worldSprite": "SL_WorkStation"
   },
   {
     "id": 11,
@@ -67,7 +73,9 @@
     ],
     "buildTime": 60,
     "prerequisiteId": 1,
-    "level": 2
+    "level": 2,
+    "iconSprite": "SL_Item_c3_r1",
+    "worldSprite": "SL_WorkStation"
   },
   {
     "id": 20,
@@ -83,7 +91,9 @@
     ],
     "buildTime": 30,
     "prerequisiteId": 0,
-    "level": 1
+    "level": 1,
+    "iconSprite": "SL_Item_c4_r1",
+    "worldSprite": "SL_Sign"
   },
   {
     "id": 30,
@@ -99,7 +109,9 @@
     ],
     "buildTime": 60,
     "prerequisiteId": 0,
-    "level": 1
+    "level": 1,
+    "iconSprite": "SL_Item_c5_r1",
+    "worldSprite": "SL_Deco_c6_r3"
   },
   {
     "id": 40,
@@ -115,7 +127,9 @@
     ],
     "buildTime": 45,
     "prerequisiteId": 0,
-    "level": 1
+    "level": 1,
+    "iconSprite": "SL_Item_c6_r1",
+    "worldSprite": ""
   },
   {
     "id": 50,
@@ -131,7 +145,9 @@
     ],
     "buildTime": 10,
     "prerequisiteId": 0,
-    "level": 1
+    "level": 1,
+    "iconSprite": "SL_Item_c7_r1",
+    "worldSprite": "SL_Fence_0"
   },
   {
     "id": 60,
@@ -149,7 +165,9 @@
     ],
     "buildTime": 20,
     "prerequisiteId": 0,
-    "level": 1
+    "level": 1,
+    "iconSprite": "SL_Item_c0_r2",
+    "worldSprite": "SL_Chest"
   },
   {
     "id": 70,
@@ -167,6 +185,8 @@
     ],
     "buildTime": 90,
     "prerequisiteId": 0,
-    "level": 1
+    "level": 1,
+    "iconSprite": "SL_Item_c1_r2",
+    "worldSprite": ""
   }
 ]
