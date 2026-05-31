@@ -19,7 +19,7 @@ namespace CozyYard
             Subscribe<CraftCompletedEvent>(OnCraftChanged);
             Subscribe<InventoryChangedEvent>(OnInventoryChanged);
             if (_closeBtn) _closeBtn.onClick.AddListener(OnClose);
-            RefreshAsync().Forget();
+            RefreshAsync();
         }
 
         protected override void OnViewDisable()
@@ -28,10 +28,10 @@ namespace CozyYard
             ClearEntries();
         }
 
-        private void OnCraftChanged(CraftCompletedEvent e) => RefreshAsync().Forget();
-        private void OnInventoryChanged(InventoryChangedEvent e) => RefreshAsync().Forget();
+        private void OnCraftChanged(CraftCompletedEvent e) => RefreshAsync();
+        private void OnInventoryChanged(InventoryChangedEvent e) => RefreshAsync();
 
-        private async UniTaskVoid RefreshAsync()
+        private void RefreshAsync()
         {
             ClearEntries();
             if (_entryPrefab == null || _listContainer == null) return;
@@ -39,30 +39,23 @@ namespace CozyYard
             var craftStore = GetStore<CraftStore>();
             var craftSystem = GetSystem<CraftSystem>();
             var tbItem = GF.Config.GetTable<TbItem>();
+            var tbRecipe = GF.Config.GetTable<TbRecipe>();
 
-            foreach (int recipeId in craftStore.UnlockedRecipeIds)
+            foreach (var recipeId in craftStore.UnlockedRecipeIds)
             {
-                var entry = Object.Instantiate(_entryPrefab, _listContainer);
+                var entry = Instantiate(_entryPrefab, _listContainer);
                 entry.gameObject.SetActive(true);
 
-                var recipe = GF.Config.GetTable<TbRecipe>()?.GetOrDefault(recipeId);
-                string nameKey = recipe?.NameKey ?? $"#{recipeId}";
-                bool canCraft = craftSystem.CanCraft(recipeId);
-                int id = recipeId;
-
-                Sprite icon = null;
-                if (recipe != null)
-                {
-                    var outputItem = tbItem?.GetOrDefault(recipe.OutputItemId);
-                    if (outputItem != null && !string.IsNullOrEmpty(outputItem.IconSprite))
-                        icon = await SpriteLoader.LoadAsync(outputItem.IconSprite);
-                }
-
+                var recipe = tbRecipe.GetOrDefault(recipeId);
+                var nameKey = recipe.NameKey;
+                var canCraft = craftSystem.CanCraft(recipeId);
+                var id = recipeId;
+                var outputItem = tbItem.GetOrDefault(recipe.OutputItemId);
                 entry.Setup(
                     GF.Localization.Get(nameKey),
                     canCraft,
                     () => OnCraft(craftSystem, id),
-                    icon
+                    outputItem.IconSprite
                 );
 
                 _entries.Add(entry);
@@ -72,7 +65,7 @@ namespace CozyYard
         private void OnCraft(CraftSystem craftSystem, int recipeId)
         {
             craftSystem.StartCraft(recipeId);
-            RefreshAsync().Forget();
+            RefreshAsync();
         }
 
         private void ClearEntries()
@@ -80,11 +73,11 @@ namespace CozyYard
             foreach (var entry in _entries)
             {
                 entry.Cleanup();
-                Object.Destroy(entry.gameObject);
+                Destroy(entry.gameObject);
             }
             _entries.Clear();
         }
 
-        private void OnClose() => CloseWindow();
+        protected override void OnClose() => CloseWindow();
     }
 }

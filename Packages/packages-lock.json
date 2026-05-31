@@ -33,13 +33,13 @@
       "hash": "017c7b09dccb3298fd8a21e861bce63351779661"
     },
     "com.july.core": {
-      "version": "https://github.com/XjVoilin/JulyCore.git#v1.0.76",
+      "version": "https://github.com/XjVoilin/JulyCore.git#v1.0.78",
       "depth": 0,
       "source": "git",
       "dependencies": {
         "com.july.events": "1.0.0"
       },
-      "hash": "6e664229616f669fe716d46bf0584d1868514e47"
+      "hash": "7ebc50a594a4ca2fdfae1215fb47db8b6a4a6665"
     },
     "com.july.events": {
       "version": "https://github.com/XjVoilin/JulyEvents.git#v1.0.0",

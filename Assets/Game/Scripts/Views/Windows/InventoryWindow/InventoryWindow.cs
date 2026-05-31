@@ -95,11 +95,8 @@ namespace CozyYard
                 if (i < filteredItems.Count)
                 {
                     var stack = filteredItems[i];
-                    var cfg = itemTable?.GetOrDefault(stack.ItemId);
-                    Sprite icon = null;
-                    if (cfg != null && !string.IsNullOrEmpty(cfg.IconSprite))
-                        icon = await SpriteLoader.LoadAsync(cfg.IconSprite);
-                    slot.Setup(stack.ItemId, stack.Quantity, icon, icon != null ? Color.white : GetItemColor(cfg?.Type));
+                    var cfg = itemTable.GetOrDefault(stack.ItemId);
+                    slot.Setup(stack.ItemId, stack.Quantity, cfg.IconSprite, GetItemColor(cfg.Type));
                     slot.SetSelected(i == _selectedSlotIndex);
                 }
                 else
@@ -172,7 +169,7 @@ namespace CozyYard
                 _slotInstances[i].SetSelected(i == _selectedSlotIndex);
         }
 
-        private async void ShowDetail(int itemId)
+        private void ShowDetail(int itemId)
         {
             var itemTable = GF.Config.GetTable<TbItem>();
             var cfg = itemTable?.GetOrDefault(itemId);
@@ -185,18 +182,8 @@ namespace CozyYard
             if (_detailPanel) _detailPanel.SetActive(true);
             if (_detailIcon)
             {
-                Sprite icon = null;
-                if (!string.IsNullOrEmpty(cfg.IconSprite))
-                    icon = await SpriteLoader.LoadAsync(cfg.IconSprite);
-                if (icon != null)
-                {
-                    _detailIcon.sprite = icon;
-                    _detailIcon.color = Color.white;
-                }
-                else
-                {
-                    _detailIcon.color = GetItemColor(cfg.Type);
-                }
+                _detailIcon.LoadSprite(cfg.IconSprite);
+                _detailIcon.color = Color.white;
                 _detailIcon.enabled = true;
             }
             if (_detailName) _detailName.text = GF.Localization.Get(cfg.NameKey);

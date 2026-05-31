@@ -58,12 +58,8 @@ namespace CozyYard
                 string itemName = itemCfg != null ? GF.Localization.Get(itemCfg.NameKey) : $"#{shopItem.ItemId}";
                 bool canAfford = playerCoins >= shopItem.Price;
 
-                Sprite icon = null;
-                if (itemCfg != null && !string.IsNullOrEmpty(itemCfg.IconSprite))
-                    icon = await SpriteLoader.LoadAsync(itemCfg.IconSprite);
-
                 int shopId = shopItem.Id;
-                entry.Setup(itemName, shopItem.Price, canAfford, () => shopSystem.TryPurchase(shopId), icon);
+                entry.Setup(itemName, shopItem.Price, canAfford, () => shopSystem.TryPurchase(shopId), itemCfg?.IconSprite);
                 _entries.Add(entry);
             }
         }

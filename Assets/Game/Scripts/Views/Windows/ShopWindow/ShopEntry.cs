@@ -12,19 +12,11 @@ namespace CozyYard
         [SerializeField] private Image _icon;
         [SerializeField] private UISmartButtonGray _buyBtn;
 
-        public void Setup(string name, int price, bool canAfford, Action onBuy, Sprite icon)
+        public void Setup(string name, int price, bool canAfford, Action onBuy, string iconName)
         {
             if (_nameText) _nameText.text = name;
             if (_priceText) _priceText.text = $"{price}";
-            if (_icon)
-            {
-                if (icon != null)
-                {
-                    _icon.sprite = icon;
-                    _icon.color = Color.white;
-                }
-                _icon.enabled = icon != null;
-            }
+            _icon?.LoadSprite(iconName);
             if (_buyBtn)
             {
                 _buyBtn.SetInteractable(canAfford);

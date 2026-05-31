@@ -49,11 +49,7 @@ namespace CozyYard
                 int buildingId = id;
                 string displayName = $"{GF.Localization.Get(cfg.NameKey)} ({cfg.SizeX}×{cfg.SizeY})";
 
-                Sprite icon = null;
-                if (!string.IsNullOrEmpty(cfg.IconSprite))
-                    icon = await SpriteLoader.LoadAsync(cfg.IconSprite);
-
-                entry.Setup(displayName, canAfford, () => OnBuild(buildingId), icon);
+                entry.Setup(displayName, canAfford, () => OnBuild(buildingId), cfg.IconSprite);
                 _entries.Add(entry);
             }
         }

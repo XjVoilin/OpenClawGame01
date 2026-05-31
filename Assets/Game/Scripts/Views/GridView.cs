@@ -45,15 +45,17 @@ namespace CozyYard
         private Sprite _soilSprite;
         private Sprite _highlightSprite;
 
-        private readonly Dictionary<int, Sprite> _obstacleSprites = new();
-        private readonly Dictionary<int, Sprite[]> _cropStageSprites = new();
-        private readonly Dictionary<int, Sprite> _buildingSprites = new();
-        private Sprite[] _decoSprites;
-
         private static readonly string[] GrassVariantNames =
         {
             "SL_Grass", "SL_GrassFlowers1", "SL_GrassFlowers2",
             "SL_GrassDetail1", "SL_GrassDetail2"
+        };
+
+        private static readonly string[] DecoSpriteNames =
+        {
+            "SL_Deco_c0_r0", "SL_Deco_c1_r0", "SL_Deco_c3_r0",
+            "SL_Deco_c5_r0", "SL_Deco_c0_r1", "SL_Deco_c1_r1",
+            "SL_Deco_c2_r1", "SL_Deco_c3_r1"
         };
 
         #endregion
@@ -103,81 +105,11 @@ namespace CozyYard
                 if (s != null) variants.Add(s);
             }
             _grassVariants = variants.Count > 0 ? variants.ToArray() : new[] { _grassSprite };
-
-            await LoadObstacleSprites();
-            await LoadCropSprites();
-            await LoadDecoSprites();
-            await LoadBuildingSprites();
         }
 
-        private async UniTask LoadObstacleSprites()
+        private async UniTask<Sprite> LoadSpriteOrNull(string name)
         {
-            var tbObstacle = GF.Config.GetTable<TbObstacle>();
-            if (tbObstacle == null) return;
-
-            foreach (var obstacle in tbObstacle.DataList)
-            {
-                if (!string.IsNullOrEmpty(obstacle.IconSprite))
-                {
-                    var s = await SpriteLoader.LoadAsync(obstacle.IconSprite);
-                    if (s != null) _obstacleSprites[obstacle.Id] = s;
-                }
-            }
-        }
-
-        private async UniTask LoadCropSprites()
-        {
-            // Farming Plants (80x240): 5 列各一种作物, 每种3行 = seed/growing/mature
-            // col 0-4 对应 5 种不同的作物
-            // 游戏 cropId 1-5 → col 0-4, 每种取 3 个生长阶段
-            for (int cropId = 1; cropId <= 5; cropId++)
-            {
-                int col = cropId - 1;
-                int baseRow = col * 3;
-                var stages = new Sprite[4];
-                stages[0] = await LoadSpriteOrNull($"SL_Crop_c{col}_r{baseRow}");     // Seed
-                stages[1] = await LoadSpriteOrNull($"SL_Crop_c{col}_r{baseRow + 1}"); // Growing
-                stages[2] = await LoadSpriteOrNull($"SL_Crop_c{col}_r{baseRow + 2}"); // More growth
-                stages[3] = await LoadSpriteOrNull($"SL_Crop_c{col}_r{baseRow + 2}"); // Mature (same as last stage)
-                _cropStageSprites[cropId] = stages;
-            }
-        }
-
-        private async UniTask LoadDecoSprites()
-        {
-            var decoNames = new[]
-            {
-                "SL_Deco_c0_r0", "SL_Deco_c1_r0", "SL_Deco_c3_r0",
-                "SL_Deco_c5_r0", "SL_Deco_c0_r1", "SL_Deco_c1_r1",
-                "SL_Deco_c2_r1", "SL_Deco_c3_r1"
-            };
-            var loaded = new List<Sprite>();
-            foreach (var name in decoNames)
-            {
-                var s = await SpriteLoader.LoadAsync(name);
-                if (s != null) loaded.Add(s);
-            }
-            _decoSprites = loaded.ToArray();
-        }
-
-        private async UniTask LoadBuildingSprites()
-        {
-            var tbBuilding = GF.Config.GetTable<TbBuilding>();
-            if (tbBuilding == null) return;
-
-            foreach (var building in tbBuilding.DataList)
-            {
-                if (!string.IsNullOrEmpty(building.WorldSprite))
-                {
-                    var s = await SpriteLoader.LoadAsync(building.WorldSprite);
-                    if (s != null) _buildingSprites[building.Id] = s;
-                }
-            }
-        }
-
-        private static async UniTask<Sprite> LoadSpriteOrNull(string name)
-        {
-            try { return await GF.Resource.LoadAsync<Sprite>(name); }
+            try { return await GF.Resource.LoadAsync<Sprite>(name, gameObject); }
             catch { return null; }
         }
 
@@ -448,15 +380,15 @@ namespace CozyYard
                     sr.color = Color.white;
                     break;
                 case CellState.Obstacle:
-                    if (_obstacleSprites.TryGetValue(cell.ObstacleId, out var obSprite) && obSprite != null)
+                    sr.sprite = PickGrassVariant(x, y);
+                    var obCfg = GF.Config.GetTable<TbObstacle>()?.GetOrDefault(cell.ObstacleId);
+                    if (obCfg != null && !string.IsNullOrEmpty(obCfg.IconSprite))
                     {
-                        sr.sprite = PickGrassVariant(x, y);
                         sr.color = Color.white;
-                        AddObstacleOverlay(sr.gameObject, obSprite, x, y);
+                        AddObstacleOverlay(sr.gameObject, obCfg.IconSprite, x, y);
                     }
                     else
                     {
-                        sr.sprite = PickGrassVariant(x, y);
                         sr.color = new Color(0.7f, 0.6f, 0.5f);
                     }
                     break;
@@ -480,33 +412,31 @@ namespace CozyYard
             return _grassVariants[0];
         }
 
-        private void AddObstacleOverlay(GameObject tileGo, Sprite obSprite, int x, int y)
+        private void AddObstacleOverlay(GameObject tileGo, string spriteName, int x, int y)
         {
             var overlayGo = new GameObject("ObstacleOverlay");
             overlayGo.transform.SetParent(tileGo.transform);
             overlayGo.transform.localPosition = Vector3.zero;
             var sr = overlayGo.AddComponent<SpriteRenderer>();
-            sr.sprite = obSprite;
             sr.sortingOrder = GridUtils.GetSortingOrder(x, y) + 1;
+            sr.LoadSprite(spriteName);
         }
 
         private void TryAddDecoOverlay(GameObject tileGo, int x, int y)
         {
-            if (_decoSprites == null || _decoSprites.Length == 0) return;
-
             int hash = x * 31 + y * 17;
             if (hash % 8 != 0) return;
 
             var existing = tileGo.transform.Find("DecoOverlay");
             if (existing != null) return;
 
-            var decoSprite = _decoSprites[Mathf.Abs(hash / 8) % _decoSprites.Length];
+            var decoName = DecoSpriteNames[Mathf.Abs(hash / 8) % DecoSpriteNames.Length];
             var overlayGo = new GameObject("DecoOverlay");
             overlayGo.transform.SetParent(tileGo.transform);
             overlayGo.transform.localPosition = Vector3.zero;
             var sr = overlayGo.AddComponent<SpriteRenderer>();
-            sr.sprite = decoSprite;
             sr.sortingOrder = GridUtils.GetSortingOrder(x, y) + 1;
+            sr.LoadSprite(decoName);
         }
 
         private void CreateHighlight()
@@ -585,18 +515,11 @@ namespace CozyYard
             }
 
             int cropId = GetCropIdAt(x, y);
-            int stageIndex = stage switch
-            {
-                CropGrowthStage.Seed => 0,
-                CropGrowthStage.Sprout => 1,
-                CropGrowthStage.Growing => 2,
-                CropGrowthStage.Mature => 3,
-                _ => 0
-            };
+            var spriteName = GetCropSpriteName(cropId, stage);
 
-            if (_cropStageSprites.TryGetValue(cropId, out var stages) && stageIndex < stages.Length && stages[stageIndex] != null)
+            if (spriteName != null)
             {
-                sr.sprite = stages[stageIndex];
+                sr.LoadSprite(spriteName);
                 sr.color = stage == CropGrowthStage.Withered ? new Color(0.5f, 0.4f, 0.3f) : Color.white;
             }
             else
@@ -613,6 +536,20 @@ namespace CozyYard
         {
             var crop = _farmSystem.GetCropAt(x, y);
             return crop?.CropId ?? 0;
+        }
+
+        private static string GetCropSpriteName(int cropId, CropGrowthStage stage)
+        {
+            if (cropId < 1 || cropId > 5) return null;
+            int col = cropId - 1;
+            int baseRow = col * 3;
+            int rowOffset = stage switch
+            {
+                CropGrowthStage.Seed => 0,
+                CropGrowthStage.Sprout => 1,
+                _ => 2
+            };
+            return $"SL_Crop_c{col}_r{baseRow + rowOffset}";
         }
 
         private void RemoveCropVisual(int x, int y)
@@ -704,7 +641,7 @@ namespace CozyYard
             var cfg = GF.Config.GetTable<TbBuilding>()?.GetOrDefault(building.BuildingId);
             int baseSortOrder = GridUtils.GetSortingOrder(building.GridX, building.GridY) + 10;
 
-            bool hasWorldSprite = _buildingSprites.TryGetValue(building.BuildingId, out var worldSprite);
+            bool hasWorldSprite = cfg != null && !string.IsNullOrEmpty(cfg.WorldSprite);
 
             if (hasWorldSprite && building.SizeX == 1 && building.SizeY == 1)
             {
@@ -713,9 +650,9 @@ namespace CozyYard
                 tileGo.transform.SetParent(parent.transform);
                 tileGo.transform.localPosition = new Vector3(wp.x, wp.y, 0);
                 var sr = tileGo.AddComponent<SpriteRenderer>();
-                sr.sprite = worldSprite;
                 sr.sortingOrder = baseSortOrder;
                 sr.color = Color.white;
+                sr.LoadSprite(cfg.WorldSprite);
             }
             else
             {
@@ -729,9 +666,17 @@ namespace CozyYard
                         tileGo.transform.SetParent(parent.transform);
                         tileGo.transform.localPosition = new Vector3(wp.x, wp.y, 0);
                         var sr = tileGo.AddComponent<SpriteRenderer>();
-                        sr.sprite = hasWorldSprite ? worldSprite : _grassSprite;
                         sr.sortingOrder = baseSortOrder;
-                        sr.color = hasWorldSprite ? Color.white : buildingColor;
+                        if (hasWorldSprite)
+                        {
+                            sr.color = Color.white;
+                            sr.LoadSprite(cfg.WorldSprite);
+                        }
+                        else
+                        {
+                            sr.sprite = _grassSprite;
+                            sr.color = buildingColor;
+                        }
                     }
                 }
 

@@ -11,18 +11,10 @@ namespace CozyYard
         [SerializeField] private Image _icon;
         [SerializeField] private UISmartButtonGray _craftBtn;
 
-        public void Setup(string name, bool canCraft, Action onCraft, Sprite icon)
+        public void Setup(string name, bool canCraft, Action onCraft, string iconName)
         {
             if (_nameText) _nameText.text = name;
-            if (_icon)
-            {
-                if (icon != null)
-                {
-                    _icon.sprite = icon;
-                    _icon.color = Color.white;
-                }
-                _icon.enabled = icon != null;
-            }
+            _icon.LoadSprite(iconName);
             if (_craftBtn)
             {
                 _craftBtn.SetInteractable(canCraft);
