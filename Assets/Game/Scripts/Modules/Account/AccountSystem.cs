@@ -1,6 +1,7 @@
 ﻿using cfg;
 using JulyArch;
 using JulyCore;
+using JulyCore.Data.Save;
 
 namespace CozyYard
 {
@@ -45,6 +46,8 @@ namespace CozyYard
             GrantStarterRecipes(cfg);
 
             _store.SetInitialized();
+
+            GF.Save.TriggerSaveAsync(SaveSignal.High);
         }
 
         private void GrantStartingResources()

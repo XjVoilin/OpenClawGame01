@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using cfg;
 using Cysharp.Threading.Tasks;
@@ -44,6 +45,7 @@ namespace CozyYard
         private Sprite[] _grassVariants;
         private Sprite _soilSprite;
         private Sprite _highlightSprite;
+        private readonly List<IDisposable> _baseSpriteHandles = new();
 
         private static readonly string[] GrassVariantNames =
         {
@@ -109,7 +111,13 @@ namespace CozyYard
 
         private async UniTask<Sprite> LoadSpriteOrNull(string name)
         {
-            try { return await GF.Resource.LoadAsync<Sprite>(name, gameObject); }
+            try
+            {
+                var handle = await GF.Resource.LoadWithHandleAsync<Sprite>(name);
+                if (handle == null || !handle.IsValid) return null;
+                _baseSpriteHandles.Add(handle);
+                return handle.Asset;
+            }
             catch { return null; }
         }
 
@@ -342,13 +350,13 @@ namespace CozyYard
 
         private void RenderGrid()
         {
-            int w = _gridSystem.Width;
-            int h = _gridSystem.Height;
+            var w = _gridSystem.Width;
+            var h = _gridSystem.Height;
             _tileRenderers = new SpriteRenderer[w, h];
 
-            for (int y = 0; y < h; y++)
+            for (var y = 0; y < h; y++)
             {
-                for (int x = 0; x < w; x++)
+                for (var x = 0; x < w; x++)
                 {
                     var cell = _gridSystem.GetCell(x, y);
                     var worldPos = GridUtils.GridToWorld(x, y);
@@ -726,5 +734,12 @@ namespace CozyYard
         }
 
         #endregion
+
+        private void OnDestroy()
+        {
+            foreach (var handle in _baseSpriteHandles)
+                handle?.Dispose();
+            _baseSpriteHandles.Clear();
+        }
     }
 }
