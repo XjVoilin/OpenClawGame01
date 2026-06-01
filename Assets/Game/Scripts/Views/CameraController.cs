@@ -22,8 +22,8 @@ namespace CozyYard
             _minY = -gridHeight * GridUtils.TileSize - 2f;
             _maxY = 2f;
 
-            float cx = gridWidth * GridUtils.TileSize * 0.5f;
-            float cy = -gridHeight * GridUtils.TileSize * 0.5f;
+            var cx = gridWidth * GridUtils.TileSize * 0.5f;
+            var cy = -gridHeight * GridUtils.TileSize * 0.5f;
             transform.position = new Vector3(cx, cy, transform.position.z);
 
             if (_cam != null) _cam.orthographicSize = 8f;
@@ -33,15 +33,15 @@ namespace CozyYard
         {
             if (_cam == null) return;
 
-            float h = Input.GetAxis("Horizontal");
-            float v = Input.GetAxis("Vertical");
+            var h = Input.GetAxis("Horizontal");
+            var v = Input.GetAxis("Vertical");
             if (h != 0 || v != 0)
             {
                 var delta = new Vector3(h, v, 0) * (_panSpeed * Time.deltaTime);
                 transform.position += delta;
             }
 
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            var scroll = Input.GetAxis("Mouse ScrollWheel");
             if (scroll != 0)
             {
                 _cam.orthographicSize = Mathf.Clamp(

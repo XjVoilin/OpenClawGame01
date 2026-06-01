@@ -1,15 +1,23 @@
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using JulyArch;
 using JulyGame;
 using UnityEngine;
 
 namespace CozyYard
 {
-    public class MainSceneSetup : SceneSetup
+    public class MainSceneSetup : SceneSetup,ICanGetStore
     {
+        public IArchContext GetArchitecture()
+        {
+            return GameArch.Context;
+        }
+        
         protected override void OnEnter()
         {
-            CreateSceneView<GridView>("[GridView]");
-            CreateSceneView<TimeLightingView>("[Lighting]");
+            LoadSceneView<GridView>("GridView", null, CancellationToken.None).Forget();
+            LoadSceneView<TimeLightingView>("TimeLightingView", null, CancellationToken.None).Forget();
+
             SetupCamera();
             OpenWindow(UIWindowId.GameHUD);
             OpenWindow(UIWindowId.TimeHUD);
@@ -21,11 +29,10 @@ namespace CozyYard
             var cam = Camera.main;
             if (cam == null) return;
 
-            var controller = cam.gameObject.GetComponent<CameraController>();
-            if (controller == null)
+            if (!cam.TryGetComponent<CameraController>(out var controller))
                 controller = cam.gameObject.AddComponent<CameraController>();
 
-            var gridStore = GameArch.Context.GetStore<GridStore>();
+            var gridStore = GetArchitecture().GetStore<GridStore>();
             controller.Initialize(gridStore.Width, gridStore.Height);
         }
     }

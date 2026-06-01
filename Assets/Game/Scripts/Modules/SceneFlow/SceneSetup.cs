@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using JulyCore;
 using JulyCore.Data.UI;
 using UnityEngine;
@@ -37,10 +39,10 @@ namespace CozyYard
             _openedWindows.Add(windowId);
         }
 
-        protected T CreateSceneView<T>(string name) where T : MonoBehaviour
+        protected async UniTask<T> LoadSceneView<T>(string name,Transform parent,CancellationToken ct) where T : MonoBehaviour
         {
-            var go = new GameObject(name);
-            return go.AddComponent<T>();
+            var result = await GF.Resource.InstantiateAsync<T>(name,parent,ct);
+            return result;
         }
     }
 }

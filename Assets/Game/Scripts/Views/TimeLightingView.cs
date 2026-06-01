@@ -29,24 +29,13 @@ namespace CozyYard
 
         protected override void OnViewEnable()
         {
-            if (_globalLight == null)
-            {
-                var lightGo = new GameObject("GlobalLight2D");
-                lightGo.transform.SetParent(transform);
-                _globalLight = lightGo.AddComponent<Light2D>();
-                _globalLight.lightType = Light2D.LightType.Global;
-                _globalLight.intensity = 1f;
-                _globalLight.color = Color.white;
-            }
-
-            this.Subscribe<PhaseChangedEvent>(OnPhaseChanged);
+            Subscribe<PhaseChangedEvent>(OnPhaseChanged);
             UpdateTargetFromCurrentPhase();
             ApplyImmediate();
         }
 
         private void Update()
         {
-            if (_globalLight == null) return;
             _globalLight.color = Color.Lerp(_globalLight.color, _targetColor, Time.deltaTime * _transitionSpeed);
             _globalLight.intensity = Mathf.Lerp(_globalLight.intensity, _targetIntensity, Time.deltaTime * _transitionSpeed);
         }
@@ -58,7 +47,7 @@ namespace CozyYard
 
         private void UpdateTargetFromCurrentPhase()
         {
-            var q = this.GetStore<TimeStore>();
+            var q = GetStore<TimeStore>();
             UpdateTargetForPhase(q.CurrentPhase);
         }
 
@@ -89,7 +78,6 @@ namespace CozyYard
 
         private void ApplyImmediate()
         {
-            if (_globalLight == null) return;
             _globalLight.color = _targetColor;
             _globalLight.intensity = _targetIntensity;
         }

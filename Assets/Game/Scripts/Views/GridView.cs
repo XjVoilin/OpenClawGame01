@@ -64,20 +64,20 @@ namespace CozyYard
 
         protected override void OnViewEnable()
         {
-            _gridSystem = this.GetSystem<GridSystem>();
-            _farmSystem = this.GetSystem<FarmSystem>();
-            _buildSystem = this.GetSystem<BuildSystem>();
-            this.Subscribe<GridCellChangedEvent>(OnCellChanged);
-            this.Subscribe<BuildingPlacedEvent>(OnBuildingPlaced);
-            this.Subscribe<BuildingRemovedEvent>(OnBuildingRemoved);
-            this.Subscribe<EnterPlacementModeEvent>(OnEnterPlacementMode);
-            this.Subscribe<CropPlantedEvent>(OnCropPlanted);
-            this.Subscribe<CropGrowthEvent>(OnCropGrowth);
-            this.Subscribe<CropWateredEvent>(OnCropWatered);
-            this.Subscribe<CropReadyEvent>(OnCropReady);
-            this.Subscribe<CropWitheredEvent>(OnCropWithered);
-            this.Subscribe<CropHarvestedEvent>(OnCropHarvested);
-            this.Subscribe<EnterPlantingModeEvent>(OnEnterPlantingMode);
+            _gridSystem = GetSystem<GridSystem>();
+            _farmSystem = GetSystem<FarmSystem>();
+            _buildSystem = GetSystem<BuildSystem>();
+            Subscribe<GridCellChangedEvent>(OnCellChanged);
+            Subscribe<BuildingPlacedEvent>(OnBuildingPlaced);
+            Subscribe<BuildingRemovedEvent>(OnBuildingRemoved);
+            Subscribe<EnterPlacementModeEvent>(OnEnterPlacementMode);
+            Subscribe<CropPlantedEvent>(OnCropPlanted);
+            Subscribe<CropGrowthEvent>(OnCropGrowth);
+            Subscribe<CropWateredEvent>(OnCropWatered);
+            Subscribe<CropReadyEvent>(OnCropReady);
+            Subscribe<CropWitheredEvent>(OnCropWithered);
+            Subscribe<CropHarvestedEvent>(OnCropHarvested);
+            Subscribe<EnterPlantingModeEvent>(OnEnterPlantingMode);
             LoadAndRenderAsync().Forget();
         }
 
@@ -169,7 +169,7 @@ namespace CozyYard
             HidePlacementHighlights();
             _highlightObj.SetActive(false);
             _highlightRenderer.color = NormalHighlightColor;
-            this.GetArchitecture().Event.Publish(new PlacementCancelledEvent());
+            GetArchitecture().Event.Publish(new PlacementCancelledEvent());
         }
 
         private void UpdatePlacementMode()
@@ -258,7 +258,7 @@ namespace CozyYard
 
                 if (Input.GetMouseButtonDown(0) && canPlant)
                 {
-                    var invSystem = this.GetSystem<InventorySystem>();
+                    var invSystem = GetSystem<InventorySystem>();
                     if (invSystem.HasItem(_plantingSeedItemId, 1))
                     {
                         if (canTillAndPlant)
@@ -495,7 +495,7 @@ namespace CozyYard
 
         private void RenderExistingCrops()
         {
-            var farmStore = this.GetStore<FarmStore>();
+            var farmStore = GetStore<FarmStore>();
             foreach (var crop in farmStore.Crops)
                 CreateOrUpdateCropVisual(crop.GridX, crop.GridY, crop.Stage);
         }
@@ -597,7 +597,7 @@ namespace CozyYard
 
         private void OnBuildingPlaced(BuildingPlacedEvent evt)
         {
-            var buildStore = this.GetStore<BuildStore>();
+            var buildStore = GetStore<BuildStore>();
             var building = buildStore.GetBuildingAt(evt.GridX, evt.GridY);
             if (building != null) CreateBuildingVisual(building);
         }
@@ -605,7 +605,7 @@ namespace CozyYard
         private void OnBuildingRemoved(BuildingRemovedEvent evt)
         {
             var toRemove = new List<int>();
-            var buildStore = this.GetStore<BuildStore>();
+            var buildStore = GetStore<BuildStore>();
 
             foreach (var (uid, go) in _buildingObjects)
             {
@@ -625,7 +625,7 @@ namespace CozyYard
 
         private void RenderExistingBuildings()
         {
-            var buildStore = this.GetStore<BuildStore>();
+            var buildStore = GetStore<BuildStore>();
             foreach (var building in buildStore.Buildings)
                 CreateBuildingVisual(building);
         }
