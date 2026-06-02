@@ -295,21 +295,21 @@ def create_building_xlsx():
     ws = wb.active
     ws.title = "building"
 
-    headers  = ["##var", "id", "nameKey", "category", "sizeX", "sizeY", "materials", "materialQtys", "buildTime", "prerequisiteId", "level", "iconSprite", "worldSprite"]
-    types    = ["##type", "int", "string", "string", "int", "int", "(list#sep=,),int", "(list#sep=,),int", "int", "int", "int", "string", "string"]
-    comments = ["##",    "ID", "名称key",  "类别",      "宽",    "高",    "材料ID列表", "材料数量列表",   "建造时间(分钟)", "前置建筑ID", "等级", "UI图标sprite", "世界sprite名"]
+    headers  = ["##var", "id", "nameKey", "category", "sizeX", "sizeY", "materials", "materialQtys", "buildTime", "prerequisiteId", "level", "iconSprite", "worldSprite", "worldPrefab"]
+    types    = ["##type", "int", "string", "string", "int", "int", "(list#sep=,),int", "(list#sep=,),int", "int", "int", "int", "string", "string", "string"]
+    comments = ["##",    "ID", "名称key",  "类别",      "宽",    "高",    "材料ID列表", "材料数量列表",   "建造时间(分钟)", "前置建筑ID", "等级", "UI图标sprite", "世界sprite名", "世界prefab名"]
 
     rows = [
-        ["", 1,  "building_1",   "House",      2, 2, "1003",      "20",     120, 0,  1, "SL_Item_c0_r1", ""],
-        ["", 2,  "building_2",   "House",      3, 3, "1003,1002", "30,20",  180, 1,  2, "SL_Item_c1_r1", ""],
-        ["", 10, "building_10",  "Production", 1, 1, "1003,1002", "5,3",    30,  0,  1, "SL_Item_c2_r1", "SL_WorkStation"],
-        ["", 11, "building_11",  "Production", 1, 1, "1002,1003", "10,8",   60,  1,  2, "SL_Item_c3_r1", "SL_WorkStation"],
-        ["", 20, "building_20",  "Production", 1, 1, "1003",      "8",      30,  0,  1, "SL_Item_c4_r1", "SL_Sign"],
-        ["", 30, "building_30",  "Production", 1, 1, "1002",      "15",     60,  0,  1, "SL_Item_c5_r1", "SL_Deco_c6_r3"],
-        ["", 40, "building_40",  "Livestock",  2, 2, "1003",      "12",     45,  0,  1, "SL_Item_c6_r1", ""],
-        ["", 50, "building_50",  "Decoration", 1, 1, "1003",      "3",      10,  0,  1, "SL_Item_c7_r1", "SL_Fence_0"],
-        ["", 60, "building_60",  "Functional", 1, 1, "1003,1002", "5,3",    20,  0,  1, "SL_Item_c0_r2", "SL_Chest"],
-        ["", 70, "building_70",  "Functional", 2, 2, "1003,1002", "15,10",  90,  0,  1, "SL_Item_c1_r2", ""],
+        ["", 1,  "building_1",   "House",      2, 2, "1003",      "20",     120, 0,  1, "SL_Item_c0_r1", "",               ""],
+        ["", 2,  "building_2",   "House",      3, 3, "1003,1002", "30,20",  180, 1,  2, "SL_Item_c1_r1", "",               ""],
+        ["", 10, "building_10",  "Production", 1, 1, "1003,1002", "5,3",    30,  0,  1, "SL_Item_c2_r1", "SL_WorkStation", ""],
+        ["", 11, "building_11",  "Production", 1, 1, "1002,1003", "10,8",   60,  1,  2, "SL_Item_c3_r1", "SL_WorkStation", ""],
+        ["", 20, "building_20",  "Production", 1, 1, "1003",      "8",      30,  0,  1, "SL_Item_c4_r1", "SL_Sign",        ""],
+        ["", 30, "building_30",  "Production", 1, 1, "1002",      "15",     60,  0,  1, "SL_Item_c5_r1", "SL_Deco_c6_r3",  ""],
+        ["", 40, "building_40",  "Livestock",  2, 2, "1003",      "12",     45,  0,  1, "SL_Item_c6_r1", "",               ""],
+        ["", 50, "building_50",  "Decoration", 1, 1, "1003",      "3",      10,  0,  1, "SL_Item_c7_r1", "SL_Fence_0",     ""],
+        ["", 60, "building_60",  "Functional", 1, 1, "1003,1002", "5,3",    20,  0,  1, "SL_Item_c0_r2", "SL_Chest",       ""],
+        ["", 70, "building_70",  "Functional", 2, 2, "1003,1002", "15,10",  90,  0,  1, "SL_Item_c1_r2", "",               ""],
     ]
 
     write_sheet(ws, headers, types, comments, rows)

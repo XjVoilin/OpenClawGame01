@@ -649,9 +649,15 @@ namespace CozyYard
             var cfg = GF.Config.GetTable<TbBuilding>()?.GetOrDefault(building.BuildingId);
             int baseSortOrder = GridUtils.GetSortingOrder(building.GridX, building.GridY) + 10;
 
+            bool hasPrefab = cfg != null && !string.IsNullOrEmpty(cfg.WorldPrefab);
             bool hasWorldSprite = cfg != null && !string.IsNullOrEmpty(cfg.WorldSprite);
 
-            if (hasWorldSprite && building.SizeX == 1 && building.SizeY == 1)
+            if (hasPrefab)
+            {
+                var anchorPos = GridUtils.GridToWorld(building.GridX, building.GridY);
+                InstantiateBuildingPrefab(cfg.WorldPrefab, parent.transform, anchorPos, baseSortOrder);
+            }
+            else if (hasWorldSprite && building.SizeX == 1 && building.SizeY == 1)
             {
                 var wp = GridUtils.GridToWorld(building.GridX, building.GridY);
                 var tileGo = new GameObject("Sprite");
@@ -664,60 +670,85 @@ namespace CozyYard
             }
             else
             {
-                Color buildingColor = GetBuildingColor(cfg?.Category ?? "");
-                for (int dx = 0; dx < building.SizeX; dx++)
-                {
-                    for (int dy = 0; dy < building.SizeY; dy++)
-                    {
-                        var wp = GridUtils.GridToWorld(building.GridX + dx, building.GridY + dy);
-                        var tileGo = new GameObject($"Tile_{dx}_{dy}");
-                        tileGo.transform.SetParent(parent.transform);
-                        tileGo.transform.localPosition = new Vector3(wp.x, wp.y, 0);
-                        var sr = tileGo.AddComponent<SpriteRenderer>();
-                        sr.sortingOrder = baseSortOrder;
-                        if (hasWorldSprite)
-                        {
-                            sr.color = Color.white;
-                            sr.LoadSprite(cfg.WorldSprite);
-                        }
-                        else
-                        {
-                            sr.sprite = _grassSprite;
-                            sr.color = buildingColor;
-                        }
-                    }
-                }
-
-                if (!hasWorldSprite)
-                {
-                    float centerX = building.GridX + (building.SizeX - 1) * 0.5f;
-                    float centerY = building.GridY + (building.SizeY - 1) * 0.5f;
-                    var labelWorldPos = new Vector2(
-                        centerX * GridUtils.TileSize,
-                        -centerY * GridUtils.TileSize
-                    );
-
-                    float labelWidth = Mathf.Max(building.SizeX, building.SizeY) * GridUtils.TileSize * 0.9f;
-                    float labelHeight = GridUtils.TileSize * 0.4f;
-
-                    var labelGo = new GameObject("Label");
-                    labelGo.transform.SetParent(parent.transform);
-                    labelGo.transform.localPosition = new Vector3(labelWorldPos.x, labelWorldPos.y, 0);
-                    var rt = labelGo.AddComponent<RectTransform>();
-                    rt.sizeDelta = new Vector2(labelWidth, labelHeight);
-
-                    var tmp = labelGo.AddComponent<TextMeshPro>();
-                    tmp.text = cfg != null ? GF.Localization.Get(cfg.NameKey) : $"#{building.BuildingId}";
-                    tmp.enableAutoSizing = true;
-                    tmp.fontSizeMin = 0.5f;
-                    tmp.fontSizeMax = 3f;
-                    tmp.alignment = TextAlignmentOptions.Center;
-                    tmp.overflowMode = TextOverflowModes.Ellipsis;
-                    tmp.sortingOrder = baseSortOrder + 1;
-                }
+                CreateBuildingFallbackVisual(building, parent.transform, cfg, baseSortOrder, hasWorldSprite);
             }
 
             _buildingObjects[building.UniqueId] = parent;
+        }
+
+        private async void InstantiateBuildingPrefab(string prefabName, Transform parent, Vector2 anchorPos, int sortOrder)
+        {
+            try
+            {
+                var instance = await GF.Resource.InstantiateAsync(prefabName, parent);
+                if (instance == null) return;
+                instance.transform.localPosition = new Vector3(anchorPos.x, anchorPos.y, 0);
+
+                foreach (var sr in instance.GetComponentsInChildren<SpriteRenderer>())
+                    sr.sortingOrder += sortOrder;
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogWarning($"[GridView] 加载建筑 Prefab 失败: {prefabName}, {ex.Message}");
+            }
+        }
+
+        private void CreateBuildingFallbackVisual(BuildingInstance building, Transform parent,
+            Building buildingCfg, int baseSortOrder, bool hasWorldSprite)
+        {
+            Color buildingColor = GetBuildingColor(buildingCfg?.Category ?? "");
+            for (int dx = 0; dx < building.SizeX; dx++)
+            {
+                for (int dy = 0; dy < building.SizeY; dy++)
+                {
+                    var wp = GridUtils.GridToWorld(building.GridX + dx, building.GridY + dy);
+                    var tileGo = new GameObject($"Tile_{dx}_{dy}");
+                    tileGo.transform.SetParent(parent);
+                    tileGo.transform.localPosition = new Vector3(wp.x, wp.y, 0);
+                    var sr = tileGo.AddComponent<SpriteRenderer>();
+                    sr.sortingOrder = baseSortOrder;
+                    if (hasWorldSprite)
+                    {
+                        sr.color = Color.white;
+                        sr.LoadSprite(buildingCfg.WorldSprite);
+                    }
+                    else
+                    {
+                        sr.sprite = _grassSprite;
+                        sr.color = buildingColor;
+                    }
+                }
+            }
+
+            if (!hasWorldSprite)
+            {
+                float centerX = building.GridX + (building.SizeX - 1) * 0.5f;
+                float centerY = building.GridY + (building.SizeY - 1) * 0.5f;
+                var labelWorldPos = new Vector2(
+                    centerX * GridUtils.TileSize,
+                    -centerY * GridUtils.TileSize
+                );
+
+                float labelWidth = Mathf.Max(building.SizeX, building.SizeY) * GridUtils.TileSize * 0.9f;
+                float labelHeight = GridUtils.TileSize * 0.4f;
+
+                var labelGo = new GameObject("Label");
+                labelGo.transform.SetParent(parent);
+                labelGo.transform.localPosition = new Vector3(labelWorldPos.x, labelWorldPos.y, 0);
+                var rt = labelGo.AddComponent<RectTransform>();
+                rt.sizeDelta = new Vector2(labelWidth, labelHeight);
+
+                var tmp = labelGo.AddComponent<TextMeshPro>();
+                tmp.text = buildingCfg != null
+                    ? GF.Localization.Get(buildingCfg.NameKey)
+                    : $"#{building.BuildingId}";
+                tmp.enableAutoSizing = true;
+                tmp.fontSizeMin = 0.5f;
+                tmp.fontSizeMax = 3f;
+                tmp.alignment = TextAlignmentOptions.Center;
+                tmp.overflowMode = TextOverflowModes.Ellipsis;
+                tmp.sortingOrder = baseSortOrder + 1;
+            }
         }
 
         private static Color GetBuildingColor(string category)

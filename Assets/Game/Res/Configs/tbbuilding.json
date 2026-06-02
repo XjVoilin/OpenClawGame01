@@ -15,7 +15,8 @@
     "prerequisiteId": 0,
     "level": 1,
     "iconSprite": "SL_Item_c0_r1",
-    "worldSprite": ""
+    "worldSprite": "",
+    "worldPrefab": ""
   },
   {
     "id": 2,
@@ -35,7 +36,8 @@
     "prerequisiteId": 1,
     "level": 2,
     "iconSprite": "SL_Item_c1_r1",
-    "worldSprite": ""
+    "worldSprite": "",
+    "worldPrefab": ""
   },
   {
     "id": 10,
@@ -55,7 +57,8 @@
     "prerequisiteId": 0,
     "level": 1,
     "iconSprite": "SL_Item_c2_r1",
-    "worldSprite": "SL_WorkStation"
+    "worldSprite": "SL_WorkStation",
+    "worldPrefab": ""
   },
   {
     "id": 11,
@@ -75,7 +78,8 @@
     "prerequisiteId": 1,
     "level": 2,
     "iconSprite": "SL_Item_c3_r1",
-    "worldSprite": "SL_WorkStation"
+    "worldSprite": "SL_WorkStation",
+    "worldPrefab": ""
   },
   {
     "id": 20,
@@ -93,7 +97,8 @@
     "prerequisiteId": 0,
     "level": 1,
     "iconSprite": "SL_Item_c4_r1",
-    "worldSprite": "SL_Sign"
+    "worldSprite": "SL_Sign",
+    "worldPrefab": ""
   },
   {
     "id": 30,
@@ -111,7 +116,8 @@
     "prerequisiteId": 0,
     "level": 1,
     "iconSprite": "SL_Item_c5_r1",
-    "worldSprite": "SL_Deco_c6_r3"
+    "worldSprite": "SL_Deco_c6_r3",
+    "worldPrefab": ""
   },
   {
     "id": 40,
@@ -129,7 +135,8 @@
     "prerequisiteId": 0,
     "level": 1,
     "iconSprite": "SL_Item_c6_r1",
-    "worldSprite": ""
+    "worldSprite": "",
+    "worldPrefab": ""
   },
   {
     "id": 50,
@@ -147,7 +154,8 @@
     "prerequisiteId": 0,
     "level": 1,
     "iconSprite": "SL_Item_c7_r1",
-    "worldSprite": "SL_Fence_0"
+    "worldSprite": "SL_Fence_0",
+    "worldPrefab": ""
   },
   {
     "id": 60,
@@ -167,7 +175,8 @@
     "prerequisiteId": 0,
     "level": 1,
     "iconSprite": "SL_Item_c0_r2",
-    "worldSprite": "SL_Chest"
+    "worldSprite": "SL_Chest",
+    "worldPrefab": ""
   },
   {
     "id": 70,
@@ -187,6 +196,7 @@
     "prerequisiteId": 0,
     "level": 1,
     "iconSprite": "SL_Item_c1_r2",
-    "worldSprite": ""
+    "worldSprite": "",
+    "worldPrefab": ""
   }
 ]

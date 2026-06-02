@@ -29,6 +29,7 @@ public sealed partial class Building : Luban.BeanBase
         { if(!_buf["level"].IsNumber) { throw new SerializationException(); }  Level = _buf["level"]; }
         { if(!_buf["iconSprite"].IsString) { throw new SerializationException(); }  IconSprite = _buf["iconSprite"]; }
         { if(!_buf["worldSprite"].IsString) { throw new SerializationException(); }  WorldSprite = _buf["worldSprite"]; }
+        { if(!_buf["worldPrefab"].IsString) { throw new SerializationException(); }  WorldPrefab = _buf["worldPrefab"]; }
     }
 
     public static Building DeserializeBuilding(JSONNode _buf)
@@ -84,6 +85,10 @@ public sealed partial class Building : Luban.BeanBase
     /// 世界sprite名
     /// </summary>
     public readonly string WorldSprite;
+    /// <summary>
+    /// 世界prefab名
+    /// </summary>
+    public readonly string WorldPrefab;
    
     public const int __ID__ = -1366001964;
     public override int GetTypeId() => __ID__;
@@ -107,6 +112,7 @@ public sealed partial class Building : Luban.BeanBase
         + "level:" + Level + ","
         + "iconSprite:" + IconSprite + ","
         + "worldSprite:" + WorldSprite + ","
+        + "worldPrefab:" + WorldPrefab + ","
         + "}";
     }
 }

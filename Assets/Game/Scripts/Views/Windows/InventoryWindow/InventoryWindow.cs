@@ -18,11 +18,12 @@ namespace CozyYard
         [SerializeField] private TextMeshProUGUI _coinsText;
         [SerializeField] private UISmartButton _closeBtn;
 
-        [Header("Category Tabs")]
-        [SerializeField] private UIToggleGroup _categoryTabs;
+        [Header("Category Tabs")] [SerializeField]
+        private UIToggleGroup _categoryTabs;
 
-        [Header("Detail Panel")]
-        [SerializeField] private GameObject _detailPanel;
+        [Header("Detail Panel")] [SerializeField]
+        private GameObject _detailPanel;
+
         [SerializeField] private Image _detailIcon;
         [SerializeField] private TextMeshProUGUI _detailName;
         [SerializeField] private TextMeshProUGUI _detailDesc;
@@ -46,7 +47,7 @@ namespace CozyYard
         {
             Subscribe<InventoryChangedEvent>(OnInventoryChanged);
             if (_closeBtn) _closeBtn.onClick.AddListener(OnClose);
-            if (_categoryTabs) _categoryTabs.OnValueChanged.AddListener(OnCategoryChanged);
+            if (_categoryTabs) _categoryTabs.OnValueChanged += OnCategoryChanged;
             if (_useBtn) _useBtn.onClick.AddListener(OnUse);
             if (_discardBtn) _discardBtn.onClick.AddListener(OnDiscard);
 
@@ -61,7 +62,7 @@ namespace CozyYard
         protected override void OnViewDisable()
         {
             if (_closeBtn) _closeBtn.onClick.RemoveAllListeners();
-            if (_categoryTabs) _categoryTabs.OnValueChanged.RemoveListener(OnCategoryChanged);
+            if (_categoryTabs) _categoryTabs.OnValueChanged -= OnCategoryChanged;
             if (_useBtn) _useBtn.onClick.RemoveAllListeners();
             if (_discardBtn) _discardBtn.onClick.RemoveAllListeners();
             ClearSlots();
@@ -186,6 +187,7 @@ namespace CozyYard
                 _detailIcon.color = Color.white;
                 _detailIcon.enabled = true;
             }
+
             if (_detailName) _detailName.text = GF.Localization.Get(cfg.NameKey);
             if (_detailDesc) _detailDesc.text = GF.Localization.Get(cfg.DescKey);
         }
@@ -232,6 +234,7 @@ namespace CozyYard
                 slot.Slot.OnClicked -= OnSlotClicked;
                 Object.Destroy(slot.gameObject);
             }
+
             _slotInstances.Clear();
         }
 
